@@ -1,0 +1,224 @@
+.afd-helper-button-group {
+    float: right;
+    font-size: 12px;
+}
+
+.afd-helper-comment-textarea textarea {
+    height: 80px;
+}
+
+.afd-helper-notification {
+    position: fixed;
+    top: 90px;
+    right: 70px;
+    width: 215px;
+    font-size: 12px;
+    padding: 20px !important;
+}
+
+.afd-opinion-select-btn-group {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+.afd-opinion-select-btn {
+    flex-grow: 1;
+    display: grid !important;
+    font-size: 12px;
+}
+
+.afd-result-select-btn-group {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+.afd-result-select-btn {
+    flex-grow: 1;
+    display: grid !important;
+    font-size: 12px;
+}
+
+.xfd-closed .afd-helper-button-group {
+    display: none;
+}
+
+#Bakım_bağlantıları .afd-helper-button-group {
+    display: none;
+}
+
+.adiutor-top-selector {
+    margin-top: 2px;
+}
+
+
+/*.adiutor-top-menu {
+    margin-top: 1px;
+}*/
+
+.adiutor-csd-modal-container {
+    display: flex;
+    position: inherit;
+}
+
+.adiutor-csd-modal-container .one {
+    width: 50%;
+    float: left;
+}
+
+.adiutor-csd-modal-container .two {
+    width: 50%;
+    float: right;
+    padding-left: 25px;
+}
+
+.cov-url-list-item {
+    padding: 10px;
+    background: #ffffff;
+    list-style: none;
+    margin-bottom: 5px;
+    border: 1px solid #dadada;
+}
+
+.cov-url-list-item a {
+    color: black;
+}
+
+ul.cov-url-list {
+    padding: 0;
+    margin: 0;
+}
+
+.cov-url-list-item-vio-high {
+    border: 1px solid #de3333;
+    background: white;
+    color: red;
+}
+
+.cov-url-list-item-vio-high a {
+    font-weight: 900;
+    color: #de3333;
+}
+
+.adiutor-top-settings-menu {
+    border-top: 1px solid #cecece;
+}
+
+.adiutor-top-user-menu {
+    border-bottom: 1px solid #cecece;
+}
+
+.adiutor-user-status {
+    position: relative;
+    font-size: 14px;
+    float: right;
+    color: #04af89;
+    font-family: system-ui;
+    text-align: right;
+    font-weight: 700;
+}
+
+.adiutor-user-status-active {
+    position: relative;
+    width: 75px;
+    font-size: 14px;
+    float: right;
+    color: #04af89;
+    font-family: system-ui;
+    text-align: right;
+    font-weight: 700;
+}
+
+.adiutor-user-status-active:before {
+    content: '';
+    width: 26px;
+    height: 24px;
+    position: absolute;
+    top: 9px;
+    left: 6px;
+    background-image: url(https://upload.wikimedia.org/wikipedia/commons/a/aa/OOjs_UI_icon_userTalk-ltr-constructive.svg);
+    background-repeat: no-repeat;
+    background-size: 18px;
+}
+
+.adiutor-user-status-passive {
+    position: relative;
+    width: 110px;
+    font-size: 14px;
+    float: right;
+    color: #04af89;
+    font-family: system-ui;
+    text-align: right;
+    font-weight: 700;
+}
+
+.adiutor-user-status-passive:before {
+    content: '';
+    width: 26px;
+    height: 24px;
+    position: absolute;
+    top: 9px;
+    left: 6px;
+    background-image: url(https://upload.wikimedia.org/wikipedia/commons/b/b6/OOjs_UI_icon_userTalk-ltr.svg);
+    background-repeat: no-repeat;
+    background-size: 18px;
+}
+
+.adiutor-user-status-away {
+    position: relative;
+    width: 85px;
+    font-size: 14px;
+    float: right;
+    color: #d9ab21;
+    font-family: system-ui;
+    text-align: right;
+    font-weight: 700;
+}
+
+.adiutor-user-status-away:before {
+    content: '';
+    width: 26px;
+    height: 24px;
+    position: absolute;
+    top: 9px;
+    left: 6px;
+    background-image: url(https://upload.wikimedia.org/wikipedia/commons/b/b6/OOjs_UI_icon_userTalk-ltr.svg);
+    background-repeat: no-repeat;
+    background-size: 18px;
+}
+
+.adiutor-user-status-selector {
+    display: inline;
+    float: right;
+    width: 98px;
+    font-size: 12px;
+    font-family: sans-serif;
+}
+
+.adiutor-top-rrd-menu {
+    border-bottom: 1px solid #cecece;
+}
+
+.adiutor-mentor-response-preview-area {
+    margin-top: 15px;
+    border: 1px solid #a2a9b1;
+    padding: 10px;
+}
+
+.adiutor-rpp-botton-select {
+    margin-top: 10px;
+}
+
+.adiutor-top-user-menu-end {
+    border-bottom: 1px solid #a2a9b1;
+}
+
+.adiutor-tag-list-container {
+    max-height: 350px;
+    overflow: scroll;
+}
