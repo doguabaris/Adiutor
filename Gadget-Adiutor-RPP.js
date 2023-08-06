@@ -1,7 +1,7 @@
 /* 
  * Adiutor: A gadget to assist various user actions
  * Author: User:Vikipolimer
-  * Licencing and attribution: Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)]
+ * Licencing and attribution: Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
  * Module: Requests for page protection
 /* <nowiki> */
 $.when(mw.loader.using(["mediawiki.user", "oojs-ui-core", "oojs-ui-windows", ]), $.ready).then(function() {
