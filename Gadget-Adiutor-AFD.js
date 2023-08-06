@@ -1,7 +1,7 @@
 /* 
  * Adiutor: A gadget to assist various user actions
  * Author: Vikipolimer
- * Licencing and attribution: [[VP:Adiutor#Lisanslama ve atıf]]
+  * Licencing and attribution: Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)]
  * Module: Article for deletion
  */
 /* <nowiki> */
