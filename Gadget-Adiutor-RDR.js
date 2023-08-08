@@ -51,42 +51,42 @@ $.when(mw.loader.using(["mediawiki.user", "oojs-ui-core", "oojs-ui-windows", ]),
 			RequestRationale.addItems([
 				new OO.ui.FieldLayout(new OO.ui.CheckboxInputWidget({
 					selected: false,
-					data: mw.messages.text('rdr-rationale-1'),
+					data: mw.message('rdr-rationale-1').text(),
 				}), {
-					label: mw.messages.text('rdr-rationale-1'),
+					label: mw.message('rdr-rationale-1').text(),
 					align: 'inline'
 				}),
 				new OO.ui.FieldLayout(new OO.ui.CheckboxInputWidget({
 					selected: false,
-					data: mw.messages.text('rdr-rationale-2'),
+					data: mw.message('rdr-rationale-2').text(),
 				}), {
-					label: mw.messages.text('rdr-rationale-2'),
+					label: mw.message('rdr-rationale-2').text(),
 					align: 'inline'
 				}),
 				new OO.ui.FieldLayout(new OO.ui.CheckboxInputWidget({
 					selected: false,
-					data: mw.messages.text('rdr-rationale-3'),
+					data: mw.message('rdr-rationale-3').text(),
 				}), {
-					label: mw.messages.text('rdr-rationale-3'),
+					label: mw.message('rdr-rationale-3').text(),
 					align: 'inline'
 				}), new OO.ui.FieldLayout(new OO.ui.CheckboxInputWidget({
 					selected: false,
-					data: mw.messages.text('rdr-rationale-4'),
+					data: mw.message('rdr-rationale-4').text(),
 				}), {
-					label: mw.messages.text('rdr-rationale-4'),
+					label: mw.message('rdr-rationale-4').text(),
 					align: 'inline'
 				}), new OO.ui.FieldLayout(new OO.ui.CheckboxInputWidget({
 					selected: false,
-					data: mw.messages.text('rdr-rationale-5'),
+					data: mw.message('rdr-rationale-5').text(),
 				}), {
-					label: mw.messages.text('rdr-rationale-5'),
+					label: mw.message('rdr-rationale-5').text(),
 					align: 'inline'
 				}),
 				rationaleField = new OO.ui.FieldLayout(rationaleInput = new OO.ui.MultilineTextInputWidget({
-					placeholder: mw.messages.text('rdr-comment-placeholder'),
+					placeholder: mw.message('rdr-comment-placeholder').text(),
 					value: '',
 				}), {
-					label: mw.messages.text('comment'),
+					label: mw.message('comment').text(),
 					align: 'inline',
 				}),
 			]);
@@ -94,8 +94,8 @@ $.when(mw.loader.using(["mediawiki.user", "oojs-ui-core", "oojs-ui-windows", ]),
 			revisionField = new OO.ui.FieldLayout(revisionNumber = new OO.ui.TextInputWidget({
 					value: revNum
 				}), {
-					label: mw.messages.text('revision-id'),
-					help: mw.messages.text('rdr-revision-id-help'),
+					label: mw.message('revision-id').text(),
+					help: mw.message('rdr-revision-id-help').text(),
 				}),
 				this.content = new OO.ui.PanelLayout({
 					padded: true,

@@ -93,37 +93,37 @@ $.when(mw.loader.using(["mediawiki.user", "oojs-ui-core", "oojs-ui-windows", ]),
 							}),
 							new OO.ui.FieldLayout(new OO.ui.CheckboxInputWidget({
 								selected: false,
-								data: mw.messages.text('aiv-rationale-1'),
+								data: mw.message('aiv-rationale-1').text(),
 							}), {
-								label: mw.messages.text('aiv-rationale-1'),
+								label: mw.message('aiv-rationale-1').text(),
 								align: 'inline'
 							}),
 							new OO.ui.FieldLayout(new OO.ui.CheckboxInputWidget({
 								selected: false,
-								data: mw.messages.text('aiv-rationale-2'),
+								data: mw.message('aiv-rationale-2').text(),
 							}), {
-								label: mw.messages.text('aiv-rationale-2'),
+								label: mw.message('aiv-rationale-2').text(),
 								align: 'inline'
 							}),
 							new OO.ui.FieldLayout(new OO.ui.CheckboxInputWidget({
 								selected: false,
-								data: mw.messages.text('aiv-rationale-3'),
+								data: mw.message('aiv-rationale-3').text(),
 							}), {
-								label: mw.messages.text('aiv-rationale-3'),
+								label: mw.message('aiv-rationale-3').text(),
 								align: 'inline'
 							}),
 							new OO.ui.FieldLayout(new OO.ui.CheckboxInputWidget({
 								selected: false,
-								data: mw.messages.text('aiv-rationale-4'),
+								data: mw.message('aiv-rationale-4').text(),
 							}), {
-								label: mw.messages.text('aiv-rationale-4'),
+								label: mw.message('aiv-rationale-4').text(),
 								align: 'inline'
 							}),
 							new OO.ui.FieldLayout(new OO.ui.CheckboxInputWidget({
 								selected: false,
-								data: mw.messages.text('aiv-rationale-5'),
+								data: mw.message('aiv-rationale-5').text(),
 							}), {
-								label: mw.messages.text('aiv-rationale-5'),
+								label: mw.message('aiv-rationale-5').text(),
 								align: 'inline'
 							}),
 						]);
@@ -135,37 +135,37 @@ $.when(mw.loader.using(["mediawiki.user", "oojs-ui-core", "oojs-ui-windows", ]),
 						RequestRationale.addItems([
 							new OO.ui.FieldLayout(new OO.ui.CheckboxInputWidget({
 								selected: false,
-								data: mw.messages.text('aiv-rationale-6'),
+								data: mw.message('aiv-rationale-6').text(),
 							}), {
-								label: mw.messages.text('aiv-rationale-6'),
+								label: mw.message('aiv-rationale-6').text(),
 								align: 'inline'
 							}),
 							new OO.ui.FieldLayout(new OO.ui.CheckboxInputWidget({
 								selected: false,
-								data: mw.messages.text('aiv-rationale-7'),
+								data: mw.message('aiv-rationale-7').text(),
 							}), {
-								label: mw.messages.text('aiv-rationale-7'),
+								label: mw.message('aiv-rationale-7').text(),
 								align: 'inline'
 							}),
 							new OO.ui.FieldLayout(new OO.ui.CheckboxInputWidget({
 								selected: false,
-								data: mw.messages.text('aiv-rationale-8'),
+								data: mw.message('aiv-rationale-8').text(),
 							}), {
-								label: mw.messages.text('aiv-rationale-8'),
+								label: mw.message('aiv-rationale-8').text(),
 								align: 'inline'
 							}),
 							new OO.ui.FieldLayout(new OO.ui.CheckboxInputWidget({
 								selected: false,
-								data: mw.messages.text('aiv-rationale-9'),
+								data: mw.message('aiv-rationale-9').text(),
 							}), {
-								label: mw.messages.text('aiv-rationale-9'),
+								label: mw.message('aiv-rationale-9').text(),
 								align: 'inline'
 							}),
 							new OO.ui.FieldLayout(new OO.ui.CheckboxInputWidget({
 								selected: false,
-								data: mw.messages.text('aiv-rationale-10'),
+								data: mw.message('aiv-rationale-10').text(),
 							}), {
-								label: mw.messages.text('aiv-rationale-10'),
+								label: mw.message('aiv-rationale-10').text(),
 								align: 'inline'
 							}),
 						]);
