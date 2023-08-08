@@ -1,3 +1,8 @@
+/* 
+ * Adiutor: A gadget to assist various user actions
+ * Author: Vikipolimer
+ * Licencing and attribution: Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
+ */
 .afd-helper-button-group {
     float: right;
     font-size: 12px;
@@ -56,7 +61,6 @@
     margin-left: 10px;
     margin-top: 5px;
 }
-
 
 /*.adiutor-top-menu {
     margin-top: 1px;
