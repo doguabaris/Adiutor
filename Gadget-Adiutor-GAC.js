@@ -1,128 +1,164 @@
-/* 
+/*
  * Adiutor: A gadget to assist various user actions
  * Author: Vikipolimer
- * Licencing and attribution: Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
+ * Licensing and attribution: Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
  * Module: Good article candidate
  */
+// Wait for required libraries and DOM to be ready
 /* <nowiki> */
-$.when(mw.loader.using(["mediawiki.user", "oojs-ui-core", "oojs-ui-windows", ]), $.ready).then(function() {
-	var mwConfig = mw.config.get(["wgAction", "wgPageName", "wgTitle", "wgUserGroups", "wgUserName", "wgCanonicalNamespace", "wgNamespaceNumber"]);
+$.when(mw.loader.using(["mediawiki.user", "oojs-ui-core", "oojs-ui-widgets", "oojs-ui-windows"]), $.ready).then(function() {
+	// Get essential configuration from MediaWiki
+	var mwConfig = mw.config.get(["skin", "wgAction", "wgRevisionId", "wgArticleId", "wgPageName", "wgNamespaceNumber", "wgTitle", "wgUserGroups", "wgUserName", "wgUserEditCount", "wgUserRegistration", "wgRelevantUserName", "wgCanonicalNamespace"]);
 	var api = new mw.Api();
-	var NominatedPreviously;
-	var nextNominationNumber = 0;
+	var adiutorUserOptions;
+	// Fetch user-specific Adiutor options
+	api.get({
+		action: "query",
+		format: "json",
+		prop: "revisions",
+		titles: "User:" + mwConfig.wgUserName + "/Adiutor-options.json",
+		rvprop: "content"
+	}).done(function(data) {
+		var pageId = Object.keys(data.query.pages)[0];
+		if(pageId !== "-1") {
+			var jsonContent = data.query.pages[pageId].revisions[0]["*"];
+			try {
+				adiutorUserOptions = JSON.parse(jsonContent);
+				// Fetch gadget messages for UI language
+				api.get({
+					action: 'query',
+					prop: 'revisions',
+					titles: 'MediaWiki:Gadget-Adiutor-i18.json',
+					rvprop: 'content',
+					formatversion: 2
+				}).done(function(data) {
+					var messages = JSON.parse(data.query.pages[0].revisions[0].content);
+					var lang = mw.config.get('wgUserLanguage') || 'en';
+					mw.messages.set(messages[lang] || messages.en);
+					// Continue actions here
+					var NominatedPreviously;
+					var nextNominationNumber = 0;
 
-	function GoodArticleCandidateDialog(config) {
-		GoodArticleCandidateDialog.super.call(this, config);
-	}
-	OO.inheritClass(GoodArticleCandidateDialog, OO.ui.ProcessDialog);
-	GoodArticleCandidateDialog.static.name = 'GoodArticleCandidateDialog';
-	GoodArticleCandidateDialog.static.title = 'Adiutor (Beta) - Kaliteli Madde Adaylığı';
-	GoodArticleCandidateDialog.static.actions = [{
-		action: 'save',
-		label: 'Devam',
-		flags: ['primary', 'progressive']
-	}, {
-		label: 'İptal',
-		flags: 'safe'
-	}];
-	GoodArticleCandidateDialog.prototype.initialize = function() {
-		GoodArticleCandidateDialog.super.prototype.initialize.apply(this, arguments);
-		var headerTitle = new OO.ui.MessageWidget({
-			type: 'error',
-			inline: true,
-			label: new OO.ui.HtmlSnippet('<strong>Kaliteli Madde Adaylığı</strong><br><small>Kaliteli maddeler, konuları hakkında iyi yazılmış, nesnel gerçekliğe ve doğrulanabilirliğe sahip, kalıcı maddelerdir. Bu nedenle <a href="https://tr.wikipedia.org/wiki/Vikipedi:Kaliteli_madde_kriterleri">bazı kriterleri sağlamaları gerekir</a>. Eğer bu konuda şüpheniz veya maddeyi aday göstermeden önce daha da geliştirebilmek için görüş almaya ihtiyacınız varsa madde incelemesi için başvurabilirsiniz.')
-		});
-		var headerTitle2 = new OO.ui.MessageWidget({
-			type: 'warning',
-			inline: true,
-			label: new OO.ui.HtmlSnippet('<strong>Bir maddeyi aday göstermeden önce, maddenin kaliteli madde kriterlerinin tamamını karşıladığından emin olun. Halihazırda açık bir <a href="https://tr.wikipedia.org/wiki/Vikipedi:Madde_incelemesi">madde incelemesi</a> tartışması varsa, bunun sonlanmasını bekleyin.</small>')
-		});
-		CandidateOptions = new OO.ui.FieldsetLayout({});
-		CandidateOptions.addItems([
-			rationaleField = new OO.ui.FieldLayout(rationaleInput = new OO.ui.MultilineTextInputWidget({
-				placeholder: 'Bu sayfayı neden aday göstermek istiyorsun?',
-				indicator: 'required',
-				value: '',
-			}), {
-				label: 'Gerekçe',
-				align: 'inline',
-			})
-		]);
-		this.content = new OO.ui.PanelLayout({
-			padded: true,
-			expanded: false,
-			isDraggable: true
-		});
-		this.content.$element.append(headerTitle.$element, '<br>', headerTitle2.$element, '<br>', CandidateOptions.$element);
-		this.$body.append(this.content.$element);
-	};
-	GoodArticleCandidateDialog.prototype.getActionProcess = function(action) {
-		var dialog = this;
-		if(action) {
-			return new OO.ui.Process(function() {
-				var GFATemplate;
-				var ActionOptions = [];
-				CandidateOptions.items.forEach(function(Option) {
-					if(Option.fieldWidget.selected) {
-						ActionOptions.push({
-							value: Option.fieldWidget.value,
-							selected: Option.fieldWidget.selected
+					function GoodArticleCandidateDialog(config) {
+						GoodArticleCandidateDialog.super.call(this, config);
+					}
+					OO.inheritClass(GoodArticleCandidateDialog, OO.ui.ProcessDialog);
+					GoodArticleCandidateDialog.static.name = 'GoodArticleCandidateDialog';
+					GoodArticleCandidateDialog.static.title = 'Adiutor (Beta) - Kaliteli Madde Adaylığı';
+					GoodArticleCandidateDialog.static.actions = [{
+						action: 'save',
+						label: 'Devam',
+						flags: ['primary', 'progressive']
+					}, {
+						label: 'İptal',
+						flags: 'safe'
+					}];
+					GoodArticleCandidateDialog.prototype.initialize = function() {
+						GoodArticleCandidateDialog.super.prototype.initialize.apply(this, arguments);
+						var headerTitle = new OO.ui.MessageWidget({
+							type: 'error',
+							inline: true,
+							label: new OO.ui.HtmlSnippet('<strong>Kaliteli Madde Adaylığı</strong><br><small>Kaliteli maddeler, konuları hakkında iyi yazılmış, nesnel gerçekliğe ve doğrulanabilirliğe sahip, kalıcı maddelerdir. Bu nedenle <a href="https://tr.wikipedia.org/wiki/Vikipedi:Kaliteli_madde_kriterleri">bazı kriterleri sağlamaları gerekir</a>. Eğer bu konuda şüpheniz veya maddeyi aday göstermeden önce daha da geliştirebilmek için görüş almaya ihtiyacınız varsa madde incelemesi için başvurabilirsiniz.')
 						});
-					}
-					if(Option.fieldWidget.value === true) {
-						ActionOptions.push({
-							value: Option.fieldWidget.value,
-							data: Option.fieldWidget.data
+						var headerTitle2 = new OO.ui.MessageWidget({
+							type: 'warning',
+							inline: true,
+							label: new OO.ui.HtmlSnippet('<strong>Bir maddeyi aday göstermeden önce, maddenin kaliteli madde kriterlerinin tamamını karşıladığından emin olun. Halihazırda açık bir <a href="https://tr.wikipedia.org/wiki/Vikipedi:Madde_incelemesi">madde incelemesi</a> tartışması varsa, bunun sonlanmasını bekleyin.</small>')
 						});
-					}
-				});
-				checkPreviousNominations("Vikipedi:Kaliteli madde adayları/" + mwConfig.wgPageName).then(function(data) {
-					if(data.query.pages["-1"]) {
-						var nomCount = 0;
-						console.log(nomCount);
-						NominatedPreviously = false;
-						GFATemplate = '{{KMA}}';
-						putAfDTemplate(GFATemplate, nextNominationNumber);
-					} else {
-						Rec(2);
-					}
-				});
+						CandidateOptions = new OO.ui.FieldsetLayout({});
+						CandidateOptions.addItems([
+							rationaleField = new OO.ui.FieldLayout(rationaleInput = new OO.ui.MultilineTextInputWidget({
+								placeholder: 'Bu sayfayı neden aday göstermek istiyorsun?',
+								indicator: 'required',
+								value: '',
+							}), {
+								label: 'Gerekçe',
+								align: 'inline',
+							})
+						]);
+						this.content = new OO.ui.PanelLayout({
+							padded: true,
+							expanded: false,
+							isDraggable: true
+						});
+						this.content.$element.append(headerTitle.$element, '<br>', headerTitle2.$element, '<br>', CandidateOptions.$element);
+						this.$body.append(this.content.$element);
+					};
+					GoodArticleCandidateDialog.prototype.getActionProcess = function(action) {
+						var dialog = this;
+						if(action) {
+							return new OO.ui.Process(function() {
+								var GFATemplate;
+								var ActionOptions = [];
+								CandidateOptions.items.forEach(function(Option) {
+									if(Option.fieldWidget.selected) {
+										ActionOptions.push({
+											value: Option.fieldWidget.value,
+											selected: Option.fieldWidget.selected
+										});
+									}
+									if(Option.fieldWidget.value === true) {
+										ActionOptions.push({
+											value: Option.fieldWidget.value,
+											data: Option.fieldWidget.data
+										});
+									}
+								});
+								checkPreviousNominations("Vikipedi:Kaliteli madde adayları/" + mwConfig.wgPageName).then(function(data) {
+									if(data.query.pages["-1"]) {
+										var nomCount = 0;
+										console.log(nomCount);
+										NominatedPreviously = false;
+										GFATemplate = '{{KMA}}';
+										putAfDTemplate(GFATemplate, nextNominationNumber);
+									} else {
+										Rec(2);
+									}
+								});
 
-				function Rec(nomCount) {
-					checkPreviousNominations("Vikipedi:Kaliteli madde adayları/" + mwConfig.wgPageName + ' ' + '(' + nomCount + '._aday_gösterme)').then(function(data) {
-						if(!data.query.pages["-1"]) {
-							Rec(nomCount + 1);
-						} else {
-							nextNominationNumber = nomCount++;
-							console.log(nextNominationNumber);
-							if(nextNominationNumber > 1) {
-								GFATemplate = '{{KMA|' + nextNominationNumber + '|' + '}}';
-							} else {
-								GFATemplate = '{{KMA}}';
-							}
-							console.log(GFATemplate);
-							putAfDTemplate(GFATemplate, nextNominationNumber);
+								function Rec(nomCount) {
+									checkPreviousNominations("Vikipedi:Kaliteli madde adayları/" + mwConfig.wgPageName + ' ' + '(' + nomCount + '._aday_gösterme)').then(function(data) {
+										if(!data.query.pages["-1"]) {
+											Rec(nomCount + 1);
+										} else {
+											nextNominationNumber = nomCount++;
+											console.log(nextNominationNumber);
+											if(nextNominationNumber > 1) {
+												GFATemplate = '{{KMA|' + nextNominationNumber + '|' + '}}';
+											} else {
+												GFATemplate = '{{KMA}}';
+											}
+											console.log(GFATemplate);
+											putAfDTemplate(GFATemplate, nextNominationNumber);
+										}
+									});
+								}
+								dialog.close({
+									action: action
+								});
+								showProgress();
+							});
 						}
+						return GoodArticleCandidateDialog.super.prototype.getActionProcess.call(this, action);
+					};
+					var windowManager = new OO.ui.WindowManager();
+					$(document.body).append(windowManager.$element);
+					var dialog = new GoodArticleCandidateDialog({
+						size: 'large',
+						classes: ['afd-helper-window'],
+						isDraggable: true
 					});
-				}
-				dialog.close({
-					action: action
+					windowManager.addWindows([dialog]);
+					windowManager.openWindow(dialog);
 				});
-				showProgress();
-			});
+			} catch(error) {
+				// Handle JSON parsing error if needed
+			}
 		}
-		return GoodArticleCandidateDialog.super.prototype.getActionProcess.call(this, action);
-	};
-	var windowManager = new OO.ui.WindowManager();
-	$(document.body).append(windowManager.$element);
-	var dialog = new GoodArticleCandidateDialog({
-		size: 'large',
-		classes: ['afd-helper-window'],
-		isDraggable: true
+	}).fail(function(error) {
+		// Handle API request failure if needed
 	});
-	windowManager.addWindows([dialog]);
-	windowManager.openWindow(dialog);
-
+	// Define functions below as needed
 	function putAfDTemplate(GFATemplate, nextNominationNumber) {
 		var PageGFA;
 		if(nextNominationNumber > 1) {

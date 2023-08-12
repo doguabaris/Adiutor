@@ -19,9 +19,9 @@ $.when(mw.loader.using(["mediawiki.user", "oojs-ui-core", "oojs-ui-widgets", "oo
 		var messages = JSON.parse(content);
 		var lang = mw.config.get('wgUserLanguage') || 'en';
 		mw.messages.set(messages[lang] || messages['en']);
-		checkAdiutorUser('Kullanıcı:' + mwConfig.wgUserName + '/Adiutor-options.js').then(function(data) {
+		checkAdiutorUser('Kullanıcı:' + mwConfig.wgUserName + '/Adiutor-options.json').then(function(data) {
 			if(data.query.pages["-1"]) {} else {
-				checkOptions('Kullanıcı:' + mwConfig.wgUserName + '/Adiutor-options.js').then(function(data) {
+				checkOptions('Kullanıcı:' + mwConfig.wgUserName + '/Adiutor-options.json').then(function(data) {
 					if(data.query.pages["-1"]) {
 						Default_Options = JSON.stringify([{
 							"name": "csdSendMessageToCreator",
@@ -69,7 +69,7 @@ $.when(mw.loader.using(["mediawiki.user", "oojs-ui-core", "oojs-ui-widgets", "oo
 					} else {
 						var userSettingsParams = {
 							action: 'parse',
-							page: 'Kullanıcı:' + mwConfig.wgUserName + '/Adiutor-options.js',
+							page: 'Kullanıcı:' + mwConfig.wgUserName + '/Adiutor-options.json',
 							prop: 'wikitext',
 							format: "json"
 						};
@@ -248,13 +248,13 @@ $.when(mw.loader.using(["mediawiki.user", "oojs-ui-core", "oojs-ui-widgets", "oo
 					case 2:
 					case 3:
 						var CurrentUserPage = mwConfig.wgPageName.replace(/Kullanıcı(\s|\_)mesaj\s*?\:\s*?(.*)/gi, "Kullanıcı:$2");
-						checkOptions(CurrentUserPage + '/Adiutor-options.js').then(function(data) {
+						checkOptions(CurrentUserPage + '/Adiutor-options.json').then(function(data) {
 							if(data.query.pages["-1"]) {
 								//
 							} else {
 								var XUserParams = {
 									action: 'parse',
-									page: CurrentUserPage + '/Adiutor-options.js',
+									page: CurrentUserPage + '/Adiutor-options.json',
 									prop: 'wikitext',
 									format: "json"
 								};
@@ -342,7 +342,7 @@ $.when(mw.loader.using(["mediawiki.user", "oojs-ui-core", "oojs-ui-widgets", "oo
 				function changeUserStatus(status) {
 					api.get({
 						action: 'parse',
-						page: 'Kullanıcı:' + mwConfig.wgUserName + '/Adiutor-options.js',
+						page: 'Kullanıcı:' + mwConfig.wgUserName + '/Adiutor-options.json',
 						prop: 'wikitext',
 						format: "json"
 					}).done(function(data) {
@@ -354,7 +354,7 @@ $.when(mw.loader.using(["mediawiki.user", "oojs-ui-core", "oojs-ui-widgets", "oo
 						});
 						api.postWithToken('csrf', {
 							action: 'edit',
-							title: 'Kullanıcı:' + mwConfig.wgUserName + '/Adiutor-options.js',
+							title: 'Kullanıcı:' + mwConfig.wgUserName + '/Adiutor-options.json',
 							text: JSON.stringify(AdiutorOptions),
 							summary: '[[VP:Adiutor|Adiutor]] ayarları güncellendi',
 							format: 'json'

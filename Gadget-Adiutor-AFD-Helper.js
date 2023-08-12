@@ -1,141 +1,177 @@
-/* 
+/*
  * Adiutor: A gadget to assist various user actions
  * Author: Vikipolimer
- * Licencing and attribution: Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
- * Module: Article for deletion
+ * Licensing and attribution: Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
+ * Module: Article for deletion helper
  */
+// Wait for required libraries and DOM to be ready
 /* <nowiki> */
-$.when(mw.loader.using(["mediawiki.user", "oojs-ui-core", "oojs-ui-windows", ]), $.ready).then(function() {
-	var mwConfig = mw.config.get(["wgAction", "wgPageName", "wgTitle", "wgUserGroups", "wgUserName"]);
+$.when(mw.loader.using(["mediawiki.user", "oojs-ui-core", "oojs-ui-widgets", "oojs-ui-windows"]), $.ready).then(function() {
+	// Get essential configuration from MediaWiki
+	var mwConfig = mw.config.get(["skin", "wgAction", "wgRevisionId", "wgArticleId", "wgPageName", "wgNamespaceNumber", "wgTitle", "wgUserGroups", "wgUserName", "wgUserEditCount", "wgUserRegistration", "wgRelevantUserName", "wgCanonicalNamespace"]);
 	var api = new mw.Api();
-	var afdNominateOpinionsLog = localStorage.getItem("afdNominateOpinionsLog") == "true";
-	var subPageRegex = /(Silinmeye_aday_sayfalar\/)/;
-	var isSubPage = subPageRegex.test(mwConfig.wgPageName);
-	var afdButtons, previewWikitext, firstMonthOfDateString, firstDateMatch, opinionTemplate, nominationPage, purePageName, pageName, header_warn;
-	if(mwConfig.wgPageName.includes('Silinmeye_aday_sayfalar')) {
-		if(mwConfig.wgUserGroups.includes("sysop")) {
-			if(isSubPage) {
-				afdButtons = new OO.ui.ButtonGroupWidget({
-					items: [new OO.ui.ButtonWidget({
-						icon: 'speechBubbleAdd',
-						label: 'Görüş',
-						invisibleLabel: true,
-						title: 'Görüş Bildir',
-						classes: ['afd-helper-button']
-					}), new OO.ui.ButtonWidget({
-						icon: 'editLock',
-						invisibleLabel: true,
-						classes: ['afd-closer-button']
-					})],
-					classes: ['afd-helper-button-group']
+	var adiutorUserOptions;
+	// Fetch user-specific Adiutor options
+	api.get({
+		action: "query",
+		format: "json",
+		prop: "revisions",
+		titles: "User:" + mwConfig.wgUserName + "/Adiutor-options.json",
+		rvprop: "content"
+	}).done(function(data) {
+		var pageId = Object.keys(data.query.pages)[0];
+		if(pageId !== "-1") {
+			var jsonContent = data.query.pages[pageId].revisions[0]["*"];
+			try {
+				adiutorUserOptions = JSON.parse(jsonContent);
+				// Fetch gadget messages for UI language
+				api.get({
+					action: 'query',
+					prop: 'revisions',
+					titles: 'MediaWiki:Gadget-Adiutor-i18.json',
+					rvprop: 'content',
+					formatversion: 2
+				}).done(function(data) {
+					var messages = JSON.parse(data.query.pages[0].revisions[0].content);
+					var lang = mw.config.get('wgUserLanguage') || 'en';
+					mw.messages.set(messages[lang] || messages.en);
+					// Continue actions here
+					var afdNominateOpinionsLog = localStorage.getItem("afdNominateOpinionsLog") == "true";
+					var subPageRegex = /(Silinmeye_aday_sayfalar\/)/;
+					var isSubPage = subPageRegex.test(mwConfig.wgPageName);
+					var afdButtons, previewWikitext, firstMonthOfDateString, firstDateMatch, opinionTemplate, nominationPage, purePageName, pageName, header_warn;
+					if(mwConfig.wgPageName.includes('Silinmeye_aday_sayfalar')) {
+						if(mwConfig.wgUserGroups.includes("sysop")) {
+							if(isSubPage) {
+								afdButtons = new OO.ui.ButtonGroupWidget({
+									items: [new OO.ui.ButtonWidget({
+										icon: 'speechBubbleAdd',
+										label: 'Görüş',
+										invisibleLabel: true,
+										title: 'Görüş Bildir',
+										classes: ['afd-helper-button']
+									}), new OO.ui.ButtonWidget({
+										icon: 'editLock',
+										invisibleLabel: true,
+										classes: ['afd-closer-button']
+									})],
+									classes: ['afd-helper-button-group']
+								});
+							} else {
+								afdButtons = new OO.ui.ButtonGroupWidget({
+									items: [new OO.ui.ButtonWidget({
+										icon: 'eye',
+										label: 'Adaylık',
+										invisibleLabel: true,
+										classes: ['afd-helper-visit-button']
+									}), new OO.ui.ButtonWidget({
+										icon: 'speechBubbleAdd',
+										label: 'Görüş',
+										invisibleLabel: true,
+										title: 'Görüş Bildir',
+										classes: ['afd-helper-button']
+									}), new OO.ui.ButtonWidget({
+										icon: 'editLock',
+										invisibleLabel: true,
+										classes: ['afd-closer-button']
+									})],
+									classes: ['afd-helper-button-group']
+								});
+							}
+						} else {
+							if(isSubPage) {
+								afdButtons = new OO.ui.ButtonGroupWidget({
+									items: [new OO.ui.ButtonWidget({
+										icon: 'speechBubbleAdd',
+										label: 'Görüş',
+										invisibleLabel: true,
+										title: 'Görüş Bildir',
+										classes: ['afd-helper-button']
+									})],
+									classes: ['afd-helper-button-group']
+								});
+							} else {
+								afdButtons = new OO.ui.ButtonGroupWidget({
+									items: [new OO.ui.ButtonWidget({
+										icon: 'eye',
+										label: 'Adaylık',
+										invisibleLabel: true,
+										classes: ['afd-helper-visit-button']
+									}), new OO.ui.ButtonWidget({
+										icon: 'speechBubbleAdd',
+										label: 'Görüş',
+										invisibleLabel: true,
+										title: 'Görüş Bildir',
+										classes: ['afd-helper-button']
+									}), ],
+									classes: ['afd-helper-button-group']
+								});
+							}
+						}
+						$('.afd-helper-button').each(function(index) {
+							this.id = "opinion" + (index + 1);
+						});
+						$('.afd-helper-button').children().each(function(index) {
+							this.id = "opinion" + (index + 1);
+						});
+						$('.afd-helper-visit-button').each(function(index) {
+							this.id = "opinion" + (index + 1);
+						});
+						$('.afd-helper-visit-button').children().each(function(index) {
+							this.id = "opinion" + (index + 1);
+						});
+						$('.mw-headline').append(afdButtons.$element);
+						$(".afd-helper-button").children().click(function() {
+							pageName = $(this).parent().parent().parent()[0].innerText.replace('Görüş', '').replace('Adaylık', '');
+							purePageName = pageName.replace($(this).parent().parent().parent()[0], '').replace('Görüş', '');
+							PageTitleElement = $(this).parent().parent().parent().parent()[0].lastElementChild;
+							nominationPage = clearURLfromOrigin(PageTitleElement.querySelector(".mw-editsection a").getAttribute('href'));
+							afdOpinionDialog(purePageName);
+						});
+						$(".afd-closer-button").children().click(function() {
+							pageName = $(this).parent().parent().parent()[0].innerText.replace('Görüş', '').replace('Adaylık', '');
+							purePageName = pageName.replace($(this).parent().parent().parent()[0], '').replace('Görüş', '');
+							PageTitleElement = $(this).parent().parent().parent().parent()[0].lastElementChild;
+							nominationPage = clearURLfromOrigin(PageTitleElement.querySelector(".mw-editsection a").getAttribute('href'));
+							var pageContentWithDate;
+							if(isSubPage) {
+								pageContentWithDate = $(this).parent().parent().parent().parent().parent()[0].innerText;
+								discussionText = $(this).parent().parent().parent().parent().parent()[0].innerText;
+								firstDateMatch = /\d{1,2} ([a-zA-ZğüşıöçİIĞÜŞÖÇ]*) \d{4}/i.exec(discussionText);
+								firstMonthOfDateString = firstDateMatch && firstDateMatch[1];
+							} else {
+								pageContentWithDate = $(this).parent().parent().parent().parent().next()[0].innerText;
+								discussionText = $(this).parent().parent().parent().parent().next().next()[0].innerText;
+								firstDateMatch = /\d{1,2} ([a-zA-ZğüşıöçİIĞÜŞÖÇ]*) \d{4}/i.exec(discussionText);
+								firstMonthOfDateString = firstDateMatch && firstDateMatch[1];
+							}
+							var timeExpired = pageContentWithDate.includes("Tartışma için öngörülen süre dolmuştur");
+							afdCloserDialog(purePageName, timeExpired);
+						});
+						$(".afd-helper-visit-button").children().click(function() {
+							PageTitleElement = $(this).parent().parent().parent().parent()[0].lastElementChild;
+							nominationPage = clearURLfromOrigin(PageTitleElement.querySelector(".mw-editsection a").getAttribute('href'));
+							window.location = '/wiki/' + nominationPage;
+						});
+						//var boxes = document.getElementsByClassName('mw-parser-output');
+						//var headings = boxes[0].getElementsByTagName('h2');
+						//len = headings !== null ? headings.length : 0, i = 0;
+						//for (var i; i < len; i++) {
+						//    headings[i].className += " hide-non-opinion";
+						//}
+						//$(".hide-non-opinion .afd-helper-button-group").hide();
+						$(".ext-discussiontools-init-section .afd-helper-button-group").hide();
+						$(".xfd-closed .afd-helper-button-group").hide();
+					}
 				});
-			} else {
-				afdButtons = new OO.ui.ButtonGroupWidget({
-					items: [new OO.ui.ButtonWidget({
-						icon: 'eye',
-						label: 'Adaylık',
-						invisibleLabel: true,
-						classes: ['afd-helper-visit-button']
-					}), new OO.ui.ButtonWidget({
-						icon: 'speechBubbleAdd',
-						label: 'Görüş',
-						invisibleLabel: true,
-						title: 'Görüş Bildir',
-						classes: ['afd-helper-button']
-					}), new OO.ui.ButtonWidget({
-						icon: 'editLock',
-						invisibleLabel: true,
-						classes: ['afd-closer-button']
-					})],
-					classes: ['afd-helper-button-group']
-				});
-			}
-		} else {
-			if(isSubPage) {
-				afdButtons = new OO.ui.ButtonGroupWidget({
-					items: [new OO.ui.ButtonWidget({
-						icon: 'speechBubbleAdd',
-						label: 'Görüş',
-						invisibleLabel: true,
-						title: 'Görüş Bildir',
-						classes: ['afd-helper-button']
-					})],
-					classes: ['afd-helper-button-group']
-				});
-			} else {
-				afdButtons = new OO.ui.ButtonGroupWidget({
-					items: [new OO.ui.ButtonWidget({
-						icon: 'eye',
-						label: 'Adaylık',
-						invisibleLabel: true,
-						classes: ['afd-helper-visit-button']
-					}), new OO.ui.ButtonWidget({
-						icon: 'speechBubbleAdd',
-						label: 'Görüş',
-						invisibleLabel: true,
-						title: 'Görüş Bildir',
-						classes: ['afd-helper-button']
-					}), ],
-					classes: ['afd-helper-button-group']
-				});
+			} catch(error) {
+				// Handle JSON parsing error if needed
 			}
 		}
-		$('.afd-helper-button').each(function(index) {
-			this.id = "opinion" + (index + 1);
-		});
-		$('.afd-helper-button').children().each(function(index) {
-			this.id = "opinion" + (index + 1);
-		});
-		$('.afd-helper-visit-button').each(function(index) {
-			this.id = "opinion" + (index + 1);
-		});
-		$('.afd-helper-visit-button').children().each(function(index) {
-			this.id = "opinion" + (index + 1);
-		});
-		$('.mw-headline').append(afdButtons.$element);
-		$(".afd-helper-button").children().click(function() {
-			pageName = $(this).parent().parent().parent()[0].innerText.replace('Görüş', '').replace('Adaylık', '');
-			purePageName = pageName.replace($(this).parent().parent().parent()[0], '').replace('Görüş', '');
-			PageTitleElement = $(this).parent().parent().parent().parent()[0].lastElementChild;
-			nominationPage = clearURLfromOrigin(PageTitleElement.querySelector(".mw-editsection a").getAttribute('href'));
-			afdOpinionDialog(purePageName);
-		});
-		$(".afd-closer-button").children().click(function() {
-			pageName = $(this).parent().parent().parent()[0].innerText.replace('Görüş', '').replace('Adaylık', '');
-			purePageName = pageName.replace($(this).parent().parent().parent()[0], '').replace('Görüş', '');
-			PageTitleElement = $(this).parent().parent().parent().parent()[0].lastElementChild;
-			nominationPage = clearURLfromOrigin(PageTitleElement.querySelector(".mw-editsection a").getAttribute('href'));
-			var pageContentWithDate;
-			if(isSubPage) {
-				pageContentWithDate = $(this).parent().parent().parent().parent().parent()[0].innerText;
-				discussionText = $(this).parent().parent().parent().parent().parent()[0].innerText;
-				firstDateMatch = /\d{1,2} ([a-zA-ZğüşıöçİIĞÜŞÖÇ]*) \d{4}/i.exec(discussionText);
-				firstMonthOfDateString = firstDateMatch && firstDateMatch[1];
-			} else {
-				pageContentWithDate = $(this).parent().parent().parent().parent().next()[0].innerText;
-				discussionText = $(this).parent().parent().parent().parent().next().next()[0].innerText;
-				firstDateMatch = /\d{1,2} ([a-zA-ZğüşıöçİIĞÜŞÖÇ]*) \d{4}/i.exec(discussionText);
-				firstMonthOfDateString = firstDateMatch && firstDateMatch[1];
-			}
-			var timeExpired = pageContentWithDate.includes("Tartışma için öngörülen süre dolmuştur");
-			afdCloserDialog(purePageName, timeExpired);
-		});
-		$(".afd-helper-visit-button").children().click(function() {
-			PageTitleElement = $(this).parent().parent().parent().parent()[0].lastElementChild;
-			nominationPage = clearURLfromOrigin(PageTitleElement.querySelector(".mw-editsection a").getAttribute('href'));
-			window.location = '/wiki/' + nominationPage;
-		});
-		//var boxes = document.getElementsByClassName('mw-parser-output');
-		//var headings = boxes[0].getElementsByTagName('h2');
-		//len = headings !== null ? headings.length : 0, i = 0;
-		//for (var i; i < len; i++) {
-		//    headings[i].className += " hide-non-opinion";
-		//}
-		//$(".hide-non-opinion .afd-helper-button-group").hide();
-		$(".ext-discussiontools-init-section .afd-helper-button-group").hide();
-		$(".xfd-closed .afd-helper-button-group").hide();
-	}
-
+	}).fail(function(error) {
+		// Handle API request failure if needed
+	});
+	// Define functions below as needed
 	function afdOpinionDialog(purePageName) {
 		var InputFilled = false;
 		console.log(InputFilled);
