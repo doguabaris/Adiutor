@@ -38,9 +38,6 @@ $.when(mw.loader.using(["mediawiki.user", "oojs-ui-core", "oojs-ui-widgets", "oo
 					// Continue actions here
 					var NominatedPreviously;
 					var nextNominationNumber = 0;
-					var afdSendMessageToCreator = localStorage.getItem("afdSendMessageToCreator") == "true";
-					var afdLogNominatedPages = localStorage.getItem("afdLogNominatedPages") == "true";
-					console.log(afdLogNominatedPages);
 
 					function ArticleForDeletionDialog(config) {
 						ArticleForDeletionDialog.super.call(this, config);
@@ -77,7 +74,7 @@ $.when(mw.loader.using(["mediawiki.user", "oojs-ui-core", "oojs-ui-widgets", "oo
 								align: 'inline',
 							}),
 							new OO.ui.FieldLayout(new OO.ui.ToggleSwitchWidget({
-								value: afdSendMessageToCreator,
+								value: adiutorUserOptions.articlesForDeletion.afdSendMessageToCreator,
 								data: 'informCreator'
 							}), {
 								label: new OO.ui.deferMsg('afd-inform-creator'),
@@ -196,7 +193,7 @@ $.when(mw.loader.using(["mediawiki.user", "oojs-ui-core", "oojs-ui-widgets", "oo
 			format: 'json'
 		}).done(function() {
 			createNominationPage(PageAFDX);
-			logNomination(PageAFDX);
+			logNomination(PageAFDX, adiutorUserOptions);
 		});
 	}
 
@@ -281,11 +278,11 @@ $.when(mw.loader.using(["mediawiki.user", "oojs-ui-core", "oojs-ui-widgets", "oo
 		});
 	}
 
-	function logNomination(PageAFDX) {
-		if(afdLogNominatedPages) {
+	function logNomination(PageAFDX, adiutorUserOptions) {
+		if(adiutorUserOptions.articlesForDeletion.afdLogNominatedPages === true) {
 			api.postWithToken('csrf', {
 				action: 'edit',
-				title: 'Kullanıcı:'.concat(mwConfig.wgUserName, '/' + localStorage.getItem("afdLogPageName") + '').split(' ').join('_'),
+				title: 'Kullanıcı:'.concat(mwConfig.wgUserName, '/' + adiutorUserOptions.articlesForDeletion.afdLogPageName + '').split(' ').join('_'),
 				appendtext: "\n" + "# '''[[Vikipedi:Silinmeye aday sayfalar/" + PageAFDX.replace(/_/g, " ") + "|" + mwConfig.wgPageName.replace(/_/g, " ") + "]]''' sayfasını silinmeye aday gösterdi ~~~~~",
 				summary: 'Silinmeye aday gösterilen sayfanın günlük kaydı tutuluyor.',
 				tags: 'Adiutor',

@@ -36,7 +36,6 @@ $.when(mw.loader.using(["mediawiki.user", "oojs-ui-core", "oojs-ui-widgets", "oo
 					var lang = mw.config.get('wgUserLanguage') || 'en';
 					mw.messages.set(messages[lang] || messages.en);
 					// Continue actions here
-					var afdNominateOpinionsLog = localStorage.getItem("afdNominateOpinionsLog") == "true";
 					var subPageRegex = /(Silinmeye_aday_sayfalar\/)/;
 					var isSubPage = subPageRegex.test(mwConfig.wgPageName);
 					var afdButtons, previewWikitext, firstMonthOfDateString, firstDateMatch, opinionTemplate, nominationPage, purePageName, pageName, header_warn;
@@ -126,7 +125,7 @@ $.when(mw.loader.using(["mediawiki.user", "oojs-ui-core", "oojs-ui-widgets", "oo
 							purePageName = pageName.replace($(this).parent().parent().parent()[0], '').replace('Görüş', '');
 							PageTitleElement = $(this).parent().parent().parent().parent()[0].lastElementChild;
 							nominationPage = clearURLfromOrigin(PageTitleElement.querySelector(".mw-editsection a").getAttribute('href'));
-							afdOpinionDialog(purePageName);
+							afdOpinionDialog(purePageName, adiutorUserOptions);
 						});
 						$(".afd-closer-button").children().click(function() {
 							pageName = $(this).parent().parent().parent()[0].innerText.replace('Görüş', '').replace('Adaylık', '');
@@ -172,7 +171,7 @@ $.when(mw.loader.using(["mediawiki.user", "oojs-ui-core", "oojs-ui-widgets", "oo
 		// Handle API request failure if needed
 	});
 	// Define functions below as needed
-	function afdOpinionDialog(purePageName) {
+	function afdOpinionDialog(purePageName, adiutorUserOptions) {
 		var InputFilled = false;
 		console.log(InputFilled);
 		var rationaleInput = new OO.ui.MultilineTextInputWidget({
@@ -192,7 +191,7 @@ $.when(mw.loader.using(["mediawiki.user", "oojs-ui-core", "oojs-ui-widgets", "oo
 			}
 		});
 		log_it = new OO.ui.FieldLayout(new OO.ui.CheckboxInputWidget({
-			selected: localStorage.getItem("afdNominateOpinionsLog") == "true"
+			selected: adiutorUserOptions.articlesForDeletion.afdNominateOpinionsLog
 		}), {
 			align: 'inline',
 			label: 'Görüşümü günlüğüme kaydet\u200e',
@@ -376,7 +375,7 @@ $.when(mw.loader.using(["mediawiki.user", "oojs-ui-core", "oojs-ui-widgets", "oo
 				var dialog = this;
 				return new OO.ui.Process(function() {
 					if(rationaleInput.value != "") {
-						addOpinion(purePageName, rationaleInput);
+						addOpinion(purePageName, rationaleInput, adiutorUserOptions);
 						dialog.close();
 					} else {
 						alertDialog("Görüş belirtiniz!", "Silinmeye aday sayfa tartışmaları bir oylama değildir! SAS adaylıklarında kararlar görüş sayısına göre değil politika ve yönergelere göre alınmaktadır.");
@@ -422,7 +421,7 @@ $.when(mw.loader.using(["mediawiki.user", "oojs-ui-core", "oojs-ui-widgets", "oo
 						var dialog = this;
 						if(action) {
 							return new OO.ui.Process(function() {
-								addOpinion(purePageName, rationaleInput);
+								addOpinion(purePageName, rationaleInput, adiutorUserOptions);
 								dialog.close({
 									action: action
 								});
@@ -656,7 +655,7 @@ $.when(mw.loader.using(["mediawiki.user", "oojs-ui-core", "oojs-ui-widgets", "oo
 		$('.afd-helper-page-name').children().next().append(page_link);
 	}
 	// ADD OPINION TO NOMINATION AFD PAGE
-	function addOpinion(purePageName, rationaleInput) {
+	function addOpinion(purePageName, rationaleInput, adiutorUserOptions) {
 		var opinion;
 		var opinionText;
 		switch(localStorage.getItem("selectedOpinion")) {
@@ -706,11 +705,11 @@ $.when(mw.loader.using(["mediawiki.user", "oojs-ui-core", "oojs-ui-widgets", "oo
 			tags: 'Adiutor',
 			format: 'json'
 		}).done(function() {
-			if(afdNominateOpinionsLog) {
+			if(adiutorUserOptions.articlesForDeletion.afdNominateOpinionsLog) {
 				api = new mw.Api();
 				api.postWithToken('csrf', {
 					action: 'edit',
-					title: 'Kullanıcı:'.concat(mwConfig.wgUserName, '/' + localStorage.getItem("afdOpinionLogPageName") + '').split(' ').join('_'),
+					title: 'Kullanıcı:'.concat(mwConfig.wgUserName, '/' + adiutorUserOptions.articlesForDeletion.afdOpinionLogPageName + '').split(' ').join('_'),
 					appendtext: "\n" + "* ~~~~~ '''[[" + nominationPage + "|" + purePageName + "]]''' | Görüş: '''" + opinion + "'''",
 					summary: 'SAS görüş günlüğü tutuluyor.',
 					tags: 'Adiutor',

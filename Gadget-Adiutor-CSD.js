@@ -662,6 +662,7 @@ $.when(mw.loader.using(["mediawiki.user", "oojs-ui-core", "oojs-ui-widgets", "oo
 										}
 									});
 									putCSDTemplate(CSDReason, CSDSummary);
+									logCsdRequest(SaltCSDSummary, adiutorUserOptions);
 									showProgress();
 									dialog.close();
 								});
@@ -703,6 +704,19 @@ $.when(mw.loader.using(["mediawiki.user", "oojs-ui-core", "oojs-ui-widgets", "oo
 		}).done(function() {
 			location.reload();
 		});
+	}
+
+	function logCsdRequest(CSDSummary, adiutorUserOptions) {
+		if(adiutorUserOptions.speedyDeletion.csdLogNominatedPages === true) {
+			api.postWithToken('csrf', {
+				action: 'edit',
+				title: 'Kullanıcı:'.concat(mwConfig.wgUserName, '/' + adiutorUserOptions.speedyDeletion.csdLogPageName + '').split(' ').join('_'),
+				appendtext: "\n" + "# '''[[" + mwConfig.wgPageName.replace(/_/g, " ") + "|" + mwConfig.wgPageName.replace(/_/g, " ") + "]]''' " + CSDSummary + " ~~~~~",
+				summary: '[[' + mwConfig.wgPageName.replace(/_/g, " ") + ']] sayfasının hızlı silme adaylığının günlük kaydı tutuluyor.',
+				tags: 'Adiutor',
+				format: 'json'
+			}).done(function() {});
+		}
 	}
 
 	function getCreator() {

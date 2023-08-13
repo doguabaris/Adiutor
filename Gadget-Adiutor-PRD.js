@@ -36,8 +36,6 @@ $.when(mw.loader.using(["mediawiki.user", "oojs-ui-core", "oojs-ui-widgets", "oo
 					var lang = mw.config.get('wgUserLanguage') || 'en';
 					mw.messages.set(messages[lang] || messages.en);
 					// Continue actions here
-					var prdSendMessageToCreator = localStorage.getItem("prdSendMessageToCreator") == "true";
-
 					function ProposedDeletionDialog(config) {
 						ProposedDeletionDialog.super.call(this, config);
 					}
@@ -90,7 +88,7 @@ $.when(mw.loader.using(["mediawiki.user", "oojs-ui-core", "oojs-ui-widgets", "oo
 								align: 'inline',
 							}),
 							new OO.ui.FieldLayout(new OO.ui.ToggleSwitchWidget({
-								value: prdSendMessageToCreator,
+								value: adiutorUserOptions.proposedDeletion.prdSendMessageToCreator,
 								data: 'informCreator'
 							}), {
 								label: new OO.ui.deferMsg('afd-inform-creator'),
@@ -152,6 +150,7 @@ $.when(mw.loader.using(["mediawiki.user", "oojs-ui-core", "oojs-ui-widgets", "oo
 									}
 								});
 								putPRDTemplate(PRDText);
+								logRequest(rationaleInput.value,adiutorUserOptions);
 								dialog.close({
 									action: action
 								});
@@ -184,6 +183,19 @@ $.when(mw.loader.using(["mediawiki.user", "oojs-ui-core", "oojs-ui-widgets", "oo
 		}).done(function() {
 			location.reload();
 		});
+	}
+
+	function logRequest(rationaleInput, adiutorUserOptions) {
+		if(adiutorUserOptions.proposedDeletion.prdLogNominatedPages === true) {
+			api.postWithToken('csrf', {
+				action: 'edit',
+				title: 'Kullanıcı:'.concat(mwConfig.wgUserName, '/' + adiutorUserOptions.proposedDeletion.prdLogNominatedPages + '').split(' ').join('_'),
+				appendtext: "\n" + "# '''[[" + mwConfig.wgPageName.replace(/_/g, " ") + "|" + mwConfig.wgPageName.replace(/_/g, " ") + "]]''' " + rationaleInput + " ~~~~~",
+				summary: '[[' + mwConfig.wgPageName.replace(/_/g, " ") + ']] sayfasının bekletmeli silme adaylığının günlük kaydı tutuluyor.',
+				tags: 'Adiutor',
+				format: 'json'
+			}).done(function() {});
+		}
 	}
 
 	function getCreator() {
