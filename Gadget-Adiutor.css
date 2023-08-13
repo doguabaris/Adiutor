@@ -103,9 +103,6 @@ label.adiutor-user-dashboard-logo {
 	right: 0;
 }
 
-.adiutor-administrator-helper-csd-requests-container {
-}
-
 .adiutor-administrator-helper-csd-requests-butons {
 	float: right;
 }
@@ -431,10 +428,6 @@ ul.cov-url-list {
     height: 50px;
     padding-top: 15px !important;
     font-size: 12px;
-}
-
-.adiutor-aricle-detail-box .oo-ui-labelElement-label {
-    /*width: 50%;*/
 }
 
 span.adiutor-aricle-detail-box-button-group {
