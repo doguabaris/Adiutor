@@ -429,104 +429,104 @@ $.when(mw.loader.using(["mediawiki.user", "oojs-ui-core", "oojs-ui-widgets", "oo
 								}
 							};
 							xhr.send();
-							var myWorks = new OO.ui.FieldsetLayout({});
-							var items = [];
-							myArticleWorks = adiutorUserOptions.myWorks;
-							if(myArticleWorks.length) {
-								myArticleWorks.forEach(function(article) {
-									var articleTitle = article.name; // Get the name property from each article
-									var articleWidget = new OO.ui.MessageWidget({
-										type: 'article',
-										icon: 'article',
-										label: articleTitle,
-										showClose: true,
-										classes: ['adiutor-work-list-item'],
-									});
-									// Add a click event handler to open the link with the articleTitle
-									articleWidget.$element.on('click', function() {
-										window.location.href = '/wiki/' + encodeURIComponent(articleTitle);
-									});
-									items.push(articleWidget);
-								});
-							} else {
-								var imageWidget = new OO.ui.MessageWidget({
-									type: 'notice',
-									icon: 'none',
-									inline: true,
-									label: new OO.ui.HtmlSnippet('<img width="70px" src="https://upload.wikimedia.org/wikipedia/commons/1/19/Under_construction_blue.svg" alt="">'),
-									classes: ['articles-worked-on-popup-search-box-enmpy-image'],
-								});
-								var textWidget = new OO.ui.LabelWidget({
-									label: mw.msg('aticle-work-list-description')
-								});
-								var horizontalLayout = new OO.ui.HorizontalLayout({
-									items: [imageWidget, textWidget],
-									classes: ['articles-worked-on-popup-search-box-enmpy'],
-								});
-								items.push(horizontalLayout);
-							}
-							// Add the items to the myWorks fieldset
-							myWorks.addItems(items);
-							var TopSearch = new OO.ui.TextInputWidget({
-								placeholder: mw.msg('search-article'), // Add placeholder text
-								classes: ['articles-worked-on-popup-search-box'],
-							});
-							if(myArticleWorks.length) {
-								myWorks.addItems(TopSearch);
-							}
-							myWorks.addItems(items);
-							var FooterButtonsGroup = new OO.ui.ButtonGroupWidget({
-								items: [
-									new OO.ui.ButtonWidget({
-										label: mw.msg('clear'),
-										framed: true,
-										href: '/wiki/',
-										icon: 'clear',
-										classes: ['articles-worked-on-popup-footer-button']
-									}),
-									new OO.ui.ButtonWidget({
-										label: mw.msg('edit'),
-										framed: true,
-										href: '/wiki/',
-										icon: 'edit',
-										classes: ['articles-worked-on-popup-footer-button']
-									}),
-								],
-								classes: ['articles-worked-on-popup-footer-buttons']
-							});
-							var WorkListButton = new OO.ui.PopupButtonWidget({
-								icon: 'flag',
-								framed: false,
-								label: mw.msg('works'),
-								invisibleLabel: true,
-								classes: ['articles-worked-on-button'],
-								popup: {
-									head: true,
-									label: mw.msg('my-works'),
-									icon: 'flag',
-									$content: $(myWorks.$element),
-									padded: false,
-									align: 'center',
-									autoFlip: true,
-									$footer: (FooterButtonsGroup.$element),
-									classes: ['articles-worked-on-popup'],
-								}
-							});
-							$('#pt-watchlist-2').after($('<li>').append(WorkListButton.$element));
-							// Listen to search input and show/hide articles
-							TopSearch.on('change', function() {
-								var query = TopSearch.getValue().toLowerCase();
-								items.forEach(function(articleWidget) {
-									var articleLabel = articleWidget.getLabel().toLowerCase();
-									if(articleLabel.includes(query)) {
-										articleWidget.toggle(true);
-									} else {
-										articleWidget.toggle(false);
-									}
-								});
-							});
 							break;
 					}
+					var myWorks = new OO.ui.FieldsetLayout({});
+					var items = [];
+					myArticleWorks = adiutorUserOptions.myWorks;
+					if(myArticleWorks.length) {
+						myArticleWorks.forEach(function(article) {
+							var articleTitle = article.name; // Get the name property from each article
+							var articleWidget = new OO.ui.MessageWidget({
+								type: 'article',
+								icon: 'article',
+								label: articleTitle,
+								showClose: true,
+								classes: ['adiutor-work-list-item'],
+							});
+							// Add a click event handler to open the link with the articleTitle
+							articleWidget.$element.on('click', function() {
+								window.location.href = '/wiki/' + encodeURIComponent(articleTitle);
+							});
+							items.push(articleWidget);
+						});
+					} else {
+						var imageWidget = new OO.ui.MessageWidget({
+							type: 'notice',
+							icon: 'none',
+							inline: true,
+							label: new OO.ui.HtmlSnippet('<img width="70px" src="https://upload.wikimedia.org/wikipedia/commons/1/19/Under_construction_blue.svg" alt="">'),
+							classes: ['articles-worked-on-popup-search-box-enmpy-image'],
+						});
+						var textWidget = new OO.ui.LabelWidget({
+							label: mw.msg('aticle-work-list-description')
+						});
+						var horizontalLayout = new OO.ui.HorizontalLayout({
+							items: [imageWidget, textWidget],
+							classes: ['articles-worked-on-popup-search-box-enmpy'],
+						});
+						items.push(horizontalLayout);
+					}
+					// Add the items to the myWorks fieldset
+					myWorks.addItems(items);
+					var TopSearch = new OO.ui.TextInputWidget({
+						placeholder: mw.msg('search-article'), // Add placeholder text
+						classes: ['articles-worked-on-popup-search-box'],
+					});
+					if(myArticleWorks.length) {
+						myWorks.addItems(TopSearch);
+					}
+					myWorks.addItems(items);
+					var FooterButtonsGroup = new OO.ui.ButtonGroupWidget({
+						items: [
+							new OO.ui.ButtonWidget({
+								label: mw.msg('clear'),
+								framed: true,
+								href: '/wiki/',
+								icon: 'clear',
+								classes: ['articles-worked-on-popup-footer-button']
+							}),
+							new OO.ui.ButtonWidget({
+								label: mw.msg('edit'),
+								framed: true,
+								href: '/wiki/',
+								icon: 'edit',
+								classes: ['articles-worked-on-popup-footer-button']
+							}),
+						],
+						classes: ['articles-worked-on-popup-footer-buttons']
+					});
+					var WorkListButton = new OO.ui.PopupButtonWidget({
+						icon: 'flag',
+						framed: false,
+						label: mw.msg('works'),
+						invisibleLabel: true,
+						classes: ['articles-worked-on-button'],
+						popup: {
+							head: true,
+							label: mw.msg('my-works'),
+							icon: 'flag',
+							$content: $(myWorks.$element),
+							padded: false,
+							align: 'center',
+							autoFlip: true,
+							$footer: (FooterButtonsGroup.$element),
+							classes: ['articles-worked-on-popup'],
+						}
+					});
+					// Listen to search input and show/hide articles
+					TopSearch.on('change', function() {
+						var query = TopSearch.getValue().toLowerCase();
+						items.forEach(function(articleWidget) {
+							var articleLabel = articleWidget.getLabel().toLowerCase();
+							if(articleLabel.includes(query)) {
+								articleWidget.toggle(true);
+							} else {
+								articleWidget.toggle(false);
+							}
+						});
+					});
+					$('#pt-watchlist-2').after($('<li>').append(WorkListButton.$element));
 				});
 			} catch(error) {
 				initializeUserOptions();
