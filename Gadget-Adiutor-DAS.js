@@ -203,7 +203,11 @@ $.when(mw.loader.using(["mediawiki.user", "oojs-ui-core", "oojs-ui-widgets", "oo
 								// Create widgets for title and content
 								var titleWidget = new OO.ui.HtmlSnippet(panelData.title);
 								var textWidget = new OO.ui.HtmlSnippet(panelData.content);
-								tabPanel.$element.append(titleWidget.content,textWidget.content);
+								var helpArticleContent = new OO.ui.MessageWidget( {
+									type: 'notice',
+									label: new OO.ui.HtmlSnippet( '<strong>'+titleWidget+'</strong><br>'+textWidget+'' )
+								});
+								tabPanel.$element.append(helpArticleContent.$element);
 								tabPanelsArray.push(tabPanel);
 							});
 							var index = new OO.ui.IndexLayout({
