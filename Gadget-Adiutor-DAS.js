@@ -179,39 +179,39 @@ $.when(mw.loader.using(["mediawiki.user", "oojs-ui-core", "oojs-ui-widgets", "oo
 
 					function SectionTwoLayout(name, config) {
 						SectionTwoLayout.super.call(this, name, config);
-
-						function AdiutorGuideTabPanelLayout(name) {
-							AdiutorGuideTabPanelLayout.super.call(this, name);
-							this.tabItem = new OO.ui.TabOptionWidget({
-								label: name,
-								classes: ['AdiutorGuideTabPanelLayout-tabItem']
-							});
-						}
-						OO.inheritClass(AdiutorGuideTabPanelLayout, OO.ui.TabPanelLayout);
-						var tabPanelData = [{
-							"title": "Hızlı Silme Talebi",
-							"description": "İlk sekme paneli",
-							"content": "<p>İlk sekme panelinin içeriği burada yer alır.</p>",
-							"video": "https://www.example.com/video1.mp4",
-							"image": "https://www.example.com/image1.jpg"
-						}, {
-							"title": "Bekletmeli Silme Önerisi",
-							"description": "Bekletmeli Silme Önerisi",
-							"content": "<p>İkinci sekme panelinin içeriği burada yer alır.</p>",
-							"video": "https://www.example.com/video2.mp4",
-							"image": "https://www.example.com/image2.jpg"
-						}, ];
 						var tabPanelsArray = [];
-						tabPanelData.forEach(function(panelData) {
-							var tabPanel = new AdiutorGuideTabPanelLayout(panelData.title);
-							tabPanel.$element.append(panelData.content);
-							tabPanelsArray.push(tabPanel);
-						});
-						var index = new OO.ui.IndexLayout({
-							framed: false
-						});
-						index.addTabPanels(tabPanelsArray);
-						this.$element.append(index.$element);
+						api.get({
+							action: 'query',
+							prop: 'revisions',
+							titles: 'MediaWiki:Gadget-Adiutor-Help.json',
+							rvprop: 'content',
+							formatversion: 2
+						}).then(data => {
+							var content = data.query.pages[0].revisions[0].content;
+							const tabPanelData = JSON.parse(content);
+
+							function AdiutorGuideTabPanelLayout(name) {
+								AdiutorGuideTabPanelLayout.super.call(this, name);
+								this.label = name;
+								this.tabItem = new OO.ui.TabOptionWidget({
+									classes: ['AdiutorGuideTabPanelLayout-tabItem']
+								});
+							}
+							OO.inheritClass(AdiutorGuideTabPanelLayout, OO.ui.TabPanelLayout);
+							tabPanelData.forEach(function(panelData) {
+								var tabPanel = new AdiutorGuideTabPanelLayout(panelData.title);
+								// Create widgets for title and content
+								var titleWidget = new OO.ui.HtmlSnippet(panelData.title);
+								var textWidget = new OO.ui.HtmlSnippet(panelData.content);
+								tabPanel.$element.append(titleWidget.content,textWidget.content);
+								tabPanelsArray.push(tabPanel);
+							});
+							var index = new OO.ui.IndexLayout({
+								framed: false
+							});
+							index.addTabPanels(tabPanelsArray);
+							this.$element.append(index.$element);
+						}).catch(error => console.error("Error fetching data from API:", error));
 					}
 					OO.inheritClass(SectionTwoLayout, OO.ui.PageLayout);
 					SectionTwoLayout.prototype.setupOutlineItem = function() {
