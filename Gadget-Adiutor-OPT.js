@@ -2,7 +2,7 @@
  * Adiutor: A gadget to assist various user actions
  * Author: Vikipolimer
  * Licensing and attribution: Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
- * Module: Sample container
+ * Module: Adiutor options
  */
 // Wait for required libraries and DOM to be ready
 /* <nowiki> */
@@ -140,6 +140,13 @@ $.when(mw.loader.using(["mediawiki.user", "oojs-ui-core", "oojs-ui-widgets", "oo
 								label: new OO.ui.deferMsg('show-my-status'),
 								help: new OO.ui.deferMsg('show-status-description')
 							}),
+							inlinePageInfo = new OO.ui.FieldLayout(new OO.ui.CheckboxInputWidget({
+								selected: adiutorUserOptions.inlinePageInfo
+							}), {
+								align: 'inline',
+								label: new OO.ui.deferMsg('show-inline-page-info'),
+								help: new OO.ui.deferMsg('show-inline-page-info-description')
+							}),
 						]);
 						this.content.$element.append(AdiutorSettings.$element);
 						this.$body.append(this.content.$element);
@@ -171,6 +178,7 @@ $.when(mw.loader.using(["mediawiki.user", "oojs-ui-core", "oojs-ui-widgets", "oo
 										"showMyStatus": showMyStatus.fieldWidget.selected,
 										"myStatus": "active"
 									},
+									"inlinePageInfo": inlinePageInfo.fieldWidget.selected
 								};
 								updateOptions(UpdatedOptions);
 								dialog.close({

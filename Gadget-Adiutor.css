@@ -425,12 +425,23 @@ ul.cov-url-list {
 }
 
 .adiutor-aricle-detail-box {
-	margin-top: 10px;
-	display: flow-root;
+    margin-top: 0px;
+    padding: 10px !important;
+    display: list-item;
+    height: 50px;
+    padding-top: 15px !important;
+    font-size: 12px;
+}
+
+.adiutor-aricle-detail-box .oo-ui-labelElement-label {
+    /*width: 50%;*/
 }
 
 span.adiutor-aricle-detail-box-button-group {
-	float: right;
+    right: 45px;
+    display: revert;
+    position: absolute;
+    top: 8px;
 }
 
 .articles-worked-on-popup-search-box-enmpy {

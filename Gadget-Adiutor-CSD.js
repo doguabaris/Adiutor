@@ -668,10 +668,6 @@ $.when(mw.loader.using(["mediawiki.user", "oojs-ui-core", "oojs-ui-widgets", "oo
 							}
 							return ProcessDialog.super.prototype.getActionProcess.call(this, action);
 						};
-						// Get dialog height.
-						ProcessDialog.prototype.getBodyHeight = function() {
-							return 650;
-						};
 						// Create and append the window manager.
 						var windowManager = new OO.ui.WindowManager({
 							classes: ['adiutor-csd-modal-dialog-container-sub']

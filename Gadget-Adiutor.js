@@ -6,7 +6,7 @@
  */
 /* <nowiki> */
 $.when(mw.loader.using(["mediawiki.user", "oojs-ui-core", "oojs-ui-widgets", "oojs-ui-windows"]), $.ready).then(function() {
-	var mwConfig = mw.config.get(["skin", "wgAction", "wgArticleId", "wgPageName", "wgNamespaceNumber", "wgTitle", "wgUserGroups", "wgUserName"]);
+	var mwConfig = mw.config.get(["skin", "wgAction", "wgArticleId", "wgPageName", "wgNamespaceNumber", "wgUserName", "wgTitle", "wgUserGroups", "wgUserEditCount", "wgUserRegistration", "wgRelevantUserName", "wgCanonicalNamespace"]);
 	var api = new mw.Api();
 	var adiutorUserOptions;
 	var myArticleWorks = [];
@@ -35,7 +35,8 @@ $.when(mw.loader.using(["mediawiki.user", "oojs-ui-core", "oojs-ui-widgets", "oo
 			"status": {
 				"showMyStatus": true,
 				"myStatus": "active"
-			}
+			},
+			"inlinePageInfo": true
 		};
 		api.postWithToken('csrf', {
 			action: 'edit',
@@ -360,147 +361,172 @@ $.when(mw.loader.using(["mediawiki.user", "oojs-ui-core", "oojs-ui-widgets", "oo
 							});
 							break;
 					}
-					var ArticleDetailContent = mw.msg('test-feature');
-					var newArticleToWorkOnIt = {
-						"id": mwConfig.wgArticleId,
-						"name": mwConfig.wgPageName
-					};
-					// Check if article already in list or not
-					var isAlreadyAdded = myArticleWorks.some(function(article) {
-						return article.id === newArticleToWorkOnIt.id;
-					});
-					// Define details to buttons
-					var addButtonInfo = {
-						icon: isAlreadyAdded ? 'unFlag' : 'flag',
-						label: isAlreadyAdded ? mw.msg('unpin-from-works') : mw.msg('pin-to-works')
-					};
-					var AboutArticleActionButtons = new OO.ui.ButtonGroupWidget({
-						items: [
-							new OO.ui.ButtonWidget(Object.assign({}, addButtonInfo)),
-							new OO.ui.ButtonWidget({
-								icon: 'edit',
-								label: mw.msg('suggetst-edit')
-							})
-						],
-						classes: ['adiutor-aricle-detail-box-button-group']
-					});
-					var AboutArticleContent = $('<div>').append(ArticleDetailContent).append(AboutArticleActionButtons.$element);
-					var AboutArticle = new OO.ui.MessageWidget({
-						type: 'notice',
-						icon: 'article',
-						label: AboutArticleContent,
-						classes: ['adiutor-aricle-detail-box']
-					});
-					AboutArticleActionButtons.items[0].on('click', function() {
-						if(isAlreadyAdded) {
-							var indexToRemove = myArticleWorks.findIndex(function(article) {
-								return article.id === newArticleToWorkOnIt.id;
-							});
-							myArticleWorks.splice(indexToRemove, 1);
-						} else {
-							adiutorUserOptions.myWorks.push(newArticleToWorkOnIt);
-							console.log(newArticleToWorkOnIt);
-						}
-						console.log(adiutorUserOptions);
-						updateOptions(adiutorUserOptions);
-					});
-					var myWorks = new OO.ui.FieldsetLayout({});
-					var items = [];
-					myArticleWorks = adiutorUserOptions.myWorks;
-					if(myArticleWorks.length) {
-						myArticleWorks.forEach(function(article) {
-							var articleTitle = article.name; // Get the name property from each article
-							var articleWidget = new OO.ui.MessageWidget({
-								type: 'article',
-								icon: 'article',
-								label: articleTitle,
-								showClose: true,
-								classes: ['adiutor-work-list-item'],
-							});
-							// Add a click event handler to open the link with the articleTitle
-							articleWidget.$element.on('click', function() {
-								window.location.href = '/wiki/' + encodeURIComponent(articleTitle);
-							});
-							items.push(articleWidget);
-						});
-					} else {
-						var imageWidget = new OO.ui.MessageWidget({
-							type: 'notice',
-							icon: 'none',
-							inline: true,
-							label: new OO.ui.HtmlSnippet('<img width="70px" src="https://upload.wikimedia.org/wikipedia/commons/1/19/Under_construction_blue.svg" alt="">'),
-							classes: ['articles-worked-on-popup-search-box-enmpy-image'],
-						});
-						var textWidget = new OO.ui.LabelWidget({
-							label: mw.msg('aticle-work-list-description')
-						});
-						var horizontalLayout = new OO.ui.HorizontalLayout({
-							items: [imageWidget, textWidget],
-							classes: ['articles-worked-on-popup-search-box-enmpy'],
-						});
-						items.push(horizontalLayout);
-					}
-					// Add the items to the myWorks fieldset
-					myWorks.addItems(items);
-					var TopSearch = new OO.ui.TextInputWidget({
-						placeholder: mw.msg('search-article'), // Add placeholder text
-						classes: ['articles-worked-on-popup-search-box'],
-					});
-					if(myArticleWorks.length) {
-						myWorks.addItems(TopSearch);
-					}
-					myWorks.addItems(items);
-					var FooterButtonsGroup = new OO.ui.ButtonGroupWidget({
-						items: [
-							new OO.ui.ButtonWidget({
-								label: mw.msg('clear'),
-								framed: true,
-								href: '/wiki/',
-								icon: 'clear',
-								classes: ['articles-worked-on-popup-footer-button']
-							}),
-							new OO.ui.ButtonWidget({
-								label: mw.msg('edit'),
-								framed: true,
-								href: '/wiki/',
-								icon: 'edit',
-								classes: ['articles-worked-on-popup-footer-button']
-							}),
-						],
-						classes: ['articles-worked-on-popup-footer-buttons']
-					});
-					var WorkListButton = new OO.ui.PopupButtonWidget({
-						icon: 'flag',
-						framed: false,
-						label: mw.msg('works'),
-						invisibleLabel: true,
-						classes: ['articles-worked-on-button'],
-						popup: {
-							head: true,
-							label: mw.msg('my-works'),
-							icon: 'flag',
-							$content: $(myWorks.$element),
-							padded: false,
-							align: 'center',
-							autoFlip: true,
-							$footer: (FooterButtonsGroup.$element),
-							classes: ['articles-worked-on-popup'],
-						}
-					});
-					$('#pt-watchlist-2').after($('<li>').append(WorkListButton.$element));
-					$('.ve-init-mw-desktopArticleTarget-targetContainer').append(AboutArticle.$element);
-					// Listen to search input and show/hide articles
-					TopSearch.on('change', function() {
-						var query = TopSearch.getValue().toLowerCase();
-						items.forEach(function(articleWidget) {
-							var articleLabel = articleWidget.getLabel().toLowerCase();
-							if(articleLabel.includes(query)) {
-								articleWidget.toggle(true);
+					switch(mwConfig.wgNamespaceNumber) {
+						case 0:
+							var newArticleToWorkOnIt = {
+								"id": mwConfig.wgArticleId,
+								"name": mwConfig.wgPageName
+							};
+							const wikiUrl = "https://xtools.wmcloud.org/api/page/articleinfo/tr.wikipedia.org/" + mwConfig.wgPageName + "?format=json";
+							const xhr = new XMLHttpRequest();
+							xhr.open("GET", wikiUrl, true);
+							xhr.onreadystatechange = function() {
+								if(xhr.readyState === 4 && xhr.status === 200) {
+									const response = JSON.parse(xhr.responseText);
+									// Check if article already in list or not
+									var isAlreadyAdded = myArticleWorks.some(function(article) {
+										return article.id === newArticleToWorkOnIt.id;
+									});
+									// Define details to buttons
+									var addButtonInfo = {
+										icon: isAlreadyAdded ? 'unFlag' : 'flag',
+										label: isAlreadyAdded ? mw.msg('unpin-from-works') : mw.msg('pin-to-works')
+									};
+									var infoButton = new OO.ui.ButtonWidget({
+										icon: 'info'
+									});
+									var AboutArticleActionButtons = new OO.ui.ButtonGroupWidget({
+										items: [
+											new OO.ui.ButtonWidget(Object.assign({}, addButtonInfo)),
+											infoButton
+										],
+										classes: ['adiutor-aricle-detail-box-button-group']
+									});
+									infoButton.on('click', function() {
+										loadAdiutorScript('INF');
+									});
+									var AboutArticleContent = $('<div>').append(mw.msg('page-info-tip', response.created_at, response.author, response.author_editcount, response.revisions, response.editors, response.pageviews, response.pageviews_offset)).append(AboutArticleActionButtons.$element);
+									var AboutArticle = new OO.ui.MessageWidget({
+										type: 'notice',
+										icon: 'article',
+										showClose: true,
+										label: new OO.ui.HtmlSnippet(AboutArticleContent),
+										classes: ['adiutor-aricle-detail-box']
+									});
+									AboutArticleActionButtons.items[0].on('click', function() {
+										if(isAlreadyAdded) {
+											var indexToRemove = myArticleWorks.findIndex(function(article) {
+												return article.id === newArticleToWorkOnIt.id;
+											});
+											myArticleWorks.splice(indexToRemove, 1);
+										} else {
+											adiutorUserOptions.myWorks.push(newArticleToWorkOnIt);
+											console.log(newArticleToWorkOnIt);
+										}
+										// Update the button's text and icon
+										var addButtonInfo = {
+											icon: isAlreadyAdded ? 'flag' : 'unFlag', // Reverse the icon based on isAlreadyAdded
+											label: isAlreadyAdded ? mw.msg('pin-to-works') : mw.msg('unpin-from-works') // Reverse the label based on isAlreadyAdded
+										};
+										AboutArticleActionButtons.items[0].setIcon(addButtonInfo.icon);
+										AboutArticleActionButtons.items[0].setLabel(addButtonInfo.label);
+										console.log(adiutorUserOptions);
+										updateOptions(adiutorUserOptions);
+									});
+									if(adiutorUserOptions.inlinePageInfo === true) {
+										$('#siteSub').append(AboutArticle.$element);
+									}
+								}
+							};
+							xhr.send();
+							var myWorks = new OO.ui.FieldsetLayout({});
+							var items = [];
+							myArticleWorks = adiutorUserOptions.myWorks;
+							if(myArticleWorks.length) {
+								myArticleWorks.forEach(function(article) {
+									var articleTitle = article.name; // Get the name property from each article
+									var articleWidget = new OO.ui.MessageWidget({
+										type: 'article',
+										icon: 'article',
+										label: articleTitle,
+										showClose: true,
+										classes: ['adiutor-work-list-item'],
+									});
+									// Add a click event handler to open the link with the articleTitle
+									articleWidget.$element.on('click', function() {
+										window.location.href = '/wiki/' + encodeURIComponent(articleTitle);
+									});
+									items.push(articleWidget);
+								});
 							} else {
-								articleWidget.toggle(false);
+								var imageWidget = new OO.ui.MessageWidget({
+									type: 'notice',
+									icon: 'none',
+									inline: true,
+									label: new OO.ui.HtmlSnippet('<img width="70px" src="https://upload.wikimedia.org/wikipedia/commons/1/19/Under_construction_blue.svg" alt="">'),
+									classes: ['articles-worked-on-popup-search-box-enmpy-image'],
+								});
+								var textWidget = new OO.ui.LabelWidget({
+									label: mw.msg('aticle-work-list-description')
+								});
+								var horizontalLayout = new OO.ui.HorizontalLayout({
+									items: [imageWidget, textWidget],
+									classes: ['articles-worked-on-popup-search-box-enmpy'],
+								});
+								items.push(horizontalLayout);
 							}
-						});
-					});
+							// Add the items to the myWorks fieldset
+							myWorks.addItems(items);
+							var TopSearch = new OO.ui.TextInputWidget({
+								placeholder: mw.msg('search-article'), // Add placeholder text
+								classes: ['articles-worked-on-popup-search-box'],
+							});
+							if(myArticleWorks.length) {
+								myWorks.addItems(TopSearch);
+							}
+							myWorks.addItems(items);
+							var FooterButtonsGroup = new OO.ui.ButtonGroupWidget({
+								items: [
+									new OO.ui.ButtonWidget({
+										label: mw.msg('clear'),
+										framed: true,
+										href: '/wiki/',
+										icon: 'clear',
+										classes: ['articles-worked-on-popup-footer-button']
+									}),
+									new OO.ui.ButtonWidget({
+										label: mw.msg('edit'),
+										framed: true,
+										href: '/wiki/',
+										icon: 'edit',
+										classes: ['articles-worked-on-popup-footer-button']
+									}),
+								],
+								classes: ['articles-worked-on-popup-footer-buttons']
+							});
+							var WorkListButton = new OO.ui.PopupButtonWidget({
+								icon: 'flag',
+								framed: false,
+								label: mw.msg('works'),
+								invisibleLabel: true,
+								classes: ['articles-worked-on-button'],
+								popup: {
+									head: true,
+									label: mw.msg('my-works'),
+									icon: 'flag',
+									$content: $(myWorks.$element),
+									padded: false,
+									align: 'center',
+									autoFlip: true,
+									$footer: (FooterButtonsGroup.$element),
+									classes: ['articles-worked-on-popup'],
+								}
+							});
+							$('#pt-watchlist-2').after($('<li>').append(WorkListButton.$element));
+							// Listen to search input and show/hide articles
+							TopSearch.on('change', function() {
+								var query = TopSearch.getValue().toLowerCase();
+								items.forEach(function(articleWidget) {
+									var articleLabel = articleWidget.getLabel().toLowerCase();
+									if(articleLabel.includes(query)) {
+										articleWidget.toggle(true);
+									} else {
+										articleWidget.toggle(false);
+									}
+								});
+							});
+							break;
+					}
 				});
 			} catch(error) {
 				initializeUserOptions();

@@ -903,9 +903,6 @@ $.when(mw.loader.using(["mediawiki.user", "oojs-ui-core", "oojs-ui-widgets", "oo
 									}
 									return csdAdminProcessDialog.super.prototype.getActionProcess.call(this, action);
 								};
-								csdAdminProcessDialog.prototype.getBodyHeight = function() {
-									return 550;
-								};
 								var CsdWindowManager = new OO.ui.WindowManager();
 								$(document.body).append(CsdWindowManager.$element);
 								var dialog = new csdAdminProcessDialog({

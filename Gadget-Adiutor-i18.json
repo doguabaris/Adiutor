@@ -1,6 +1,8 @@
 {
     "tr": {
         "create": "Oluştur (i18)",
+        "okay": "Tamam (i18)",
+        "more-about-this-page": "Daha fazla bilgi (i18)",
         "add-tag": "Etiketle (i18)",
         "hello": "Merhaba (i18), ",
         "close": "Kapat (i18)",
@@ -20,7 +22,7 @@
         "csd-requests": "Hızlı Silme Talepleri (i18)",
         "help-and-guides": "Yardım ve Kılavuzlar (i18)",
         "my-contributions": "Katkılarım (i18)",
-        "welcome-date-change-message": "%1 tarihinden bu yana %2 değişiklik ile Vikipedi’ye katkıda bulundun.",
+        "welcome-date-change-message": "$1 tarihinden bu yana $2 değişiklik ile Vikipedi’ye katkıda bulundun.",
         "propose": "Öner (i18)",
         "adiutor-dashboard-about-adiutor-title": "Adiutor Nedir? (i18)",
         "adiutor-dashboard-about-adiutor-description": "Adiutor, Vikipedi'deki bakım görevlerini daha verimli ve kullanıcı dostu hale getirmek amacıyla geliştirilen bir araçtır. OOUI tabanlı MediaWiki JS ve JavaScript kullanılarak oluşturulan Adiutor, kullanıcılara çeşitli görevleri kolaylıkla gerçekleştirme imkanı sunmak üzere tasarlanmıştır. Tüm öneriler ve hata raporları, aracın sürekli olarak geliştirilmesi ve iyileştirilmesi için tartışma sayfasında gözden geçirilir ve tartışılır. Vikipedi topluluğunun aktif katılımı ve desteği, Adiutor'un daha işlevsel ve kullanıcı dostu bir araç haline gelmesinde önemli bir rol oynar. (i18)",
@@ -147,10 +149,18 @@
         "recent-changes": "Son Değişiklik (i18)",
         "tag-page": "Sayfayı Etiketle (i18)",
         "copyright-violation-check": "Telif İhlali Kontrolü (i18)",
-        "adiutor-settings": "Adiutor Ayarları (i18)"
+        "adiutor-settings": "Adiutor Ayarları (i18)",
+        "page-info-tip": "<strong>$1</strong> tarihinde <strong><a href='/wiki/Kullanıcı:$2'>$2</a></strong> ($3) tarafından oluşturuldu, $4 revizyon, $5 editör, <strong>$6</strong> sayfa gösterimi ($7 gün)",
+        "page-more-info-tip-author": "<strong>Oluşturan</strong><br>Bu madde <strong><a href='/wiki/Kullanıcı:$1'>$1</a></strong> tarafından oluşturulmuş.",
+        "page-more-info-tip-date": "<strong>Oluşturulma Tarihi</strong><br>Bu madde <strong>$1</strong> tarihinde oluşturulmuş.",
+        "page-more-info-tip-keyword": "<strong>Kelime Sayısı</strong><br>Bu madde <strong>$1</strong> kelimeden oluşmaktadır.",
+        "show-inline-page-info": "Satır içi madde bilgisini göster",
+        "show-inline-page-info-description": "Bunu işaretlediğinizde maddenin üst kısmına madde bilgisi yer alan bir alan ekler."
     },
     "en": {
         "create": "Oluştur (i18)",
+        "okay": "Tamam (i18)",
+        "more-about-this-page": "Daha fazla bilgi (i18)",
         "add-tag": "Etiketle (i18)",
         "hello": "Merhaba (i18), ",
         "close": "Kapat (i18)",
@@ -170,7 +180,7 @@
         "csd-requests": "Hızlı Silme Talepleri (i18)",
         "help-and-guides": "Yardım ve Kılavuzlar (i18)",
         "my-contributions": "Katkılarım (i18)",
-        "welcome-date-change-message": "%1 tarihinden bu yana %2 değişiklik ile Vikipedi’ye katkıda bulundun.",
+        "welcome-date-change-message": "$1 tarihinden bu yana $2 değişiklik ile Vikipedi’ye katkıda bulundun.",
         "propose": "Öner (i18)",
         "adiutor-dashboard-about-adiutor-title": "Adiutor Nedir? (i18)",
         "adiutor-dashboard-about-adiutor-description": "Adiutor, Vikipedi'deki bakım görevlerini daha verimli ve kullanıcı dostu hale getirmek amacıyla geliştirilen bir araçtır. OOUI tabanlı MediaWiki JS ve JavaScript kullanılarak oluşturulan Adiutor, kullanıcılara çeşitli görevleri kolaylıkla gerçekleştirme imkanı sunmak üzere tasarlanmıştır. Tüm öneriler ve hata raporları, aracın sürekli olarak geliştirilmesi ve iyileştirilmesi için tartışma sayfasında gözden geçirilir ve tartışılır. Vikipedi topluluğunun aktif katılımı ve desteği, Adiutor'un daha işlevsel ve kullanıcı dostu bir araç haline gelmesinde önemli bir rol oynar. (i18)",
@@ -297,6 +307,12 @@
         "recent-changes": "Son Değişiklik (i18)",
         "tag-page": "Sayfayı Etiketle (i18)",
         "copyright-violation-check": "Telif İhlali Kontrolü (i18)",
-        "adiutor-settings": "Adiutor Ayarları (i18)"
+        "adiutor-settings": "Adiutor Ayarları (i18)",
+        "page-info-tip": "<strong>$1</strong> tarihinde <strong><a href='//wiki/Kullanıcı:$2'>$2</a></strong> ($3) tarafından oluşturuldu, $4 revizyon, $5 editör, <strong>$6</strong> sayfa gösterimi ($7 gün)",
+        "page-more-info-tip-author": "<strong>Oluşturan</strong><br>Bu madde <strong><a href='/wiki/Kullanıcı:$1'>$1</a></strong> tarafından oluşturulmuş.",
+        "page-more-info-tip-date": "<strong>Oluşturulma Tarihi</strong><br>Bu madde <strong>$1</strong> tarihinde oluşturulmuş.",
+        "page-more-info-tip-keyword": "<strong>Kelime Sayısı</strong><br>Bu madde <strong>$1</strong> kelimeden oluşmaktadır.",
+        "show-inline-page-info": "Satır içi madde bilgisini göster",
+        "show-inline-page-info-description": "Bunu işaretlediğinizde maddenin üst kısmına madde bilgisi yer alan bir alan ekler."
     }
 }
