@@ -88,7 +88,7 @@ switch(mwConfig.wgNamespaceNumber) {
 				data: 4,
 				label: mw.msg('recent-changes'),
 			}), new OO.ui.MenuOptionWidget({
-				icon: 'tag',
+				icon: 'templateAdd',
 				data: 'tag',
 				label: mw.msg('tag-page'),
 			}), new OO.ui.MenuOptionWidget({
