@@ -361,6 +361,9 @@ $.when(mw.loader.using(["mediawiki.user", "oojs-ui-core", "oojs-ui-widgets", "oo
 							});
 							break;
 					}
+					if(mwConfig.wgNamespaceNumber === 2) {
+						loadAdiutorScript('UPW');
+					}
 					switch(mwConfig.wgNamespaceNumber) {
 						case 0:
 							var newArticleToWorkOnIt = {

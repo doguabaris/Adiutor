@@ -455,3 +455,85 @@ span.adiutor-aricle-detail-box-button-group {
 	margin: 0;
 	padding-top: 0;
 }
+
+.adiutor-page-more-info-tip-author {
+    border: none !important;
+    margin: 0 !important;
+}
+
+.adiutor-page-more-info-tip-date{
+    border: none !important;
+    margin: 0 !important;
+}
+
+.adiutor-page-more-info-tip-keyword {
+    border: none !important;
+    margin: 0 !important;
+    border-top: 1px solid #a2a9b1 !important;
+}
+
+.adiutor-user-page-container {
+	margin-top: 20px;
+    display: initial;
+	position: inherit;
+}
+
+.adiutor-user-page-box-container {
+    width: 99.80%;
+    display: flex !important;
+    margin: 0;
+    background: #f8f9fa;
+    border: 1px solid #d1d1d1;
+    height: 90px;
+}
+
+.adiutor-user-page-username-details {
+    float: left;
+    width: inherit;
+    background-color: #f8f9fa !important;
+    border: none !important;
+    color: #000;
+    display: grid;
+    padding-left: 54px !important;
+}
+
+.adiutor-user-page-username-details .oo-ui-iconElement-icon {
+	filter: invert(2);
+}
+
+.adiutor-user-page-change-count {
+float: left;
+    width: inherit;
+    margin: 0px !important;
+    border: none !important;
+    background-color: #ffffff00 !important;
+    border-left: 1px solid #d1d1d1 !important;
+}
+
+.adiutor-user-page-miscellaneous {
+	float: right;
+	margin: 0px !important;
+	width: inherit;
+	border: none !important;
+	;
+}
+
+span.adiutor-user-page-button-group {
+display: inherit;
+    position: relative;
+    margin-top: 28px !important;
+    margin-right: 18px !important;
+}
+
+.adiutor-user-page-username-details .oo-ui-iconElement-icon {
+     background-image: url(https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/OOjs_UI_icon_userAvatarOutline-progressive.svg/1920px-OOjs_UI_icon_userAvatarOutline-progressive.svg.png);
+    background-position: center !important;
+    width: 50px;
+    height: 50px;
+    filter: unset;
+    display: block;
+    float: left;
+    background-size: 50px;
+    margin-top: 18px;
+    margin-left: 16px;
+}
