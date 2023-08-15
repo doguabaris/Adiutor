@@ -15,12 +15,13 @@ var newArticleToWorkOnIt = {
 	"id": mwConfig.wgArticleId,
 	"name": mwConfig.wgPageName
 };
-const xhr = new XMLHttpRequest();
-xhr.open("GET", "https://xtools.wmcloud.org/api/page/articleinfo/tr.wikipedia.org/" + mwConfig.wgPageName + "?format=json", true);
-xhr.onreadystatechange = function() {
-	if(xhr.readyState === 4 && xhr.status === 200) {
-		const response = JSON.parse(xhr.responseText);
-		// Check if article already in list or not
+var apiUrl = "https://xtools.wmcloud.org/api/page/articleinfo/tr.wikipedia.org/" + mwConfig.wgPageName + "?format=json";
+// AJAX isteği
+$.ajax({
+	url: apiUrl,
+	method: "GET",
+	dataType: "json",
+	success: function(response) {
 		var isAlreadyAdded = adiutorUserOptions.myWorks.some(function(article) {
 			return article.id === newArticleToWorkOnIt.id;
 		});
@@ -177,9 +178,11 @@ xhr.onreadystatechange = function() {
 		if(adiutorUserOptions.inlinePageInfo === true) {
 			$('.vector-body-before-content').prepend(AboutArticle.$element);
 		}
+	},
+	error: function(xhr, status, error) {
+		console.error("AJAX error:", error);
 	}
-};
-xhr.send();
+});
 
 function updateOptions(updatedOptions) {
 	api.postWithEditToken({
