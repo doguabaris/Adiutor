@@ -202,7 +202,7 @@ $.when(mw.loader.using(["mediawiki.user", "oojs-ui-core", "oojs-ui-widgets", "oo
                                         } else {
                                             registrationLink = "<a href='" + mw.config.get("wgScriptPath") + "/index.php?title=Special:ListUsers&amp;limit=1&amp;username=" + encodedTitle + "'>";
                                         }
-                                        statusText += ", " + registrationLink + formatRelativeDateDifference(registrationDate) + "</a> önce üye oldu";
+                                        statusText += ", " + registrationLink + formatRelativeDateDifference(registrationDate) + "</a> önce üye oldu.";
                                     }
                                     statusText = "Bu " + statusText;
                                     // Show the correct gender symbol
