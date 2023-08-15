@@ -7,11 +7,8 @@
  */
 // Wait for required libraries and DOM to be ready
 /* <nowiki> */
-$.when(mw.loader.using(["mediawiki.user", "oojs-ui-core", "oojs-ui-widgets", "oojs-ui-windows"]), $.ready).then(function() {
-	// Get essential configuration from MediaWiki
-	var mwConfig = mw.config.get(["skin", "wgAction", "wgArticleId", "wgPageName", "wgNamespaceNumber", "wgTitle", "wgUserGroups", "wgUserName", "wgUserEditCount", "wgUserRegistration", "wgCanonicalNamespace"]);
-	var api = new mw.Api();
-	var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor'));
-
-});
+// Get essential configuration from MediaWiki
+var mwConfig = mw.config.get(["skin", "wgAction", "wgArticleId", "wgPageName", "wgNamespaceNumber", "wgTitle", "wgUserGroups", "wgUserName", "wgUserEditCount", "wgUserRegistration", "wgCanonicalNamespace"]);
+var api = new mw.Api();
+var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor'));
 /* </nowiki> */

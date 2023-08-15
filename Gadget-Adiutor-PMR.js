@@ -7,92 +7,90 @@
  */
 // Wait for required libraries and DOM to be ready
 /* <nowiki> */
-$.when(mw.loader.using(["mediawiki.user", "oojs-ui-core", "oojs-ui-widgets", "oojs-ui-windows"]), $.ready).then(function() {
-	// Get essential configuration from MediaWiki
-	var mwConfig = mw.config.get(["skin", "wgAction", "wgArticleId", "wgPageName", "wgNamespaceNumber", "wgTitle", "wgUserGroups", "wgUserName", "wgUserEditCount", "wgUserRegistration", "wgCanonicalNamespace"]);
-	var api = new mw.Api();
-	var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor'));
+// Get essential configuration from MediaWiki
+var mwConfig = mw.config.get(["skin", "wgAction", "wgArticleId", "wgPageName", "wgNamespaceNumber", "wgTitle", "wgUserGroups", "wgUserName", "wgUserEditCount", "wgUserRegistration", "wgCanonicalNamespace"]);
+var api = new mw.Api();
+var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor'));
 
-	function PageMoveRequestDialog(config) {
-		PageMoveRequestDialog.super.call(this, config);
-	}
-	OO.inheritClass(PageMoveRequestDialog, OO.ui.ProcessDialog);
-	PageMoveRequestDialog.static.name = 'PageMoveRequestDialog';
-	PageMoveRequestDialog.static.title = new OO.ui.deferMsg('pmr-module-title');
-	PageMoveRequestDialog.static.actions = [{
-		action: 'save',
-		label: new OO.ui.deferMsg('create'),
-		flags: ['primary', 'progressive']
-	}, {
-		label: new OO.ui.deferMsg('cancel'),
-		flags: 'safe'
-	}];
-	PageMoveRequestDialog.prototype.initialize = function() {
-		PageMoveRequestDialog.super.prototype.initialize.apply(this, arguments);
-		var headerTitle = new OO.ui.MessageWidget({
-			type: 'notice',
-			inline: true,
-			label: new OO.ui.deferMsg('pmr-header-title')
-		});
-		var headerTitleDescription = new OO.ui.LabelWidget({
-			label: new OO.ui.deferMsg('pmr-header-description')
-		});
-		var RequestRationale = new OO.ui.FieldsetLayout({
+function PageMoveRequestDialog(config) {
+	PageMoveRequestDialog.super.call(this, config);
+}
+OO.inheritClass(PageMoveRequestDialog, OO.ui.ProcessDialog);
+PageMoveRequestDialog.static.name = 'PageMoveRequestDialog';
+PageMoveRequestDialog.static.title = new OO.ui.deferMsg('pmr-module-title');
+PageMoveRequestDialog.static.actions = [{
+	action: 'save',
+	label: new OO.ui.deferMsg('create'),
+	flags: ['primary', 'progressive']
+}, {
+	label: new OO.ui.deferMsg('cancel'),
+	flags: 'safe'
+}];
+PageMoveRequestDialog.prototype.initialize = function() {
+	PageMoveRequestDialog.super.prototype.initialize.apply(this, arguments);
+	var headerTitle = new OO.ui.MessageWidget({
+		type: 'notice',
+		inline: true,
+		label: new OO.ui.deferMsg('pmr-header-title')
+	});
+	var headerTitleDescription = new OO.ui.LabelWidget({
+		label: new OO.ui.deferMsg('pmr-header-description')
+	});
+	var RequestRationale = new OO.ui.FieldsetLayout({
+		label: new OO.ui.deferMsg('rationale'),
+	});
+	RequestRationale.addItems([
+		new OO.ui.FieldLayout(NewPageName = new OO.ui.TextInputWidget({
+			value: '',
+			indicator: 'required',
+		}), {
+			label: new OO.ui.deferMsg('new-name'),
+			help: new OO.ui.deferMsg('pmr-new-page-name-description')
+		}),
+		new OO.ui.FieldLayout(rationaleInput = new OO.ui.MultilineTextInputWidget({
+			placeholder: new OO.ui.deferMsg('pmr-rationale-placeholder'),
+			value: '',
+			indicator: 'required',
+		}), {
 			label: new OO.ui.deferMsg('rationale'),
-		});
-		RequestRationale.addItems([
-			new OO.ui.FieldLayout(NewPageName = new OO.ui.TextInputWidget({
-				value: '',
-				indicator: 'required',
-			}), {
-				label: new OO.ui.deferMsg('new-name'),
-				help: new OO.ui.deferMsg('pmr-new-page-name-description')
-			}),
-			new OO.ui.FieldLayout(rationaleInput = new OO.ui.MultilineTextInputWidget({
-				placeholder: new OO.ui.deferMsg('pmr-rationale-placeholder'),
-				value: '',
-				indicator: 'required',
-			}), {
-				label: new OO.ui.deferMsg('rationale'),
-				align: 'inline',
-			}),
-		]);
-		this.content = new OO.ui.PanelLayout({
-			padded: true,
-			expanded: false
-		});
-		this.content.$element.append(headerTitle.$element, '<br>', headerTitleDescription.$element, '<br><br>', RequestRationale.$element, '<br>', rationaleInput.$element);
-		this.$body.append(this.content.$element);
-	};
-	PageMoveRequestDialog.prototype.getActionProcess = function(action) {
-		var dialog = this;
-		if(action) {
-			return new OO.ui.Process(function() {
-				createRequest(NewPageName, rationaleInput);
-				dialog.close({
-					action: action
-				});
+			align: 'inline',
+		}),
+	]);
+	this.content = new OO.ui.PanelLayout({
+		padded: true,
+		expanded: false
+	});
+	this.content.$element.append(headerTitle.$element, '<br>', headerTitleDescription.$element, '<br><br>', RequestRationale.$element, '<br>', rationaleInput.$element);
+	this.$body.append(this.content.$element);
+};
+PageMoveRequestDialog.prototype.getActionProcess = function(action) {
+	var dialog = this;
+	if(action) {
+		return new OO.ui.Process(function() {
+			createRequest(NewPageName, rationaleInput);
+			dialog.close({
+				action: action
 			});
-		}
-		return PageMoveRequestDialog.super.prototype.getActionProcess.call(this, action);
-	};
-	var windowManager = new OO.ui.WindowManager();
-	$(document.body).append(windowManager.$element);
-	var dialog = new PageMoveRequestDialog();
-	windowManager.addWindows([dialog]);
-	windowManager.openWindow(dialog);
-
-	function createRequest(NewPageName, rationaleInput) {
-		api.postWithToken('csrf', {
-			action: 'edit',
-			title: 'Vikipedi:Sayfa taşıma talepleri',
-			appendtext: "\n" + '{{kopyala:Vikipedi:Sayfa taşıma talepleri/Önyükleme-şablon |1= ' + mwConfig.wgPageName.replace(/_/g, " ") + ' |2= ' + NewPageName.value + '|3= ' + rationaleInput.value + ' }}' + "\n",
-			summary: '[[VP:STT|Sayfa taşıma talebi]] oluşturuldu',
-			tags: 'Adiutor',
-			format: 'json'
-		}).done(function() {
-			window.location = '/wiki/Vikipedi:Sayfa taşıma talepleri';
 		});
 	}
-});
+	return PageMoveRequestDialog.super.prototype.getActionProcess.call(this, action);
+};
+var windowManager = new OO.ui.WindowManager();
+$(document.body).append(windowManager.$element);
+var dialog = new PageMoveRequestDialog();
+windowManager.addWindows([dialog]);
+windowManager.openWindow(dialog);
+
+function createRequest(NewPageName, rationaleInput) {
+	api.postWithToken('csrf', {
+		action: 'edit',
+		title: 'Vikipedi:Sayfa taşıma talepleri',
+		appendtext: "\n" + '{{kopyala:Vikipedi:Sayfa taşıma talepleri/Önyükleme-şablon |1= ' + mwConfig.wgPageName.replace(/_/g, " ") + ' |2= ' + NewPageName.value + '|3= ' + rationaleInput.value + ' }}' + "\n",
+		summary: '[[VP:STT|Sayfa taşıma talebi]] oluşturuldu',
+		tags: 'Adiutor',
+		format: 'json'
+	}).done(function() {
+		window.location = '/wiki/Vikipedi:Sayfa taşıma talepleri';
+	});
+}
 /* </nowiki> */
