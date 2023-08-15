@@ -312,5 +312,10 @@ $.when(mw.loader.using(["mediawiki.user", "oojs-ui-core", "oojs-ui-widgets", "oo
 		}
 		return ageDescription;
 	}
+
+	function loadAdiutorScript(scriptName) {
+		var scriptUrl = '//tr.wikipedia.org/w/index.php?action=raw&ctype=text/javascript&title=MediaWiki:Gadget-Adiutor-' + scriptName + '.js';
+		mw.loader.load(scriptUrl);
+	}
 });
 /* </nowiki> */
