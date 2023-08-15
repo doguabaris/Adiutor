@@ -24,6 +24,10 @@ $.ajax({
 		var isAlreadyAdded = adiutorUserOptions.myWorks.some(function(article) {
 			return article.id === newArticleToWorkOnIt.id;
 		});
+		var authorEditcount = response.author_editcount;
+		if(authorEditcount === null) {
+			authorEditcount = 0;
+		}
 		// Define details to buttons
 		var addButtonInfo = {
 			icon: isAlreadyAdded ? 'unFlag' : 'flag',
@@ -64,10 +68,6 @@ $.ajax({
 				text = text.replace(/{\|[^}]+}\|/g, '');
 				var words = text.match(/\b\w+\b/g);
 				var wordCount = words ? words.length : 0;
-				var authorEditcount = response.author_editcount;
-				if(authorEditcount === null) {
-					authorEditcount = 0;
-				}
 				// Define the ArticleInfoDialog class
 				function ArticleInfoDialog(config) {
 					ArticleInfoDialog.super.call(this, config);
