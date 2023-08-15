@@ -1,11 +1,12 @@
-/* 
- * Adiutor: A gadget to assist various user actions
+/*
+ * Adiutor: Adiutor enables versatile editing options and modules to assist a variety of user actions to enhance the Wikipedia editing experience.
  * Author: Vikipolimer
- * About: https://meta.wikimedia.org/wiki/Adiutor
- * Licencing and attribution: Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
+ * Learn more at: https://meta.wikimedia.org/wiki/Adiutor
+ * Licensing and Attribution: Licensed under Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
  * Module: Loader
  */
 /* <nowiki> */
+// Get essential configuration from MediaWiki
 var mwConfig = mw.config.get(["skin", "wgAction", "wgArticleId", "wgPageName", "wgNamespaceNumber", "wgUserName", "wgTitle", "wgUserGroups", "wgUserEditCount", "wgUserRegistration", "wgRelevantUserName", "wgCanonicalNamespace"]);
 var api = new mw.Api();
 var adiutorUserOptions = mw.user.options.get('userjs-adiutor');

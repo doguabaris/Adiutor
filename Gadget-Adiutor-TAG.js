@@ -1,11 +1,10 @@
 /*
- * Adiutor: A gadget to assist various user actions
+ * Adiutor: Adiutor enables versatile editing options and modules to assist a variety of user actions to enhance the Wikipedia editing experience.
  * Author: Vikipolimer
- * About: https://meta.wikimedia.org/wiki/Adiutor
- * Licensing and attribution: Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
- * Module: Article Tag
+ * Learn more at: https://meta.wikimedia.org/wiki/Adiutor
+ * Licensing and Attribution: Licensed under Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
+ * Module: Article Tagging
  */
-// Wait for required libraries and DOM to be ready
 /* <nowiki> */
 // Get essential configuration from MediaWiki
 var mwConfig = mw.config.get(["skin", "wgAction", "wgArticleId", "wgPageName", "wgNamespaceNumber", "wgTitle", "wgUserGroups", "wgUserName", "wgUserEditCount", "wgUserRegistration", "wgCanonicalNamespace"]);
@@ -226,7 +225,7 @@ PageTaggingDialog.prototype.initialize = function() {
 			return option.label.toLowerCase().includes(searchText);
 		});
 		Tags.setOptions(filteredOptions);
-		// Seçilen etiketleri işaretle
+		// Check selected tags
 		Tags.setValue(selectedTags);
 	});
 	var Tags = new OO.ui.CheckboxMultiselectInputWidget({
@@ -235,7 +234,7 @@ PageTaggingDialog.prototype.initialize = function() {
 	});
 	Tags.$element.on('click', function() {
 		if(Tags.getValue().length > 1) {
-			selectedTags = Tags.getValue(); // Seçilen etiketleri diziye atayın
+			selectedTags = Tags.getValue(); // Assign selected tags to array
 			saltTags = String(Tags.getValue());
 			preparedTags = "{{Çoklu sorun|" + "\n" + saltTags.split(",").join("\n") + "\n" + "}}" + "\n";
 			console.log(preparedTags);
@@ -285,8 +284,8 @@ function tagPage(preparedTags) {
 	var templateRegex = /\{\{Kategorisiz\|tarih=[^\}]+\}\}/;
 	var removedContent = "";
 	var modifiedTags = preparedTags.replace(templateRegex, function(match) {
-		removedContent = match; // Silinen içeriği kaydet
-		return ""; // Şablonu preparedTags içinden kaldır
+		removedContent = match;
+		return "";
 	});
 	if(removedContent) {
 		editParams.prependtext = modifiedTags.split(',').join('\n') + '\n';

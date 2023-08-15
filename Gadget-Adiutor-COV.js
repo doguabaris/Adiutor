@@ -1,12 +1,11 @@
 /*
- * Adiutor: A gadget to assist various user actions
+ * Adiutor: Adiutor enables versatile editing options and modules to assist a variety of user actions to enhance the Wikipedia editing experience.
  * Author: Vikipolimer
- * About: https://meta.wikimedia.org/wiki/Adiutor
- * Licensing and attribution: Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
+ * Learn more at: https://meta.wikimedia.org/wiki/Adiutor
+ * Licensing and Attribution: Licensed under Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
  * Module: Copyright checker
  * Earwig's Copyvio Detector (https://copyvios.toolforge.org/) api used in MediaWiki:Gadget-Adiutor-COV.js
  */
-// Wait for required libraries and DOM to be ready
 /* <nowiki> */
 // Get essential configuration from MediaWiki
 var mwConfig = mw.config.get(["skin", "wgAction", "wgArticleId", "wgPageName", "wgNamespaceNumber", "wgTitle", "wgUserGroups", "wgUserName", "wgUserEditCount", "wgUserRegistration", "wgCanonicalNamespace"]);
