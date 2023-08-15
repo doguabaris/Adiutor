@@ -15,9 +15,8 @@ var newArticleToWorkOnIt = {
 	"id": mwConfig.wgArticleId,
 	"name": mwConfig.wgPageName
 };
-const wikiUrl = "https://xtools.wmcloud.org/api/page/articleinfo/tr.wikipedia.org/" + mwConfig.wgPageName + "?format=json";
 const xhr = new XMLHttpRequest();
-xhr.open("GET", wikiUrl, true);
+xhr.open("GET", "https://xtools.wmcloud.org/api/page/articleinfo/tr.wikipedia.org/" + mwConfig.wgPageName + "?format=json", true);
 xhr.onreadystatechange = function() {
 	if(xhr.readyState === 4 && xhr.status === 200) {
 		const response = JSON.parse(xhr.responseText);
@@ -181,7 +180,7 @@ xhr.onreadystatechange = function() {
 	}
 };
 xhr.send();
-// Define functions below as needed
+
 function updateOptions(updatedOptions) {
 	api.postWithEditToken({
 		action: 'globalpreferences',
