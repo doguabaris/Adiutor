@@ -1,182 +1,150 @@
 /*
  * Adiutor: A gadget to assist various user actions
  * Author: Vikipolimer
+ * About: https://meta.wikimedia.org/wiki/Adiutor
  * Licensing and attribution: Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
- * Module: Sample container
+ * Module: Article For Deletion
  */
 // Wait for required libraries and DOM to be ready
 /* <nowiki> */
 $.when(mw.loader.using(["mediawiki.user", "oojs-ui-core", "oojs-ui-widgets", "oojs-ui-windows"]), $.ready).then(function() {
 	// Get essential configuration from MediaWiki
-	var mwConfig = mw.config.get(["skin", "wgAction", "wgRevisionId", "wgArticleId", "wgPageName", "wgNamespaceNumber", "wgTitle", "wgUserGroups", "wgUserName", "wgUserEditCount", "wgUserRegistration", "wgRelevantUserName", "wgCanonicalNamespace"]);
+	var mwConfig = mw.config.get(["skin", "wgAction", "wgArticleId", "wgPageName", "wgNamespaceNumber", "wgTitle", "wgUserGroups", "wgUserName", "wgUserEditCount", "wgUserRegistration", "wgCanonicalNamespace"]);
 	var api = new mw.Api();
-	var adiutorUserOptions;
-	// Fetch user-specific Adiutor options
-	api.get({
-		action: "query",
-		format: "json",
-		prop: "revisions",
-		titles: "User:" + mwConfig.wgUserName + "/Adiutor-options.json",
-		rvprop: "content"
-	}).done(function(data) {
-		var pageId = Object.keys(data.query.pages)[0];
-		if(pageId !== "-1") {
-			var jsonContent = data.query.pages[pageId].revisions[0]["*"];
-			try {
-				adiutorUserOptions = JSON.parse(jsonContent);
-				// Fetch gadget messages for UI language
-				api.get({
-					action: 'query',
-					prop: 'revisions',
-					titles: 'MediaWiki:Gadget-Adiutor-i18.json',
-					rvprop: 'content',
-					formatversion: 2
-				}).done(function(data) {
-					var messages = JSON.parse(data.query.pages[0].revisions[0].content);
-					var lang = mw.config.get('wgUserLanguage') || 'en';
-					mw.messages.set(messages[lang] || messages.en);
-					// Continue actions here
-					var NominatedPreviously;
-					var nextNominationNumber = 0;
+	var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor'));
+	var NominatedPreviously;
+	var nextNominationNumber = 0;
 
-					function ArticleForDeletionDialog(config) {
-						ArticleForDeletionDialog.super.call(this, config);
+	function ArticleForDeletionDialog(config) {
+		ArticleForDeletionDialog.super.call(this, config);
+	}
+	OO.inheritClass(ArticleForDeletionDialog, OO.ui.ProcessDialog);
+	ArticleForDeletionDialog.static.name = 'ArticleForDeletionDialog';
+	ArticleForDeletionDialog.static.title = new OO.ui.deferMsg('afd-module-title');
+	ArticleForDeletionDialog.static.actions = [{
+		action: 'save',
+		label: new OO.ui.deferMsg('continue'),
+		flags: ['primary', 'progressive']
+	}, {
+		label: new OO.ui.deferMsg('cancel'),
+		flags: 'safe'
+	}];
+	ArticleForDeletionDialog.prototype.initialize = function() {
+		ArticleForDeletionDialog.super.prototype.initialize.apply(this, arguments);
+		var headerTitle = new OO.ui.MessageWidget({
+			type: 'notice',
+			inline: true,
+			label: new OO.ui.deferMsg('afd-header-title')
+		});
+		var headerTitleDescription = new OO.ui.LabelWidget({
+			label: new OO.ui.deferMsg('afd-header-description')
+		});
+		AfDOptions = new OO.ui.FieldsetLayout({});
+		AfDOptions.addItems([
+			rationaleField = new OO.ui.FieldLayout(rationaleInput = new OO.ui.MultilineTextInputWidget({
+				placeholder: new OO.ui.deferMsg('afd-rationale-placeholder'),
+				indicator: 'required',
+				value: '',
+			}), {
+				label: new OO.ui.deferMsg('rationale'),
+				align: 'inline',
+			}),
+			new OO.ui.FieldLayout(new OO.ui.ToggleSwitchWidget({
+				value: adiutorUserOptions.articlesForDeletion.afdSendMessageToCreator,
+				data: 'informCreator'
+			}), {
+				label: new OO.ui.deferMsg('afd-inform-creator'),
+				align: 'top',
+				help: new OO.ui.deferMsg('afd-inform-creator-help'),
+			}),
+		]);
+		this.content = new OO.ui.PanelLayout({
+			padded: true,
+			expanded: false,
+			isDraggable: true
+		});
+		this.content.$element.append(headerTitle.$element, '<br>', headerTitleDescription.$element, '<br>', AfDOptions.$element);
+		this.$body.append(this.content.$element);
+	};
+	ArticleForDeletionDialog.prototype.getActionProcess = function(action) {
+		var dialog = this;
+		if(action) {
+			return new OO.ui.Process(function() {
+				var AFDTempalte;
+				var ActionOptions = [];
+				AfDOptions.items.forEach(function(Option) {
+					if(Option.fieldWidget.selected) {
+						ActionOptions.push({
+							value: Option.fieldWidget.value,
+							selected: Option.fieldWidget.selected
+						});
 					}
-					OO.inheritClass(ArticleForDeletionDialog, OO.ui.ProcessDialog);
-					ArticleForDeletionDialog.static.name = 'ArticleForDeletionDialog';
-					ArticleForDeletionDialog.static.title = new OO.ui.deferMsg('afd-module-title');
-					ArticleForDeletionDialog.static.actions = [{
-						action: 'save',
-						label: new OO.ui.deferMsg('continue'),
-						flags: ['primary', 'progressive']
-					}, {
-						label: new OO.ui.deferMsg('cancel'),
-						flags: 'safe'
-					}];
-					ArticleForDeletionDialog.prototype.initialize = function() {
-						ArticleForDeletionDialog.super.prototype.initialize.apply(this, arguments);
-						var headerTitle = new OO.ui.MessageWidget({
-							type: 'notice',
-							inline: true,
-							label: new OO.ui.deferMsg('afd-header-title')
+					if(Option.fieldWidget.value === true) {
+						ActionOptions.push({
+							value: Option.fieldWidget.value,
+							data: Option.fieldWidget.data
 						});
-						var headerTitleDescription = new OO.ui.LabelWidget({
-							label: new OO.ui.deferMsg('afd-header-description')
-						});
-						AfDOptions = new OO.ui.FieldsetLayout({});
-						AfDOptions.addItems([
-							rationaleField = new OO.ui.FieldLayout(rationaleInput = new OO.ui.MultilineTextInputWidget({
-								placeholder: new OO.ui.deferMsg('afd-rationale-placeholder'),
-								indicator: 'required',
-								value: '',
-							}), {
-								label: new OO.ui.deferMsg('rationale'),
-								align: 'inline',
-							}),
-							new OO.ui.FieldLayout(new OO.ui.ToggleSwitchWidget({
-								value: adiutorUserOptions.articlesForDeletion.afdSendMessageToCreator,
-								data: 'informCreator'
-							}), {
-								label: new OO.ui.deferMsg('afd-inform-creator'),
-								align: 'top',
-								help: new OO.ui.deferMsg('afd-inform-creator-help'),
-							}),
-						]);
-						this.content = new OO.ui.PanelLayout({
-							padded: true,
-							expanded: false,
-							isDraggable: true
-						});
-						this.content.$element.append(headerTitle.$element, '<br>', headerTitleDescription.$element, '<br>', AfDOptions.$element);
-						this.$body.append(this.content.$element);
-					};
-					ArticleForDeletionDialog.prototype.getActionProcess = function(action) {
-						var dialog = this;
-						if(action) {
-							return new OO.ui.Process(function() {
-								var AFDTempalte;
-								var ActionOptions = [];
-								AfDOptions.items.forEach(function(Option) {
-									if(Option.fieldWidget.selected) {
-										ActionOptions.push({
-											value: Option.fieldWidget.value,
-											selected: Option.fieldWidget.selected
-										});
-									}
-									if(Option.fieldWidget.value === true) {
-										ActionOptions.push({
-											value: Option.fieldWidget.value,
-											data: Option.fieldWidget.data
-										});
-									}
-								});
-								ActionOptions.forEach(function(Option) {
-									if(Option.data === "informCreator") {
-										console.log(Option.data);
-										getCreator().then(function(data) {
-											var Author = data.query.pages[mw.config.get('wgArticleId')].revisions[0].user;
-											if(!mw.util.isIPAddress(Author)) {
-												var message = '{{kopyala:sas bildirim|' + mwConfig.wgPageName.replace(/_/g, " ") + '}}';
-												sendMessageToAuthor(Author, message);
-											}
-										});
-									}
-								});
-								checkPreviousNominations("Vikipedi:Silinmeye aday sayfalar/" + mwConfig.wgPageName).then(function(data) {
-									if(data.query.pages["-1"]) {
-										var nomCount = 0;
-										console.log(nomCount);
-										NominatedPreviously = false;
-										AFDTempalte = '{{sas|yardım=hayır}}';
-										putAfDTemplate(AFDTempalte, nextNominationNumber);
-									} else {
-										Rec(2);
-									}
-								});
-
-								function Rec(nomCount) {
-									checkPreviousNominations("Vikipedi:Silinmeye aday sayfalar/" + mwConfig.wgPageName + ' ' + '(' + nomCount + '._aday_gösterme)').then(function(data) {
-										if(!data.query.pages["-1"]) {
-											Rec(nomCount + 1);
-										} else {
-											nextNominationNumber = nomCount++;
-											console.log(nextNominationNumber);
-											if(nextNominationNumber > 1) {
-												AFDTempalte = '{{sas|' + nextNominationNumber + '|' + mwConfig.wgPageName.replace(/_/g, " ") + '|yardım=hayır}}';
-											} else {
-												AFDTempalte = '{{sas|yardım=hayır}}';
-											}
-											console.log(AFDTempalte);
-											putAfDTemplate(AFDTempalte, nextNominationNumber);
-										}
-									});
-								}
-								dialog.close({
-									action: action
-								});
-								showProgress();
-							});
-						}
-						return ArticleForDeletionDialog.super.prototype.getActionProcess.call(this, action);
-					};
-					var windowManager = new OO.ui.WindowManager();
-					$(document.body).append(windowManager.$element);
-					var dialog = new ArticleForDeletionDialog({
-						size: 'large',
-						classes: ['afd-helper-window'],
-						isDraggable: true
-					});
-					windowManager.addWindows([dialog]);
-					windowManager.openWindow(dialog);
+					}
 				});
-			} catch(error) {
-				// Handle JSON parsing error if needed
-			}
+				ActionOptions.forEach(function(Option) {
+					if(Option.data === "informCreator") {
+						console.log(Option.data);
+						getCreator().then(function(data) {
+							var Author = data.query.pages[mw.config.get('wgArticleId')].revisions[0].user;
+							if(!mw.util.isIPAddress(Author)) {
+								var message = '{{kopyala:sas bildirim|' + mwConfig.wgPageName.replace(/_/g, " ") + '}}';
+								sendMessageToAuthor(Author, message);
+							}
+						});
+					}
+				});
+				checkPreviousNominations("Vikipedi:Silinmeye aday sayfalar/" + mwConfig.wgPageName).then(function(data) {
+					if(data.query.pages["-1"]) {
+						var nomCount = 0;
+						console.log(nomCount);
+						NominatedPreviously = false;
+						AFDTempalte = '{{sas|yardım=hayır}}';
+						putAfDTemplate(AFDTempalte, nextNominationNumber);
+					} else {
+						Rec(2);
+					}
+				});
+
+				function Rec(nomCount) {
+					checkPreviousNominations("Vikipedi:Silinmeye aday sayfalar/" + mwConfig.wgPageName + ' ' + '(' + nomCount + '._aday_gösterme)').then(function(data) {
+						if(!data.query.pages["-1"]) {
+							Rec(nomCount + 1);
+						} else {
+							nextNominationNumber = nomCount++;
+							console.log(nextNominationNumber);
+							if(nextNominationNumber > 1) {
+								AFDTempalte = '{{sas|' + nextNominationNumber + '|' + mwConfig.wgPageName.replace(/_/g, " ") + '|yardım=hayır}}';
+							} else {
+								AFDTempalte = '{{sas|yardım=hayır}}';
+							}
+							console.log(AFDTempalte);
+							putAfDTemplate(AFDTempalte, nextNominationNumber);
+						}
+					});
+				}
+				dialog.close({
+					action: action
+				});
+				showProgress();
+			});
 		}
-	}).fail(function(error) {
-		// Handle API request failure if needed
+		return ArticleForDeletionDialog.super.prototype.getActionProcess.call(this, action);
+	};
+	var windowManager = new OO.ui.WindowManager();
+	$(document.body).append(windowManager.$element);
+	var dialog = new ArticleForDeletionDialog({
+		size: 'large',
+		classes: ['afd-helper-window'],
+		isDraggable: true
 	});
-	// Define functions below as needed
+	windowManager.addWindows([dialog]);
+	windowManager.openWindow(dialog);
+
 	function putAfDTemplate(AFDTempalte, nextNominationNumber) {
 		var PageAFDX;
 		if(nextNominationNumber > 1) {

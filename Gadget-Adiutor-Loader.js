@@ -10,18 +10,6 @@ $.when(mw.loader.using(["mediawiki.user", "oojs-ui-core", "oojs-ui-widgets", "oo
 	var mwConfig = mw.config.get(["skin", "wgAction", "wgArticleId", "wgPageName", "wgNamespaceNumber", "wgUserName", "wgTitle", "wgUserGroups", "wgUserEditCount", "wgUserRegistration", "wgRelevantUserName", "wgCanonicalNamespace"]);
 	var api = new mw.Api();
 	var adiutorUserOptions = mw.user.options.get('userjs-adiutor');
-	//Call the packages to be pre-loaded here
-	if(mwConfig.wgNamespaceNumber === 2) {
-		loadAdiutorScript('UPW');
-	}
-	if(mwConfig.wgNamespaceNumber === 0) {
-		loadAdiutorScript('INF');
-	}
-	if(mwConfig.wgNamespaceNumber === 4) {
-		if(mwConfig.wgPageName.includes('Silinmeye_aday_sayfalar')) {
-			loadAdiutorScript('AFD-Helper');
-		}
-	}
 	var DefaultMenuItems = [];
 	switch(mwConfig.wgNamespaceNumber) {
 		case -1:
@@ -120,7 +108,7 @@ $.when(mw.loader.using(["mediawiki.user", "oojs-ui-core", "oojs-ui-widgets", "oo
 				}));
 			}
 			var adiutorMenu = new OO.ui.ButtonMenuSelectWidget({
-				icon: 'flag',
+				icon: 'ellipsis',
 				invisibleLabel: true,
 				framed: false,
 				title: 'More options',
@@ -167,29 +155,166 @@ $.when(mw.loader.using(["mediawiki.user", "oojs-ui-core", "oojs-ui-widgets", "oo
 				}
 			});
 			if(!mwConfig.wgPageName.includes('Anasayfa')) {
-				$('.page-actions-menu__list').append(adiutorMenu.$element);
+				//Call the packages to be pre-loaded here
+				if(mwConfig.wgNamespaceNumber === 2) {
+					loadAdiutorScript('UPW');
+				}
+				if(mwConfig.wgNamespaceNumber === 0) {
+					loadAdiutorScript('INF');
+				}
+				if(mwConfig.wgNamespaceNumber === 4) {
+					if(mwConfig.wgPageName.includes('Silinmeye_aday_sayfalar')) {
+						loadAdiutorScript('AFD-Helper');
+					}
+				}
+				switch(mwConfig.skin) {
+					case 'vector':
+						$('.mw-portlet-cactions').parent().append(adiutorMenu.$element);
+						$('.vector-menu-content-list').append($('<li>').append(AdiutorDashboardIcon.$element));
+						break;
+					case 'vector-2022':
+						$('.vector-collapsible').append(adiutorMenu.$element);
+						break;
+					case 'monobook':
+						$('.mw-indicators').append(adiutorMenu.$element);
+						break;
+					case 'timeless':
+						$('.mw-portlet-body').append(adiutorMenu.$element);
+						break;
+					case 'minerva':
+						$('.page-actions-menu__list').append(adiutorMenu.$element);
+						break;
+				}
+				break;
 			}
 	}
+	var AdiutorDashboardIcon = new OO.ui.ToggleButtonWidget({
+		icon: 'infoFilled',
+		label: 'pin',
+		invisibleLabel: true,
+		framed: false
+	});
+	AdiutorDashboardIcon.on('click', function() {
+		// Load the Adiutor Dashboard script using the loadAdiutorScript function
+		loadAdiutorScript('DAS');
+	});
+	var adiutorIconContainer = $('<li>').append(AdiutorDashboardIcon.$element);
+	switch(mwConfig.skin) {
+		case 'vector':
+			$('#pt-watchlist-2').after(adiutorIconContainer);
+			break;
+		case 'vector-2022':
+			$('#pt-watchlist-2').after(adiutorIconContainer);
+			break;
+		case 'monobook':
+			//
+			break;
+		case 'timeless':
+			//
+			break;
+		case 'minerva':
+			//
+			break;
+	}
+	var myWorks = new OO.ui.FieldsetLayout({});
+	var items = [];
+	if(adiutorUserOptions.myWorks) {
+		adiutorUserOptions.myWorks.forEach(function(article) {
+			var articleTitle = article.name; // Get the name property from each article
+			var articleWidget = new OO.ui.MessageWidget({
+				type: 'article',
+				icon: 'article',
+				label: articleTitle,
+				showClose: true,
+				classes: ['adiutor-work-list-item'],
+			});
+			// Add a click event handler to open the link with the articleTitle
+			articleWidget.$element.on('click', function() {
+				window.location.href = '/wiki/' + encodeURIComponent(articleTitle);
+			});
+			items.push(articleWidget);
+		});
+	} else {
+		var imageWidget = new OO.ui.MessageWidget({
+			type: 'notice',
+			icon: 'none',
+			inline: true,
+			label: new OO.ui.HtmlSnippet('<img width="70px" src="https://upload.wikimedia.org/wikipedia/commons/1/19/Under_construction_blue.svg" alt="">'),
+			classes: ['articles-worked-on-popup-search-box-enmpy-image'],
+		});
+		var textWidget = new OO.ui.LabelWidget({
+			label: mw.msg('aticle-work-list-description')
+		});
+		var horizontalLayout = new OO.ui.HorizontalLayout({
+			items: [imageWidget, textWidget],
+			classes: ['articles-worked-on-popup-search-box-enmpy'],
+		});
+		items.push(horizontalLayout);
+	}
+	// Add the items to the myWorks fieldset
+	myWorks.addItems(items);
+	var TopSearch = new OO.ui.TextInputWidget({
+		placeholder: mw.msg('search-article'), // Add placeholder text
+		classes: ['articles-worked-on-popup-search-box'],
+	});
+	if(adiutorUserOptions.myWorks) {
+		myWorks.addItems(TopSearch);
+	}
+	myWorks.addItems(items);
+	var FooterButtonsGroup = new OO.ui.ButtonGroupWidget({
+		items: [
+			new OO.ui.ButtonWidget({
+				label: mw.msg('clear'),
+				framed: true,
+				href: '/wiki/',
+				icon: 'clear',
+				classes: ['articles-worked-on-popup-footer-button']
+			}),
+			new OO.ui.ButtonWidget({
+				label: mw.msg('edit'),
+				framed: true,
+				href: '/wiki/',
+				icon: 'edit',
+				classes: ['articles-worked-on-popup-footer-button']
+			}),
+		],
+		classes: ['articles-worked-on-popup-footer-buttons']
+	});
+	var WorkListButton = new OO.ui.PopupButtonWidget({
+		icon: 'flag',
+		framed: false,
+		label: mw.msg('works'),
+		invisibleLabel: true,
+		classes: ['articles-worked-on-button'],
+		popup: {
+			head: true,
+			label: mw.msg('my-works'),
+			icon: 'flag',
+			$content: $(myWorks.$element),
+			padded: false,
+			align: 'center',
+			autoFlip: true,
+			$footer: (FooterButtonsGroup.$element),
+			classes: ['articles-worked-on-popup'],
+		}
+	});
+	// Listen to search input and show/hide articles
+	TopSearch.on('change', function() {
+		var query = TopSearch.getValue().toLowerCase();
+		items.forEach(function(articleWidget) {
+			var articleLabel = articleWidget.getLabel().toLowerCase();
+			if(articleLabel.includes(query)) {
+				articleWidget.toggle(true);
+			} else {
+				articleWidget.toggle(false);
+			}
+		});
+	});
+	$('#pt-watchlist-2').after($('<li>').append(WorkListButton.$element));
 
 	function loadAdiutorScript(scriptName) {
 		var scriptUrl = '//tr.wikipedia.org/w/index.php?action=raw&ctype=text/javascript&title=MediaWiki:Gadget-Adiutor-' + scriptName + '.js';
 		mw.loader.load(scriptUrl);
-	}
-
-	function checkOptions(title) {
-		return api.get({
-			action: 'query',
-			prop: 'revisions',
-			rvlimit: 1,
-			rvprop: ['user'],
-			rvdir: 'newer',
-			titles: title,
-		});
-	}
-
-	function changeUserStatus(status) {
-		adiutorUserOptions.status.mySatus = status.mySatus;
-		updateOptions(adiutorUserOptions);
 	}
 
 	function checkMentor(UserId) {
@@ -204,16 +329,6 @@ $.when(mw.loader.using(["mediawiki.user", "oojs-ui-core", "oojs-ui-widgets", "oo
 				loadAdiutorScript('CMR');
 			}
 		});
-	}
-
-	function updateOptions(updatedOptions) {
-		api.postWithEditToken({
-			action: 'globalpreferences',
-			format: 'json',
-			optionname: 'userjs-adiutor',
-			optionvalue: JSON.stringify(updatedOptions),
-			formatversion: 2,
-		}).done(function() {});
 	}
 });
 /* </nowiki> */
