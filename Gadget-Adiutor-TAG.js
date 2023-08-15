@@ -29,205 +29,231 @@ PageTaggingDialog.static.actions = [{
 }];
 PageTaggingDialog.prototype.initialize = function() {
 	PageTaggingDialog.super.prototype.initialize.apply(this, arguments);
-	const monthNames = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
-	const dateToday = new Date();
-	const markDate = monthNames[dateToday.getMonth()] + ' ' + dateToday.getFullYear();
 	var headerTitle = new OO.ui.MessageWidget({
 		type: 'notice',
 		inline: true,
 		label: new OO.ui.deferMsg('tag-header-description')
 	});
+	// Calculate the current month and year for tagging
+	const monthNames = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
+	const dateToday = new Date();
+	const markDate = monthNames[dateToday.getMonth()] + ' ' + dateToday.getFullYear();
+	var tagOptions = [{
+		data: '{{Doğruluk|tarih=' + markDate + '}}',
+		label: 'Aldatmaca'
+	}, {
+		data: '{{Yazım yanlışları|tarih=' + markDate + '}}',
+		label: 'Anlatım bozuklukları'
+	}, {
+		data: '{{Üslup|tarih=' + markDate + '}}',
+		label: 'Ansiklopedik üslup yok'
+	}, {
+		data: '{{Aşırı alıntı|tarih=' + markDate + '}}',
+		label: 'Aşırı alıntı'
+	}, {
+		data: '{{Daralt|tarih=' + markDate + '}}',
+		label: 'Aşırı bölüm başlığı'
+	}, {
+		data: '{{Çok uzun|tarih=' + markDate + '}}',
+		label: 'Aşırı uzun madde'
+	}, {
+		data: '{{Kurgu-gerçek|tarih=' + markDate + '}}',
+		label: 'Ayrıştırılamayan kurgu ve gerçeklik'
+	}, {
+		data: '{{Çıkmaz sokak|tarih=' + markDate + '}}',
+		label: 'Az veya hiç iç bağlantı'
+	}, {
+		data: '{{Başlık böl|tarih=' + markDate + '}}',
+		label: 'Başlık böl'
+	}, {
+		data: '{{Yerellikten kurtar|tarih=' + markDate + '}}',
+		label: 'Belirli bir kısmın bakış açısı'
+	}, {
+		data: '{{Birleştir|tarih=' + markDate + '}}',
+		label: 'Benzer madde'
+	}, {
+		data: '{{Çalışma|tarih=' + markDate + '}}',
+		label: 'Çalışma var'
+	}, {
+		data: '{{Deneme benzeri|tarih=' + markDate + '}}',
+		label: 'Deneme'
+	}, {
+		data: '{{Özgün araştırma|tarih=' + markDate + '}}',
+		label: 'Doğrulanamayan yorumsal katkı'
+	}, {
+		data: '{{Düzenle|tarih=' + markDate + '}}',
+		label: 'Düzenle',
+	}, {
+		data: '{{Düzyazı|tarih=' + markDate + '}}',
+		label: 'Düzyazı olmalı'
+	}, {
+		data: '{{Ek kaynak gerekli|tarih=' + markDate + '}}',
+		label: 'Ek kaynaklar gerekli'
+	}, {
+		data: '{{Eksik|tarih=' + markDate + '}}',
+		label: 'Eksik belirli konu'
+	}, {
+		data: '{{Evrenselleştir|tarih=' + markDate + '}}',
+		label: 'Evrensel bakış açısı yok'
+	}, {
+		data: '{{Geçmiş birleştir|tarih=' + markDate + '}}',
+		label: 'Geçmiş birleştirilmeli'
+	}, {
+		data: '{{Giriş çok kısa|tarih=' + markDate + '}}',
+		label: 'Giriş çok kısa'
+	}, {
+		data: '{{Giriş çok uzun|tarih=' + markDate + '}}',
+		label: 'Giriş çok uzun'
+	}, {
+		data: '{{Giriş yok|tarih=' + markDate + '}}',
+		label: 'Giriş yok'
+	}, {
+		data: '{{Güncel|tarih=' + markDate + '}}',
+		label: 'Güncel olay'
+	}, {
+		data: '{{Güncel kişi|tarih=' + markDate + '}}',
+		label: 'Güncel olaya dahil kişi'
+	}, {
+		data: '{{Güncelle|tarih=' + markDate + '}}',
+		label: 'Güncelleme gerek'
+	}, {
+		data: '{{Anakaynaklar|tarih=' + markDate + '}}',
+		label: 'Güvenilir kaynak yok'
+	}, {
+		data: '{{Kafa karıştırıcı|tarih=' + markDate + '}}',
+		label: 'Kafa karıştırıcı içerik'
+	}, {
+		data: '{{Kategorisiz|tarih=' + markDate + '}}',
+		label: 'Kategorisiz'
+	}, {
+		data: '{{Kayda değerlik|tarih=' + markDate + '}}',
+		label: 'Kayda değerlik'
+	}, {
+		data: '{{Dipnotsuz|tarih=' + markDate + '}}',
+		label: 'Kaynağı belirsiz bilgi'
+	}, {
+		data: '{{Üçüncül kaynak|tarih=' + markDate + '}}',
+		label: 'Kaynağın aşırı kullanımı'
+	}, {
+		data: '{{Kaynaksız|tarih=' + markDate + '}}',
+		label: 'Kaynak içermiyor'
+	}, {
+		data: '{{Kılavuz gibi|tarih=' + markDate + '}}',
+		label: 'Kılavuz gibi'
+	}, {
+		data: '{{Kötü çeviri|tarih=' + markDate + '}}',
+		label: 'Kötü çeviri'
+	}, {
+		data: '{{Madde adı|tarih=' + markDate + '}}',
+		label: 'Madde adı'
+	}, {
+		data: '{{Öksüz|tarih=' + markDate + '}}',
+		label: 'Maddeye bağlantı yok'
+	}, {
+		data: '{{Otobiyografi|tarih=' + markDate + '}}',
+		label: 'Otobiyografi'
+	}, {
+		data: '{{Kaynakları düzenle|tarih=' + markDate + '}}',
+		label: 'Önerilmeyen biçimde kaynaklandırılmış'
+	}, {
+		data: '{{Temizle-spam|tarih=' + markDate + '}}',
+		label: 'Reklam'
+	}, {
+		data: '{{Reklam-madde|tarih=' + markDate + '}}',
+		label: 'Reklam dili'
+	}, {
+		data: '{{Metrik|tarih=' + markDate + '}}',
+		label: 'SI Olmayan'
+	}, {
+		data: '{{Tartışmalı|tarih=' + markDate + '}}',
+		label: 'Süren tartışma'
+	}, {
+		data: '{{Şahsen yayımlanmış|tarih=' + markDate + '}}',
+		label: 'Şahsi kaynaklar'
+	}, {
+		data: '{{Taraflı|tarih=' + markDate + '}}',
+		label: 'Taraflı olabilir'
+	}, {
+		data: '{{Tek kaynak|tarih=' + markDate + '}}',
+		label: 'Tek kaynağa dayalı'
+	}, {
+		data: '{{Teknik|tarih=' + markDate + '}}',
+		label: 'Teknik yazılmış'
+	}, {
+		data: '{{Kopyala yapıştır|tarih=' + markDate + '}}',
+		label: 'Telif ihlali'
+	}, {
+		data: '{{Dil genişlet|tarih=' + markDate + '}}',
+		label: 'Tercüme edilebilir'
+	}, {
+		data: '{{Türkçe değil|tarih=' + markDate + '}}',
+		label: 'Türkçe olmayan içerik'
+	}, {
+		data: '{{Dış bağlantı|tarih=' + markDate + '}}',
+		label: 'uygunsuz dış bağlantı'
+	}, {
+		data: '{{Kırmızı bağlantı temizleme|tarih=' + markDate + '}}',
+		label: 'Uygunsuz kırmızı bağlantı'
+	}, {
+		data: '{{Uzman|tarih=' + markDate + '}}',
+		label: 'Uzman gereksinimi'
+	}, {
+		data: '{{Ücretli olabilir|tarih=' + markDate + '}}',
+		label: 'Ücretli olabilir'
+	}, {
+		data: '{{Yalın URL temizle|tarih=' + markDate + '}}',
+		label: 'Yalın URL kullanımı'
+	}, {
+		data: '{{Yeniden yaz|tarih=' + markDate + '}}',
+		label: 'Yeniden yaz'
+	}, {
+		data: '{{Yersiz önem verme|tarih=' + markDate + '}}',
+		label: 'Yersiz önem'
+	}];
+	// Create a search input field
+	var searchInput = new OO.ui.TextInputWidget({
+		placeholder: 'Etiket ara...'
+	});
+	// Create a search input field
+	searchInput = new OO.ui.TextInputWidget({
+		placeholder: 'Etiket ara...'
+	});
+	var selectedTags = [];
+	// Filter the tag options based on search input
+	searchInput.on('change', function() {
+		var searchText = searchInput.getValue().toLowerCase();
+		var filteredOptions = tagOptions.filter(function(option) {
+			return option.label.toLowerCase().includes(searchText);
+		});
+		Tags.setOptions(filteredOptions);
+		// Seçilen etiketleri işaretle
+		Tags.setValue(selectedTags);
+	});
 	var Tags = new OO.ui.CheckboxMultiselectInputWidget({
-		options: [{
-			data: '{{Doğruluk|tarih=' + markDate + '}}',
-			label: 'Aldatmaca'
-		}, {
-			data: '{{Yazım yanlışları|tarih=' + markDate + '}}',
-			label: 'Anlatım bozuklukları'
-		}, {
-			data: '{{Üslup|tarih=' + markDate + '}}',
-			label: 'Ansiklopedik üslup yok'
-		}, {
-			data: '{{Aşırı alıntı|tarih=' + markDate + '}}',
-			label: 'Aşırı alıntı'
-		}, {
-			data: '{{Daralt|tarih=' + markDate + '}}',
-			label: 'Aşırı bölüm başlığı'
-		}, {
-			data: '{{Çok uzun|tarih=' + markDate + '}}',
-			label: 'Aşırı uzun madde'
-		}, {
-			data: '{{Kurgu-gerçek|tarih=' + markDate + '}}',
-			label: 'Ayrıştırılamayan kurgu ve gerçeklik'
-		}, {
-			data: '{{Çıkmaz sokak|tarih=' + markDate + '}}',
-			label: 'Az veya hiç iç bağlantı'
-		}, {
-			data: '{{Başlık böl|tarih=' + markDate + '}}',
-			label: 'Başlık böl'
-		}, {
-			data: '{{Yerellikten kurtar|tarih=' + markDate + '}}',
-			label: 'Belirli bir kısmın bakış açısı'
-		}, {
-			data: '{{Birleştir|tarih=' + markDate + '}}',
-			label: 'Benzer madde'
-		}, {
-			data: '{{Çalışma|tarih=' + markDate + '}}',
-			label: 'Çalışma var'
-		}, {
-			data: '{{Deneme benzeri|tarih=' + markDate + '}}',
-			label: 'Deneme'
-		}, {
-			data: '{{Özgün araştırma|tarih=' + markDate + '}}',
-			label: 'Doğrulanamayan yorumsal katkı'
-		}, {
-			data: '{{Düzenle|tarih=' + markDate + '}}',
-			label: 'Düzenle',
-		}, {
-			data: '{{Düzyazı|tarih=' + markDate + '}}',
-			label: 'Düzyazı olmalı'
-		}, {
-			data: '{{Ek kaynak gerekli|tarih=' + markDate + '}}',
-			label: 'Ek kaynaklar gerekli'
-		}, {
-			data: '{{Eksik|tarih=' + markDate + '}}',
-			label: 'Eksik belirli konu'
-		}, {
-			data: '{{Evrenselleştir|tarih=' + markDate + '}}',
-			label: 'Evrensel bakış açısı yok'
-		}, {
-			data: '{{Geçmiş birleştir|tarih=' + markDate + '}}',
-			label: 'Geçmiş birleştirilmeli'
-		}, {
-			data: '{{Giriş çok kısa|tarih=' + markDate + '}}',
-			label: 'Giriş çok kısa'
-		}, {
-			data: '{{Giriş çok uzun|tarih=' + markDate + '}}',
-			label: 'Giriş çok uzun'
-		}, {
-			data: '{{Giriş yok|tarih=' + markDate + '}}',
-			label: 'Giriş yok'
-		}, {
-			data: '{{Güncel|tarih=' + markDate + '}}',
-			label: 'Güncel olay'
-		}, {
-			data: '{{Güncel kişi|tarih=' + markDate + '}}',
-			label: 'Güncel olaya dahil kişi'
-		}, {
-			data: '{{Güncelle|tarih=' + markDate + '}}',
-			label: 'Güncelleme gerek'
-		}, {
-			data: '{{Anakaynaklar|tarih=' + markDate + '}}',
-			label: 'Güvenilir kaynak yok'
-		}, {
-			data: '{{Kafa karıştırıcı|tarih=' + markDate + '}}',
-			label: 'Kafa karıştırıcı içerik'
-		}, {
-			data: '{{Kategorisiz|tarih=' + markDate + '}}',
-			label: 'Kategorisiz'
-		}, {
-			data: '{{Kayda değerlik|tarih=' + markDate + '}}',
-			label: 'Kayda değerlik'
-		}, {
-			data: '{{Dipnotsuz|tarih=' + markDate + '}}',
-			label: 'Kaynağı belirsiz bilgi'
-		}, {
-			data: '{{Üçüncül kaynak|tarih=' + markDate + '}}',
-			label: 'Kaynağın aşırı kullanımı'
-		}, {
-			data: '{{Kaynaksız|tarih=' + markDate + '}}',
-			label: 'Kaynak içermiyor'
-		}, {
-			data: '{{Kılavuz gibi|tarih=' + markDate + '}}',
-			label: 'Kılavuz gibi'
-		}, {
-			data: '{{Kötü çeviri|tarih=' + markDate + '}}',
-			label: 'Kötü çeviri'
-		}, {
-			data: '{{Madde adı|tarih=' + markDate + '}}',
-			label: 'Madde adı'
-		}, {
-			data: '{{Öksüz|tarih=' + markDate + '}}',
-			label: 'Maddeye bağlantı yok'
-		}, {
-			data: '{{Otobiyografi|tarih=' + markDate + '}}',
-			label: 'Otobiyografi'
-		}, {
-			data: '{{Kaynakları düzenle|tarih=' + markDate + '}}',
-			label: 'Önerilmeyen biçimde kaynaklandırılmış'
-		}, {
-			data: '{{Temizle-spam|tarih=' + markDate + '}}',
-			label: 'Reklam'
-		}, {
-			data: '{{Reklam-madde|tarih=' + markDate + '}}',
-			label: 'Reklam dili'
-		}, {
-			data: '{{Metrik|tarih=' + markDate + '}}',
-			label: 'SI Olmayan'
-		}, {
-			data: '{{Tartışmalı|tarih=' + markDate + '}}',
-			label: 'Süren tartışma'
-		}, {
-			data: '{{Şahsen yayımlanmış|tarih=' + markDate + '}}',
-			label: 'Şahsi kaynaklar'
-		}, {
-			data: '{{Taraflı|tarih=' + markDate + '}}',
-			label: 'Taraflı olabilir'
-		}, {
-			data: '{{Tek kaynak|tarih=' + markDate + '}}',
-			label: 'Tek kaynağa dayalı'
-		}, {
-			data: '{{Teknik|tarih=' + markDate + '}}',
-			label: 'Teknik yazılmış'
-		}, {
-			data: '{{Kopyala yapıştır|tarih=' + markDate + '}}',
-			label: 'Telif ihlali'
-		}, {
-			data: '{{Dil genişlet|tarih=' + markDate + '}}',
-			label: 'Tercüme edilebilir'
-		}, {
-			data: '{{Türkçe değil|tarih=' + markDate + '}}',
-			label: 'Türkçe olmayan içerik'
-		}, {
-			data: '{{Dış bağlantı|tarih=' + markDate + '}}',
-			label: 'uygunsuz dış bağlantı'
-		}, {
-			data: '{{Kırmızı bağlantı temizleme|tarih=' + markDate + '}}',
-			label: 'Uygunsuz kırmızı bağlantı'
-		}, {
-			data: '{{Uzman|tarih=' + markDate + '}}',
-			label: 'Uzman gereksinimi'
-		}, {
-			data: '{{Ücretli olabilir|tarih=' + markDate + '}}',
-			label: 'Ücretli olabilir'
-		}, {
-			data: '{{Yalın URL temizle|tarih=' + markDate + '}}',
-			label: 'Yalın URL kullanımı'
-		}, {
-			data: '{{Yeniden yaz|tarih=' + markDate + '}}',
-			label: 'Yeniden yaz'
-		}, {
-			data: '{{Yersiz önem verme|tarih=' + markDate + '}}',
-			label: 'Yersiz önem'
-		}, ],
-		classes: ['adiutor-tag-list-container'],
+		options: tagOptions, // Use the tagOptions array here
+		classes: ['adiutor-tag-list-container']
 	});
 	Tags.$element.on('click', function() {
 		if(Tags.getValue().length > 1) {
+			selectedTags = Tags.getValue(); // Seçilen etiketleri diziye atayın
 			saltTags = String(Tags.getValue());
 			preparedTags = "{{Çoklu sorun|" + "\n" + saltTags.split(",").join("\n") + "\n" + "}}" + "\n";
 			console.log(preparedTags);
 		} else {
+			selectedTags = Tags.getValue();
 			saltTags = String(Tags.getValue());
 			preparedTags = saltTags.split(",").join("\n") + "\n";
 			console.log(preparedTags);
 		}
 	});
+	Tags.$element.on('click', function() {
+		if(Tags.getValue().length > 1) {} else {}
+	});
 	this.content = new OO.ui.PanelLayout({
 		padded: true,
 		expanded: false,
 	});
-	this.content.$element.append(headerTitle.$element, '<br><hr><br>', Tags.$element);
+	this.content.$element.append(headerTitle.$element, '<br><hr><br>', searchInput.$element, '<br>', Tags.$element);
 	this.$body.append(this.content.$element);
 };
 PageTaggingDialog.prototype.getActionProcess = function(action) {
@@ -249,14 +275,26 @@ windowManager.addWindows([dialog]);
 windowManager.openWindow(dialog);
 
 function tagPage(preparedTags) {
-	api.postWithToken('csrf', {
+	var editParams = {
 		action: 'edit',
 		title: mwConfig.wgPageName,
-		prependtext: preparedTags.split(',').join('\n') + '\n',
 		summary: 'Sayfa etiketlendi',
 		tags: 'Adiutor',
 		format: 'json'
-	}).done(function() {
+	};
+	var templateRegex = /\{\{Kategorisiz\|tarih=[^\}]+\}\}/;
+	var removedContent = "";
+	var modifiedTags = preparedTags.replace(templateRegex, function(match) {
+		removedContent = match; // Silinen içeriği kaydet
+		return ""; // Şablonu preparedTags içinden kaldır
+	});
+	if(removedContent) {
+		editParams.prependtext = modifiedTags.split(',').join('\n') + '\n';
+		editParams.appendtext = '\n' + removedContent;
+	} else {
+		editParams.prependtext = modifiedTags.split(',').join('\n') + '\n';
+	}
+	api.postWithToken('csrf', editParams).done(function() {
 		location.reload();
 	});
 }
