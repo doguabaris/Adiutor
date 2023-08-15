@@ -64,6 +64,10 @@ $.ajax({
 				text = text.replace(/{\|[^}]+}\|/g, '');
 				var words = text.match(/\b\w+\b/g);
 				var wordCount = words ? words.length : 0;
+				var authorEditcount = response.author_editcount;
+				if(authorEditcount === null) {
+					authorEditcount = 0;
+				}
 				// Define the ArticleInfoDialog class
 				function ArticleInfoDialog(config) {
 					ArticleInfoDialog.super.call(this, config);
@@ -146,7 +150,7 @@ $.ajax({
 				windowManager.openWindow(dialog);
 			});
 		});
-		var AboutArticleContent = $('<div>').append(mw.msg('page-info-tip', response.created_at, response.author, response.author_editcount, response.revisions, response.editors, response.pageviews, response.pageviews_offset)).append(AboutArticleActionButtons.$element);
+		var AboutArticleContent = $('<div>').append(mw.msg('page-info-tip', response.created_at, response.author, authorEditcount, response.revisions, response.editors, response.pageviews, response.pageviews_offset)).append(AboutArticleActionButtons.$element);
 		var AboutArticle = new OO.ui.MessageWidget({
 			type: 'notice',
 			icon: 'article',
