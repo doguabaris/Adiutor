@@ -12,6 +12,8 @@ var api = new mw.Api();
 var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor'));
 var duration;
 var reason;
+var blockReason;
+var additionalReason = '';
 var preventAccountCreationValue,
 	preventEmailSendingValue,
 	preventEditOwnTalkPageValue;
@@ -169,12 +171,12 @@ UserBlockDialog.prototype.initialize = function() {
 	// Add a listener for the change event of durationDropdown
 	durationDropdown.on('change', function(value) {
 		duration = value;
-		console.log(value);
 	});
-	// Add a listener for the change event of reasonDropdown
 	reasonDropdown.on('change', function(value) {
-		reason = value;
-		console.log(value);
+		blockReason = value;
+	});
+	reasonInput.on('change', function() {
+		additionalReason = ' | Ek gerekçe: ' + reasonInput.value;
 	});
 	// Create a fieldset to group the widgets
 	var fieldset = new OO.ui.FieldsetLayout({});
@@ -268,7 +270,7 @@ UserBlockDialog.prototype.getActionProcess = function(action) {
 				alert(mw.message('you-can-not-block-yourself').text());
 				BlockingDialog.close();
 			} else {
-				if(!duration || !reason) {
+				if(!duration || !blockReason) {
 					OO.inheritClass(CheckDurationAndRationaleMessageDialog, OO.ui.MessageDialog);
 					CheckDurationAndRationaleMessageDialog.static.name = 'myCheckDurationAndRationaleMessageDialog';
 					CheckDurationAndRationaleMessageDialog.static.actions = [{
@@ -308,7 +310,7 @@ UserBlockDialog.prototype.getActionProcess = function(action) {
 						action: 'block',
 						user: username,
 						expiry: duration,
-						reason: reason,
+						reason: blockReason + additionalReason,
 						nocreate: preventAccountCreationValue,
 						allowusertalk: preventEditOwnTalkPageValue,
 						noemail: preventEmailSendingValue,
