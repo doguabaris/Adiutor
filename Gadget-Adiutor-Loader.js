@@ -9,7 +9,8 @@
 // Get essential configuration from MediaWiki
 var mwConfig = mw.config.get(["skin", "wgAction", "wgArticleId", "wgPageName", "wgNamespaceNumber", "wgUserName", "wgTitle", "wgUserGroups", "wgUserEditCount", "wgUserRegistration", "wgRelevantUserName", "wgCanonicalNamespace"]);
 var api = new mw.Api();
-var adiutorUserOptions = mw.user.options.get('userjs-adiutor');
+var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor'));
+console.log(adiutorUserOptions);
 var DefaultMenuItems = [];
 switch(mwConfig.wgNamespaceNumber) {
 	case -1:
@@ -218,7 +219,7 @@ switch(mwConfig.skin) {
 }
 var myWorks = new OO.ui.FieldsetLayout({});
 var items = [];
-if(adiutorUserOptions.myWorks) {
+if (adiutorUserOptions.myWorks.length > 0) {
 	adiutorUserOptions.myWorks.forEach(function(article) {
 		var articleTitle = article.name; // Get the name property from each article
 		var articleWidget = new OO.ui.MessageWidget({

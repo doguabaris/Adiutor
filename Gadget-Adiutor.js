@@ -11,7 +11,7 @@ $.when(mw.loader.using(["mediawiki.user", "oojs-ui-core", "oojs-ui-widgets", "oo
 	// Initialize the MediaWiki API
 	var api = new mw.Api();
 	// Get user options related to the adiutor gadget
-	var adiutorUserOptions = mw.user.options.get('userjs-adiutor');
+	var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor'));
 	// Get user interface translations for the adiutor gadget
 	var adiutorUserInterfaceTranslations = mw.user.options.get('userjs-adiutor-i18-translations');
 	if(adiutorUserInterfaceTranslations) {

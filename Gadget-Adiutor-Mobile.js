@@ -9,7 +9,7 @@
 // Get essential configuration from MediaWiki
 var mwConfig = mw.config.get(["skin", "wgAction", "wgArticleId", "wgPageName", "wgNamespaceNumber", "wgUserName", "wgTitle", "wgUserGroups", "wgUserEditCount", "wgUserRegistration", "wgRelevantUserName", "wgCanonicalNamespace"]);
 var api = new mw.Api();
-var adiutorUserOptions = mw.user.options.get('userjs-adiutor');
+var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor'));
 //Call the packages to be pre-loaded here
 if(mwConfig.wgNamespaceNumber === 2) {
 	loadAdiutorScript('UPW');
