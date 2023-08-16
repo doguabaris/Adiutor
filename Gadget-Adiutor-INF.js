@@ -21,9 +21,6 @@ $.ajax({
 	method: "GET",
 	dataType: "json",
 	success: function(response) {
-		if ( !adiutorUserOptions || !adiutorUserOptions.myWorks) {
-			return;
-		}
 		var isAlreadyAdded = adiutorUserOptions.myWorks.some(function(article) {
 			return article.id === newArticleToWorkOnIt.id;
 		});
@@ -162,9 +159,6 @@ $.ajax({
 			classes: ['adiutor-aricle-detail-box']
 		});
 		AboutArticleActionButtons.items[0].on('click', function() {
-			if ( !adiutorUserOptions || !adiutorUserOptions.myWorks) {
-				return;
-			}
 			if(isAlreadyAdded) {
 				var indexToRemove = adiutorUserOptions.myWorks.findIndex(function(article) {
 					return article.id === newArticleToWorkOnIt.id;
