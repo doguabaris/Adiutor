@@ -318,7 +318,15 @@ UserBlockDialog.prototype.getActionProcess = function(action) {
 					};
 					// Send API request
 					api.postWithToken('csrf', params).done(function(result) {
-						alert('Engellendi');
+						var userBlockedMessageDialog = new OO.ui.MessageDialog();
+						// Create and append a window manager.
+						var windowManager = new OO.ui.WindowManager();
+						$(document.body).append(windowManager.$element);
+						windowManager.addWindows([userBlockedMessageDialog]);
+						// Open the window.
+						windowManager.openWindow(userBlockedMessageDialog, {
+							title: 'Kullanıcı engellendi',
+						});
 					}).fail(function(error) {
 						alert('Block failed. Error: ' + error);
 					});
