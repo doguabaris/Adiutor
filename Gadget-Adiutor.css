@@ -1,9 +1,7 @@
-/*
- * Adiutor: Adiutor enables versatile editing options and modules to assist a variety of user actions to enhance the Wikipedia editing experience.
+/* 
+ * Adiutor: A gadget to assist various user actions
  * Author: Vikipolimer
- * Learn more at: https://meta.wikimedia.org/wiki/Adiutor
- * Licensing and Attribution: Licensed under Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
- * Module: CSS
+ * Licencing and attribution: Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
  */
  .adiutor-user-dashboard-container {
 	padding: 65px;
@@ -424,12 +422,14 @@ ul.cov-url-list {
 }
 
 .adiutor-aricle-detail-box {
-    margin-top: 0px;
+	margin-top: -0.7px;
     padding: 10px !important;
     display: list-item;
     height: 50px;
     padding-top: 15px !important;
     font-size: 12px;
+    background-color: #f7f8f9 !important;
+    border-color: #a2a9b1 !important;
 }
 
 span.adiutor-aricle-detail-box-button-group {
