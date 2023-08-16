@@ -52,6 +52,7 @@ switch(mwConfig.wgNamespaceNumber) {
 			}));
 		}
 		if(mwConfig.wgPageName.includes('Özel:Katkılar') || mwConfig.wgNamespaceNumber === 2 || mwConfig.wgNamespaceNumber === 3 && !mwConfig.wgPageName.includes(mwConfig.wgUserName)) {
+			// Add common buttons
 			DefaultMenuItems.push(new OO.ui.MenuOptionWidget({
 				icon: 'cancel',
 				data: 'report',
@@ -63,6 +64,15 @@ switch(mwConfig.wgNamespaceNumber) {
 				label: new OO.ui.deferMsg('warn'),
 				classes: ['adiutor-top-user-menu-end'],
 			}));
+			// If the user is a sysop, add the block button as well
+			if(mwConfig.wgUserGroups.includes('sysop')) {
+				DefaultMenuItems.push(new OO.ui.MenuOptionWidget({
+					icon: 'block',
+					data: 'block',
+					label: new OO.ui.deferMsg('block'),
+					classes: ['adiutor-top-user-menu-end'],
+				}));
+			}
 		}
 		if(!mwConfig.wgPageName.includes('Özel:Katkılar')) {
 			DefaultMenuItems.push(new OO.ui.MenuOptionWidget({
@@ -133,6 +143,7 @@ switch(mwConfig.wgNamespaceNumber) {
 				6: 'OPT',
 				7: 'INF',
 				'report': 'AIV',
+				'block': 'UBM',
 				'warn': 'WRN',
 				'rdr': 'RDR',
 				'pmr': 'PMR',
@@ -219,7 +230,7 @@ switch(mwConfig.skin) {
 }
 var myWorks = new OO.ui.FieldsetLayout({});
 var items = [];
-if (adiutorUserOptions.myWorks.length > 0) {
+if(adiutorUserOptions.myWorks.length > 0) {
 	adiutorUserOptions.myWorks.forEach(function(article) {
 		var articleTitle = article.name; // Get the name property from each article
 		var articleWidget = new OO.ui.MessageWidget({
