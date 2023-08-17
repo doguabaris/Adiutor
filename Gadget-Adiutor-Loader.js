@@ -171,7 +171,7 @@ switch(mwConfig.wgNamespaceNumber) {
 			if(mwConfig.wgNamespaceNumber === 2) {
 				loadAdiutorScript('UPW');
 			}
-			if(mwConfig.wgNamespaceNumber === 0) {
+			if (mwConfig.wgNamespaceNumber === 0 && window.location.href.indexOf("action=") === -1) {
 				loadAdiutorScript('INF');
 			}
 			if(mwConfig.wgNamespaceNumber === 4) {
