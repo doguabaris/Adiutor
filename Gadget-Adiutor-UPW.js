@@ -186,11 +186,15 @@ if((mw.config.get("wgNamespaceNumber") === 2 || mw.config.get("wgNamespaceNumber
 					label: new OO.ui.HtmlSnippet('<strong class="username">' + user.name + '</strong><br>' + statusText),
 					classes: ['adiutor-user-page-username-details']
 				});
+				var lastEditedText = "Kullancıı henüz değişiklik yapmamış";
+				if(lastEditedDate) {
+					lastEditedText = "Son değişikliğini <a href='" + mw.config.get("wgArticlePath").replace("$1", "Special:Contributions/" + encodeURIComponent(user.name)) + "'>" + formatRelativeDateDifference(lastEditedDate) + " önce yaptı</a>";
+				}
 				var userPageChangeCount = new OO.ui.MessageWidget({
 					type: 'notice',
 					icon: 'edit',
 					inline: false,
-					label: new OO.ui.HtmlSnippet('<strong>' + formatQuantityWithCommas(editCount) + ' değişikliğe sahip' + '</strong><br>Son değişikliğini <a href="' + mw.config.get("wgArticlePath").replace("$1", "Special:Contributions/" + encodeURIComponent(user.name)) + '">' + formatRelativeDateDifference(lastEditedDate) + ' önce yaptı</a>.'),
+					label: new OO.ui.HtmlSnippet('<strong>' + formatQuantityWithCommas(editCount) + ' değişikliğe sahip' + '</strong><br>' + lastEditedText + '.'),
 					classes: ['adiutor-user-page-change-count']
 				});
 				var UnBlockButton = new OO.ui.ButtonWidget({

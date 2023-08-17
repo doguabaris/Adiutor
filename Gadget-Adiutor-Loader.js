@@ -269,7 +269,7 @@ var TopSearch = new OO.ui.TextInputWidget({
 	placeholder: mw.msg('search-article'), // Add placeholder text
 	classes: ['articles-worked-on-popup-search-box'],
 });
-if(adiutorUserOptions.myWorks) {
+if(adiutorUserOptions.myWorks.length) {
 	myWorks.addItems(TopSearch);
 }
 myWorks.addItems(items);
