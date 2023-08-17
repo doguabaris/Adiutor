@@ -548,10 +548,20 @@ function afdCloserDialog(purePageName, timeExpired) {
 			],
 			classes: ['afd-result-select-btn-group']
 		});
-		buttonSelect.on('select', (function() {
-			localStorage.setItem("selectedCloseDesicion", buttonSelect.findSelectedItem().data);
+		buttonSelect.on('select', function() {
+			var selectedOptionData = buttonSelect.findSelectedItem().data;
+		
+			// Check if the selected option requires showing titleInput
+			if (selectedOptionData === 5 || selectedOptionData === 6 || selectedOptionData === 7) {
+				titleInput.$element.show(); // Show the titleInput element
+			} else {
+				titleInput.$element.hide(); // Hide the titleInput element
+			}
+		
+			// Store the selected option's data in localStorage
+			localStorage.setItem("selectedCloseDesicion", selectedOptionData);
 			console.log(localStorage.getItem("selectedCloseDesicion"));
-		}));
+		});
 		var actionOption = new OO.ui.FieldLayout(new OO.ui.CheckboxInputWidget({
 			selected: true
 		}), {
@@ -560,8 +570,6 @@ function afdCloserDialog(purePageName, timeExpired) {
 			help: 'Eğer bu seçeneği aktif ederseniz silme ile sonuçlanan aday sayfalar otomatik olarak silinecektir.\u200e'
 		});
 		titleInput = new OO.ui.TextInputWidget({
-			'showMissing': false,
-			'align': screenLeft,
 			'label': 'Birleştirilecek madde:',
 		});
 		this.panel1 = new OO.ui.PanelLayout({
@@ -577,6 +585,7 @@ function afdCloserDialog(purePageName, timeExpired) {
 		this.stackLayout = new OO.ui.StackLayout({
 			items: [this.panel1, this.panel2]
 		});
+		titleInput.$element.hide();
 		this.$body.append(this.stackLayout.$element);
 	};
 	closerDialog.prototype.getSetupProcess = function(data) {
