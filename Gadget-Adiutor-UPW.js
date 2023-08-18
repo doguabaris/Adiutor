@@ -186,7 +186,7 @@ if((mw.config.get("wgNamespaceNumber") === 2 || mw.config.get("wgNamespaceNumber
 					label: new OO.ui.HtmlSnippet('<strong class="username">' + user.name + '</strong><br>' + statusText),
 					classes: ['adiutor-user-page-username-details']
 				});
-				var lastEditedText = "Kullancıı henüz değişiklik yapmamış";
+				var lastEditedText = "Son değişiklik bilgisi alınamıyor";
 				if(lastEditedDate) {
 					lastEditedText = "Son değişikliğini <a href='" + mw.config.get("wgArticlePath").replace("$1", "Special:Contributions/" + encodeURIComponent(user.name)) + "'>" + formatRelativeDateDifference(lastEditedDate) + " önce yaptı</a>";
 				}
