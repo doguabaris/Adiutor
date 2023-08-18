@@ -27,6 +27,7 @@ $.when(mw.loader.using(["mediawiki.user", "oojs-ui-core", "oojs-ui-widgets", "oo
 		// Define default user options for the adiutor gadget
 		var adiutorUserOptionsDefault = {
 			"myWorks": [],
+			"myCustomSummaries": [],
 			"speedyDeletion": {
 				"csdSendMessageToCreator": true,
 				"csdLogNominatedPages": true,

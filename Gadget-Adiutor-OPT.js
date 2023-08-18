@@ -9,6 +9,9 @@
 // Get essential configuration from MediaWiki
 var api = new mw.Api();
 var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor'));
+if(!adiutorUserOptions.hasOwnProperty('myCustomSummaries')) {
+	adiutorUserOptions.myCustomSummaries = [];
+}
 
 function AdiutorOptionsDialog(config) {
 	AdiutorOptionsDialog.super.call(this, config);
@@ -120,6 +123,14 @@ AdiutorOptionsDialog.prototype.initialize = function() {
 			align: 'inline',
 			label: new OO.ui.deferMsg('show-inline-page-info'),
 			help: new OO.ui.deferMsg('show-inline-page-info-description')
+		}), myCustomSummaries = new OO.ui.FieldLayout(new OO.ui.MultilineTextInputWidget({
+			value: adiutorUserOptions.myCustomSummaries.join('\n'),
+			rows: 5, // Set the number of rows as needed
+			placeholder: 'Sık kullanılan değişiklik özetleri'
+		}), {
+			align: 'inline',
+			label: 'Bu alanda sıkça kullandığınız değişiklik özetlerini ekleyebilirsiniz, değişiklik özetlerinizi alt alta enter yaparak ekleyiniz.',
+			help: 'Bu alanda sıkça kullandığınız değişiklik özetlerini ekleyebilirsiniz, değişiklik özetlerinizi alt alta enter yaparak ekleyiniz.'
 		}),
 	]);
 	this.content.$element.append(AdiutorSettings.$element);
@@ -131,6 +142,7 @@ AdiutorOptionsDialog.prototype.getActionProcess = function(action) {
 		return new OO.ui.Process(function() {
 			UpdatedOptions = {
 				"myWorks": adiutorUserOptions.myWorks,
+				"myCustomSummaries": myCustomSummaries.fieldWidget.getValue().split('\n'),
 				"speedyDeletion": {
 					"csdSendMessageToCreator": csdSendMessageToCreator.fieldWidget.selected,
 					"csdLogNominatedPages": csdLogNominatedPages.fieldWidget.selected,
@@ -155,6 +167,7 @@ AdiutorOptionsDialog.prototype.getActionProcess = function(action) {
 				"inlinePageInfo": inlinePageInfo.fieldWidget.selected
 			};
 			updateOptions(UpdatedOptions);
+			console.log(UpdatedOptions);
 			dialog.close({
 				action: action
 			});

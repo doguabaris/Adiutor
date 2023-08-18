@@ -10,7 +10,6 @@
 var mwConfig = mw.config.get(["skin", "wgAction", "wgArticleId", "wgPageName", "wgNamespaceNumber", "wgUserName", "wgTitle", "wgUserGroups", "wgUserEditCount", "wgUserRegistration", "wgRelevantUserName", "wgCanonicalNamespace"]);
 var api = new mw.Api();
 var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor'));
-console.log(adiutorUserOptions);
 var DefaultMenuItems = [];
 switch(mwConfig.wgNamespaceNumber) {
 	case -1:
@@ -323,6 +322,8 @@ TopSearch.on('change', function() {
 	});
 });
 $('#pt-watchlist-2').after($('<li>').append(WorkListButton.$element));
+
+loadAdiutorScript('SUM');
 
 function loadAdiutorScript(scriptName) {
 	var scriptUrl = '//tr.wikipedia.org/w/index.php?action=raw&ctype=text/javascript&title=MediaWiki:Gadget-Adiutor-' + scriptName + '.js';
