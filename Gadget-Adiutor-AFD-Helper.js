@@ -556,7 +556,7 @@ function afdCloserDialog(purePageName, timeExpired) {
 			} else {
 				titleInput.$element.hide(); // Hide the titleInput element
 			}
-			// Store the selected option's data in localStorage
+			// Store the selected option's data in mw.storage
 			mw.storage.session.set('selectedCloseDesicion', selectedOptionData);
 		});
 		var actionOption = new OO.ui.FieldLayout(new OO.ui.CheckboxInputWidget({

@@ -869,7 +869,7 @@ function AdministratorPageTwoLayout(name, config) {
 								booklet.removePages([pageLayout]); // Sayfa düzenini direkt olarak kaldır
 								// Remove the deleted page from ArticleListforCsd
 								ArticleListforCsd.splice(currentPageIndex, 1);
-								// Update localStorage
+								// Update mw.storage
 								mw.storage.session.set('ArticleListforCsd', JSON.stringify(ArticleListforCsd));
 								// Update the currentPageIndex if it exceeds the new page count
 								currentPageIndex = Math.min(currentPageIndex, pageLayouts.length - 2);
