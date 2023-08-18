@@ -49,7 +49,8 @@ $.when(mw.loader.using(["mediawiki.user", "oojs-ui-core", "oojs-ui-widgets", "oo
 				"showMyStatus": true,
 				"myStatus": "active"
 			},
-			"inlinePageInfo": true
+			"inlinePageInfo": true,
+			"showEditSummaries": true
 		};
 		// Send default user options to the server using API
 		api.postWithEditToken({

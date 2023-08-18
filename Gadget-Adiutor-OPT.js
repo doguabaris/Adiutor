@@ -123,13 +123,21 @@ AdiutorOptionsDialog.prototype.initialize = function() {
 			align: 'inline',
 			label: new OO.ui.deferMsg('show-inline-page-info'),
 			help: new OO.ui.deferMsg('show-inline-page-info-description')
-		}), myCustomSummaries = new OO.ui.FieldLayout(new OO.ui.MultilineTextInputWidget({
-			value: adiutorUserOptions.myCustomSummaries.join('\n'),
-			rows: 5, // Set the number of rows as needed
-			placeholder: 'Sık kullanılan değişiklik özetleri'
+		}),
+		showEditSummaries = new OO.ui.FieldLayout(new OO.ui.CheckboxInputWidget({
+			selected: adiutorUserOptions.showEditSummaries
 		}), {
 			align: 'inline',
-			label: 'Bu alanda sıkça kullandığınız değişiklik özetlerini ekleyebilirsiniz, değişiklik özetlerinizi alt alta enter yaparak ekleyiniz.',
+			label: 'Hazır değişillik özetlerini kullan',
+			help: 'Bu özellik aktif edildiğinde sayfa değişikliklerinde hazır ön tanımlı değişiklik özetlerini kullanabilirsiniz.'
+		}),
+		myCustomSummaries = new OO.ui.FieldLayout(new OO.ui.MultilineTextInputWidget({
+			value: adiutorUserOptions.myCustomSummaries.join('\n'),
+			rows: 5, // Set the number of rows as needed
+			placeholder: 'Bu alanda sıkça kullandığınız değişiklik özetlerini ekleyebilirsiniz, değişiklik özetlerinizi alt alta enter yaparak ekleyiniz.'
+		}), {
+			align: 'inline',
+			label: 'Sık kullanılan değişiklik özetleri',
 			help: 'Bu alanda sıkça kullandığınız değişiklik özetlerini ekleyebilirsiniz, değişiklik özetlerinizi alt alta enter yaparak ekleyiniz.'
 		}),
 	]);
@@ -164,7 +172,8 @@ AdiutorOptionsDialog.prototype.getActionProcess = function(action) {
 					"showMyStatus": showMyStatus.fieldWidget.selected,
 					"myStatus": "active"
 				},
-				"inlinePageInfo": inlinePageInfo.fieldWidget.selected
+				"inlinePageInfo": inlinePageInfo.fieldWidget.selected,
+				"showEditSummaries": showEditSummaries.fieldWidget.selected
 			};
 			updateOptions(UpdatedOptions);
 			console.log(UpdatedOptions);

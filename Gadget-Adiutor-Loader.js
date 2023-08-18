@@ -170,8 +170,10 @@ switch(mwConfig.wgNamespaceNumber) {
 			if(mwConfig.wgNamespaceNumber === 2) {
 				loadAdiutorScript('UPW');
 			}
-			if (mwConfig.wgNamespaceNumber === 0 && window.location.href.indexOf("action=") === -1) {
-				loadAdiutorScript('INF');
+			if(mwConfig.wgNamespaceNumber === 0 && window.location.href.indexOf("action=") === -1) {
+				if(adiutorUserOptions.inlinePageInfo === true) {
+					loadAdiutorScript('INF');
+				}
 			}
 			if(mwConfig.wgNamespaceNumber === 4) {
 				if(mwConfig.wgPageName.includes('Silinmeye_aday_sayfalar')) {
@@ -322,8 +324,9 @@ TopSearch.on('change', function() {
 	});
 });
 $('#pt-watchlist-2').after($('<li>').append(WorkListButton.$element));
-
-loadAdiutorScript('SUM');
+if(adiutorUserOptions.showEditSummaries === true) {
+	loadAdiutorScript('SUM');
+}
 
 function loadAdiutorScript(scriptName) {
 	var scriptUrl = '//tr.wikipedia.org/w/index.php?action=raw&ctype=text/javascript&title=MediaWiki:Gadget-Adiutor-' + scriptName + '.js';

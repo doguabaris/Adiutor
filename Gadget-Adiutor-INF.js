@@ -178,9 +178,7 @@ $.ajax({
 			console.log(adiutorUserOptions);
 			updateOptions(adiutorUserOptions);
 		});
-		if(adiutorUserOptions.inlinePageInfo === true) {
-			$('.vector-body-before-content').prepend(AboutArticle.$element);
-		}
+		$('.vector-body-before-content').prepend(AboutArticle.$element);
 	},
 	error: function(xhr, status, error) {
 		console.error("AJAX error:", error);
