@@ -272,7 +272,7 @@ function afdOpinionDialog(purePageName, adiutorUserOptions) {
 			classes: ['afd-opinion-select-btn-group']
 		});
 		buttonSelect.on('select', (function() {
-			localStorage.setItem("selectedOpinion", buttonSelect.findSelectedItem().data);
+			mw.storage.session.set('selectedOpinion', buttonSelect.findSelectedItem().data);
 			switch(buttonSelect.findSelectedItem().data) {
 				case 1:
 					opinionTemplate = '*{{Kalsın}}';
@@ -550,17 +550,14 @@ function afdCloserDialog(purePageName, timeExpired) {
 		});
 		buttonSelect.on('select', function() {
 			var selectedOptionData = buttonSelect.findSelectedItem().data;
-		
 			// Check if the selected option requires showing titleInput
-			if (selectedOptionData === 5 || selectedOptionData === 6 || selectedOptionData === 7) {
+			if(selectedOptionData === 5 || selectedOptionData === 6 || selectedOptionData === 7) {
 				titleInput.$element.show(); // Show the titleInput element
 			} else {
 				titleInput.$element.hide(); // Hide the titleInput element
 			}
-		
 			// Store the selected option's data in localStorage
-			localStorage.setItem("selectedCloseDesicion", selectedOptionData);
-			console.log(localStorage.getItem("selectedCloseDesicion"));
+			mw.storage.session.set('selectedCloseDesicion', selectedOptionData);
 		});
 		var actionOption = new OO.ui.FieldLayout(new OO.ui.CheckboxInputWidget({
 			selected: true
@@ -631,7 +628,7 @@ function afdCloserDialog(purePageName, timeExpired) {
 function addOpinion(purePageName, rationaleInput, adiutorUserOptions) {
 	var opinion;
 	var opinionText;
-	switch(localStorage.getItem("selectedOpinion")) {
+	switch(mw.storage.session.get('selectedOpinion')) {
 		case '1':
 			opinion = "Kalsın";
 			opinionText = '*{{subst:Kalsın}}' + ' ' + rationaleInput.value + ' ~~~~';
@@ -709,7 +706,7 @@ function addOpinion(purePageName, rationaleInput, adiutorUserOptions) {
 function closeDiscussion(purePageName, rationaleInput) {
 	var result;
 	var closeText;
-	switch(localStorage.getItem("selectedCloseDesicion")) {
+	switch(mw.storage.session.get('selectedCloseDesicion')) {
 		case '1':
 			result = "Kalsın";
 			closeText = '{{subst:SAS Üst|kalsın}}' + ' ' + rationaleInput.value + ' ~~~~';
@@ -756,7 +753,7 @@ function closeDiscussion(purePageName, rationaleInput) {
 		tags: 'Adiutor',
 		format: 'json'
 	}).done(function() {
-		switch(localStorage.getItem("selectedCloseDesicion")) {
+		switch(mw.storage.session.get('selectedCloseDesicion')) {
 			case '1':
 				removeAfdTemplatesFromnominationPage(purePageName);
 				break;
@@ -904,7 +901,7 @@ function addNominationToAfdLogPage() {
 				}, 5000);
 			}
 		}
-		switch(localStorage.getItem("selectedCloseDesicion")) {
+		switch(mw.storage.session.get('selectedCloseDesicion')) {
 			case '5':
 				putMergeTemplate(purePageName);
 				break;

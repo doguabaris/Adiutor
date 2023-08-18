@@ -10,7 +10,7 @@
 var mwConfig = mw.config.get(["skin", "wgAction", "wgArticleId", "wgPageName", "wgNamespaceNumber", "wgTitle", "wgUserGroups", "wgUserName", "wgUserEditCount", "wgUserRegistration", "wgCanonicalNamespace"]);
 var api = new mw.Api();
 var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor'));
-
+var ArticleListforCsd = [];
 function updateArticleList() {
 	var apiUrl = "https://tr.wikipedia.org/w/api.php";
 	var categoryTitle = "Kategori:Hızlı_silinmeye_aday_sayfalar";
@@ -26,7 +26,6 @@ function updateArticleList() {
 		data: params,
 		dataType: "jsonp",
 		success: function(data) {
-			var ArticleListforCsd = [];
 			var pages = data.query.categorymembers;
 			pages.forEach(function(page) {
 				var pageTitle = page.title;
@@ -49,8 +48,7 @@ function updateArticleList() {
 							content: pageContent,
 							namespace: pageNamespace
 						});
-						// localStorage'a veriyi kaydet
-						localStorage.setItem("ArticleListforCsd", JSON.stringify(ArticleListforCsd));
+						mw.storage.session.set('ArticleListforCsd', JSON.stringify(ArticleListforCsd));
 					}
 				});
 			});
@@ -207,7 +205,7 @@ AdministratorPageOneLayout.prototype.setupOutlineItem = function() {
 
 function AdministratorPageTwoLayout(name, config) {
 	AdministratorPageTwoLayout.super.call(this, name, config);
-	var storedData = localStorage.getItem("ArticleListforCsd");
+	var storedData = mw.storage.session.get('ArticleListforCsd');
 	var ArticleListforCsd = JSON.parse(storedData);
 	var currentPageIndex = 0;
 	// PageLayout sınıfı
@@ -872,7 +870,7 @@ function AdministratorPageTwoLayout(name, config) {
 								// Remove the deleted page from ArticleListforCsd
 								ArticleListforCsd.splice(currentPageIndex, 1);
 								// Update localStorage
-								localStorage.setItem("ArticleListforCsd", JSON.stringify(ArticleListforCsd));
+								mw.storage.session.set('ArticleListforCsd', JSON.stringify(ArticleListforCsd));
 								// Update the currentPageIndex if it exceeds the new page count
 								currentPageIndex = Math.min(currentPageIndex, pageLayouts.length - 2);
 							}
