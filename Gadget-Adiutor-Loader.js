@@ -214,10 +214,10 @@ AdiutorDashboardIcon.on('click', function() {
 var adiutorIconContainer = $('<li>').append(AdiutorDashboardIcon.$element);
 switch(mwConfig.skin) {
 	case 'vector':
-		$('#pt-watchlist-2').after(adiutorIconContainer);
+		$('#pt-notifications-notice').after(adiutorIconContainer);
 		break;
 	case 'vector-2022':
-		$('#pt-watchlist-2').after(adiutorIconContainer);
+		$('#pt-notifications-notice').after(adiutorIconContainer);
 		break;
 	case 'monobook':
 		//
@@ -323,7 +323,7 @@ TopSearch.on('change', function() {
 		}
 	});
 });
-$('#pt-watchlist-2').after($('<li>').append(WorkListButton.$element));
+$('#pt-notifications-notice').after($('<li>').append(WorkListButton.$element));
 if(adiutorUserOptions.showEditSummaries === true) {
 	loadAdiutorScript('SUM');
 }

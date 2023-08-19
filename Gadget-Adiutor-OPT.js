@@ -197,6 +197,8 @@ function updateOptions(updatedOptions) {
 		optionname: 'userjs-adiutor',
 		optionvalue: JSON.stringify(updatedOptions),
 		formatversion: 2,
-	}).done(function() {});
+	}).done(function() {
+		mw.notify( 'Adiutor ayarlarınız başarıyla güncellendi.', { title: 'İşlem tamamlandı!', type: 'success' } );
+	});
 }
 /* </nowiki> */

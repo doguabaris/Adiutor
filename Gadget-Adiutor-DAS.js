@@ -11,6 +11,7 @@ var mwConfig = mw.config.get(["skin", "wgAction", "wgArticleId", "wgPageName", "
 var api = new mw.Api();
 var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor'));
 var ArticleListforCsd = [];
+
 function updateArticleList() {
 	var apiUrl = "https://tr.wikipedia.org/w/api.php";
 	var categoryTitle = "Kategori:Hızlı_silinmeye_aday_sayfalar";
@@ -856,15 +857,10 @@ function AdministratorPageTwoLayout(name, config) {
 								format: 'json'
 							}).done(function() {});
 							dialog.close();
-							var notification = new OO.ui.MessageWidget({
-								type: 'success',
-								label: 'Madde başarılı şekilde silindi',
-								classes: ['adiutor-csd-modal-dialog-notification']
+							mw.notify('Madde başarılı şekilde silindi.', {
+								title: 'İşlem tamamlandı!',
+								type: 'success'
 							});
-							$('body').append(notification.$element);
-							setTimeout(function() {
-								$(".adiutor-csd-modal-dialog-notification").hide();
-							}, 3000);
 							if(pageLayouts.length > 1) {
 								booklet.removePages([pageLayout]); // Sayfa düzenini direkt olarak kaldır
 								// Remove the deleted page from ArticleListforCsd

@@ -267,7 +267,7 @@ UserBlockDialog.prototype.getActionProcess = function(action) {
 				CheckDurationAndRationaleMessageDialog.super.call(this, config);
 			}
 			if(mwConfig.wgPageName.includes(mwConfig.wgUserName)) {
-				alert(mw.message('you-can-not-block-yourself').text());
+				mw.notify(mw.message('you-can-not-block-yourself').text(), { title: 'İşlem tamamlandı!', type: 'error' } );
 				BlockingDialog.close();
 			} else {
 				if(!duration || !blockReason) {
@@ -318,17 +318,9 @@ UserBlockDialog.prototype.getActionProcess = function(action) {
 					};
 					// Send API request
 					api.postWithToken('csrf', params).done(function(result) {
-						var userBlockedMessageDialog = new OO.ui.MessageDialog();
-						// Create and append a window manager.
-						var windowManager = new OO.ui.WindowManager();
-						$(document.body).append(windowManager.$element);
-						windowManager.addWindows([userBlockedMessageDialog]);
-						// Open the window.
-						windowManager.openWindow(userBlockedMessageDialog, {
-							title: 'Kullanıcı engellendi',
-						});
+						mw.notify( 'Kullanıcı engellendi.', { title: 'İşlem tamamlandı!', type: 'success' } );
 					}).fail(function(error) {
-						alert('Block failed. Error: ' + error);
+						mw.notify(error, { title: 'İşlem başarısız!', type: 'error' } );
 					});
 					BlockingDialog.close();
 				}

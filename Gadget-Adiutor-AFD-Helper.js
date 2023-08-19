@@ -689,16 +689,7 @@ function addOpinion(purePageName, rationaleInput, adiutorUserOptions) {
 		if(isSubPage) {
 			location.reload();
 		} else {
-			var success_notify = new OO.ui.MessageWidget({
-				type: 'success',
-				label: 'Görüşünüz başarıyla eklendi, sayfayı yenileyiniz.',
-				classes: ['afd-helper-notification'],
-				showClose: true
-			});
-			$('.mw-page-container-inner').append(success_notify.$element);
-			setTimeout(function() {
-				$(".afd-helper-notification").hide('blind', {}, 500);
-			}, 5000);
+			mw.notify( 'Görüşünüz başarıyla eklendi, sayfayı yenileyiniz.', { title: 'İşlem tamamlandı!', type: 'success' } );
 		}
 	});
 }
@@ -873,32 +864,14 @@ function addNominationToAfdLogPage() {
 				if(isSubPage) {
 					location.reload();
 				} else {
-					var success_notify = new OO.ui.MessageWidget({
-						type: 'success',
-						label: 'Adaylık başarıyla sonuçlandırıldı, sayfayı yenileyiniz.',
-						classes: ['afd-helper-notification'],
-						showClose: true
-					});
-					$('.mw-page-container-inner').append(success_notify.$element);
-					setTimeout(function() {
-						$(".afd-helper-notification").hide('blind', {}, 500);
-					}, 5000);
+					mw.notify( 'Adaylık başarıyla sonuçlandırıldı', { title: 'İşlem tamamlandı!', type: 'success' } );
 				}
 			});
 		} else {
 			if(isSubPage) {
 				location.reload();
 			} else {
-				var success_notify = new OO.ui.MessageWidget({
-					type: 'success',
-					label: 'Adaylık başarıyla sonuçlandırıldı, sayfayı yenileyiniz.',
-					classes: ['afd-helper-notification'],
-					showClose: true
-				});
-				$('.mw-page-container-inner').append(success_notify.$element);
-				setTimeout(function() {
-					$(".afd-helper-notification").hide('blind', {}, 500);
-				}, 5000);
+				mw.notify( 'Adaylık başarıyla sonuçlandırıldı', { title: 'İşlem tamamlandı!', type: 'success' } );
 			}
 		}
 		switch(mw.storage.session.get('selectedCloseDesicion')) {
