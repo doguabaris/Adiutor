@@ -7,14 +7,14 @@
  */
 /* <nowiki> */
 // Wait for required modules and document ready state
-$.when(mw.loader.using(["mediawiki.user", "mediawiki.storage", "oojs-ui-core", "oojs-ui-widgets", "oojs-ui-toolbars", "oojs-ui-windows", "oojs-ui.styles.icons-movement", "oojs-ui.styles.icons-editing-core", "oojs-ui.styles.icons-interactions", "oojs-ui.styles.icons-moderation", "oojs-ui.styles.icons-content", "oojs-ui.styles.icons-layout", "oojs-ui.styles.icons-user", "oojs-ui.styles.icons-editing-advanced"]), $.ready).then(function() {
+$.when(mw.loader.using(["mediawiki.user", "mediawiki.storage", "oojs-ui-core", "oojs-ui-widgets", "oojs-ui-toolbars", "oojs-ui-windows", "oojs-ui.styles.icons-movement", "oojs-ui.styles.icons-editing-core", "oojs-ui.styles.icons-interactions", "oojs-ui.styles.icons-moderation", "oojs-ui.styles.icons-content", "oojs-ui.styles.icons-layout", "oojs-ui.styles.icons-user", "oojs-ui.styles.icons-editing-advanced"]), $.ready).then(function () {
 	// Initialize the MediaWiki API
 	var api = new mw.Api();
 	// Get user options related to the adiutor gadget
 	var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor'));
 	// Get user interface translations for the adiutor gadget
 	var adiutorUserInterfaceTranslations = mw.user.options.get('userjs-adiutor-i18-translations');
-	if(adiutorUserInterfaceTranslations) {
+	if (adiutorUserInterfaceTranslations) {
 		// Parse JSON translations into an object
 		var messages = JSON.parse(adiutorUserInterfaceTranslations);
 		// Get user's preferred language or default to 'en'
@@ -23,7 +23,7 @@ $.when(mw.loader.using(["mediawiki.user", "mediawiki.storage", "oojs-ui-core", "
 		mw.messages.set(messages[lang] || messages.en);
 	}
 	// Check if user options and translations are not present
-	if(!adiutorUserOptions) {
+	if (!adiutorUserOptions) {
 		// Define default user options for the adiutor gadget
 		var adiutorUserOptionsDefault = {
 			"myWorks": [],
@@ -59,7 +59,7 @@ $.when(mw.loader.using(["mediawiki.user", "mediawiki.storage", "oojs-ui-core", "
 			optionname: 'userjs-adiutor',
 			optionvalue: JSON.stringify(adiutorUserOptionsDefault),
 			formatversion: 2,
-		}).done(function() {});
+		}).done(function () { });
 		// Retrieve default translation data from a MediaWiki page
 		api.get({
 			action: 'query',
@@ -67,7 +67,7 @@ $.when(mw.loader.using(["mediawiki.user", "mediawiki.storage", "oojs-ui-core", "
 			titles: 'MediaWiki:Gadget-Adiutor-i18.json',
 			rvprop: 'content',
 			formatversion: 2
-		}).done(function(data) {
+		}).done(function (data) {
 			var defaultTranslationData = data.query.pages[0].revisions[0].content;
 			// Send default translation data to the server using API
 			api.postWithEditToken({
@@ -76,9 +76,9 @@ $.when(mw.loader.using(["mediawiki.user", "mediawiki.storage", "oojs-ui-core", "
 				optionname: 'userjs-adiutor-i18-translations',
 				optionvalue: defaultTranslationData,
 				formatversion: 2,
-			}).done(function() {});
+			}).done(function () { });
 		});
 	}
-	mw.loader.load('//tr.wikipedia.org/w/index.php?action=raw&ctype=text/javascript&title=MediaWiki:Gadget-Adiutor-Loader.js');
+	mw.loader.load(mw.util.getUrl('MediaWiki:Gadget-Adiutor-Loader.js', { action: 'raw' }) + '&ctype=text/javascript', 'text/javascript');
 });
 /* </nowiki> */

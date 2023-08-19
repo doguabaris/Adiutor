@@ -23,7 +23,6 @@ var summaryCategories = {
 };
 // Assuming adiutorUserOptions.myCustomSummaries is an array of custom summaries
 summaryCategories.general = summaryCategories.general.concat(adiutorUserOptions.myCustomSummaries);
-console.log(adiutorUserOptions.myCustomSummaries);
 // Function to add options to a dropdown menu
 function addOptionsToDropdown(dropdown, optionTexts) {
 	optionTexts.forEach(function(optionText) {
