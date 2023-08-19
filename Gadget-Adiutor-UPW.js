@@ -16,7 +16,7 @@ var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor'));
 if((mw.config.get("wgNamespaceNumber") === 2 || mw.config.get("wgNamespaceNumber") === 3) && !(/\//.test(mw.config.get("wgTitle")))) {
 	mw.loader.using(['mediawiki.util'], function() {
 		$(function() {
-			var encodedTitle = encodeURIComponent(mw.config.get("wgTitle"));
+			var encodedTitle = mw.util.rawurlencode(mw.config.get("wgTitle"));
 			$.getJSON(mw.config.get("wgScriptPath") + "/api.php?format=json&action=query&list=blocks|users|usercontribs&usprop=blockinfo|editcount|gender|registration|groups&uclimit=1&ucprop=timestamp&ususers=" + encodedTitle + "&ucuser=" + encodedTitle + "&bkusers" + encodedTitle + "&meta=allmessages&amfilter=grouppage").done(function(queryResult) {
 				if(!queryResult.query) {
 					return;
@@ -53,7 +53,7 @@ if((mw.config.get("wgNamespaceNumber") === 2 || mw.config.get("wgNamespaceNumber
 					} else {
 						blockText = "engellenmiş";
 					}
-					statusText += "<a href=\"" + mw.config.get("wgScriptPath") + "/index.php?title=Special:Log&amp;page=" + encodeURIComponent(mw.config.get("wgFormattedNamespaces")[2] + ":" + user.name) + "&amp;type=block\">" + blockText + "</a> ";
+					statusText += "<a href=\"" + mw.config.get("wgScriptPath") + "/index.php?title=Special:Log&amp;page=" + mw.util.rawurlencode(mw.config.get("wgFormattedNamespaces")[2] + ":" + user.name) + "&amp;type=block\">" + blockText + "</a> ";
 				}
 				if(missingUser) {
 					statusText += "kullanıcı adı kayıtlı değil";
@@ -105,10 +105,10 @@ if((mw.config.get("wgNamespaceNumber") === 2 || mw.config.get("wgNamespaceNumber
 						var groupPage = groupPages[groupName] || groupName;
 						if(friendlyGroupNames.hasOwnProperty(groupName)) {
 							if(friendlyGroupNames[groupName]) {
-								friendlyGroups.push("<a href='/wiki/" + encodeURIComponent(groupPage) + "'>" + friendlyGroupNames[groupName] + "</a>");
+								friendlyGroups.push("<a href='/wiki/" + mw.util.rawurlencode(groupPage) + "'>" + friendlyGroupNames[groupName] + "</a>");
 							}
 						} else {
-							friendlyGroups.push("<a href='/wiki/" + encodeURIComponent(groupPage) + "'>" + groupName + "</a>");
+							friendlyGroups.push("<a href='/wiki/" + mw.util.rawurlencode(groupPage) + "'>" + groupName + "</a>");
 						}
 					}
 					switch(friendlyGroups.length) {
@@ -188,7 +188,7 @@ if((mw.config.get("wgNamespaceNumber") === 2 || mw.config.get("wgNamespaceNumber
 				});
 				var lastEditedText = "Son değişiklik bilgisi alınamıyor";
 				if(lastEditedDate) {
-					lastEditedText = "Son değişikliğini <a href='" + mw.config.get("wgArticlePath").replace("$1", "Special:Contributions/" + encodeURIComponent(user.name)) + "'>" + formatRelativeDateDifference(lastEditedDate) + " önce yaptı</a>";
+					lastEditedText = "Son değişikliğini <a href='" + mw.config.get("wgArticlePath").replace("$1", "Special:Contributions/" + mw.util.rawurlencode(user.name)) + "'>" + formatRelativeDateDifference(lastEditedDate) + " önce yaptı</a>";
 				}
 				var userPageChangeCount = new OO.ui.MessageWidget({
 					type: 'notice',
@@ -219,10 +219,10 @@ if((mw.config.get("wgNamespaceNumber") === 2 || mw.config.get("wgNamespaceNumber
 					loadAdiutorScript('WRN');
 				});
 				userContributions.on('click', function() {
-					window.location.href = '/wiki/Özel:Katkılar/' + encodeURIComponent(user.name);
+					window.location.href = '/wiki/Özel:Katkılar/' + mw.util.rawurlencode(user.name);
 				});
 				UnBlockButton.on('click', function() {
-					window.location.href = '/wiki/Özel:EngeliKaldır/' + encodeURIComponent(user.name);
+					window.location.href = '/wiki/Özel:EngeliKaldır/' + mw.util.rawurlencode(user.name);
 				});
 				var userPageActionButtons = new OO.ui.ButtonGroupWidget({
 					items: [warnUserButton, userContributions],
@@ -316,7 +316,8 @@ function formatRelativeDateDifference(oldDate) {
 }
 
 function loadAdiutorScript(scriptName) {
-	var scriptUrl = '//tr.wikipedia.org/w/index.php?action=raw&ctype=text/javascript&title=MediaWiki:Gadget-Adiutor-' + scriptName + '.js';
-	mw.loader.load(scriptUrl);
+	mw.loader.load(mw.util.getUrl('MediaWiki:Gadget-Adiutor-' + scriptName + '.js', {
+		action: 'raw'
+	}) + '&ctype=text/javascript', 'text/javascript');
 }
 /* </nowiki> */

@@ -243,7 +243,7 @@ if(adiutorUserOptions.myWorks.length > 0) {
 		});
 		// Add a click event handler to open the link with the articleTitle
 		articleWidget.$element.on('click', function() {
-			window.location.href = '/wiki/' + encodeURIComponent(articleTitle);
+			window.location.href = '/wiki/' + mw.util.rawurlencode(articleTitle);
 		});
 		items.push(articleWidget);
 	});
@@ -329,8 +329,9 @@ if(adiutorUserOptions.showEditSummaries === true) {
 }
 
 function loadAdiutorScript(scriptName) {
-	var scriptUrl = '//tr.wikipedia.org/w/index.php?action=raw&ctype=text/javascript&title=MediaWiki:Gadget-Adiutor-' + scriptName + '.js';
-	mw.loader.load(scriptUrl);
+	mw.loader.load(mw.util.getUrl('MediaWiki:Gadget-Adiutor-' + scriptName + '.js', {
+		action: 'raw'
+	}) + '&ctype=text/javascript', 'text/javascript');
 }
 
 function checkMentor(UserId) {

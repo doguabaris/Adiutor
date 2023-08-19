@@ -180,8 +180,9 @@ if(adiutorUserOptions) {
 }
 
 function loadAdiutorScript(scriptName) {
-	var scriptUrl = '//tr.wikipedia.org/w/index.php?action=raw&ctype=text/javascript&title=MediaWiki:Gadget-Adiutor-' + scriptName + '.js';
-	mw.loader.load(scriptUrl);
+	mw.loader.load(mw.util.getUrl('MediaWiki:Gadget-Adiutor-' + scriptName + '.js', {
+		action: 'raw'
+	}) + '&ctype=text/javascript', 'text/javascript');
 }
 
 function checkOptions(title) {
