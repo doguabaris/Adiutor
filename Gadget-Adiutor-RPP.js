@@ -60,11 +60,11 @@ PageProtectionDialog.prototype.initialize = function() {
 				items: [
 					new OO.ui.MenuOptionWidget({
 						data: "tam koruma",
-						label: 'Tam koruma'
+						label: mw.msg('full-protection')
 					}),
 					new OO.ui.MenuOptionWidget({
 						data: "yarı koruma",
-						label: 'Yarı koruma'
+						label: mw.msg('semi-protection')
 					}),
 				]
 			},

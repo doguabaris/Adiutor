@@ -92,25 +92,28 @@ function SectionOneLayout(name, config) {
 		items: [myTalkButton, myContributionsButton],
 		continuous: true
 	});
+	var totalEditCount = Object.values(adiutorUserOptions.stats).reduce(function(acc, value) {
+		return acc + value;
+	}, 0);
 	var adiutorDashboardTotalStats = new OO.ui.MessageWidget({
 		type: 'success',
 		icon: 'edit',
 		inline: false,
-		label: new OO.ui.HtmlSnippet('<strong>Toplam değişiklik</strong><br>Adiutor aracılığı ile toplamda <strong>null</strong> değişiklik yaptın.'),
+		label: new OO.ui.HtmlSnippet(mw.msg('adiutor-dashboard-total-edit', totalEditCount)),
 		classes: ['adiutor-user-dashboard-adiutor-total-stats']
 	});
 	var adiutorDashboardCsdStats = new OO.ui.MessageWidget({
 		type: 'notice',
 		icon: 'trash',
 		inline: false,
-		label: new OO.ui.HtmlSnippet('<strong>Hızlı silme talebi</strong><br>Adiutor aracılığı ile <strong>null</strong> hızlı silinmesi için etiketledin.'),
+		label: new OO.ui.HtmlSnippet(mw.msg('adiutor-dashboard-csd-requests', adiutorUserOptions.stats.csdRequests)),
 		classes: ['adiutor-user-dashboard-adiutor-csd-stats']
 	});
 	var adiutorDashboardAfDStats = new OO.ui.MessageWidget({
 		type: 'notice',
 		icon: 'ongoingConversation',
 		inline: false,
-		label: new OO.ui.HtmlSnippet('<strong>SAS süreci</strong><br>Adiutor aracılığı ile <strong>null</strong> sayfayı aday gösterdin.'),
+		label: new OO.ui.HtmlSnippet(mw.msg('adiutor-dashboard-user-warnings', adiutorUserOptions.stats.userWarnings)),
 		classes: ['adiutor-user-dashboard-adiutor-afd-stats']
 	});
 	var adiutorEditStats = new OO.ui.StackLayout({
@@ -719,7 +722,7 @@ function AdministratorPageTwoLayout(name, config) {
 				//    console.log(copyVioInput.value);
 				//});
 				DeletionOptions = new OO.ui.FieldsetLayout({
-					label: 'Diğer Seçenekler'
+					label: mw.msg('other-options')
 				});
 				DeletionOptions.addItems([
 					new OO.ui.FieldLayout(new OO.ui.CheckboxInputWidget({

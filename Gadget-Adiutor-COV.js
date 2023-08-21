@@ -19,7 +19,7 @@ var progressBar = new OO.ui.ProgressBarWidget({
 	progress: false
 });
 windowManager.openWindow(messageDialog, {
-	title: 'Kontrol ediliyor...',
+	title: mw.msg('copyvio-checking'),
 	message: progressBar.$element
 });
 // Fetch data from Copyvio Detector API
@@ -40,45 +40,45 @@ $.get("https://copyvios.toolforge.org/api.json?", {
 	}
 	OO.inheritClass(CopyVioDialog, OO.ui.ProcessDialog);
 	var copVioRatio = (data.best.confidence * 100).toFixed(2);
-	CopyVioDialog.static.title = 'Sonuç ( %' + copVioRatio + ' )';
-	CopyVioDialog.static.name = 'CopyVioDialog';
+	CopyVioDialog.static.title = mw.msg('copyvio-result', copVioRatio),
+		CopyVioDialog.static.name = 'CopyVioDialog';
 	var headerTitle;
 	if(copVioRatio > 45) {
 		headerTitle = new OO.ui.MessageWidget({
 			type: 'error',
 			inline: true,
-			label: 'Muhtemel İhlal: % ' + copVioRatio
+			label: mw.msg('copyvio-potential-violation', copVioRatio),
 		});
 		CopyVioDialog.static.actions = [{
 			action: 'continue',
 			modes: 'edit',
-			label: 'Hızlı Silme Talebi',
+			label: mw.msg('create-speedy-deletion-request'),
 			flags: ['primary', 'destructive']
 		}, {
 			modes: 'edit',
-			label: 'Kapat',
+			label: mw.msg('close'),
 			flags: 'safe'
 		}];
 	} else if(copVioRatio < 10) {
 		headerTitle = new OO.ui.MessageWidget({
 			type: 'success',
 			inline: true,
-			label: 'Muhtemel İhlal: %' + copVioRatio
+			label: mw.msg('copyvio-potential-violation', copVioRatio),
 		});
 		CopyVioDialog.static.actions = [{
 			modes: 'edit',
-			label: 'Kapat',
+			label: mw.msg('close'),
 			flags: 'safe'
 		}];
 	} else {
 		headerTitle = new OO.ui.MessageWidget({
 			type: 'warning',
 			inline: true,
-			label: 'Muhtemel İhlal: %' + copVioRatio + ' | Bu sayfada kritik seviyeye yakın derecede telif hakkı ihlali var, telifli kısımları çıkarabilirsiniz.'
+			label: mw.msg('copyvio-potential-violation-low', copVioRatio),
 		});
 		CopyVioDialog.static.actions = [{
 			modes: 'edit',
-			label: 'Kapat',
+			label: mw.msg('close'),
 			flags: 'safe'
 		}];
 	}
@@ -94,7 +94,7 @@ $.get("https://copyvios.toolforge.org/api.json?", {
 			};
 			if((source.confidence * 100).toFixed(2) > 40) {
 				messageWidgetConfig.type = 'error';
-				messageWidgetConfig.label = new OO.ui.HtmlSnippet('<strong>Yüksek İhlal İçeren Bağlantı (' + (source.confidence * 100).toFixed(2) + ')</strong><br><a target="_blank" href="' + source.url + '">' + source.url + '</a>');
+				messageWidgetConfig.label = new OO.ui.HtmlSnippet('<strong>' + mw.msg('high-violation-link') + ' (' + (source.confidence * 100).toFixed(2) + ')</strong><br><a target="_blank" href="' + source.url + '">' + source.url + '</a>');
 			} else {
 				messageWidgetConfig.type = 'notice';
 			}

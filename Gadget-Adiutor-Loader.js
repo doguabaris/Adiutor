@@ -329,9 +329,7 @@ if(adiutorUserOptions.showEditSummaries === true) {
 }
 
 function loadAdiutorScript(scriptName) {
-	mw.loader.load(mw.util.getUrl('MediaWiki:Gadget-Adiutor-' + scriptName + '.js', {
-		action: 'raw'
-	}) + '&ctype=text/javascript', 'text/javascript');
+	mw.loader.load(mw.util.getUrl('MediaWiki:Gadget-Adiutor-' + scriptName + '.js', {action:'raw'}) + '&ctype=text/javascript', 'text/javascript');
 }
 
 function checkMentor(UserId) {

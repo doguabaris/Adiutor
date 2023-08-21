@@ -128,17 +128,17 @@ AdiutorOptionsDialog.prototype.initialize = function() {
 			selected: adiutorUserOptions.showEditSummaries
 		}), {
 			align: 'inline',
-			label: 'Hazır değişillik özetlerini kullan',
-			help: 'Bu özellik aktif edildiğinde sayfa değişikliklerinde hazır ön tanımlı değişiklik özetlerini kullanabilirsiniz.'
+			label: new OO.ui.deferMsg('use-pre-defined-edit-summaries'),
+			help: new OO.ui.deferMsg('use-pre-defined-edit-summaries-help'),
 		}),
 		myCustomSummaries = new OO.ui.FieldLayout(new OO.ui.MultilineTextInputWidget({
 			value: adiutorUserOptions.myCustomSummaries.join('\n'),
 			rows: 5, // Set the number of rows as needed
-			placeholder: 'Bu alanda sıkça kullandığınız değişiklik özetlerini ekleyebilirsiniz, değişiklik özetlerinizi alt alta enter yaparak ekleyiniz.'
+			placeholder: new OO.ui.deferMsg('frequently-used-edit-summaries-placeholder'),
 		}), {
 			align: 'inline',
-			label: 'Sık kullanılan değişiklik özetleri',
-			help: 'Bu alanda sıkça kullandığınız değişiklik özetlerini ekleyebilirsiniz, değişiklik özetlerinizi alt alta enter yaparak ekleyiniz.'
+			label: new OO.ui.deferMsg('frequently-used-edit-summaries'),
+			help: new OO.ui.deferMsg('frequently-used-edit-summaries-help'),
 		}),
 	]);
 	this.content.$element.append(AdiutorSettings.$element);
@@ -172,6 +172,14 @@ AdiutorOptionsDialog.prototype.getActionProcess = function(action) {
 					"showMyStatus": showMyStatus.fieldWidget.selected,
 					"myStatus": "active"
 				},
+				"stats": {
+					"csdRequests": adiutorUserOptions.stats.csdRequests,
+					"afdRequests": adiutorUserOptions.stats.afdRequests,
+					"prodRequests": adiutorUserOptions.stats.prodRequests,
+					"blockRequests": adiutorUserOptions.stats.blockRequests,
+					"userWarnings": adiutorUserOptions.stats.userWarnings,
+					"pageTags": adiutorUserOptions.stats.pageTags,
+				},
 				"inlinePageInfo": inlinePageInfo.fieldWidget.selected,
 				"showEditSummaries": showEditSummaries.fieldWidget.selected
 			};
@@ -198,7 +206,10 @@ function updateOptions(updatedOptions) {
 		optionvalue: JSON.stringify(updatedOptions),
 		formatversion: 2,
 	}).done(function() {
-		mw.notify( 'Adiutor ayarlarınız başarıyla güncellendi.', { title: 'İşlem tamamlandı!', type: 'success' } );
+		mw.notify(mw.msg('settings-has-been-updated'), {
+			title: 'İşlem tamamlandı!',
+			type: 'success'
+		});
 	});
 }
 /* </nowiki> */

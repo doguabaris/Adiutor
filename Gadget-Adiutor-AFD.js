@@ -286,7 +286,7 @@ function showProgress() {
 	$(document.body).append(windowManager.$element);
 	windowManager.addWindows([processStartedDialog]);
 	windowManager.openWindow(processStartedDialog, {
-		title: 'İşlem gerçekleştiriliyor',
+		title: mw.msg('processing'),
 		message: progressBar.$element
 	});
 }

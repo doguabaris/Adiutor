@@ -536,7 +536,7 @@ api.get({
 		if(revDelCount >= "1") {
 			HeaderBarRevDel = new OO.ui.MessageWidget({
 				type: 'warning',
-				label: new OO.ui.HtmlSnippet('Bu sayfa daha önce ' + revDelCount + ' kez silindi! (<a href="/w/index.php?title=Special:Log&page=' + mwConfig.wgPageName + '&type=delete">Günlük Kaydı</a>)')
+				label: new OO.ui.HtmlSnippet(mw.msg('page-deletion-count-warning', revDelCount, mwConfig.wgPageName))
 			});
 			this.panel1.$element.append(headerTitle.$element, '<br>', headerTitleDescription.$element, '<hr><br>', HeaderBarRevDel.$element, '<br>', stack.$element);
 		} else {
@@ -714,7 +714,7 @@ function showProgress() {
 	$(document.body).append(windowManager.$element);
 	windowManager.addWindows([processStartedDialog]);
 	windowManager.openWindow(processStartedDialog, {
-		title: 'İşlem gerçekleştiriliyor',
+		title: mw.msg('processing'),
 		message: progressBar.$element
 	});
 }

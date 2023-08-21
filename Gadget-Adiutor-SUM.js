@@ -48,14 +48,14 @@ function insertSummaryOptions($insertBeforeElement) {
 		$optionsContainer = $('<div>').css('display', 'flex');
 	// Dropdown for article-related edits
 	var dropdown = new OO.ui.DropdownWidget({
-		label: 'Ad alanı değişiklik özetleri'
+		label: mw.msg('namespace-edit-summaries')
 	});
 	dropdown.menu.on('select', onSummarySelect);
 	addOptionsToDropdown(dropdown, namespace === 0 ? summaryCategories.article : summaryCategories.nonArticle);
 	$optionsContainer.append(dropdown.$element);
 	// Dropdown for general edits
 	var generalDropdown = new OO.ui.DropdownWidget({
-		label: 'Genel değişiklik özetleri'
+		label: mw.msg('common-edit-summaries')
 	});
 	generalDropdown.menu.on('select', onSummarySelect);
 	addOptionsToDropdown(generalDropdown, summaryCategories.general);
@@ -63,7 +63,7 @@ function insertSummaryOptions($insertBeforeElement) {
 	// Dropdown for talk page edits (if applicable)
 	if(namespace !== 0 && (namespace % 2 !== 0 && namespace !== 3)) {
 		var talkDropdown = new OO.ui.DropdownWidget({
-			label: 'Yaygın tartışma sayfası özetleri'
+			label: mw.msg('ccommon-discussion-edit-summaries')
 		});
 		talkDropdown.menu.on('select', onSummarySelect);
 		addOptionsToDropdown(talkDropdown, summaryCategories.talkPage);
