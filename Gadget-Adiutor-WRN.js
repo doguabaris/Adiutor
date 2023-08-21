@@ -33,6 +33,7 @@ UserWarningDialog.prototype.initialize = function() {
 		inline: true,
 		label: new OO.ui.deferMsg('wrn-dialog-description')
 	});
+	headerTitle.$element.css('margin-top', '20px');
 	var RationaleSelector = new OO.ui.DropdownWidget({
 		menu: {
 			items: [
@@ -100,6 +101,7 @@ UserWarningDialog.prototype.initialize = function() {
 		},
 		label: new OO.ui.deferMsg('warning-type'),
 	});
+	RationaleSelector.$element.css('margin-top', '20px');
 	relatedPageField = new OO.ui.FieldLayout(relatedPage = new OO.ui.TextInputWidget({
 			value: ''
 		}), {
@@ -121,6 +123,10 @@ UserWarningDialog.prototype.initialize = function() {
 			data: 3,
 			label: new OO.ui.deferMsg('wrn-user-sternly'),
 		}, ]
+	});
+	relatedPageField.$element.css({
+		'margin-top': '20px',
+		'margin-bottom': '20px'
 	});
 	RationaleSelector.getMenu().on('choose', function(menuOption) {
 		switch(menuOption.getData()) {
@@ -171,7 +177,7 @@ UserWarningDialog.prototype.initialize = function() {
 				break;
 		}
 	});
-	this.content.$element.append(headerTitle.$element, '<br><hr><br>', RationaleSelector.$element, '<br>', relatedPageField.$element, '<br><hr><br>', warningLevel.$element);
+	this.content.$element.append(headerTitle.$element, RationaleSelector.$element, relatedPageField.$element, warningLevel.$element);
 	this.$body.append(this.content.$element);
 };
 UserWarningDialog.prototype.getActionProcess = function(action) {

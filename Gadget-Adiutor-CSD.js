@@ -513,6 +513,11 @@ api.get({
 		var headerTitleDescription = new OO.ui.LabelWidget({
 			label: new OO.ui.deferMsg('csd-header-description')
 		});
+		headerTitleDescription.$element.css({
+			'margin-top': '10px',
+			'padding-left': '30px',
+			'margin-bottom': '10px'
+		});
 		var left_panel = new OO.ui.PanelLayout({
 			$content: [NameSpaceDeletionReasons.$element, DeletionOptions.$element],
 			classes: ['one'],
@@ -528,6 +533,9 @@ api.get({
 			continuous: true,
 			classes: ['adiutor-csd-modal-container']
 		});
+		stack.$element.css({
+			'margin-top': '20px',
+		});
 		this.panel1 = new OO.ui.PanelLayout({
 			padded: true,
 			expanded: false,
@@ -538,9 +546,9 @@ api.get({
 				type: 'warning',
 				label: new OO.ui.HtmlSnippet(mw.msg('page-deletion-count-warning', revDelCount, mwConfig.wgPageName))
 			});
-			this.panel1.$element.append(headerTitle.$element, '<br>', headerTitleDescription.$element, '<hr><br>', HeaderBarRevDel.$element, '<br>', stack.$element);
+			this.panel1.$element.append(headerTitle.$element, headerTitleDescription.$element, HeaderBarRevDel.$element, stack.$element);
 		} else {
-			this.panel1.$element.append(headerTitle.$element, '<br>', headerTitleDescription.$element, '<hr><br>', stack.$element);
+			this.panel1.$element.append(headerTitle.$element, headerTitleDescription.$element, stack.$element);
 		}
 		this.stackLayout = new OO.ui.StackLayout({
 			items: [this.panel1]

@@ -35,9 +35,11 @@ PageMoveRequestDialog.prototype.initialize = function() {
 	var headerTitleDescription = new OO.ui.LabelWidget({
 		label: new OO.ui.deferMsg('pmr-header-description')
 	});
-	var RequestRationale = new OO.ui.FieldsetLayout({
-		label: new OO.ui.deferMsg('rationale'),
+	headerTitleDescription.$element.css({
+		'margin-top': '20px',
+		'margin-bottom': '20px'
 	});
+	var RequestRationale = new OO.ui.FieldsetLayout({});
 	RequestRationale.addItems([
 		new OO.ui.FieldLayout(NewPageName = new OO.ui.TextInputWidget({
 			value: '',
@@ -55,11 +57,13 @@ PageMoveRequestDialog.prototype.initialize = function() {
 			align: 'inline',
 		}),
 	]);
+	RequestRationale.$element.css('font-weight', '900');
+
 	this.content = new OO.ui.PanelLayout({
 		padded: true,
 		expanded: false
 	});
-	this.content.$element.append(headerTitle.$element, '<br>', headerTitleDescription.$element, '<br><br>', RequestRationale.$element, '<br>', rationaleInput.$element);
+	this.content.$element.append(headerTitle.$element, headerTitleDescription.$element, RequestRationale.$element, rationaleInput.$element);
 	this.$body.append(this.content.$element);
 };
 PageMoveRequestDialog.prototype.getActionProcess = function(action) {

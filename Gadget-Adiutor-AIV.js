@@ -33,6 +33,20 @@ RevisionDeleteRequestDialog.static.actions = [{
 }];
 RevisionDeleteRequestDialog.prototype.initialize = function() {
 	RevisionDeleteRequestDialog.super.prototype.initialize.apply(this, arguments);
+	var headerTitle = new OO.ui.MessageWidget({
+		type: 'notice',
+		inline: true,
+		label: new OO.ui.deferMsg('aiv-header-title')
+	});
+
+	var headerTitleDescription = new OO.ui.LabelWidget({
+		label: new OO.ui.deferMsg('aiv-header-description')
+	});
+	// Add margin-top to headerTitleDescription
+	headerTitleDescription.$element.css({
+		'margin-top': '20px',
+		'font-weight': '300'
+	});
 	var RationaleSelector = new OO.ui.DropdownWidget({
 		menu: {
 			items: [
@@ -48,14 +62,9 @@ RevisionDeleteRequestDialog.prototype.initialize = function() {
 		},
 		label: new OO.ui.deferMsg('report-type'),
 	});
-	var headerTitle = new OO.ui.MessageWidget({
-		type: 'notice',
-		inline: true,
-		label: new OO.ui.deferMsg('aiv-header-title')
-	});
-	var headerTitleDescription = new OO.ui.LabelWidget({
-		label: new OO.ui.deferMsg('aiv-header-description')
-	});
+	// Add margin-top to RationaleSelector
+	RationaleSelector.$element.css('margin-top', '20px');
+	
 	this.content = new OO.ui.PanelLayout({
 		padded: true,
 		expanded: false
@@ -63,6 +72,7 @@ RevisionDeleteRequestDialog.prototype.initialize = function() {
 	var RequestRationaleContainer = new OO.ui.FieldsetLayout({
 		classes: ['adiutor-report-window-rationale-window']
 	});
+	RequestRationaleContainer.$element.css('margin-top', '20px');
 	RationaleSelector.getMenu().on('choose', function(menuOption) {
 		switch(menuOption.getData()) {
 			case 1:
@@ -164,9 +174,9 @@ RevisionDeleteRequestDialog.prototype.initialize = function() {
 		}
 		RequestRationaleContainer.$element.html(RequestRationale.$element);
 	});
-	this.content.$element.append(headerTitle.$element, '<br>', headerTitleDescription.$element, '<hr><br>', RationaleSelector.$element, '<br><br>', RequestRationaleContainer.$element);
+	this.content.$element.append(headerTitle.$element, headerTitleDescription.$element, RationaleSelector.$element, RequestRationaleContainer.$element);
 	RevisionDeleteRequestDialog.prototype.getBodyHeight = function() {
-		return Math.max(this.content.$element.outerHeight(false), 450);
+		return Math.max(this.content.$element.outerHeight(false), 515);
 	};
 	this.$body.append(this.content.$element);
 };

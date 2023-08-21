@@ -37,6 +37,10 @@ ArticleForDeletionDialog.prototype.initialize = function() {
 	var headerTitleDescription = new OO.ui.LabelWidget({
 		label: new OO.ui.deferMsg('afd-header-description')
 	});
+	headerTitleDescription.$element.css({
+		'margin-top': '20px',
+		'margin-bottom': '20px'
+	});
 	AfDOptions = new OO.ui.FieldsetLayout({});
 	AfDOptions.addItems([
 		rationaleField = new OO.ui.FieldLayout(rationaleInput = new OO.ui.MultilineTextInputWidget({
@@ -56,12 +60,13 @@ ArticleForDeletionDialog.prototype.initialize = function() {
 			help: new OO.ui.deferMsg('afd-inform-creator-help'),
 		}),
 	]);
+	rationaleField.$element.css('font-weight', '900');
 	this.content = new OO.ui.PanelLayout({
 		padded: true,
 		expanded: false,
 		isDraggable: true
 	});
-	this.content.$element.append(headerTitle.$element, '<br>', headerTitleDescription.$element, '<br>', AfDOptions.$element);
+	this.content.$element.append(headerTitle.$element, headerTitleDescription.$element, AfDOptions.$element);
 	this.$body.append(this.content.$element);
 };
 ArticleForDeletionDialog.prototype.getActionProcess = function(action) {
