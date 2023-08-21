@@ -22,6 +22,7 @@ windowManager.openWindow(messageDialog, {
 	title: 'Kontrol ediliyor...',
 	message: progressBar.$element
 });
+// Fetch data from Copyvio Detector API
 $.get("https://copyvios.toolforge.org/api.json?", {
 	action: "search",
 	lang: "tr",
@@ -44,6 +45,8 @@ $.get("https://copyvios.toolforge.org/api.json?", {
 	var headerTitle;
 	if(copVioRatio > 45) {
 		headerTitle = new OO.ui.MessageWidget({
+			padded: true,
+			expanded: false,
 			type: 'error',
 			inline: true,
 			label: 'Muhtemel İhlal: % ' + copVioRatio
@@ -57,83 +60,51 @@ $.get("https://copyvios.toolforge.org/api.json?", {
 			modes: 'edit',
 			label: 'Kapat',
 			flags: 'safe'
-		}, {
-			action: 'back',
-			modes: 'help',
-			label: 'Yardım',
-			flags: 'safe'
 		}];
 	} else if(copVioRatio < 10) {
 		headerTitle = new OO.ui.MessageWidget({
+			padded: true,
+			expanded: false,
 			type: 'success',
 			inline: true,
 			label: 'Muhtemel İhlal: %' + copVioRatio
 		});
-		CopyVioDialog.static.actions = [{
-			modes: 'edit',
-			label: 'Kapat',
-			flags: 'safe'
-		}, {
-			action: 'back',
-			modes: 'help',
-			label: 'Yardım',
-			flags: 'safe'
-		}];
 	} else {
 		headerTitle = new OO.ui.MessageWidget({
+			padded: true,
+			expanded: false,
 			type: 'warning',
 			inline: true,
 			label: 'Muhtemel İhlal: %' + copVioRatio + ' | Bu sayfada kritik seviyeye yakın derecede telif hakkı ihlali var, telifli kısımları çıkarabilirsiniz.'
 		});
-		CopyVioDialog.static.actions = [{
-			modes: 'edit',
-			label: 'Kapat',
-			flags: 'safe'
-		}, {
-			action: 'back',
-			modes: 'help',
-			label: 'Yardım',
-			flags: 'safe'
-		}];
 	}
 	CopyVioDialog.prototype.initialize = function() {
 		CopyVioDialog.super.prototype.initialize.apply(this, arguments);
 		var cvRelSource = data.sources.filter(function(source) {
-			return source.excluded == false;
+			return !source.excluded;
 		});
-		var cvSources = document.createElement('ul');
-		cvSources.classList.add("cov-url-list");
-		for(var i = 0; i < cvRelSource.length; i++) {
-			var li = document.createElement('li');
-			li.classList.add("cov-url-list-item");
-			if((cvRelSource[i].confidence * 100).toFixed(2) > 40) {
-				li.classList.add("cov-url-list-item-vio-high");
+		var CopyVioLinks = cvRelSource.map(function(source) {
+			var messageWidgetConfig = {
+				icon: 'link',
+				label: new OO.ui.HtmlSnippet('<a target="_blank" href="' + source.url + '">' + source.url + '</a>')
+			};
+			if((source.confidence * 100).toFixed(2) > 40) {
+				messageWidgetConfig.type = 'error';
+				messageWidgetConfig.label = new OO.ui.HtmlSnippet('<strong>Yüksek İhlal İçeren Bağlantı (' + (source.confidence * 100).toFixed(2) + ')</strong><br><a target="_blank" href="' + source.url + '">' + source.url + '</a>');
+			} else {
+				messageWidgetConfig.type = 'notice';
 			}
-			var a = document.createElement("a");
-			a.classList.add("cov-url-list-item-link");
-			var img = document.createElement("span");
-			img.innerText = cvRelSource[i].url;
-			img.title = cvRelSource[i].url;
-			a.href = cvRelSource[i].url;
-			a.appendChild(img);
-			li.id = cvRelSource[i].id;
-			li.appendChild(a);
-			cvSources.appendChild(li);
-		}
+			return new OO.ui.MessageWidget(messageWidgetConfig);
+		});
 		this.panel1 = new OO.ui.PanelLayout({
 			padded: true,
 			expanded: false
 		});
-		this.panel1.$element.append(headerTitle.$element, '<br><hr><br>', cvSources);
-		this.panel2 = new OO.ui.PanelLayout({
-			padded: true,
-			expanded: false
-		});
-		this.panel2.$element.append('Boş');
-		this.stackLayout = new OO.ui.StackLayout({
-			items: [this.panel1, this.panel2]
-		});
-		this.$body.append(this.stackLayout.$element);
+		this.panel1.$element.append(headerTitle.$element);
+		CopyVioLinks.forEach(function(link) {
+			this.panel1.$element.append(link.$element);
+		}, this);
+		this.$body.append(this.panel1.$element);
 	};
 	CopyVioDialog.prototype.getSetupProcess = function(data) {
 		return CopyVioDialog.super.prototype.getSetupProcess.call(this, data).next(function() {
@@ -141,22 +112,17 @@ $.get("https://copyvios.toolforge.org/api.json?", {
 		}, this);
 	};
 	CopyVioDialog.prototype.getActionProcess = function(action) {
-		if(action === 'help') {
-			this.actions.setMode('help');
-			this.stackLayout.setItem(this.panel2);
-		} else if(action === 'back') {
-			this.actions.setMode('edit');
-			this.stackLayout.setItem(this.panel1);
-		} else if(action === 'continue') {
+		if(action === 'continue') {
 			var dialog = this;
 			return new OO.ui.Process(function() {
 				dialog.close();
-				mw.loader.load(mw.util.getUrl('MediaWiki:Gadget-Adiutor-CSD.js', { action: 'raw' }) + '&ctype=text/javascript', 'text/javascript');
+				mw.loader.load(mw.util.getUrl('MediaWiki:Gadget-Adiutor-CSD.js', {
+					action: 'raw'
+				}) + '&ctype=text/javascript', 'text/javascript');
 			});
 		}
 		return CopyVioDialog.super.prototype.getActionProcess.call(this, action);
 	};
-	CopyVioDialog.prototype.getBodyHeight = function() {};
 	var windowManager = new OO.ui.WindowManager();
 	$(document.body).append(windowManager.$element);
 	var dialog = new CopyVioDialog({
