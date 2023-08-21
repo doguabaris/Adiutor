@@ -75,17 +75,17 @@ $.when(mw.loader.using(["mediawiki.user", "mediawiki.storage", "oojs-ui-core", "
 		},
 		"inlinePageInfo": true,
 		"showEditSummaries": true,
-		"adiutorVersion": "v1.1.2"
+		"adiutorVersion": "v1.1.3"
 	};
 	// Get user options related to the Adiutor gadget
 	var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor'));
-	// Check if user options are not present or empty or if the version is outdated
-	if(!adiutorUserOptions || Object.keys(adiutorUserOptions).length === 0 || adiutorUserOptions.adiutorVersion !== adiutorUserOptionsDefault.adiutorVersion) {
+	// Check if user options are not present or empty
+	if(!adiutorUserOptions || Object.keys(adiutorUserOptions).length === 0) {
 		// Send default user options to the server using API
 		updateOptions(adiutorUserOptionsDefault);
 		// Retrieve default translation data
 		updateTranslations();
-	} else {
+	} else if(adiutorUserOptions.adiutorVersion !== adiutorUserOptionsDefault.adiutorVersion) {
 		var hasNewOptions = false; // Flag to check if there are new options
 		// Loop to check for new settings
 		for(var key in adiutorUserOptionsDefault) {
