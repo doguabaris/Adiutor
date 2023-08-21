@@ -45,8 +45,6 @@ $.get("https://copyvios.toolforge.org/api.json?", {
 	var headerTitle;
 	if(copVioRatio > 45) {
 		headerTitle = new OO.ui.MessageWidget({
-			padded: true,
-			expanded: false,
 			type: 'error',
 			inline: true,
 			label: 'Muhtemel İhlal: % ' + copVioRatio
@@ -63,20 +61,26 @@ $.get("https://copyvios.toolforge.org/api.json?", {
 		}];
 	} else if(copVioRatio < 10) {
 		headerTitle = new OO.ui.MessageWidget({
-			padded: true,
-			expanded: false,
 			type: 'success',
 			inline: true,
 			label: 'Muhtemel İhlal: %' + copVioRatio
 		});
+		CopyVioDialog.static.actions = [{
+			modes: 'edit',
+			label: 'Kapat',
+			flags: 'safe'
+		}];
 	} else {
 		headerTitle = new OO.ui.MessageWidget({
-			padded: true,
-			expanded: false,
 			type: 'warning',
 			inline: true,
 			label: 'Muhtemel İhlal: %' + copVioRatio + ' | Bu sayfada kritik seviyeye yakın derecede telif hakkı ihlali var, telifli kısımları çıkarabilirsiniz.'
 		});
+		CopyVioDialog.static.actions = [{
+			modes: 'edit',
+			label: 'Kapat',
+			flags: 'safe'
+		}];
 	}
 	CopyVioDialog.prototype.initialize = function() {
 		CopyVioDialog.super.prototype.initialize.apply(this, arguments);
