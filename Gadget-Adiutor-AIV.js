@@ -220,6 +220,14 @@ function addReport(PreparedText) {
 		tags: 'Adiutor',
 		format: 'json'
 	}).done(function() {
+		adiutorUserOptions.stats.blockRequests++;
+		api.postWithEditToken({
+			action: 'globalpreferences',
+			format: 'json',
+			optionname: 'userjs-adiutor',
+			optionvalue: JSON.stringify(adiutorUserOptions),
+			formatversion: 2,
+		}).done(function() {});
 		window.location = '/wiki/Vikipedi:Kullanıcı engelleme talepleri';
 	});
 }

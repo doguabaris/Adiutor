@@ -294,6 +294,14 @@ function tagPage(preparedTags) {
 		editParams.prependtext = modifiedTags.split(',').join('\n') + '\n';
 	}
 	api.postWithToken('csrf', editParams).done(function() {
+		adiutorUserOptions.stats.pageTags++;
+		api.postWithEditToken({
+			action: 'globalpreferences',
+			format: 'json',
+			optionname: 'userjs-adiutor',
+			optionvalue: JSON.stringify(adiutorUserOptions),
+			formatversion: 2,
+		}).done(function() {});
 		location.reload();
 	});
 }

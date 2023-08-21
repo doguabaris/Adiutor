@@ -148,6 +148,14 @@ function putPRDTemplate(PRDText) {
 		tags: 'Adiutor',
 		format: 'json'
 	}).done(function() {
+		adiutorUserOptions.stats.prodRequests++;
+		api.postWithEditToken({
+			action: 'globalpreferences',
+			format: 'json',
+			optionname: 'userjs-adiutor',
+			optionvalue: JSON.stringify(adiutorUserOptions),
+			formatversion: 2,
+		}).done(function() {});
 		location.reload();
 	});
 }

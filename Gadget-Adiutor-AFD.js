@@ -207,6 +207,14 @@ function addNominationToAfdPage(PageAFDX) {
 				format: 'json'
 			}).done(function() {
 				addNominationToAfdLogPage(PageAFDX);
+				adiutorUserOptions.stats.afdRequests++;
+				api.postWithEditToken({
+					action: 'globalpreferences',
+					format: 'json',
+					optionname: 'userjs-adiutor',
+					optionvalue: JSON.stringify(adiutorUserOptions),
+					formatversion: 2,
+				}).done(function() {});
 			});
 		}
 	});

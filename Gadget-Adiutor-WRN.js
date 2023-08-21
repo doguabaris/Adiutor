@@ -203,6 +203,14 @@ function warnUser(warningTemplate) {
 		format: 'json'
 	}).done(function() {
 		window.location = '/wiki/' + 'Kullanıcı mesaj:' + mwConfig.wgPageName.replace(/_/g, " ").replace('Kullanıcı:', '').replace('Özel:Katkılar/', '').replace('Kullanıcı mesaj:', '');
+		adiutorUserOptions.stats.userWarnings++;
+		api.postWithEditToken({
+			action: 'globalpreferences',
+			format: 'json',
+			optionname: 'userjs-adiutor',
+			optionvalue: JSON.stringify(adiutorUserOptions),
+			formatversion: 2,
+		}).done(function() {});
 	});
 }
 /* </nowiki> */
