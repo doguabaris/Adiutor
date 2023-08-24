@@ -215,8 +215,8 @@ api.get({
 							dialog.close({
 								action: action
 							});
-							mw.notify('Batch deletion completed successfully.', {
-								title: 'Operation Completed!',
+							mw.notify(mw.msg('batch-deletion-success'), {
+								title: mw.msg('operation-completed'),
 								type: 'success'
 							});
 						});

@@ -289,13 +289,17 @@ function AdministratorPageTwoLayout(name, config) {
 			label: mw.msg('next'),
 			icon: 'next',
 		});
+		var copyVioButton = new OO.ui.ButtonWidget({
+			label: mw.msg('copyright-violation-check'),
+			icon: 'checkAll',
+		});
 		forwardButton.on('click', function() {
 			if(currentPageIndex < pageLayouts.length - 1) {
 				currentPageIndex++;
 				booklet.setPage(pageLayouts[currentPageIndex]);
 			}
 		});
-		pageLayout.$toolbar.append(forwardButton.$element);
+		pageLayout.$toolbar.append(forwardButton.$element, copyVioButton.$element);
 		// Sil butonu
 		var deleteButton = new OO.ui.ButtonWidget({
 			label: mw.msg('delete'),
@@ -397,7 +401,7 @@ function AdministratorPageTwoLayout(name, config) {
 									new OO.ui.FieldLayout(new OO.ui.MessageWidget({
 										type: 'warning',
 										inline: true,
-										label: new OO.ui.HtmlSnippet('<strong>Bu ad alanı için hızlı silme gerekçesi bulunmamakta.</strong><br><small>lütfen sağ taraftaki genel nedenlerden birini seçiniz.</small><br><hr><br>')
+										label: new OO.ui.HtmlSnippet(mw.msg('no-namespace-reason-for-csd'))
 									})),
 								]);
 								break;
@@ -457,7 +461,7 @@ function AdministratorPageTwoLayout(name, config) {
 							OtherReasons.addItems([fieldLayout]);
 						}
 						copyVioInput = new OO.ui.TextInputWidget({
-							placeholder: 'Telif hakkı ihlali yaratan sayfa',
+							placeholder: mw.msg('copyright-infringing-page'),
 							value: '',
 							data: 'COV',
 							classes: ['adiutor-copvio-input'],
@@ -584,9 +588,11 @@ function AdministratorPageTwoLayout(name, config) {
 										format: 'json'
 									}).done(function() {});
 									dialog.close();
-									mw.notify('Madde başarılı şekilde silindi.', {
-										title: 'İşlem tamamlandı!',
-										type: 'success'
+									mw.notify(mw.msg('article-successfully-deleted'), {
+										title: mw.msg('operation-completed'),
+										type: 'success',
+										autoHide: true,
+										autoHideSeconds: 1
 									});
 									if(pageLayouts.length > 1) {
 										booklet.removePages([pageLayout]); // Sayfa düzenini direkt olarak kaldır
@@ -611,6 +617,121 @@ function AdministratorPageTwoLayout(name, config) {
 					CsdWindowManager.addWindows([dialog]);
 					CsdWindowManager.openWindow(dialog);
 				});
+			});
+		});
+		copyVioButton.on('click', function() {
+			var messageDialog = new OO.ui.MessageDialog();
+			var windowManager = new OO.ui.WindowManager();
+			$('body').append(windowManager.$element);
+			windowManager.addWindows([messageDialog]);
+			var progressBar = new OO.ui.ProgressBarWidget({
+				progress: false
+			});
+			windowManager.openWindow(messageDialog, {
+				title: mw.msg('copyvio-checking'),
+				message: progressBar.$element
+			});
+			// Fetch data from Copyvio Detector API
+			$.get("https://copyvios.toolforge.org/api.json?", {
+				action: "search",
+				lang: "tr",
+				project: "wikipedia",
+				title: item.label,
+				oldid: "",
+				use_engine: "1",
+				use_links: "1",
+				turnitin: "0",
+			}, function(data) {
+				messageDialog.close();
+
+				function CopyVioDialog(config) {
+					CopyVioDialog.super.call(this, config);
+				}
+				OO.inheritClass(CopyVioDialog, OO.ui.ProcessDialog);
+				var copVioRatio = (data.best.confidence * 100).toFixed(2);
+				CopyVioDialog.static.title = mw.msg('copyvio-result', copVioRatio),
+					CopyVioDialog.static.name = 'CopyVioDialog';
+				CopyVioDialog.static.actions = [{
+					action: 'continue',
+					modes: 'edit',
+					label: mw.msg('detailed-analysis'),
+					flags: ['primary', 'progressive']
+				}, {
+					modes: 'edit',
+					label: mw.msg('close'),
+					flags: 'safe'
+				}];
+				var headerTitle;
+				if(copVioRatio > 45) {
+					headerTitle = new OO.ui.MessageWidget({
+						type: 'error',
+						inline: true,
+						label: mw.msg('copyvio-potential-violation', copVioRatio),
+					});
+				} else if(copVioRatio < 10) {
+					headerTitle = new OO.ui.MessageWidget({
+						type: 'success',
+						inline: true,
+						label: mw.msg('copyvio-potential-violation', copVioRatio),
+					});
+				} else {
+					headerTitle = new OO.ui.MessageWidget({
+						type: 'warning',
+						inline: true,
+						label: mw.msg('copyvio-potential-violation-low', copVioRatio),
+					});
+				}
+				CopyVioDialog.prototype.initialize = function() {
+					CopyVioDialog.super.prototype.initialize.apply(this, arguments);
+					var cvRelSource = data.sources.filter(function(source) {
+						return !source.excluded;
+					});
+					var CopyVioLinks = cvRelSource.map(function(source) {
+						var messageWidgetConfig = {
+							icon: 'link',
+							label: new OO.ui.HtmlSnippet('<a target="_blank" href="' + source.url + '">' + source.url + '</a>')
+						};
+						if((source.confidence * 100).toFixed(2) > 40) {
+							messageWidgetConfig.type = 'error';
+							messageWidgetConfig.label = new OO.ui.HtmlSnippet('<strong>' + mw.msg('high-violation-link') + ' (' + (source.confidence * 100).toFixed(2) + ')</strong><br><a target="_blank" href="' + source.url + '">' + source.url + '</a>');
+						} else {
+							messageWidgetConfig.type = 'notice';
+						}
+						return new OO.ui.MessageWidget(messageWidgetConfig);
+					});
+					this.panel1 = new OO.ui.PanelLayout({
+						padded: true,
+						expanded: false
+					});
+					this.panel1.$element.append(headerTitle.$element);
+					CopyVioLinks.forEach(function(link) {
+						this.panel1.$element.append(link.$element);
+					}, this);
+					this.$body.append(this.panel1.$element);
+				};
+				CopyVioDialog.prototype.getSetupProcess = function(data) {
+					return CopyVioDialog.super.prototype.getSetupProcess.call(this, data).next(function() {
+						this.actions.setMode('edit');
+					}, this);
+				};
+				CopyVioDialog.prototype.getActionProcess = function(action) {
+					if(action === 'continue') {
+						var dialog = this;
+						return new OO.ui.Process(function() {
+							dialog.close();
+							var targetURL = "https://copyvios.toolforge.org/?lang=tr&project=wikipedia&title=" + item.label;
+							window.open(targetURL, '_blank');
+						});
+					}
+					return CopyVioDialog.super.prototype.getActionProcess.call(this, action);
+				};
+				var windowManager = new OO.ui.WindowManager();
+				$(document.body).append(windowManager.$element);
+				var dialog = new CopyVioDialog({
+					size: 'larger'
+				});
+				windowManager.addWindows([dialog]);
+				windowManager.openWindow(dialog);
 			});
 		});
 		if(mwConfig.wgUserGroups.includes("sysop")) {

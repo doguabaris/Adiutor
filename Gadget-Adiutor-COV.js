@@ -58,6 +58,11 @@ $.get("https://copyvios.toolforge.org/api.json?", {
 			modes: 'edit',
 			label: mw.msg('close'),
 			flags: 'safe'
+		}, {
+			action: 'analysis',
+			modes: 'edit',
+			label: mw.msg('detailed-analysis'),
+			framed: false,
 		}];
 	} else if(copVioRatio < 10) {
 		headerTitle = new OO.ui.MessageWidget({
@@ -66,9 +71,19 @@ $.get("https://copyvios.toolforge.org/api.json?", {
 			label: mw.msg('copyvio-potential-violation', copVioRatio),
 		});
 		CopyVioDialog.static.actions = [{
+			action: 'close',
+			modes: 'edit',
+			label: mw.msg('okay'),
+			flags: ['primary', 'progressive']
+		}, {
 			modes: 'edit',
 			label: mw.msg('close'),
 			flags: 'safe'
+		}, {
+			action: 'analysis',
+			modes: 'edit',
+			label: mw.msg('detailed-analysis'),
+			framed: false,
 		}];
 	} else {
 		headerTitle = new OO.ui.MessageWidget({
@@ -77,9 +92,19 @@ $.get("https://copyvios.toolforge.org/api.json?", {
 			label: mw.msg('copyvio-potential-violation-low', copVioRatio),
 		});
 		CopyVioDialog.static.actions = [{
+			action: 'close',
+			modes: 'edit',
+			label: mw.msg('okay'),
+			flags: ['primary', 'progressive']
+		}, {
 			modes: 'edit',
 			label: mw.msg('close'),
 			flags: 'safe'
+		}, {
+			action: 'analysis',
+			modes: 'edit',
+			label: mw.msg('detailed-analysis'),
+			framed: false,
 		}];
 	}
 	CopyVioDialog.prototype.initialize = function() {
@@ -116,14 +141,19 @@ $.get("https://copyvios.toolforge.org/api.json?", {
 		}, this);
 	};
 	CopyVioDialog.prototype.getActionProcess = function(action) {
+		var dialog = this;
 		if(action === 'continue') {
-			var dialog = this;
 			return new OO.ui.Process(function() {
 				dialog.close();
 				mw.loader.load(mw.util.getUrl('MediaWiki:Gadget-Adiutor-CSD.js', {
 					action: 'raw'
 				}) + '&ctype=text/javascript', 'text/javascript');
 			});
+		} else if(action === 'analysis') {
+			var targetURL = "https://copyvios.toolforge.org/?lang=tr&project=wikipedia&title=" + mwConfig.wgPageName;
+			window.open(targetURL, '_blank');
+		} else if(action === 'close') {
+			dialog.close();
 		}
 		return CopyVioDialog.super.prototype.getActionProcess.call(this, action);
 	};

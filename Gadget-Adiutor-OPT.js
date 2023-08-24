@@ -181,7 +181,8 @@ AdiutorOptionsDialog.prototype.getActionProcess = function(action) {
 					"pageTags": adiutorUserOptions.stats.pageTags,
 				},
 				"inlinePageInfo": inlinePageInfo.fieldWidget.selected,
-				"showEditSummaries": showEditSummaries.fieldWidget.selected
+				"showEditSummaries": showEditSummaries.fieldWidget.selected,
+				"adiutorVersion": adiutorUserOptions.adiutorVersion,
 			};
 			updateOptions(UpdatedOptions);
 			console.log(UpdatedOptions);
@@ -207,7 +208,7 @@ function updateOptions(updatedOptions) {
 		formatversion: 2,
 	}).done(function() {
 		mw.notify(mw.msg('settings-has-been-updated'), {
-			title: 'İşlem tamamlandı!',
+			title: mw.msg('operation-completed'),
 			type: 'success'
 		});
 	});

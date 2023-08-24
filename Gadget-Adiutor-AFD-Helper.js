@@ -689,7 +689,10 @@ function addOpinion(purePageName, rationaleInput, adiutorUserOptions) {
 		if(isSubPage) {
 			location.reload();
 		} else {
-			mw.notify( 'Görüşünüz başarıyla eklendi, sayfayı yenileyiniz.', { title: 'İşlem tamamlandı!', type: 'success' } );
+			mw.notify('Görüşünüz başarıyla eklendi, sayfayı yenileyiniz.', {
+				title: mw.msg('operation-completed'),
+				type: 'success'
+			});
 		}
 	});
 }
@@ -864,14 +867,20 @@ function addNominationToAfdLogPage() {
 				if(isSubPage) {
 					location.reload();
 				} else {
-					mw.notify( 'Adaylık başarıyla sonuçlandırıldı', { title: 'İşlem tamamlandı!', type: 'success' } );
+					mw.notify('Adaylık başarıyla sonuçlandırıldı', {
+						title: mw.msg('operation-completed'),
+						type: 'success'
+					});
 				}
 			});
 		} else {
 			if(isSubPage) {
 				location.reload();
 			} else {
-				mw.notify( 'Adaylık başarıyla sonuçlandırıldı', { title: 'İşlem tamamlandı!', type: 'success' } );
+				mw.notify('Adaylık başarıyla sonuçlandırıldı', {
+					title: mw.msg('operation-completed'),
+					type: 'success'
+				});
 			}
 		}
 		switch(mw.storage.session.get('selectedCloseDesicion')) {

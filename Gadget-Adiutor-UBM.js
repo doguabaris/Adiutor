@@ -267,7 +267,10 @@ UserBlockDialog.prototype.getActionProcess = function(action) {
 				CheckDurationAndRationaleMessageDialog.super.call(this, config);
 			}
 			if(mwConfig.wgPageName.includes(mwConfig.wgUserName)) {
-				mw.notify(mw.message('you-can-not-block-yourself').text(), { title: 'İşlem tamamlandı!', type: 'error' } );
+				mw.notify(mw.message('you-can-not-block-yourself').text(), {
+					title: mw.msg('operation-completed'),
+					type: 'error'
+				});
 				BlockingDialog.close();
 			} else {
 				if(!duration || !blockReason) {
@@ -318,9 +321,15 @@ UserBlockDialog.prototype.getActionProcess = function(action) {
 					};
 					// Send API request
 					api.postWithToken('csrf', params).done(function(result) {
-						mw.notify( 'Kullanıcı engellendi.', { title: 'İşlem tamamlandı!', type: 'success' } );
+						mw.notify(mw.msg('user-blocked'), {
+							title: mw.msg('operation-completed'),
+							type: 'success'
+						});
 					}).fail(function(error) {
-						mw.notify(error, { title: 'İşlem başarısız!', type: 'error' } );
+						mw.notify(error, {
+							title: mw.msg('operation-failed'),
+							type: 'error'
+						});
 					});
 					BlockingDialog.close();
 				}

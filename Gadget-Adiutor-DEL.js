@@ -111,7 +111,7 @@ api.get({
 								new OO.ui.FieldLayout(new OO.ui.MessageWidget({
 									type: 'warning',
 									inline: true,
-									label: new OO.ui.HtmlSnippet('<strong>Bu ad alanı için hızlı silme gerekçesi bulunmamakta.</strong><br><small>lütfen sağ taraftaki genel nedenlerden birini seçiniz.</small><br><hr><br>')
+									label: new OO.ui.HtmlSnippet(mw.msg('no-namespace-reason-for-csd'))
 								})),
 							]);
 							break;
@@ -171,7 +171,7 @@ api.get({
 						OtherReasons.addItems([fieldLayout]);
 					}
 					copyVioInput = new OO.ui.TextInputWidget({
-						placeholder: 'Telif hakkı ihlali yaratan sayfa',
+						placeholder: mw.msg('copyright-infringing-page'),
 						value: '',
 						data: 'COV',
 						classes: ['adiutor-copvio-input'],

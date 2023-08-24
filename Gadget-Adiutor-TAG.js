@@ -211,11 +211,10 @@ PageTaggingDialog.prototype.initialize = function() {
 	}];
 	// Create a search input field
 	var searchInput = new OO.ui.TextInputWidget({
-		placeholder: 'Etiket ara...'
+		placeholder: mw.msg('search-tag')
 	});
-	// Create a search input field
-	searchInput = new OO.ui.TextInputWidget({
-		placeholder: 'Etiket ara...'
+	searchInput.$element.css({
+		'margin-top': '20px',
 	});
 	var selectedTags = [];
 	// Filter the tag options based on search input
@@ -252,7 +251,7 @@ PageTaggingDialog.prototype.initialize = function() {
 		padded: true,
 		expanded: false,
 	});
-	this.content.$element.append(headerTitle.$element, '<br><hr><br>', searchInput.$element, '<br>', Tags.$element);
+	this.content.$element.append(headerTitle.$element, searchInput.$element, '<br>', Tags.$element);
 	this.$body.append(this.content.$element);
 };
 PageTaggingDialog.prototype.getActionProcess = function(action) {

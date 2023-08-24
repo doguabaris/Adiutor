@@ -49,52 +49,51 @@ if((mw.config.get("wgNamespaceNumber") === 2 || mw.config.get("wgNamespaceNumber
 				// User status
 				if(isBlocked) {
 					if(isPartialBlocked) {
-						blockText = "kısmi engellenmiş";
+						blockText = mw.msg('partially-blocked');
 					} else {
-						blockText = "engellenmiş";
+						blockText = mw.msg('blocked');
 					}
 					statusText += "<a href=\"" + mw.config.get("wgScriptPath") + "/index.php?title=Special:Log&amp;page=" + mw.util.rawurlencode(mw.config.get("wgFormattedNamespaces")[2] + ":" + user.name) + "&amp;type=block\">" + blockText + "</a> ";
 				}
 				if(missingUser) {
-					statusText += "kullanıcı adı kayıtlı değil";
+					statusText += mw.msg('username-not-registered');
 				} else if(invalidUser) {
 					isIPv4User = mw.util.isIPv4Address(user.name);
 					isIPv6User = mw.util.isIPv6Address(user.name);
 					isIpUser = isIPv4User || isIPv6User;
 					if(isIPv4User) {
-						statusText += "anonim IPv4 kullanıcısı";
+						statusText += mw.msg('anonymous-ipv4-user');
 					} else if(isIPv6User) {
-						statusText += "anonim IPv6 kullanıcısı";
+						statusText += mw.msg('anonymous-ipv6-user');
 					} else {
-						statusText += "geçersiz kullanıcı adı";
+						statusText += mw.msg('invalid-username');
 					}
 				} else {
 					var friendlyGroupNames = {
-						// Exclude implicit user group information provided by MW 1.17 --PS 2010-02-17
 						'*': false,
 						'user': false,
 						'autoconfirmed': false,
-						sysop: "hizmetli",
-						accountcreator: "hesap oluşturucu",
-						'import': "importer",
-						'interface-editor': "teknisyen",
-						'interface-admin': "arayüz yöneticisi",
-						patroller: "devriye",
-						autoreview: "beyaz liste",
-						bureaucrat: "bürokrat",
-						transwiki: "vikilerarası içe aktarıcı",
-						'ipblock-exempt': "IP engelleme muafı",
-						checkuser: "denetçi",
-						suppress: "gözetmen",
-						confirmed: "onaylanmış kullanıcı",
-						abusefilter: "süzgeç yöneticisi",
-						autoreviewer: "otomatik onaylanmış kullanıcı",
-						epcoordinator: "Eğitim Programı ders koordinatörü",
-						epcampus: "Eğitim Programı yerleşke gönüllüsü",
-						eponline: "Eğitim Programı çevrimiçi gönüllüsü",
-						filemover: "dosya taşıyıcı",
-						'massmessage-sender': "toplu mesaj gönderici",
-						templateeditor: "şablon editörü"
+						sysop: mw.msg('friendly-group-names-sysop'),
+						accountcreator: mw.msg('friendly-group-names-accountcreator'),
+						'import': mw.msg('friendly-group-names.import'),
+						'interface-editor': mw.msg('friendly-group-names-interface-editor'),
+						'interface-admin': mw.msg('friendly-group-names-interface-admin'),
+						patroller: mw.msg('friendly-group-names-patroller'),
+						autoreview: mw.msg('friendly-group-names-autoreview'),
+						bureaucrat: mw.msg('friendly-group-names-bureaucrat'),
+						transwiki: mw.msg('friendly-group-names-transwiki'),
+						'ipblock-exempt': mw.msg('friendly-group-names-ipblock-exempt'),
+						checkuser: mw.msg('friendly-group-names-checkuser'),
+						suppress: mw.msg('friendly-group-names-suppress'),
+						confirmed: mw.msg('friendly-group-names-confirmed'),
+						abusefilter: mw.msg('friendly-group-names-abusefilter'),
+						autoreviewer: mw.msg('friendly-group-names-autoreviewer'),
+						epcoordinator: mw.msg('friendly-group-names-epcoordinator'),
+						epcampus: mw.msg('friendly-group-names-epcampus'),
+						eponline: mw.msg('friendly-group-names-eponline'),
+						filemover: mw.msg('friendly-group-names-filemover'),
+						'massmessage-sender': mw.msg('friendly-group-names-massmessage-sender'),
+						templateeditor: mw.msg('friendly-group-names-templateeditor')
 					};
 					var friendlyGroups = [];
 					for(var i = 0; i < userGroups.length; i++) {
@@ -114,20 +113,20 @@ if((mw.config.get("wgNamespaceNumber") === 2 || mw.config.get("wgNamespaceNumber
 					switch(friendlyGroups.length) {
 						case 0:
 							if(isBlocked) {
-								statusText += "kullanıcı";
+								statusText += mw.msg('user');
 							} else {
-								statusText += "kayıtlı kullanıcı";
+								statusText += mw.msg('registered-user');
 							}
 							break;
 						case 1:
 							statusText += friendlyGroups[0];
 							break;
 						case 2:
-							statusText += friendlyGroups[0] + " ve " + friendlyGroups[1];
+							statusText += friendlyGroups[0] + " " + mw.msg('and') + " " + friendlyGroups[1];
 							break;
 						default:
 							var groupList = friendlyGroups.slice(0, -1).join(", ");
-							statusText += groupList + ", ve " + friendlyGroups[friendlyGroups.length - 1];
+							statusText += groupList + ", " + mw.msg('and') + " " + friendlyGroups[friendlyGroups.length - 1];
 							break;
 					}
 				}
@@ -140,7 +139,7 @@ if((mw.config.get("wgNamespaceNumber") === 2 || mw.config.get("wgNamespaceNumber
 					} else {
 						registrationLink = "<a href='" + mw.config.get("wgScriptPath") + "/index.php?title=Special:ListUsers&amp;limit=1&amp;username=" + encodedTitle + "'>";
 					}
-					statusText += ", " + registrationLink + formatRelativeDateDifference(registrationDate) + "</a> önce üye oldu.";
+					statusText += ", " + mw.msg('registration-info', registrationLink, formatRelativeDateDifference(registrationDate));
 				}
 				statusText = "Bu " + statusText;
 				// Show the correct gender symbol
@@ -186,34 +185,34 @@ if((mw.config.get("wgNamespaceNumber") === 2 || mw.config.get("wgNamespaceNumber
 					label: new OO.ui.HtmlSnippet('<strong class="username">' + user.name + '</strong><br>' + statusText),
 					classes: ['adiutor-user-page-username-details']
 				});
-				var lastEditedText = "Son değişiklik bilgisi alınamıyor";
+				var lastEditedText = mw.msg('last-edited-default');
 				if(lastEditedDate) {
-					lastEditedText = "Son değişikliğini <a href='" + mw.config.get("wgArticlePath").replace("$1", "Special:Contributions/" + mw.util.rawurlencode(user.name)) + "'>" + formatRelativeDateDifference(lastEditedDate) + " önce yaptı</a>";
+					lastEditedText = mw.msg('last-edited', mw.config.get("wgArticlePath").replace("$1", "Special:Contributions/" + mw.util.rawurlencode(user.name)), formatRelativeDateDifference(lastEditedDate));
 				}
 				var userPageChangeCount = new OO.ui.MessageWidget({
 					type: 'notice',
 					icon: 'edit',
 					inline: false,
-					label: new OO.ui.HtmlSnippet('<strong>' + formatQuantityWithCommas(editCount) + ' değişikliğe sahip' + '</strong><br>' + lastEditedText + '.'),
+					label: new OO.ui.HtmlSnippet('<strong>' + formatQuantityWithCommas(editCount) + ' ' + mw.msg('has-x-edit-count', formatQuantityWithCommas(editCount)) + '</strong><br>' + lastEditedText + '.'),
 					classes: ['adiutor-user-page-change-count']
 				});
 				var UnBlockButton = new OO.ui.ButtonWidget({
 					icon: 'unBlock',
-					label: 'Engeli Kaldır',
+					label: mw.msg('unblock-button-label'),
 					flags: ['destructive']
 				});
 				var BlockButton = new OO.ui.ButtonWidget({
 					icon: 'block',
-					label: 'Engelle',
+					label: mw.msg('block-button-label'),
 					flags: ['destructive']
 				});
 				var warnUserButton = new OO.ui.ButtonWidget({
 					icon: 'hand',
-					label: 'Uyar'
+					label: mw.msg('warn-button-label'),
 				});
 				var userContributions = new OO.ui.ButtonWidget({
 					icon: 'edit',
-					label: 'Katkılar'
+					label: mw.msg('contributions-button-label'),
 				});
 				warnUserButton.on('click', function() {
 					loadAdiutorScript('WRN');
@@ -250,13 +249,13 @@ if((mw.config.get("wgNamespaceNumber") === 2 || mw.config.get("wgNamespaceNumber
 						blockedUserSection = new OO.ui.MessageWidget({
 							type: 'warning',
 							icon: 'block',
-							label: new OO.ui.HtmlSnippet('<strong>Bu kullanıcı kısmi olarak engellenmiş</strong><br>Bu kullanıcı ' + user.blockedtimestampformatted + ' tarihinde ' + user.blockreason + ' gerekçesi ile ' + user.blockedby + ' tarafından engellenmiş.')
+							label: new OO.ui.HtmlSnippet(mw.msg('user-partially-blocked', user.blockedtimestampformatted, user.blockreason, user.blockedby))
 						});
 					} else {
 						blockedUserSection = new OO.ui.MessageWidget({
 							type: 'error',
 							icon: 'block',
-							label: new OO.ui.HtmlSnippet('<strong>Bu kullanıcı engellenmiş</strong><br>Bu kullanıcı ' + user.blockedtimestampformatted + ' tarihinde ' + user.blockreason + ' gerekçesi ile ' + user.blockedby + ' tarafından engellenmiş.')
+							label: new OO.ui.HtmlSnippet(mw.msg('user-blocked-message', user.blockedtimestampformatted, user.blockreason, user.blockedby))
 						});
 					}
 					userPanelStack = new OO.ui.StackLayout({
@@ -284,35 +283,31 @@ function formatQuantityWithCommas(number) {
 function formatRelativeDateDifference(oldDate) {
 	var currentTime = new Date().getTime();
 	var ageInMilliseconds = currentTime - oldDate.getTime();
-	var ageNumber, ageRemainder, ageDescription;
+	var ageNumber, ageKey, ageForm;
 	if(ageInMilliseconds < 60000) {
 		ageNumber = Math.floor(ageInMilliseconds / 1000);
-		ageDescription = formatQuantityWithCommas(ageNumber) + "\u00a0saniye";
+		ageKey = 'second';
 	} else if(ageInMilliseconds < 3600000) {
 		ageNumber = Math.floor(ageInMilliseconds / 60000);
-		ageDescription = formatQuantityWithCommas(ageNumber) + "\u00a0dakika";
+		ageKey = 'minute';
 	} else if(ageInMilliseconds < 86400000) {
 		ageNumber = Math.floor(ageInMilliseconds / 3600000);
-		ageDescription = formatQuantityWithCommas(ageNumber) + "\u00a0saat";
-		ageRemainder = Math.floor((ageInMilliseconds - ageNumber * 3600000) / 60000);
+		ageKey = 'hour';
 	} else if(ageInMilliseconds < 604800000) {
 		ageNumber = Math.floor(ageInMilliseconds / 86400000);
-		ageDescription = formatQuantityWithCommas(ageNumber) + "\u00a0gün";
+		ageKey = 'day';
 	} else if(ageInMilliseconds < 2592000000) {
 		ageNumber = Math.floor(ageInMilliseconds / 604800000);
-		ageDescription = formatQuantityWithCommas(ageNumber) + "\u00a0hafta";
+		ageKey = 'week';
 	} else if(ageInMilliseconds < 31536000000) {
 		ageNumber = Math.floor(ageInMilliseconds / 2592000000);
-		ageDescription = formatQuantityWithCommas(ageNumber) + "\u00a0ay";
+		ageKey = 'month';
 	} else {
 		ageNumber = Math.floor(ageInMilliseconds / 31536000000);
-		ageDescription = formatQuantityWithCommas(ageNumber) + "\u00a0yıl";
-		ageRemainder = Math.floor((ageInMilliseconds - ageNumber * 31536000000) / 2592000000);
-		if(ageRemainder) {
-			ageDescription += " " + formatQuantityWithCommas(ageRemainder) + "\u00a0ay";
-		}
+		ageKey = 'year';
 	}
-	return ageDescription;
+	ageForm = ageNumber === 1 ? 'one' : 'other';
+	return mw.msg('relative-date-' + ageKey + '-' + ageForm, ageNumber);
 }
 
 function loadAdiutorScript(scriptName) {
