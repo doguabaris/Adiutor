@@ -75,10 +75,11 @@ $.when(mw.loader.using(["mediawiki.user", "mediawiki.storage", "oojs-ui-core", "
 		},
 		"inlinePageInfo": true,
 		"showEditSummaries": true,
-		"adiutorVersion": "v1.1.4"
+		"adiutorVersion": "v1.1.6"
 	};
 	// Get user options related to the Adiutor gadget
 	var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor'));
+	var hasNewOptions = false;
 	// Check if user options are not present or empty
 	if(!adiutorUserOptions || Object.keys(adiutorUserOptions).length === 0) {
 		// Send default user options to the server using API
@@ -86,7 +87,7 @@ $.when(mw.loader.using(["mediawiki.user", "mediawiki.storage", "oojs-ui-core", "
 		// Retrieve default translation data
 		updateTranslations();
 	} else if(adiutorUserOptions.adiutorVersion !== adiutorUserOptionsDefault.adiutorVersion) {
-		var hasNewOptions = false; // Flag to check if there are new options
+		var hasNewOptions = true; // Flag to check if there are new options
 		// Loop to check for new settings
 		for(var key in adiutorUserOptionsDefault) {
 			if(adiutorUserOptionsDefault.hasOwnProperty(key) && !adiutorUserOptions.hasOwnProperty(key)) {
@@ -96,7 +97,7 @@ $.when(mw.loader.using(["mediawiki.user", "mediawiki.storage", "oojs-ui-core", "
 			}
 		}
 		// Update user options if new settings are found
-		if(hasNewOptions) {
+		if(hasNewOptions || hasNewVersion) {
 			updateOptions(adiutorUserOptions);
 			updateTranslations();
 		}
