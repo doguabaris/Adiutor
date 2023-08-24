@@ -87,7 +87,7 @@ $.when(mw.loader.using(["mediawiki.user", "mediawiki.storage", "oojs-ui-core", "
 		// Retrieve default translation data
 		updateTranslations();
 	} else if(adiutorUserOptions.adiutorVersion !== adiutorUserOptionsDefault.adiutorVersion) {
-		var hasNewOptions = true; // Flag to check if there are new options
+		hasNewOptions = true; // Flag to check if there are new options
 		// Loop to check for new settings
 		for(var key in adiutorUserOptionsDefault) {
 			if(adiutorUserOptionsDefault.hasOwnProperty(key) && !adiutorUserOptions.hasOwnProperty(key)) {
