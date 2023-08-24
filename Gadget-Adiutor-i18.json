@@ -231,7 +231,8 @@
         "batch-deletion": "Batch Deletion",
         "batch-deletion-warning": "With this operation, the selected pages will be permanently deleted. Please carefully review the pages before performing the deletion and consider alternative solutions when necessary. It is important to review the process once more to minimize the risk of accidental deletion.",
         "pages-to-be-deleted": "Pages to be Deleted",
-        "page-not-found": "This page does not exist."
+        "page-not-found": "This page does not exist.",
+        "protect": "Protect"
     },
     "tr": {
         "create": "Oluştur",
@@ -465,6 +466,7 @@
         "batch-deletion": "Toplu Silme",
         "batch-deletion-warning": "Bu işlemle seçili sayfalar kalıcı olarak silinecektir. Lütfen silme işlemini gerçekleştirmeden önce sayfaları dikkatlice inceleyin ve gerektiğinde alternatif çözümleri değerlendirin. Yanlışlıkla silme riskini minimize etmek için işlemi gerçekleştirmeden önce bir kez daha gözden geçirmeniz önemlidir.",
         "pages-to-be-deleted": "Silinecek sayfalar",
-        "page-not-found": "Bu sayfa mevcut değil."
+        "page-not-found": "Bu sayfa mevcut değil.",
+        "protect": "Koru"
     }
 }

@@ -230,5 +230,6 @@
     "batch-deletion": "Batch Deletion",
     "batch-deletion-warning": "With this operation, the selected pages will be permanently deleted. Please carefully review the pages before performing the deletion and consider alternative solutions when necessary. It is important to review the process once more to minimize the risk of accidental deletion.",
     "pages-to-be-deleted": "Pages to be Deleted",
-    "page-not-found": "This page does not exist."
+    "page-not-found": "This page does not exist.",
+    "protect": "Protect"
 }
