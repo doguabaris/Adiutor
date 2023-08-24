@@ -293,13 +293,17 @@ function AdministratorPageTwoLayout(name, config) {
 			label: mw.msg('copyright-violation-check'),
 			icon: 'checkAll',
 		});
+		var openThePageButton = new OO.ui.ButtonWidget({
+			label: mw.msg('open-the-page'),
+			icon: 'linkExternal',
+		});
 		forwardButton.on('click', function() {
 			if(currentPageIndex < pageLayouts.length - 1) {
 				currentPageIndex++;
 				booklet.setPage(pageLayouts[currentPageIndex]);
 			}
 		});
-		pageLayout.$toolbar.append(forwardButton.$element, copyVioButton.$element);
+		pageLayout.$toolbar.append(forwardButton.$element, copyVioButton.$element, openThePageButton.$element);
 		// Sil butonu
 		var deleteButton = new OO.ui.ButtonWidget({
 			label: mw.msg('delete'),
@@ -618,6 +622,9 @@ function AdministratorPageTwoLayout(name, config) {
 					CsdWindowManager.openWindow(dialog);
 				});
 			});
+		});
+		openThePageButton.on('click', function() {
+			window.open('/wiki/' + item.label, '_blank');
 		});
 		copyVioButton.on('click', function() {
 			var messageDialog = new OO.ui.MessageDialog();

@@ -299,7 +299,8 @@
         "relative-date-month-one": "{{PLURAL:$1|$1 month}}",
         "relative-date-month-other": "{{PLURAL:$1|$1 months}}",
         "relative-date-year-one": "{{PLURAL:$1|$1 year}}",
-        "relative-date-year-other": "{{PLURAL:$1|$1 years}}"
+        "relative-date-year-other": "{{PLURAL:$1|$1 years}}",
+        "open-the-page": "Open The Page"
     },
     "tr": {
         "create": "Oluştur",
@@ -601,6 +602,7 @@
         "relative-date-month-one": "{{PLURAL:$1|$1 ay}}",
         "relative-date-month-other": "{{PLURAL:$1|$1 ay}}",
         "relative-date-year-one": "{{PLURAL:$1|$1 yıl}}",
-        "relative-date-year-other": "{{PLURAL:$1|$1 yıl}}"
+        "relative-date-year-other": "{{PLURAL:$1|$1 yıl}}",
+        "open-the-page": "Sayfayı Aç"
     }
 }
