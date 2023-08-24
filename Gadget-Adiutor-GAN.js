@@ -3,7 +3,7 @@
  * Author: Vikipolimer
  * Learn more at: https://meta.wikimedia.org/wiki/Adiutor
  * Licensing and Attribution: Licensed under Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
- * Module: Good article candidate
+ * Module: Good article nomination
  */
 /* <nowiki> */
 // Get essential configuration from MediaWiki
@@ -13,13 +13,13 @@ var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor'));
 var NominatedPreviously;
 var nextNominationNumber = 0;
 
-function GoodArticleCandidateDialog(config) {
-	GoodArticleCandidateDialog.super.call(this, config);
+function GoodArticleNominationDialog(config) {
+	GoodArticleNominationDialog.super.call(this, config);
 }
-OO.inheritClass(GoodArticleCandidateDialog, OO.ui.ProcessDialog);
-GoodArticleCandidateDialog.static.name = 'GoodArticleCandidateDialog';
-GoodArticleCandidateDialog.static.title = 'Adiutor (Beta) - Kaliteli Madde Adaylığı';
-GoodArticleCandidateDialog.static.actions = [{
+OO.inheritClass(GoodArticleNominationDialog, OO.ui.ProcessDialog);
+GoodArticleNominationDialog.static.name = 'GoodArticleNominationDialog';
+GoodArticleNominationDialog.static.title = 'Adiutor (Beta) - Kaliteli Madde Adaylığı';
+GoodArticleNominationDialog.static.actions = [{
 	action: 'save',
 	label: 'Devam',
 	flags: ['primary', 'progressive']
@@ -27,8 +27,8 @@ GoodArticleCandidateDialog.static.actions = [{
 	label: 'İptal',
 	flags: 'safe'
 }];
-GoodArticleCandidateDialog.prototype.initialize = function() {
-	GoodArticleCandidateDialog.super.prototype.initialize.apply(this, arguments);
+GoodArticleNominationDialog.prototype.initialize = function() {
+	GoodArticleNominationDialog.super.prototype.initialize.apply(this, arguments);
 	var headerTitle = new OO.ui.MessageWidget({
 		type: 'error',
 		inline: true,
@@ -39,8 +39,8 @@ GoodArticleCandidateDialog.prototype.initialize = function() {
 		inline: true,
 		label: new OO.ui.HtmlSnippet('<strong>Bir maddeyi aday göstermeden önce, maddenin kaliteli madde kriterlerinin tamamını karşıladığından emin olun. Halihazırda açık bir <a href="https://tr.wikipedia.org/wiki/Vikipedi:Madde_incelemesi">madde incelemesi</a> tartışması varsa, bunun sonlanmasını bekleyin.</small>')
 	});
-	CandidateOptions = new OO.ui.FieldsetLayout({});
-	CandidateOptions.addItems([
+	NominateOptions = new OO.ui.FieldsetLayout({});
+	NominateOptions.addItems([
 		rationaleField = new OO.ui.FieldLayout(rationaleInput = new OO.ui.MultilineTextInputWidget({
 			placeholder: 'Bu sayfayı neden aday göstermek istiyorsun?',
 			indicator: 'required',
@@ -55,16 +55,16 @@ GoodArticleCandidateDialog.prototype.initialize = function() {
 		expanded: false,
 		isDraggable: true
 	});
-	this.content.$element.append(headerTitle.$element, '<br>', headerTitle2.$element, '<br>', CandidateOptions.$element);
+	this.content.$element.append(headerTitle.$element, '<br>', headerTitle2.$element, '<br>', NominateOptions.$element);
 	this.$body.append(this.content.$element);
 };
-GoodArticleCandidateDialog.prototype.getActionProcess = function(action) {
+GoodArticleNominationDialog.prototype.getActionProcess = function(action) {
 	var dialog = this;
 	if(action) {
 		return new OO.ui.Process(function() {
 			var GFATemplate;
 			var ActionOptions = [];
-			CandidateOptions.items.forEach(function(Option) {
+			NominateOptions.items.forEach(function(Option) {
 				if(Option.fieldWidget.selected) {
 					ActionOptions.push({
 						value: Option.fieldWidget.value,
@@ -84,7 +84,7 @@ GoodArticleCandidateDialog.prototype.getActionProcess = function(action) {
 					console.log(nomCount);
 					NominatedPreviously = false;
 					GFATemplate = '{{KMA}}';
-					putAfDTemplate(GFATemplate, nextNominationNumber);
+					putTemplate(GFATemplate, nextNominationNumber);
 				} else {
 					Rec(2);
 				}
@@ -103,7 +103,7 @@ GoodArticleCandidateDialog.prototype.getActionProcess = function(action) {
 							GFATemplate = '{{KMA}}';
 						}
 						console.log(GFATemplate);
-						putAfDTemplate(GFATemplate, nextNominationNumber);
+						putTemplate(GFATemplate, nextNominationNumber);
 					}
 				});
 			}
@@ -113,11 +113,11 @@ GoodArticleCandidateDialog.prototype.getActionProcess = function(action) {
 			showProgress();
 		});
 	}
-	return GoodArticleCandidateDialog.super.prototype.getActionProcess.call(this, action);
+	return GoodArticleNominationDialog.super.prototype.getActionProcess.call(this, action);
 };
 var windowManager = new OO.ui.WindowManager();
 $(document.body).append(windowManager.$element);
-var dialog = new GoodArticleCandidateDialog({
+var dialog = new GoodArticleNominationDialog({
 	size: 'large',
 	classes: ['afd-helper-window'],
 	isDraggable: true
@@ -125,12 +125,12 @@ var dialog = new GoodArticleCandidateDialog({
 windowManager.addWindows([dialog]);
 windowManager.openWindow(dialog);
 
-function putAfDTemplate(GFATemplate, nextNominationNumber) {
-	var PageGFA;
+function putTemplate(GFATemplate, nextNominationNumber) {
+	var nominatedPage;
 	if(nextNominationNumber > 1) {
-		PageGFA = mwConfig.wgPageName + ' (' + nextNominationNumber + '._aday_gösterme)';
+		nominatedPage = mwConfig.wgPageName + ' (' + nextNominationNumber + '._aday_gösterme)';
 	} else {
-		PageGFA = mwConfig.wgPageName;
+		nominatedPage = mwConfig.wgPageName;
 	}
 	api.postWithToken('csrf', {
 		action: 'edit',
@@ -140,8 +140,8 @@ function putAfDTemplate(GFATemplate, nextNominationNumber) {
 		tags: 'Adiutor',
 		format: 'json'
 	}).done(function() {
-		createNominationPage(PageGFA);
-		logNomination(PageGFA);
+		createNominationPage(nominatedPage);
+		logNomination(nominatedPage);
 	});
 }
 
@@ -156,20 +156,20 @@ function checkPreviousNominations(title) {
 	});
 }
 
-function createNominationPage(PageGFA) {
+function createNominationPage(nominatedPage) {
 	api.postWithToken('csrf', {
 		action: 'edit',
-		title: 'Vikipedi:Kaliteli_madde_adayları/' + PageGFA,
+		title: 'Vikipedi:Kaliteli_madde_adayları/' + nominatedPage,
 		appendtext: '=== [[' + mwConfig.wgPageName.replace(/_/g, " ") + ']] === \n' + rationaleInput.value + ' ~~~~' + "\n",
 		summary: 'Sayfa [[VP:KMA|kaliteli madde adayı]] gösterildi',
 		tags: 'Adiutor',
 		format: 'json'
 	}).done(function() {
-		addNominationToAfdPage(PageGFA);
+		addNominationToGaPage(nominatedPage);
 	});
 }
 
-function addNominationToAfdPage(PageGFA) {
+function addNominationToGaPage(nominatedPage) {
 	var pageContent;
 	api.get({
 		action: 'parse',
@@ -178,23 +178,23 @@ function addNominationToAfdPage(PageGFA) {
 		format: "json"
 	}).done(function(data) {
 		pageContent = data.parse.wikitext['*'];
-		var NominatedBefore = pageContent.includes("{{Vikipedi:Kaliteli madde adayları/" + PageGFA.replace(/_/g, " ") + "}}");
+		var NominatedBefore = pageContent.includes("{{Vikipedi:Kaliteli madde adayları/" + nominatedPage.replace(/_/g, " ") + "}}");
 		if(!NominatedBefore) {
 			api.postWithToken('csrf', {
 				action: 'edit',
 				title: "Vikipedi:Kaliteli_madde_adayları",
-				appendtext: "\n" + "{{Vikipedi:Kaliteli madde adayları/" + PageGFA.replace(/_/g, " ") + "}}",
+				appendtext: "\n" + "{{Vikipedi:Kaliteli madde adayları/" + nominatedPage.replace(/_/g, " ") + "}}",
 				summary: "Adaylık [[Vikipedi:Kaliteli madde adayları|kma]] listesine eklendi.",
 				tags: 'Adiutor',
 				format: 'json'
 			}).done(function() {
-				addNominationToAfdLogPage(PageGFA);
+				addNominationToGaLogPage(nominatedPage);
 			});
 		}
 	});
 }
 
-function addNominationToAfdLogPage(PageGFA) {
+function addNominationToGaLogPage(nominatedPage) {
 	var date = new Date();
 	var date_months = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
 	var date_year = date.getUTCFullYear();
@@ -207,21 +207,21 @@ function addNominationToAfdLogPage(PageGFA) {
 		format: "json"
 	}).done(function(data) {
 		pageContent = data.parse.wikitext['*'];
-		var NominatedBefore = pageContent.includes("{{Vikipedi:Kaliteli madde adayları/" + PageGFA.replace(/_/g, " ") + "}}");
+		var NominatedBefore = pageContent.includes("{{Vikipedi:Kaliteli madde adayları/" + nominatedPage.replace(/_/g, " ") + "}}");
 		//Eğer daha önce aday gösterilmişe
 		if(!NominatedBefore) {
 			api.postWithToken('csrf', {
 				action: 'edit',
 				title: "Vikipedi:Kaliteli_madde_adayları/Arşiv/" + month_name + "_" + date_year,
-				appendtext: "\n" + "{{Vikipedi:Kaliteli madde adayları/" + PageGFA.replace(/_/g, " ") + "}}",
+				appendtext: "\n" + "{{Vikipedi:Kaliteli madde adayları/" + nominatedPage.replace(/_/g, " ") + "}}",
 				summary: "Adaylık [[Vikipedi:Kaliteli madde adayları/Arşiv/" + month_name + " " + date_year + "|mevcut ayın]] kayıtlarına eklendi.",
 				tags: 'Adiutor',
 				format: 'json'
 			}).done(function() {
-				window.location = '/wiki/Vikipedi:Kaliteli madde adayları/' + PageGFA.replace(/_/g, " ");
+				window.location = '/wiki/Vikipedi:Kaliteli madde adayları/' + nominatedPage.replace(/_/g, " ");
 			});
 		} else {
-			window.location = '/wiki/Vikipedi:Kaliteli madde adayları/' + PageGFA.replace(/_/g, " ");
+			window.location = '/wiki/Vikipedi:Kaliteli madde adayları/' + nominatedPage.replace(/_/g, " ");
 		}
 	});
 }

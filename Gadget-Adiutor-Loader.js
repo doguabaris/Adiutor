@@ -7,10 +7,11 @@
  */
 /* <nowiki> */
 // Get essential configuration from MediaWiki
-var mwConfig = mw.config.get(["skin", "wgAction", "wgArticleId", "wgPageName", "wgNamespaceNumber", "wgUserName", "wgTitle", "wgUserGroups", "wgUserEditCount", "wgUserRegistration", "wgRelevantUserName", "wgCanonicalNamespace"]);
+var mwConfig = mw.config.get(["skin", "wgAction", "wgArticleId", "wgPageName", "wgNamespaceNumber", "wgUserName", "wgTitle", "wgUserGroups", "wgUserEditCount", "wgUserRegistration", "wgRelevantUserName", "wgCanonicalNamespace", "wgCanonicalSpecialPageName"]);
 var api = new mw.Api();
 var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor'));
 var DefaultMenuItems = [];
+console.log(mwConfig.wgCanonicalSpecialPageName);
 switch(mwConfig.wgNamespaceNumber) {
 	case -1:
 	case 0:
@@ -42,15 +43,55 @@ switch(mwConfig.wgNamespaceNumber) {
 				checkMentor(data.query.userinfo.id);
 			});
 		}
-		if(/(?:\?|&)(?:action|diff|oldid)=/.test(window.location.href)) {
-			DefaultMenuItems.push(new OO.ui.MenuOptionWidget({
-				icon: 'cancel',
-				data: 'rdr',
-				label: new OO.ui.deferMsg('create-revision-deletion-request'),
-				classes: ['adiutor-top-rrd-menu'],
-			}));
+		if(mwConfig.wgUserGroups.includes('sysop')) {
+			if(!mwConfig.wgCanonicalSpecialPageName) {
+				DefaultMenuItems.push(new OO.ui.MenuOptionWidget({
+					icon: 'trash',
+					data: 'delete',
+					label: new OO.ui.deferMsg('delete'),
+					flags: ['destructive'],
+					classes: ['adiutor-top-user-menu-end'],
+				}));
+				if(mwConfig.wgNamespaceNumber != 0) {
+					if(mwConfig.wgPageName.includes('Hızlı_silinmeye_aday_sayfalar')) {
+						DefaultMenuItems.push(new OO.ui.MenuOptionWidget({
+							icon: 'trash',
+							data: 'batch-delete',
+							label: new OO.ui.deferMsg('batch-delete'),
+							flags: ['destructive'],
+							classes: ['adiutor-top-user-menu-end'],
+						}));
+					}
+				}
+				DefaultMenuItems.push(new OO.ui.MenuOptionWidget({
+					icon: 'lock',
+					data: 'protect',
+					label: new OO.ui.deferMsg('protect'),
+					classes: ['adiutor-top-user-menu-end'],
+				}));
+			}
+			if(mwConfig.wgCanonicalSpecialPageName === 'Contributions' || mwConfig.wgNamespaceNumber === 2 || mwConfig.wgNamespaceNumber === 3 && !mwConfig.wgPageName.includes(mwConfig.wgUserName)) {
+				if(mwConfig.wgUserGroups.includes('sysop')) {
+					DefaultMenuItems.push(new OO.ui.MenuOptionWidget({
+						icon: 'block',
+						data: 'block',
+						label: new OO.ui.deferMsg('block'),
+						classes: ['adiutor-top-user-menu-end'],
+					}));
+				}
+			}
 		}
-		if(mwConfig.wgPageName.includes('Özel:Katkılar') || mwConfig.wgNamespaceNumber === 2 || mwConfig.wgNamespaceNumber === 3 && !mwConfig.wgPageName.includes(mwConfig.wgUserName)) {
+		if(mwConfig.wgUserGroups.includes('sysop')) {
+			if(/(?:\?|&)(?:action|diff|oldid)=/.test(window.location.href)) {
+				DefaultMenuItems.push(new OO.ui.MenuOptionWidget({
+					icon: 'cancel',
+					data: 'rdr',
+					label: new OO.ui.deferMsg('create-revision-deletion-request'),
+					classes: ['adiutor-top-rrd-menu'],
+				}));
+			}
+		}
+		if(mwConfig.wgCanonicalSpecialPageName === 'Contributions' || mwConfig.wgNamespaceNumber === 2 || mwConfig.wgNamespaceNumber === 3 && !mwConfig.wgPageName.includes(mwConfig.wgUserName)) {
 			// Add common buttons
 			DefaultMenuItems.push(new OO.ui.MenuOptionWidget({
 				icon: 'cancel',
@@ -63,17 +104,8 @@ switch(mwConfig.wgNamespaceNumber) {
 				label: new OO.ui.deferMsg('warn'),
 				classes: ['adiutor-top-user-menu-end'],
 			}));
-			// If the user is a sysop, add the block button as well
-			if(mwConfig.wgUserGroups.includes('sysop')) {
-				DefaultMenuItems.push(new OO.ui.MenuOptionWidget({
-					icon: 'block',
-					data: 'block',
-					label: new OO.ui.deferMsg('block'),
-					classes: ['adiutor-top-user-menu-end'],
-				}));
-			}
 		}
-		if(!mwConfig.wgPageName.includes('Özel:Katkılar')) {
+		if(!mwConfig.wgCanonicalSpecialPageName) {
 			DefaultMenuItems.push(new OO.ui.MenuOptionWidget({
 				icon: 'add',
 				data: 1,
@@ -117,6 +149,14 @@ switch(mwConfig.wgNamespaceNumber) {
 				classes: ['adiutor-top-settings-menu'],
 			}));
 		}
+		if(mwConfig.wgCanonicalSpecialPageName) {
+			DefaultMenuItems.push(new OO.ui.MenuOptionWidget({
+				icon: 'settings',
+				data: 6,
+				label: mw.msg('adiutor-settings'),
+				classes: ['adiutor-top-settings-menu'],
+			}));
+		}
 		var adiutorMenu = new OO.ui.ButtonMenuSelectWidget({
 			icon: 'ellipsis',
 			invisibleLabel: true,
@@ -128,6 +168,30 @@ switch(mwConfig.wgNamespaceNumber) {
 				horizontalPosition: 'end',
 				items: DefaultMenuItems,
 				classes: ['adiutor-top-menu'],
+			}
+		});
+		// Define a variable to track if the menu is open
+		var isMenuOpen = false;
+		// Listen for mouseover event on the Adiutor menu button
+		adiutorMenu.$element.on('mouseover', function() {
+			// Open the menu programmatically
+			adiutorMenu.getMenu().toggle(true);
+			isMenuOpen = true;
+		});
+		// Listen for mouseout event on the Adiutor menu button
+		adiutorMenu.$element.on('mouseout', function(event) {
+			// Check if the mouse is leaving the menu area
+			if(!event.relatedTarget || !$(event.relatedTarget).closest('.adiutor-top-selector, .adiutor-top-menu').length) {
+				adiutorMenu.getMenu().toggle(false);
+				isMenuOpen = false;
+			}
+		});
+		// Listen for mouseout event on the entire document
+		$(document).on('mouseout', function(event) {
+			// Check if the mouse is leaving the menu area
+			if(!event.relatedTarget || !$(event.relatedTarget).closest('.adiutor-top-selector, .adiutor-top-menu').length) {
+				adiutorMenu.getMenu().toggle(false);
+				isMenuOpen = false;
 			}
 		});
 		// Define a function to load Adiutor scripts
@@ -148,8 +212,10 @@ switch(mwConfig.wgNamespaceNumber) {
 				'pmr': 'PMR',
 				'rpp': 'RPP',
 				'tag': 'TAG',
-				'gac': 'GAC',
-				'fac': 'FAC'
+				'gan': 'GAN',
+				'fan': 'FAN',
+				'delete': 'DEL',
+				'batch-delete': 'BDM'
 			};
 			// Get the selected option's corresponding script name
 			var selectedOption = optionMapping[menuOption.getData()];
@@ -329,7 +395,9 @@ if(adiutorUserOptions.showEditSummaries === true) {
 }
 
 function loadAdiutorScript(scriptName) {
-	mw.loader.load(mw.util.getUrl('MediaWiki:Gadget-Adiutor-' + scriptName + '.js', {action:'raw'}) + '&ctype=text/javascript', 'text/javascript');
+	mw.loader.load(mw.util.getUrl('MediaWiki:Gadget-Adiutor-' + scriptName + '.js', {
+		action: 'raw'
+	}) + '&ctype=text/javascript', 'text/javascript');
 }
 
 function checkMentor(UserId) {

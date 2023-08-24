@@ -3,7 +3,7 @@
  * Author: Vikipolimer
  * Learn more at: https://meta.wikimedia.org/wiki/Adiutor
  * Licensing and Attribution: Licensed under Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
- * Module: Featured article candidate
+ * Module: Featured article nomination
  */
 /* <nowiki> */
 // Get essential configuration from MediaWiki
@@ -13,13 +13,13 @@ var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor'));
 var NominatedPreviously;
 var nextNominationNumber = 0;
 
-function FeaturedArticleCandidateDialog(config) {
-	FeaturedArticleCandidateDialog.super.call(this, config);
+function FeaturedArticleNominationDialog(config) {
+	FeaturedArticleNominationDialog.super.call(this, config);
 }
-OO.inheritClass(FeaturedArticleCandidateDialog, OO.ui.ProcessDialog);
-FeaturedArticleCandidateDialog.static.name = 'FeaturedArticleCandidateDialog';
-FeaturedArticleCandidateDialog.static.title = 'Adiutor (Beta) - Seçkin Madde Adaylığı';
-FeaturedArticleCandidateDialog.static.actions = [{
+OO.inheritClass(FeaturedArticleNominationDialog, OO.ui.ProcessDialog);
+FeaturedArticleNominationDialog.static.name = 'FeaturedArticleNominationDialog';
+FeaturedArticleNominationDialog.static.title = 'Adiutor (Beta) - Seçkin Madde Adaylığı';
+FeaturedArticleNominationDialog.static.actions = [{
 	action: 'save',
 	label: 'Devam',
 	flags: ['primary', 'progressive']
@@ -27,8 +27,8 @@ FeaturedArticleCandidateDialog.static.actions = [{
 	label: 'İptal',
 	flags: 'safe'
 }];
-FeaturedArticleCandidateDialog.prototype.initialize = function() {
-	FeaturedArticleCandidateDialog.super.prototype.initialize.apply(this, arguments);
+FeaturedArticleNominationDialog.prototype.initialize = function() {
+	FeaturedArticleNominationDialog.super.prototype.initialize.apply(this, arguments);
 	var headerTitle = new OO.ui.MessageWidget({
 		type: 'error',
 		inline: true,
@@ -58,11 +58,11 @@ FeaturedArticleCandidateDialog.prototype.initialize = function() {
 	this.content.$element.append(headerTitle.$element, '<br>', headerTitle2.$element, '<br>', CandidateOptions.$element);
 	this.$body.append(this.content.$element);
 };
-FeaturedArticleCandidateDialog.prototype.getActionProcess = function(action) {
+FeaturedArticleNominationDialog.prototype.getActionProcess = function(action) {
 	var dialog = this;
 	if(action) {
 		return new OO.ui.Process(function() {
-			var GFATemplate;
+			var FANTemplate;
 			var ActionOptions = [];
 			CandidateOptions.items.forEach(function(Option) {
 				if(Option.fieldWidget.selected) {
@@ -83,8 +83,8 @@ FeaturedArticleCandidateDialog.prototype.getActionProcess = function(action) {
 					var nomCount = 0;
 					console.log(nomCount);
 					NominatedPreviously = false;
-					GFATemplate = '{{SMA}}';
-					putAfDTemplate(GFATemplate, nextNominationNumber);
+					FANTemplate = '{{SMA}}';
+					putTemplate(FANTemplate, nextNominationNumber);
 				} else {
 					Rec(2);
 				}
@@ -98,12 +98,12 @@ FeaturedArticleCandidateDialog.prototype.getActionProcess = function(action) {
 						nextNominationNumber = nomCount++;
 						console.log(nextNominationNumber);
 						if(nextNominationNumber > 1) {
-							GFATemplate = '{{SMA|' + nextNominationNumber + '|' + '}}';
+							FANTemplate = '{{SMA|' + nextNominationNumber + '|' + '}}';
 						} else {
-							GFATemplate = '{{SMA}}';
+							FANTemplate = '{{SMA}}';
 						}
-						console.log(GFATemplate);
-						putAfDTemplate(GFATemplate, nextNominationNumber);
+						console.log(FANTemplate);
+						putTemplate(FANTemplate, nextNominationNumber);
 					}
 				});
 			}
@@ -113,11 +113,11 @@ FeaturedArticleCandidateDialog.prototype.getActionProcess = function(action) {
 			showProgress();
 		});
 	}
-	return FeaturedArticleCandidateDialog.super.prototype.getActionProcess.call(this, action);
+	return FeaturedArticleNominationDialog.super.prototype.getActionProcess.call(this, action);
 };
 var windowManager = new OO.ui.WindowManager();
 $(document.body).append(windowManager.$element);
-var dialog = new FeaturedArticleCandidateDialog({
+var dialog = new FeaturedArticleNominationDialog({
 	size: 'large',
 	classes: ['afd-helper-window'],
 	isDraggable: true
@@ -125,7 +125,7 @@ var dialog = new FeaturedArticleCandidateDialog({
 windowManager.addWindows([dialog]);
 windowManager.openWindow(dialog);
 
-function putAfDTemplate(GFATemplate, nextNominationNumber) {
+function putTemplate(FANTemplate, nextNominationNumber) {
 	var PageGFA;
 	if(nextNominationNumber > 1) {
 		PageGFA = mwConfig.wgPageName + ' (' + nextNominationNumber + '._aday_gösterme)';
@@ -135,7 +135,7 @@ function putAfDTemplate(GFATemplate, nextNominationNumber) {
 	api.postWithToken('csrf', {
 		action: 'edit',
 		title: 'Tartışma:' + mwConfig.wgPageName,
-		prependtext: GFATemplate + "\n",
+		prependtext: FANTemplate + "\n",
 		summary: 'Sayfa [[VP:SMA|Seçkin madde adayı]] gösterildi',
 		tags: 'Adiutor',
 		format: 'json'
@@ -165,11 +165,11 @@ function createNominationPage(PageGFA) {
 		tags: 'Adiutor',
 		format: 'json'
 	}).done(function() {
-		addNominationToAfdPage(PageGFA);
+		addNominationToFanPage(PageGFA);
 	});
 }
 
-function addNominationToAfdPage(PageGFA) {
+function addNominationToFanPage(PageGFA) {
 	var pageContent;
 	api.get({
 		action: 'parse',
@@ -188,13 +188,13 @@ function addNominationToAfdPage(PageGFA) {
 				tags: 'Adiutor',
 				format: 'json'
 			}).done(function() {
-				addNominationToAfdLogPage(PageGFA);
+				addNominationToFanLogPage(PageGFA);
 			});
 		}
 	});
 }
 
-function addNominationToAfdLogPage(PageGFA) {
+function addNominationToFanLogPage(PageGFA) {
 	var date = new Date();
 	var date_months = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
 	var date_year = date.getUTCFullYear();
