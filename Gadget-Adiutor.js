@@ -75,7 +75,7 @@ $.when(mw.loader.using(["mediawiki.user", "mediawiki.storage", "oojs-ui-core", "
 		},
 		"inlinePageInfo": true,
 		"showEditSummaries": true,
-		"adiutorVersion": "v1.1.3"
+		"adiutorVersion": "v1.1.4"
 	};
 	// Get user options related to the Adiutor gadget
 	var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor'));
