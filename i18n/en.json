@@ -1,4 +1,9 @@
 {
+    "@metadata": {
+        "authors": [
+            "Vikipolimer"
+        ]
+    },
     "create": "Create",
     "okay": "Okay",
     "more-about-this-page": "More information",
