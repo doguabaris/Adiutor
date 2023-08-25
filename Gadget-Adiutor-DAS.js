@@ -260,6 +260,7 @@ function AdministratorPageTwoLayout(name, config) {
 					'margin-top': '53px',
 					'position': 'fixed',
 					'width': '-webkit-fill-available',
+					'list-style': 'none',
 				});
 			},
 			error: function(xhr, status, error) {
