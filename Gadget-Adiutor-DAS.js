@@ -14,56 +14,49 @@ var ArticleListforCsd = [];
 var ArticleListforDeletion = [];
 
 function updateArticleList(categoryTitle, targetList, additionalValue) {
-    var apiUrl = "https://tr.wikipedia.org/w/api.php";
-    var params = {
-        action: "query",
-        format: "json",
-        list: "categorymembers",
-        cmtitle: categoryTitle,
-        cmlimit: 1000,
-    };
-    
-    $.ajax({
-        url: apiUrl,
-        data: params,
-        dataType: "jsonp",
-        success: function(data) {
-            var pages = data.query.categorymembers;
-            
-            pages.forEach(function(page) {
-                var pageTitle = page.title;
+	var apiUrl = "https://tr.wikipedia.org/w/api.php";
+	var params = {
+		action: "query",
+		format: "json",
+		list: "categorymembers",
+		cmtitle: categoryTitle,
+		cmlimit: 1000,
+	};
+	$.ajax({
+		url: apiUrl,
+		data: params,
+		dataType: "jsonp",
+		success: function(data) {
+			var pages = data.query.categorymembers;
+			pages.forEach(function(page) {
+				var pageTitle = page.title;
 				var pageTitleForContent = additionalValue ? 'Vikipedi:Silinmeye aday sayfalar/' + page.title : page.title;
-                var pageNamespace = page.ns;
-                
-                var contentParams = {
-                    action: "parse",
-                    format: "json",
-                    page: pageTitleForContent,
-                    prop: "text"
-                };
-                
-                $.ajax({
-                    url: apiUrl,
-                    data: contentParams,
-                    dataType: "jsonp",
-                    success: function(contentData) {
-                        var pageContent = contentData.parse.text["*"];
-                        
-                        targetList.push({
-                            label: pageTitle,
-                            content: pageContent,
-                            namespace: pageNamespace,
-                            special: pageTitleForContent
-                        });
-                        
-                        mw.storage.session.set(targetList === ArticleListforCsd ? 'ArticleListforCsd' : 'ArticleListforDeletion', JSON.stringify(targetList));
-                    }
-                });
-            });
-        }
-    });
+				var pageNamespace = page.ns;
+				var contentParams = {
+					action: "parse",
+					format: "json",
+					page: pageTitleForContent,
+					prop: "text"
+				};
+				$.ajax({
+					url: apiUrl,
+					data: contentParams,
+					dataType: "jsonp",
+					success: function(contentData) {
+						var pageContent = contentData.parse.text["*"];
+						targetList.push({
+							label: pageTitle,
+							content: pageContent,
+							namespace: pageNamespace,
+							special: pageTitleForContent
+						});
+						mw.storage.session.set(targetList === ArticleListforCsd ? 'ArticleListforCsd' : 'ArticleListforDeletion', JSON.stringify(targetList));
+					}
+				});
+			});
+		}
+	});
 }
-
 updateArticleList("Kategori:Hızlı_silinmeye_aday_sayfalar", ArticleListforCsd);
 updateArticleList("Kategori:Silinmeye_aday_sayfalar", ArticleListforDeletion, true);
 
@@ -189,11 +182,67 @@ function SectionTwoLayout(name, config) {
 			// Create widgets for title and content
 			var titleWidget = new OO.ui.HtmlSnippet(panelData.title);
 			var textWidget = new OO.ui.HtmlSnippet(panelData.content);
+			var showVideoButton = new OO.ui.ButtonWidget({
+				label: mw.msg('help'),
+				icon: 'play',
+				classes: ['adiutor-aricle-show-video-button']
+			});
+			showVideoButton.on('click', function() {
+				function ArticleVideoDialog(config) {
+					ArticleVideoDialog.super.call(this, config);
+				}
+				OO.inheritClass(ArticleVideoDialog, OO.ui.ProcessDialog);
+				ArticleVideoDialog.static.name = 'ArticleVideoDialog';
+				ArticleVideoDialog.static.title = panelData.title;
+				ArticleVideoDialog.static.actions = [{
+					action: 'save',
+					label: mw.msg('okay'),
+					flags: 'primary'
+				}, {
+					label: mw.msg('close'),
+					flags: 'safe'
+				}];
+				ArticleVideoDialog.prototype.initialize = function() {
+					ArticleVideoDialog.super.prototype.initialize.apply(this, arguments);
+					this.content = new OO.ui.PanelLayout({
+						padded: false,
+						expanded: false
+					});
+					var videoElement = document.createElement('video');
+					videoElement.src = "https://upload.wikimedia.org/wikipedia/commons/transcoded/1/17/Els_colors_fronterers_segons_Goethe.webm/Els_colors_fronterers_segons_Goethe.webm.1080p.vp9.webm";
+					videoElement.controls = true; // Show controls (play, pause, etc.)
+					videoElement.style.width = "100%"; // Adjust width
+					videoElement.style.height = "100%"; // Adjust width
+					this.content.$element.append(videoElement);
+					this.$body.append(this.content.$element);
+				};
+				ArticleVideoDialog.prototype.getActionProcess = function(action) {
+					var dialog = this;
+					if(action) {
+						return new OO.ui.Process(function() {
+							dialog.close({
+								action: action
+							});
+						});
+					}
+					return ArticleVideoDialog.super.prototype.getActionProcess.call(this, action);
+				};
+				var windowManager = new OO.ui.WindowManager();
+				$(document.body).append(windowManager.$element);
+				var dialog = new ArticleVideoDialog({
+					size: 'larger',
+				});
+				windowManager.addWindows([dialog]);
+				windowManager.openWindow(dialog);
+			});
 			var helpArticleContent = new OO.ui.MessageWidget({
 				type: 'notice',
-				label: new OO.ui.HtmlSnippet('<strong>' + titleWidget + '</strong><br>' + textWidget + '')
+				label: new OO.ui.HtmlSnippet('<h1 style="border: none; display: inline; font-size: large;"><strong>' + titleWidget + '</strong></h1>' + '<img style="width: 30%; float: right; margin: 30px;" src="' + panelData.image + '" alt="">' + textWidget + '')
 			});
-			tabPanel.$element.append(helpArticleContent.$element);
+			helpArticleContent.$element.css({
+				'display': 'flex',
+			});
+			tabPanel.$element.append(showVideoButton.$element, helpArticleContent.$element);
 			tabPanelsArray.push(tabPanel);
 		});
 		var index = new OO.ui.IndexLayout({
@@ -759,13 +808,11 @@ administratorToolsLayoutCsd.prototype.setupOutlineItem = function() {
 	this.outlineItem.setLabel(mw.msg('csd-requests'));
 };
 administratorToolsLayoutCsdLayout = new administratorToolsLayoutCsd('csd');
-
 var bookletadministratorToolsLayout = new OO.ui.BookletLayout({
 	outlined: true,
 	size: 'full',
 	classes: ['adiutor-csd-administrator-area']
 });
-
 bookletadministratorToolsLayout.addPages([administratorToolsLayoutCsdLayout]);
 
 function SectionThreeLayout(name, config) {

@@ -5,7 +5,7 @@
  */
  .adiutor-user-dashboard-container {
 	padding: 65px;
-	background-image: url(https://upload.wikimedia.org/wikipedia/commons/9/98/Astronaut_illustration_simplified_with_Wikimedia_logo.png);
+	background-image: url(https://upload.wikimedia.org/wikipedia/commons/a/ac/Illustration_of_Reading_Wikipedia_in_the_Classroom_%28blue%29_03.png);
 	background-repeat: no-repeat;
 	background-position: calc(100% - 10%) 30%;
 	background-size: 35%;
@@ -111,8 +111,8 @@ label.adiutor-user-dashboard-logo {
 	margin-top: 70px !important;
 }
 
-.adiutor-administrator-helper-csd-article-content.oo-ui-pageLayout-active {
-	padding: 0;
+.adiutor-administrator-helper-csd-article-content{
+	padding: 0 !important;
 }
 
 .adiutor-administrator-helper-csd--toolbar {
@@ -538,4 +538,17 @@ display: inherit;
     background-size: 50px;
     margin-top: 18px;
     margin-left: 16px;
+}
+
+h2.adiutor-help-content-heading-sub {
+    font-size: 16px;
+    font-weight: 900;
+    color: #3367cc;
+}
+
+span.adiutor-aricle-show-video-button {
+    position: absolute;
+    z-index: 99;
+    right: 23px;
+    top: 30px;
 }

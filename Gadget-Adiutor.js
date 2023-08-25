@@ -7,7 +7,7 @@
  */
 /* <nowiki> */
 // Wait for required modules and document ready state
-$.when(mw.loader.using(["mediawiki.user", "mediawiki.storage", "oojs-ui-core", "oojs-ui-widgets", "oojs-ui-toolbars", "oojs-ui-windows", "oojs-ui.styles.icons-movement", "oojs-ui.styles.icons-editing-core", "oojs-ui.styles.icons-interactions", "oojs-ui.styles.icons-moderation", "oojs-ui.styles.icons-content", "oojs-ui.styles.icons-layout", "oojs-ui.styles.icons-user", "oojs-ui.styles.icons-editing-advanced"]), $.ready).then(function() {
+$.when(mw.loader.using(["mediawiki.user", "mediawiki.storage", "oojs-ui-core", "oojs-ui-widgets", "oojs-ui-toolbars", "oojs-ui-windows", "oojs-ui.styles.icons-movement", "oojs-ui.styles.icons-editing-core", "oojs-ui.styles.icons-interactions", "oojs-ui.styles.icons-moderation", "oojs-ui.styles.icons-content", "oojs-ui.styles.icons-layout", "oojs-ui.styles.icons-user", "oojs-ui.styles.icons-media", "oojs-ui.styles.icons-editing-advanced"]), $.ready).then(function() {
 	// Initialize the MediaWiki API
 	var api = new mw.Api();
 	// Function to update user options
