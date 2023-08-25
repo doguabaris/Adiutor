@@ -5,6 +5,7 @@
  * Licensing and Attribution: Licensed under Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
  * Module: Batch deletion module
  */
+/* <nowiki> */
 // Get essential configuration from MediaWiki
 var mwConfig = mw.config.get(["skin", "wgAction", "wgArticleId", "wgPageName", "wgNamespaceNumber", "wgTitle", "wgUserGroups", "wgUserName", "wgUserEditCount", "wgUserRegistration", "wgCanonicalNamespace"]);
 // Create an instance of the MediaWiki API
@@ -18,7 +19,7 @@ var selectedReason;
 api.get({
 	action: 'query',
 	list: 'categorymembers',
-	cmtitle: 'Category:Pages_to_be_deleted',
+	cmtitle: 'Kategori:Hızlı silinmeye aday sayfalar',
 	cmsort: 'timestamp',
 	cmdir: 'desc',
 	format: 'json'
@@ -207,7 +208,7 @@ api.get({
 							api.postWithToken('csrf', {
 								action: 'delete',
 								title: "Talk:" + pageTitle,
-								reason: '[[VP:HS#G7]]: Talk page of the deleted page',
+								reason: '[[VP:HS#G7]]: Silinen sayfanın tartışma sayfası',
 								tags: 'Adiutor',
 								format: 'json'
 							}).done(function() {});
@@ -234,3 +235,4 @@ api.get({
 		windowManager.openWindow(dialog);
 	});
 });
+/* </nowiki> */
