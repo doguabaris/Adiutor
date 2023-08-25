@@ -233,7 +233,7 @@ function AdministratorPageTwoLayout(name, config) {
 			"id": mwConfig.wgArticleId,
 			"name": mwConfig.wgPageName
 		};
-		var apiUrl = "https://xtools.wmcloud.org/api/page/articleinfo/tr.wikipedia.org/" + item.label + "?format=json";
+		var apiUrl = "https://xtools.wmcloud.org/api/page/articleinfo/tr.wikipedia.org/" + encodeURIComponent(item.label) + "?format=json";
 		// AJAX isteği
 		$.ajax({
 			url: apiUrl,
@@ -624,7 +624,7 @@ function AdministratorPageTwoLayout(name, config) {
 			});
 		});
 		openThePageButton.on('click', function() {
-			window.open('/wiki/' + item.label, '_blank');
+			window.open('/wiki/' + encodeURIComponent(item.label), '_blank');
 		});
 		copyVioButton.on('click', function() {
 			var messageDialog = new OO.ui.MessageDialog();
