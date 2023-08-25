@@ -11,52 +11,61 @@ var mwConfig = mw.config.get(["skin", "wgAction", "wgArticleId", "wgPageName", "
 var api = new mw.Api();
 var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor'));
 var ArticleListforCsd = [];
+var ArticleListforDeletion = [];
 
-function updateArticleList() {
-	var apiUrl = "https://tr.wikipedia.org/w/api.php";
-	var categoryTitle = "Kategori:Hızlı_silinmeye_aday_sayfalar";
-	var params = {
-		action: "query",
-		format: "json",
-		list: "categorymembers",
-		cmtitle: categoryTitle,
-		cmlimit: 1000, // İstenen sonuç sayısı
-	};
-	$.ajax({
-		url: apiUrl,
-		data: params,
-		dataType: "jsonp",
-		success: function(data) {
-			var pages = data.query.categorymembers;
-			pages.forEach(function(page) {
-				var pageTitle = page.title;
-				var pageId = page.pageid;
-				var pageNamespace = page.ns;
-				var contentParams = {
-					action: "parse",
-					format: "json",
-					pageid: pageId,
-					prop: "text" // Sayfa içeriğini HTML olarak almak için "text"
-				};
-				$.ajax({
-					url: apiUrl,
-					data: contentParams,
-					dataType: "jsonp",
-					success: function(contentData) {
-						var pageContent = contentData.parse.text["*"];
-						ArticleListforCsd.push({
-							label: pageTitle,
-							content: pageContent,
-							namespace: pageNamespace
-						});
-						mw.storage.session.set('ArticleListforCsd', JSON.stringify(ArticleListforCsd));
-					}
-				});
-			});
-		}
-	});
+function updateArticleList(categoryTitle, targetList, additionalValue) {
+    var apiUrl = "https://tr.wikipedia.org/w/api.php";
+    var params = {
+        action: "query",
+        format: "json",
+        list: "categorymembers",
+        cmtitle: categoryTitle,
+        cmlimit: 1000,
+    };
+    
+    $.ajax({
+        url: apiUrl,
+        data: params,
+        dataType: "jsonp",
+        success: function(data) {
+            var pages = data.query.categorymembers;
+            
+            pages.forEach(function(page) {
+                var pageTitle = page.title;
+				var pageTitleForContent = additionalValue ? 'Vikipedi:Silinmeye aday sayfalar/' + page.title : page.title;
+                var pageNamespace = page.ns;
+                
+                var contentParams = {
+                    action: "parse",
+                    format: "json",
+                    page: pageTitleForContent,
+                    prop: "text"
+                };
+                
+                $.ajax({
+                    url: apiUrl,
+                    data: contentParams,
+                    dataType: "jsonp",
+                    success: function(contentData) {
+                        var pageContent = contentData.parse.text["*"];
+                        
+                        targetList.push({
+                            label: pageTitle,
+                            content: pageContent,
+                            namespace: pageNamespace,
+                            special: pageTitleForContent
+                        });
+                        
+                        mw.storage.session.set(targetList === ArticleListforCsd ? 'ArticleListforCsd' : 'ArticleListforDeletion', JSON.stringify(targetList));
+                    }
+                });
+            });
+        }
+    });
 }
-updateArticleList();
+
+updateArticleList("Kategori:Hızlı_silinmeye_aday_sayfalar", ArticleListforCsd);
+updateArticleList("Kategori:Silinmeye_aday_sayfalar", ArticleListforDeletion, true);
 
 function SectionOneLayout(name, config) {
 	SectionOneLayout.super.call(this, name, config);
@@ -199,17 +208,8 @@ SectionTwoLayout.prototype.setupOutlineItem = function() {
 	this.outlineItem.setLabel(mw.msg('help-and-guides'));
 };
 
-function AdministratorPageOneLayout(name, config) {
-	AdministratorPageOneLayout.super.call(this, name, config);
-	this.$element.append('Engelleme talepleri detay alanı...');
-}
-OO.inheritClass(AdministratorPageOneLayout, OO.ui.PageLayout);
-AdministratorPageOneLayout.prototype.setupOutlineItem = function() {
-	this.outlineItem.setLabel(mw.msg('block-requests'));
-};
-
-function AdministratorPageTwoLayout(name, config) {
-	AdministratorPageTwoLayout.super.call(this, name, config);
+function administratorToolsLayoutCsd(name, config) {
+	administratorToolsLayoutCsd.super.call(this, name, config);
 	var storedData = mw.storage.session.get('ArticleListforCsd');
 	var ArticleListforCsd = JSON.parse(storedData);
 	var currentPageIndex = 0;
@@ -754,37 +754,36 @@ function AdministratorPageTwoLayout(name, config) {
 	booklet.addPages(pageLayouts);
 	this.$element.append(booklet.$element);
 }
-OO.inheritClass(AdministratorPageTwoLayout, OO.ui.PageLayout);
-AdministratorPageTwoLayout.prototype.setupOutlineItem = function() {
+OO.inheritClass(administratorToolsLayoutCsd, OO.ui.PageLayout);
+administratorToolsLayoutCsd.prototype.setupOutlineItem = function() {
 	this.outlineItem.setLabel(mw.msg('csd-requests'));
 };
-// Create instances of each page layout
-var Administratorpage1 = new AdministratorPageOneLayout('page1'),
-	Administratorpage2 = new AdministratorPageTwoLayout('page2');
-// Add the pages to the booklet
-var bookletAdministrator = new OO.ui.BookletLayout({
+administratorToolsLayoutCsdLayout = new administratorToolsLayoutCsd('csd');
+
+var bookletadministratorToolsLayout = new OO.ui.BookletLayout({
 	outlined: true,
 	size: 'full',
 	classes: ['adiutor-csd-administrator-area']
 });
-bookletAdministrator.addPages([Administratorpage1, Administratorpage2]);
 
-function SectionFourLayout(name, config) {
-	SectionFourLayout.super.call(this, name, config);
-	this.$element.append(bookletAdministrator.$element);
+bookletadministratorToolsLayout.addPages([administratorToolsLayoutCsdLayout]);
+
+function SectionThreeLayout(name, config) {
+	SectionThreeLayout.super.call(this, name, config);
+	this.$element.append(bookletadministratorToolsLayout.$element);
 }
-OO.inheritClass(SectionFourLayout, OO.ui.PageLayout);
-SectionFourLayout.prototype.setupOutlineItem = function() {
+OO.inheritClass(SectionThreeLayout, OO.ui.PageLayout);
+SectionThreeLayout.prototype.setupOutlineItem = function() {
 	this.outlineItem.setLabel(mw.msg('administrator-tools'));
 };
 var sectionOne = new SectionOneLayout('one');
 var sectionTwo = new SectionTwoLayout('two');
-var sectionFour = new SectionFourLayout('four');
+var sectionThree = new SectionThreeLayout('four');
 var booklet2 = new OO.ui.BookletLayout({
 	outlined: true,
 	classes: ['adiutor-user-dashboard-main-3'],
 });
-booklet2.addPages([sectionOne, sectionTwo, sectionFour]);
+booklet2.addPages([sectionOne, sectionTwo, sectionThree]);
 
 function MyProcessDialog(config) {
 	MyProcessDialog.super.call(this, config);
