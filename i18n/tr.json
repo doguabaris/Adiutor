@@ -1,8 +1,8 @@
 {
   "@metadata": {
-      "authors": [
-          "Vikipolimer"
-      ]
+    "authors": [
+      "Vikipolimer"
+    ]
   },
   "create": "Oluştur",
   "okay": "Tamam",
@@ -153,7 +153,7 @@
   "page-protection-request": "Sayfa Koruma Talebi",
   "recent-changes": "Son Değişiklik",
   "tag-page": "Sayfayı Etiketle",
-  "copyright-violation-check": "Telif İhlali Kontrolü",
+  "copyright-violation-check": "Telif Kontrolü",
   "adiutor-settings": "Adiutor Ayarları",
   "page-info-tip": "<strong>$1</strong> tarihinde <strong><a href='/wiki/Kullanıcı:$2'>$2</a></strong> ($3) tarafından oluşturuldu, $4 revizyon, $5 editör, <strong>$6</strong> sayfa gösterimi ($7 gün)",
   "page-more-info-tip-author": "<strong>Oluşturan</strong><br>Bu madde <strong><a href='/wiki/Kullanıcı:$1'>$1</a></strong> tarafından oluşturulmuş.",
@@ -304,5 +304,9 @@
   "relative-date-month-other": "{{PLURAL:$1|$1 ay}}",
   "relative-date-year-one": "{{PLURAL:$1|$1 yıl}}",
   "relative-date-year-other": "{{PLURAL:$1|$1 yıl}}",
-  "open-the-page": "Sayfayı Aç"
+  "open-the-page": "Sayfayı Aç",
+  "pages-for-csd": "Hızlı silinmeye aday sayfalar",
+  "dashboard-pages-for-csd-welcome": "Bu modüldeki sayfa ve dosyalar, kullanıcılar tarafından {{Sil}} şablonu ile işaretlenmiştir ve silme yetkisine sahip hizmetlilerden birinin incelemesi için beklemektedir, lütfen sayfa ve dosyaları silmeden önce hızlı silme kriterlerine uygunluğunu kontrol ediniz.",
+  "list-pages-for-csd": "Aday Sayfaları Listele",
+  "afd-requests": "Silinmeye Aday Sayfalar"
 }

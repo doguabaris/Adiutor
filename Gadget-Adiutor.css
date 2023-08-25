@@ -3,7 +3,7 @@
  * Author: Vikipolimer
  * Licencing and attribution: Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
  */
- .adiutor-user-dashboard-container {
+.adiutor-user-dashboard-container {
 	padding: 65px;
 	background-image: url(https://upload.wikimedia.org/wikipedia/commons/a/ac/Illustration_of_Reading_Wikipedia_in_the_Classroom_%28blue%29_03.png);
 	background-repeat: no-repeat;
@@ -111,7 +111,7 @@ label.adiutor-user-dashboard-logo {
 	margin-top: 70px !important;
 }
 
-.adiutor-administrator-helper-csd-article-content{
+.adiutor-administrator-helper-csd-article-content {
 	padding: 0 !important;
 }
 
@@ -373,7 +373,7 @@ ul.cov-url-list {
 	line-height: 2.5595238em;
 }
 
-.articles-worked-on-popup > .oo-ui-popupWidget-popup > .oo-ui-popupWidget-footer {
+.articles-worked-on-popup>.oo-ui-popupWidget-popup>.oo-ui-popupWidget-footer {
 	width: 100%;
 	margin: 0;
 	border-top: 1px solid #c8ccd1;
@@ -423,20 +423,20 @@ ul.cov-url-list {
 
 .adiutor-aricle-detail-box {
 	margin-top: -0.7px;
-    padding: 10px !important;
-    display: list-item;
-    height: 50px;
-    padding-top: 15px !important;
-    font-size: 12px;
-    background-color: #f7f8f9 !important;
-    border-color: #a2a9b1 !important;
+	padding: 10px !important;
+	display: list-item;
+	height: 50px;
+	padding-top: 15px !important;
+	font-size: 12px;
+	background-color: #f7f8f9 !important;
+	border-color: #a2a9b1 !important;
 }
 
 span.adiutor-aricle-detail-box-button-group {
-    right: 45px;
-    display: revert;
-    position: absolute;
-    top: 8px;
+	right: 45px;
+	display: revert;
+	position: absolute;
+	top: 8px;
 }
 
 .articles-worked-on-popup-search-box-enmpy {
@@ -459,44 +459,44 @@ span.adiutor-aricle-detail-box-button-group {
 }
 
 .adiutor-page-more-info-tip-author {
-    border: none !important;
-    margin: 0 !important;
+	border: none !important;
+	margin: 0 !important;
 }
 
-.adiutor-page-more-info-tip-date{
-    border: none !important;
-    margin: 0 !important;
+.adiutor-page-more-info-tip-date {
+	border: none !important;
+	margin: 0 !important;
 }
 
 .adiutor-page-more-info-tip-keyword {
-    border: none !important;
-    margin: 0 !important;
-    border-top: 1px solid #a2a9b1 !important;
+	border: none !important;
+	margin: 0 !important;
+	border-top: 1px solid #a2a9b1 !important;
 }
 
 .adiutor-user-page-container {
 	margin-top: 20px;
-    display: initial;
+	display: initial;
 	position: inherit;
 }
 
 .adiutor-user-page-box-container {
-    width: 99.80%;
-    display: flex !important;
-    margin: 0;
-    background: #f8f9fa;
-    border: 1px solid #d1d1d1;
-    height: 90px;
+	width: 99.80%;
+	display: flex !important;
+	margin: 0;
+	background: #f8f9fa;
+	border: 1px solid #d1d1d1;
+	height: 90px;
 }
 
 .adiutor-user-page-username-details {
-    float: left;
-    width: inherit;
-    background-color: #f8f9fa !important;
-    border: none !important;
-    color: #000;
-    display: grid;
-    padding-left: 54px !important;
+	float: left;
+	width: inherit;
+	background-color: #f8f9fa !important;
+	border: none !important;
+	color: #000;
+	display: grid;
+	padding-left: 54px !important;
 }
 
 .adiutor-user-page-username-details .oo-ui-iconElement-icon {
@@ -504,12 +504,12 @@ span.adiutor-aricle-detail-box-button-group {
 }
 
 .adiutor-user-page-change-count {
-float: left;
-    width: inherit;
-    margin: 0px !important;
-    border: none !important;
-    background-color: #ffffff00 !important;
-    border-left: 1px solid #d1d1d1 !important;
+	float: left;
+	width: inherit;
+	margin: 0px !important;
+	border: none !important;
+	background-color: #ffffff00 !important;
+	border-left: 1px solid #d1d1d1 !important;
 }
 
 .adiutor-user-page-miscellaneous {
@@ -521,34 +521,61 @@ float: left;
 }
 
 span.adiutor-user-page-button-group {
-display: inherit;
-    position: relative;
-    margin-top: 28px !important;
-    margin-right: 18px !important;
+	display: inherit;
+	position: relative;
+	margin-top: 28px !important;
+	margin-right: 18px !important;
 }
 
 .adiutor-user-page-username-details .oo-ui-iconElement-icon {
-     background-image: url(https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/OOjs_UI_icon_userAvatarOutline-progressive.svg/1920px-OOjs_UI_icon_userAvatarOutline-progressive.svg.png);
-    background-position: center !important;
-    width: 50px;
-    height: 50px;
-    filter: unset;
-    display: block;
-    float: left;
-    background-size: 50px;
-    margin-top: 18px;
-    margin-left: 16px;
+	background-image: url(https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/OOjs_UI_icon_userAvatarOutline-progressive.svg/1920px-OOjs_UI_icon_userAvatarOutline-progressive.svg.png);
+	background-position: center !important;
+	width: 50px;
+	height: 50px;
+	filter: unset;
+	display: block;
+	float: left;
+	background-size: 50px;
+	margin-top: 18px;
+	margin-left: 16px;
 }
 
 h2.adiutor-help-content-heading-sub {
-    font-size: 16px;
-    font-weight: 900;
-    color: #3367cc;
+	font-size: 16px;
+	font-weight: 900;
+	color: #3367cc;
 }
 
 span.adiutor-aricle-show-video-button {
-    position: absolute;
-    z-index: 99;
-    right: 23px;
-    top: 30px;
+	position: absolute;
+	z-index: 99;
+	right: 23px;
+	top: 30px;
+}
+
+.adiutor-dashboard-administrator-tools-csd-welcome {
+	background-image: url(https://upload.wikimedia.org/wikipedia/commons/c/c7/CompactPersonalBar-ltr.svg);
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 50%;
+	text-align: center;
+	background-position-y: 65%;
+}
+
+.adiutor-dashboard-administrator-tools-csd-welcome-messsage {
+	width: 50%;
+	margin: 50px;
+	display: inline-flex;
+	margin-bottom: 30px;
+}
+
+.adiutor-dashboard-administrator-tools-csd-welcome-messsage .oo-ui-labelElement-label {
+	margin: 0;
+}
+
+.adiutor-dashboard-administrator-tools-csd-show-button {
+	display: inherit;
+}
+.adiutor-dashboard-administrator-tools-csd-welcome-messsage span {
+    margin: 0 !important;
 }

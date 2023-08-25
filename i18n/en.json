@@ -304,5 +304,9 @@
     "relative-date-month-other": "{{PLURAL:$1|$1 months}}",
     "relative-date-year-one": "{{PLURAL:$1|$1 year}}",
     "relative-date-year-other": "{{PLURAL:$1|$1 years}}",
-    "open-the-page": "Open The Page"
+    "open-the-page": "Open The Page",
+    "pages-for-csd": "Speedy Deletion List",
+    "dashboard-pages-for-csd-welcome": "The pages and files in this module have been marked with the {{Delete}} template by users and are awaiting review by a service worker with deletion privileges; please check the eligibility of the pages and files for speedy deletion criteria before deleting.",
+    "list-pages-for-csd": "List the the pages",
+    "afd-requests": "List AfD"
 }

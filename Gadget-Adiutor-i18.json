@@ -305,7 +305,11 @@
         "relative-date-month-other": "{{PLURAL:$1|$1 months}}",
         "relative-date-year-one": "{{PLURAL:$1|$1 year}}",
         "relative-date-year-other": "{{PLURAL:$1|$1 years}}",
-        "open-the-page": "Open The Page"
+        "open-the-page": "Open The Page",
+        "pages-for-csd": "Speedy Deletion List",
+        "dashboard-pages-for-csd-welcome": "The pages and files in this module have been marked with the {{Delete}} template by users and are awaiting review by a service worker with deletion privileges; please check the eligibility of the pages and files for speedy deletion criteria before deleting.",
+        "list-pages-for-csd": "List the the pages",
+        "afd-requests": "List AfD"
     },
     "tr": {
         "create": "Oluştur",
@@ -457,7 +461,7 @@
         "page-protection-request": "Sayfa Koruma Talebi",
         "recent-changes": "Son Değişiklik",
         "tag-page": "Sayfayı Etiketle",
-        "copyright-violation-check": "Telif İhlali Kontrolü",
+        "copyright-violation-check": "Telif Kontrolü",
         "adiutor-settings": "Adiutor Ayarları",
         "page-info-tip": "<strong>$1</strong> tarihinde <strong><a href='/wiki/Kullanıcı:$2'>$2</a></strong> ($3) tarafından oluşturuldu, $4 revizyon, $5 editör, <strong>$6</strong> sayfa gösterimi ($7 gün)",
         "page-more-info-tip-author": "<strong>Oluşturan</strong><br>Bu madde <strong><a href='/wiki/Kullanıcı:$1'>$1</a></strong> tarafından oluşturulmuş.",
@@ -608,6 +612,10 @@
         "relative-date-month-other": "{{PLURAL:$1|$1 ay}}",
         "relative-date-year-one": "{{PLURAL:$1|$1 yıl}}",
         "relative-date-year-other": "{{PLURAL:$1|$1 yıl}}",
-        "open-the-page": "Sayfayı Aç"
+        "open-the-page": "Sayfayı Aç",
+        "pages-for-csd": "Hızlı silinmeye aday sayfalar",
+        "dashboard-pages-for-csd-welcome": "Bu modüldeki sayfa ve dosyalar, kullanıcılar tarafından {{Sil}} şablonu ile işaretlenmiştir ve silme yetkisine sahip hizmetlilerden birinin incelemesi için beklemektedir, lütfen sayfa ve dosyaları silmeden önce hızlı silme kriterlerine uygunluğunu kontrol ediniz.",
+        "list-pages-for-csd": "Aday Sayfaları Listele",
+        "afd-requests": "Silinmeye Aday Sayfalar"
     }
 }
