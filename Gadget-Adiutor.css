@@ -3,7 +3,7 @@
  * Author: Vikipolimer
  * Licencing and attribution: Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
  */
-.adiutor-user-dashboard-container {
+ .adiutor-user-dashboard-container {
 	padding: 65px;
 	background-image: url(https://upload.wikimedia.org/wikipedia/commons/a/ac/Illustration_of_Reading_Wikipedia_in_the_Classroom_%28blue%29_03.png);
 	background-repeat: no-repeat;
@@ -554,7 +554,7 @@ span.adiutor-aricle-show-video-button {
 }
 
 .adiutor-dashboard-administrator-tools-csd-welcome {
-	background-image: url(https://upload.wikimedia.org/wikipedia/commons/c/c7/CompactPersonalBar-ltr.svg);
+	background-image: url(https://upload.wikimedia.org/wikipedia/commons/4/48/Adiutor-dashboard-csd.svg);
 	background-repeat: no-repeat;
 	background-position: center;
 	background-size: 50%;
