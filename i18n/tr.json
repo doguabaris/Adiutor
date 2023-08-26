@@ -315,5 +315,7 @@
   "prod-requests": "BS aday sayfalar",
   "pages-for-afd": "Silinmeye aday sayfalar",
   "dashboard-pages-for-afd-welcome": "Burada listelenen silinmeye aday sayfaların durumu, 7 gün boyunca tartışmaya açık kalır ve fikir birliği oluşturduğu takdirde karara bağlanır. Bu sürede fikir birliğine varılmazsa tartışma 5 gün daha uzatılır. Kullanıcıların hızlı silme ya da hızlı kalma yönünde çok miktarda görüş bildirmesi durumunda 7 günlük süre beklenmeksizin tartışma sonuçlandırılabilir (bkz. Vikipedi:Hizmetliler için silme rehberi).",
-  "list-pages-for-afd": "Aday Sayfaları Listele"
+  "list-pages-for-afd": "Aday Sayfaları Listele",
+  "select-speedy-deletion-reason": "En az bir hızlı silme gerekçesi seçmelisiniz.",
+  "warning": "Uyarı"
 }

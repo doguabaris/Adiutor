@@ -136,6 +136,19 @@ api.get({
 					break;
 				}
 			}
+			copyVioInput = new OO.ui.TextInputWidget({
+				placeholder: mw.msg('copyright-infringing-page'),
+				value: '',
+				icon: 'link',
+				data: 'COV',
+				classes: ['adiutor-copvio-input'],
+			});
+			copyVioInput.$element.css({
+				'margin-top': '10px',
+				'margin-bottom': '10px'
+			});
+			copyVioInput.$element.hide();
+			isCopyVio = false;
 			GeneralReasons = new OO.ui.FieldsetLayout({
 				label: selectedNamespaceForGeneral.name
 			});
@@ -146,11 +159,21 @@ api.get({
 					data: reason.data,
 					selected: false
 				});
-				fieldLayout = new OO.ui.FieldLayout(checkboxWidget, {
-					label: reason.label,
-					align: 'inline',
-					help: reason.help
-				});
+				if(reason.value === 'G9') {
+					fieldLayout = new OO.ui.FieldLayout(checkboxWidget, {
+						label: reason.label,
+						align: 'inline',
+						help: reason.help
+					});
+					fieldLayout.$element.append(copyVioInput.$element);
+					copyVioInput.$element.hide(); // Hide it initially
+				} else {
+					fieldLayout = new OO.ui.FieldLayout(checkboxWidget, {
+						label: reason.label,
+						align: 'inline',
+						help: reason.help
+					});
+				}
 				GeneralReasons.addItems([fieldLayout]);
 			}
 			selectedNamespaceForOthers = null;
@@ -180,28 +203,11 @@ api.get({
 				});
 				OtherReasons.addItems([fieldLayout]);
 			}
-			copyVioInput = new OO.ui.TextInputWidget({
-				placeholder: mw.msg('copyright-infringing-page'),
-				value: '',
-				data: 'COV',
-				classes: ['adiutor-copvio-input'],
-			});
-			isCopyVio = false;
 			GeneralReasons.$element.on('click', function(item) {
 				if(item.target.value === 'G9') {
-					var messageDialog = new OO.ui.MessageDialog();
-					var windowManager = new OO.ui.WindowManager();
-					$(document.body).append(windowManager.$element);
-					windowManager.addWindows([messageDialog]);
-					windowManager.openWindow(messageDialog, {
-						title: 'URL',
-						message: copyVioInput.$element
-					});
+					copyVioInput.$element.show();
 				}
 			});
-			//copyVioInput.on('change', function() {
-			//    console.log(copyVioInput.value);
-			//});
 			DeletionOptions = new OO.ui.FieldsetLayout({
 				label: mw.msg('other-options'),
 			});
@@ -273,6 +279,7 @@ api.get({
 			});
 			this.$body.append(this.stackLayout.$element);
 		};
+		var CSDReasons = [];
 		// Set up the initial mode of the window ('edit', in this example.)  
 		ProcessDialog.prototype.getSetupProcess = function(data) {
 			return ProcessDialog.super.prototype.getSetupProcess.call(this, data).next(function() {
@@ -293,7 +300,6 @@ api.get({
 				return new OO.ui.Process(function() {
 					var CSDReason;
 					var CSDSummary;
-					var CSDReasons = [];
 					var CSDOptions = [];
 					NameSpaceDeletionReasons.items.forEach(function(Reason) {
 						if(Reason.fieldWidget.selected) {
@@ -313,58 +319,69 @@ api.get({
 							});
 						}
 					});
-					var SaltCSDSummary = '';
-					if(copyVioInput.value != "") {
-						CopVioURL = '|url=' + copyVioInput.value;
+					if(CSDReasons.length > 0) {
+						var SaltCSDSummary = '';
+						if(copyVioInput.value != "") {
+							CopVioURL = '|url=' + copyVioInput.value;
+						} else {
+							CopVioURL = "";
+						}
+						if(CSDReasons.length > 1) {
+							var SaltCSDReason = '{{sil|';
+							var i = 0;
+							var keys = Object.keys(CSDReasons);
+							for(i = 0; i < keys.length; i++) {
+								if(i > 0) SaltCSDReason += (i < keys.length - 1) ? ', ' : ' ve ';
+								SaltCSDReason += '[[VP:HS#' + CSDReasons[keys[i]].value + ']]';
+							}
+							for(i = 0; i < keys.length; i++) {
+								if(i > 0) SaltCSDSummary += (i < keys.length - 1) ? ', ' : ' ve ';
+								SaltCSDSummary += '[[VP:HS#' + CSDReasons[keys[i]].value + ']]';
+							}
+							CSDReason = SaltCSDReason + CopVioURL + '}}';
+							CSDSummary = SaltCSDSummary + ' gerekçeleriyle sayfanın hızlı silinmesi talep ediliyor.';
+						} else {
+							CSDReason = '{{sil|' + CSDReasons[0].data + CopVioURL + '}}';
+							CSDSummary = CSDReasons[0].data + ' gerekçesiyle sayfanın hızlı silinmesi talep ediliyor.';
+							SaltCSDSummary = CSDReasons[0].data;
+						}
+						//Şablon ekleme fonksyionu çağır
+						DeletionOptions.items.forEach(function(Option) {
+							if(Option.fieldWidget.selected) {
+								CSDOptions.push({
+									value: Option.fieldWidget.value,
+									selected: Option.fieldWidget.selected
+								});
+							}
+						});
+						CSDOptions.forEach(function(Option) {
+							if(Option.value === "recreationProrection") {
+								CSDReason = CSDReason + "\n" + '{{Salt}}';
+							}
+							if(Option.value === "informCreator") {
+								getCreator().then(function(data) {
+									var Author = data.query.pages[mw.config.get('wgArticleId')].revisions[0].user;
+									if(!mw.util.isIPAddress(Author)) {
+										var message = '{{subst:HS-Bildirim|1=' + mwConfig.wgPageName.replace(/_/g, " ") + '|2=' + SaltCSDSummary + '}}';
+										sendMessageToAuthor(Author, message);
+									}
+								});
+							}
+						});
+						putCSDTemplate(CSDReason, CSDSummary);
+						logCsdRequest(SaltCSDSummary, adiutorUserOptions);
+						showProgress();
+						dialog.close();
 					} else {
-						CopVioURL = "";
+						var messageDialog = new OO.ui.MessageDialog();
+						var windowManager = new OO.ui.WindowManager();
+						$(document.body).append(windowManager.$element);
+						windowManager.addWindows([messageDialog]);
+						windowManager.openWindow(messageDialog, {
+							title: mw.msg('warning'),
+							message: mw.msg('select-speedy-deletion-reason')
+						});
 					}
-					if(CSDReasons.length > 1) {
-						var SaltCSDReason = '{{sil|';
-						var i = 0;
-						var keys = Object.keys(CSDReasons);
-						for(i = 0; i < keys.length; i++) {
-							if(i > 0) SaltCSDReason += (i < keys.length - 1) ? ', ' : ' ve ';
-							SaltCSDReason += '[[VP:HS#' + CSDReasons[keys[i]].value + ']]';
-						}
-						for(i = 0; i < keys.length; i++) {
-							if(i > 0) SaltCSDSummary += (i < keys.length - 1) ? ', ' : ' ve ';
-							SaltCSDSummary += '[[VP:HS#' + CSDReasons[keys[i]].value + ']]';
-						}
-						CSDReason = SaltCSDReason + CopVioURL + '}}';
-						CSDSummary = SaltCSDSummary + ' gerekçeleriyle sayfanın hızlı silinmesi talep ediliyor.';
-					} else {
-						CSDReason = '{{sil|' + CSDReasons[0].data + CopVioURL + '}}';
-						CSDSummary = CSDReasons[0].data + ' gerekçesiyle sayfanın hızlı silinmesi talep ediliyor.';
-						SaltCSDSummary = CSDReasons[0].data;
-					}
-					//Şablon ekleme fonksyionu çağır
-					DeletionOptions.items.forEach(function(Option) {
-						if(Option.fieldWidget.selected) {
-							CSDOptions.push({
-								value: Option.fieldWidget.value,
-								selected: Option.fieldWidget.selected
-							});
-						}
-					});
-					CSDOptions.forEach(function(Option) {
-						if(Option.value === "recreationProrection") {
-							CSDReason = CSDReason + "\n" + '{{Salt}}';
-						}
-						if(Option.value === "informCreator") {
-							getCreator().then(function(data) {
-								var Author = data.query.pages[mw.config.get('wgArticleId')].revisions[0].user;
-								if(!mw.util.isIPAddress(Author)) {
-									var message = '{{subst:HS-Bildirim|1=' + mwConfig.wgPageName.replace(/_/g, " ") + '|2=' + SaltCSDSummary + '}}';
-									sendMessageToAuthor(Author, message);
-								}
-							});
-						}
-					});
-					putCSDTemplate(CSDReason, CSDSummary);
-					logCsdRequest(SaltCSDSummary, adiutorUserOptions);
-					showProgress();
-					dialog.close();
 				});
 			}
 			return ProcessDialog.super.prototype.getActionProcess.call(this, action);

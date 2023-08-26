@@ -527,6 +527,19 @@ administratorToolsLayoutCsd.prototype.setupOutlineItem = function() {
 												break;
 											}
 										}
+										copyVioInput = new OO.ui.TextInputWidget({
+											placeholder: mw.msg('copyright-infringing-page'),
+											value: '',
+											icon: 'link',
+											data: 'COV',
+											classes: ['adiutor-copvio-input'],
+										});
+										copyVioInput.$element.css({
+											'margin-top': '10px',
+											'margin-bottom': '10px'
+										});
+										copyVioInput.$element.hide();
+										isCopyVio = false;
 										GeneralReasons = new OO.ui.FieldsetLayout({
 											label: selectedNamespaceForGeneral.name
 										});
@@ -537,11 +550,21 @@ administratorToolsLayoutCsd.prototype.setupOutlineItem = function() {
 												data: reason.data,
 												selected: false
 											});
-											fieldLayout = new OO.ui.FieldLayout(checkboxWidget, {
-												label: reason.label,
-												align: 'inline',
-												help: reason.help
-											});
+											if(reason.value === 'G9') {
+												fieldLayout = new OO.ui.FieldLayout(checkboxWidget, {
+													label: reason.label,
+													align: 'inline',
+													help: reason.help
+												});
+												fieldLayout.$element.append(copyVioInput.$element);
+												copyVioInput.$element.hide(); // Hide it initially
+											} else {
+												fieldLayout = new OO.ui.FieldLayout(checkboxWidget, {
+													label: reason.label,
+													align: 'inline',
+													help: reason.help
+												});
+											}
 											GeneralReasons.addItems([fieldLayout]);
 										}
 										selectedNamespaceForOthers = null;
@@ -571,14 +594,6 @@ administratorToolsLayoutCsd.prototype.setupOutlineItem = function() {
 											});
 											OtherReasons.addItems([fieldLayout]);
 										}
-										copyVioInput = new OO.ui.TextInputWidget({
-											placeholder: mw.msg('copyright-infringing-page'),
-											value: '',
-											data: 'COV',
-											classes: ['adiutor-copvio-input'],
-										});
-										copyVioInput.$element.hide();
-										isCopyVio = false;
 										GeneralReasons.$element.on('click', function(item) {
 											if(item.target.value === 'G9') {
 												copyVioInput.$element.show();
@@ -590,7 +605,7 @@ administratorToolsLayoutCsd.prototype.setupOutlineItem = function() {
 											scrollable: false,
 										});
 										var right_panel = new OO.ui.PanelLayout({
-											$content: [GeneralReasons.$element, OtherReasons.$element, copyVioInput.$element],
+											$content: [GeneralReasons.$element, OtherReasons.$element],
 											classes: ['two'],
 											scrollable: false,
 										});

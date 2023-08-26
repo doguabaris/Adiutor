@@ -138,6 +138,19 @@ api.get({
 							break;
 						}
 					}
+					copyVioInput = new OO.ui.TextInputWidget({
+						placeholder: mw.msg('copyright-infringing-page'),
+						value: '',
+						icon: 'link',
+						data: 'COV',
+						classes: ['adiutor-copvio-input'],
+					});
+					copyVioInput.$element.css({
+						'margin-top': '10px',
+						'margin-bottom': '10px'
+					});
+					copyVioInput.$element.hide();
+					isCopyVio = false;
 					GeneralReasons = new OO.ui.FieldsetLayout({
 						label: selectedNamespaceForGeneral.name
 					});
@@ -148,11 +161,21 @@ api.get({
 							data: reason.data,
 							selected: false
 						});
-						fieldLayout = new OO.ui.FieldLayout(checkboxWidget, {
-							label: reason.label,
-							align: 'inline',
-							help: reason.help
-						});
+						if (reason.value === 'G9') {
+							fieldLayout = new OO.ui.FieldLayout(checkboxWidget, {
+								label: reason.label,
+								align: 'inline',
+								help: reason.help
+							});
+							fieldLayout.$element.append(copyVioInput.$element);
+							copyVioInput.$element.hide(); // Hide it initially
+						} else {
+							fieldLayout = new OO.ui.FieldLayout(checkboxWidget, {
+								label: reason.label,
+								align: 'inline',
+								help: reason.help
+							});
+						}
 						GeneralReasons.addItems([fieldLayout]);
 					}
 					selectedNamespaceForOthers = null;
@@ -182,14 +205,6 @@ api.get({
 						});
 						OtherReasons.addItems([fieldLayout]);
 					}
-					copyVioInput = new OO.ui.TextInputWidget({
-						placeholder: mw.msg('copyright-infringing-page'),
-						value: '',
-						data: 'COV',
-						classes: ['adiutor-copvio-input'],
-					});
-					copyVioInput.$element.hide();
-					isCopyVio = false;
 					GeneralReasons.$element.on('click', function(item) {
 						if(item.target.value === 'G9') {
 							copyVioInput.$element.show();
@@ -201,7 +216,7 @@ api.get({
 						scrollable: false,
 					});
 					var right_panel = new OO.ui.PanelLayout({
-						$content: [GeneralReasons.$element, OtherReasons.$element, copyVioInput.$element],
+						$content: [GeneralReasons.$element, OtherReasons.$element],
 						classes: ['two'],
 						scrollable: false,
 					});
@@ -269,47 +284,46 @@ api.get({
 									});
 								}
 							});
+							var CopVioURL = copyVioInput.value ? ' | ' + mw.msg('copyright-violation') + ':' + copyVioInput.value : '';
 							var SaltCSDSummary = '';
-							if(copyVioInput.value !== "") {
-								CopVioURL = '|url=' + copyVioInput.value;
-							} else {
-								CopVioURL = "";
-							}
-							if(CSDReasons.length > 1) {
-								var SaltCSDReason = '{{sil|';
-								var i = 0;
-								var keys = Object.keys(CSDReasons);
-								for(i = 0; i < keys.length; i++) {
-									if(i > 0) SaltCSDReason += (i < keys.length - 1) ? ', ' : ' ve ';
-									SaltCSDReason += '[[VP:HS#' + CSDReasons[keys[i]].value + ']]';
+							if(CSDReasons.length > 0) {
+								if(CSDReasons.length > 1) {
+									SaltCSDSummary = CSDReasons.map(function(reason) {
+										return '[[VP:HS#' + reason.value + ']]';
+									}).join(', ');
+									SaltCSDSummary = SaltCSDSummary.replace(/,(?=[^,]*$)/, ' ve');
+								} else {
+									SaltCSDSummary = CSDSummary = '[[VP:HS#' + CSDReasons[0].value + ']]';
 								}
-								for(i = 0; i < keys.length; i++) {
-									if(i > 0) SaltCSDSummary += (i < keys.length - 1) ? ', ' : ' ve ';
-									SaltCSDSummary += '[[VP:HS#' + CSDReasons[keys[i]].value + ']]';
-								}
-								CSDReason = SaltCSDReason + CopVioURL + '}}';
+								SaltCSDSummary += CopVioURL;
 								CSDSummary = SaltCSDSummary;
-							} else {
-								CSDSummary = CSDReasons[0].data;
-								SaltCSDSummary = CSDReasons[0].data;
-							}
-							api.postWithToken('csrf', {
-								action: 'delete',
-								title: mwConfig.wgPageName,
-								reason: CSDSummary,
-								tags: 'Adiutor',
-								format: 'json'
-							}).done(function() {
 								api.postWithToken('csrf', {
 									action: 'delete',
-									title: "Tartışma:" + mwConfig.wgPageName,
-									reason: '[[VP:HS#G7]]: Silinen sayfanın tartışma sayfası',
+									title: mwConfig.wgPageName,
+									reason: CSDSummary,
 									tags: 'Adiutor',
 									format: 'json'
-								}).done(function() {});
-								dialog.close();
-								location.reload();
-							});
+								}).done(function() {
+									api.postWithToken('csrf', {
+										action: 'delete',
+										title: "Tartışma:" + mwConfig.wgPageName,
+										reason: '[[VP:HS#G7]]: Silinen sayfanın tartışma sayfası',
+										tags: 'Adiutor',
+										format: 'json'
+									}).done(function() {});
+									dialog.close();
+									location.reload();
+								});
+							} else {
+								var messageDialog = new OO.ui.MessageDialog();
+								var windowManager = new OO.ui.WindowManager();
+								$(document.body).append(windowManager.$element);
+								windowManager.addWindows([messageDialog]);
+								windowManager.openWindow(messageDialog, {
+									title: mw.msg('warning'),
+									message: mw.msg('select-speedy-deletion-reason')
+								});
+							}
 						});
 					}
 					return csdAdminProcessDialog.super.prototype.getActionProcess.call(this, action);
