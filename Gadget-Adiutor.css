@@ -553,54 +553,34 @@ span.adiutor-aricle-show-video-button {
 	top: 30px;
 }
 
-.adiutor-dashboard-administrator-tools-csd-welcome {
-	background-image: url(https://upload.wikimedia.org/wikipedia/commons/4/48/Adiutor-dashboard-csd.svg);
-	background-repeat: no-repeat;
-	background-position: center;
-	background-size: 50%;
-	text-align: center;
-	background-position-y: 65%;
-}
-
-.adiutor-dashboard-administrator-tools-prod-welcome {
-	background-image: url(https://upload.wikimedia.org/wikipedia/commons/0/0a/Adiutor-dashboard-prod.svg);
-	background-repeat: no-repeat;
-	background-position: center;
-	background-size: 50%;
-	text-align: center;
-	background-position-y: 65%;
-}
-
-.adiutor-dashboard-administrator-tools-afd-welcome {
-	background-image: url(https://upload.wikimedia.org/wikipedia/commons/4/4b/Adiutor-dashboard-afd.svg);
-	background-repeat: no-repeat;
-	background-position: center;
-	background-size: 50%;
-	text-align: center;
-	background-position-y: 65%;
+.adiutor-dashboard-administrator-tools-welcome {
+	display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    padding: 50px;
 }
 
 .adiutor-dashboard-administrator-tools-fd-welcome-messsage {
-	width: 50%;
-	margin: 50px;
-	display: inline-flex;
-	margin-bottom: 30px;
-}
-
-.adiutor-dashboard-administrator-tools-fd-welcome-messsage {
-	width: 50%;
-	margin: 50px;
-	display: inline-flex;
-	margin-bottom: 30px;
+	margin: 0;
+    width: 55%;
+    display: revert;
+    text-align: center;
 }
 
 .adiutor-dashboard-administrator-tools-fd-welcome-messsage .oo-ui-labelElement-label {
 	margin: 0;
 }
 
-.adiutor-dashboard-administrator-tools-fd-show-button {
-	display: inherit;
-}
 .adiutor-dashboard-administrator-tools-fd-welcome-messsage span {
+	margin: 0 !important;
+}
+
+.adiutor-dashboard-administrator-tools-welcome-img span {
+    display: none;
     margin: 0 !important;
+    width: 100%;
+}
+.adiutor-dashboard-administrator-tools-welcome-top{
+	display: contents !important;
 }

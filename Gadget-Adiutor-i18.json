@@ -313,8 +313,10 @@
         "pages-for-prod": "Proposed Pages for Deletion",
         "dashboard-pages-for-prod-welcome": "The pages and files in this module have been marked with the {{Prod}} template by users and are awaiting review by an authorized deletion handler. Please ensure compliance with the speedy deletion policy before removing any pages or files.",
         "list-pages-for-prod": "List poposed pages",
-        "prod-requests": "Lisd PROD"
-
+        "prod-requests": "Lisd PROD",
+        "pages-for-afd": "Articles for deletion",
+        "dashboard-pages-for-afd-welcome": "The status of the pages nominated for deletion listed here remains open for discussion for 7 days, and a decision is reached if a consensus is formed within that period. If no consensus is reached during this time, the discussion is extended by 5 more days. If a significant number of users express their opinions in favor of speedy deletion or retention, the discussion can be concluded without waiting for the full 7-day period (see Wikipedia:Deletion guidelines for administrators).",
+        "list-pages-for-afd": "List Articles For Deletion"
     },
     "tr": {
         "create": "Oluştur",
@@ -625,6 +627,9 @@
         "pages-for-prod": "Bekletmeli silinmeye aday sayfalar",
         "dashboard-pages-for-prod-welcome": "Bu modüldeki sayfa ve dosyalar, kullanıcılar tarafından {{Bekletmeli sil}} şablonu ile işaretlenmiştir ve silme yetkisine sahip hizmetlilerden birinin incelemesi için beklemektedir, lütfen sayfa ve dosyaları silmeden önce hızlı silme politikasına uygunluğunu kontrol ediniz.",
         "list-pages-for-prod": "Aday Sayfaları Listele",
-        "prod-requests": "BS aday sayfalar"
+        "prod-requests": "BS aday sayfalar",
+        "pages-for-afd": "Silinmeye aday sayfalar",
+        "dashboard-pages-for-afd-welcome": "Burada listelenen silinmeye aday sayfaların durumu, 7 gün boyunca tartışmaya açık kalır ve fikir birliği oluşturduğu takdirde karara bağlanır. Bu sürede fikir birliğine varılmazsa tartışma 5 gün daha uzatılır. Kullanıcıların hızlı silme ya da hızlı kalma yönünde çok miktarda görüş bildirmesi durumunda 7 günlük süre beklenmeksizin tartışma sonuçlandırılabilir (bkz. Vikipedi:Hizmetliler için silme rehberi).",
+        "list-pages-for-afd": "Aday Sayfaları Listele"
     }
 }

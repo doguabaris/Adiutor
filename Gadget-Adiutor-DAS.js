@@ -207,43 +207,64 @@ OO.inheritClass(SectionTwoLayout, OO.ui.PageLayout);
 SectionTwoLayout.prototype.setupOutlineItem = function() {
 	this.outlineItem.setLabel(mw.msg('help-and-guides'));
 };
-var _this = this; // Dış bir değişken kullanarak "this"i koruyoruz
-var showCsdListButton = new OO.ui.ButtonWidget({
-	label: mw.msg('list-pages-for-csd'),
-	icon: 'arrowNext',
-	flags: ['primary', 'progressive'],
-	classes: ['adiutor-dashboard-administrator-tools-fd-show-button']
-});
-var showProdListButton = new OO.ui.ButtonWidget({
-	label: mw.msg('list-pages-for-prod'),
-	icon: 'arrowNext',
-	flags: ['primary', 'progressive'],
-	classes: ['adiutor-dashboard-administrator-tools-fd-show-button']
-});
-var csdWelcomeTitle = new OO.ui.MessageWidget({
-	type: 'notice',
-	inline: true,
-	icon: 'none',
-	label: new OO.ui.HtmlSnippet('<h2 style="font-size: 26px; color: #3367cc; font-weight: 900; line-height: normal;">' + mw.msg('pages-for-csd') + '</h2><span style="font-weight: 100; font-size: 18px;">' + mw.msg('dashboard-pages-for-csd-welcome') + '</span>'),
-	classes: ['adiutor-dashboard-administrator-tools-fd-welcome-messsage']
-});
-var prodWelcomeTitle = new OO.ui.MessageWidget({
-	type: 'notice',
-	inline: true,
-	icon: 'none',
-	label: new OO.ui.HtmlSnippet('<h2 style="font-size: 26px; color: #3367cc; font-weight: 900; line-height: normal;">' + mw.msg('pages-for-prod') + '</h2><span style="font-weight: 100; font-size: 18px;">' + mw.msg('dashboard-pages-for-prod-welcome') + '</span>'),
-	classes: ['adiutor-dashboard-administrator-tools-fd-welcome-messsage']
-});
-var csdWelcome = new OO.ui.StackLayout({
-	items: [csdWelcomeTitle, showCsdListButton],
-	continuous: true,
-	classes: ['adiutor-dashboard-administrator-tools-csd-welcome']
-});
-var prodWelcome = new OO.ui.StackLayout({
-	items: [prodWelcomeTitle, showProdListButton],
-	continuous: true,
-	classes: ['adiutor-dashboard-administrator-tools-prod-welcome']
-});
+var _this = this;
+
+function createButtonWidget(labelKey) {
+	return new OO.ui.ButtonWidget({
+		label: mw.msg(labelKey),
+		icon: 'arrowNext',
+		flags: ['primary', 'progressive'],
+		classes: ['adiutor-dashboard-administrator-tools-fd-show-button'],
+		align: 'center'
+	});
+}
+
+function createMessageWidget(labelKey) {
+	return new OO.ui.MessageWidget({
+		type: 'notice',
+		inline: true,
+		icon: 'none',
+		label: new OO.ui.HtmlSnippet('<h2 style="font-size: 26px; color: #3367cc; font-weight: 900; line-height: normal;">' + mw.msg(labelKey) + '</h2><span style="font-weight: 100; font-size: 18px;">' + mw.msg('dashboard-' + labelKey + '-welcome') + '</span>'),
+		classes: ['adiutor-dashboard-administrator-tools-fd-welcome-messsage'],
+		align: 'center'
+	});
+}
+
+function createImageWidget(imageUrl) {
+	return new OO.ui.MessageWidget({
+		type: 'notice',
+		icon: 'none',
+		inline: true,
+		label: new OO.ui.HtmlSnippet('<img width="700px" src="' + imageUrl + '" alt="">'),
+		align: 'center',
+		classes: ['adiutor-dashboard-administrator-tools-welcome-img']
+	});
+}
+
+function createStackLayout(titleWidget, buttonWidget, imageWidget) {
+	var topLayout = new OO.ui.StackLayout({
+		items: [titleWidget, buttonWidget],
+		continuous: true,
+		classes: ['adiutor-dashboard-administrator-tools-welcome-top']
+	});
+	return new OO.ui.StackLayout({
+		items: [topLayout, imageWidget],
+		continuous: true,
+		classes: ['adiutor-dashboard-administrator-tools-welcome']
+	});
+}
+var showCsdListButton = createButtonWidget('list-pages-for-csd');
+var showProdListButton = createButtonWidget('list-pages-for-prod');
+var showAfdListButton = createButtonWidget('list-pages-for-afd');
+var csdWelcomeTitle = createMessageWidget('pages-for-csd');
+var prodWelcomeTitle = createMessageWidget('pages-for-prod');
+var afdWelcomeTitle = createMessageWidget('pages-for-afd');
+var csdWelcomeImage = createImageWidget('https://upload.wikimedia.org/wikipedia/commons/4/48/Adiutor-dashboard-csd.svg');
+var prodWelcomeImage = createImageWidget('https://upload.wikimedia.org/wikipedia/commons/0/0a/Adiutor-dashboard-prod.svg');
+var afdWelcomeImage = createImageWidget('https://upload.wikimedia.org/wikipedia/commons/4/4b/Adiutor-dashboard-afd.svg');
+var csdWelcome = createStackLayout(csdWelcomeTitle, showCsdListButton, csdWelcomeImage);
+var prodWelcome = createStackLayout(prodWelcomeTitle, showProdListButton, prodWelcomeImage);
+var afdWelcome = createStackLayout(afdWelcomeTitle, showAfdListButton, afdWelcomeImage);
 
 function administratorToolsLayoutCsd(name, config) {
 	administratorToolsLayoutCsd.super.call(this, name, config);
@@ -1072,14 +1093,25 @@ OO.inheritClass(administratorToolsLayoutProd, OO.ui.PageLayout);
 administratorToolsLayoutProd.prototype.setupOutlineItem = function() {
 	this.outlineItem.setLabel(mw.msg('prod-requests'));
 };
+
+function administratorToolsLayoutAfd(name, config) {
+	administratorToolsLayoutAfd.super.call(this, name, config);
+	this.$element.append(afdWelcome.$element);
+	//Butonu için click özelliği eklemeyi unutma
+}
+OO.inheritClass(administratorToolsLayoutAfd, OO.ui.PageLayout);
+administratorToolsLayoutAfd.prototype.setupOutlineItem = function() {
+	this.outlineItem.setLabel(mw.msg('afd-requests'));
+};
 administratorToolsLayoutCsdLayout = new administratorToolsLayoutCsd('csd');
 administratorToolsLayoutProdLayout = new administratorToolsLayoutProd('prod');
+administratorToolsLayoutAfdLayout = new administratorToolsLayoutAfd('adf');
 var bookletadministratorToolsLayout = new OO.ui.BookletLayout({
 	outlined: true,
 	size: 'full',
 	classes: ['adiutor-csd-administrator-area']
 });
-bookletadministratorToolsLayout.addPages([administratorToolsLayoutCsdLayout, administratorToolsLayoutProdLayout]);
+bookletadministratorToolsLayout.addPages([administratorToolsLayoutCsdLayout, administratorToolsLayoutProdLayout, administratorToolsLayoutAfdLayout]);
 
 function SectionThreeLayout(name, config) {
 	SectionThreeLayout.super.call(this, name, config);
