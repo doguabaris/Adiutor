@@ -359,7 +359,7 @@ administratorToolsLayoutCsd.prototype.setupOutlineItem = function() {
 								booklet.setPage(pageLayouts[currentPageIndex]);
 							}
 						});
-						pageLayout.$toolbar.append(forwardButton.$element, copyVioButton.$element, openThePageButton.$element, batchDeleteButton.$element);
+						pageLayout.$toolbar.append(forwardButton.$element, copyVioButton.$element, openThePageButton.$element);
 						// Sil butonu
 						var deleteButton = new OO.ui.ButtonWidget({
 							label: mw.msg('delete'),
@@ -1022,7 +1022,7 @@ administratorToolsLayoutCsd.prototype.setupOutlineItem = function() {
 							});
 						});
 						if(mwConfig.wgUserGroups.includes("sysop")) {
-							pageLayout.$toolbar.append(deleteButton.$element);
+							pageLayout.$toolbar.append(batchDeleteButton.$element, deleteButton.$element);
 						}
 						return pageLayout;
 					});
