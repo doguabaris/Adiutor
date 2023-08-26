@@ -309,7 +309,12 @@
         "pages-for-csd": "Speedy Deletion List",
         "dashboard-pages-for-csd-welcome": "The pages and files in this module have been marked with the {{Delete}} template by users and are awaiting review by a service worker with deletion privileges; please check the eligibility of the pages and files for speedy deletion criteria before deleting.",
         "list-pages-for-csd": "List the the pages",
-        "afd-requests": "List AfD"
+        "afd-requests": "List AfD",
+        "pages-for-prod": "Proposed Pages for Deletion",
+        "dashboard-pages-for-prod-welcome": "The pages and files in this module have been marked with the {{Prod}} template by users and are awaiting review by an authorized deletion handler. Please ensure compliance with the speedy deletion policy before removing any pages or files.",
+        "list-pages-for-prod": "List poposed pages",
+        "prod-requests": "Lisd PROD"
+
     },
     "tr": {
         "create": "Oluştur",
@@ -616,6 +621,10 @@
         "pages-for-csd": "Hızlı silinmeye aday sayfalar",
         "dashboard-pages-for-csd-welcome": "Bu modüldeki sayfa ve dosyalar, kullanıcılar tarafından {{Sil}} şablonu ile işaretlenmiştir ve silme yetkisine sahip hizmetlilerden birinin incelemesi için beklemektedir, lütfen sayfa ve dosyaları silmeden önce hızlı silme kriterlerine uygunluğunu kontrol ediniz.",
         "list-pages-for-csd": "Aday Sayfaları Listele",
-        "afd-requests": "Silinmeye Aday Sayfalar"
+        "afd-requests": "Silinmeye Aday Sayfalar",
+        "pages-for-prod": "Bekletmeli silinmeye aday sayfalar",
+        "dashboard-pages-for-prod-welcome": "Bu modüldeki sayfa ve dosyalar, kullanıcılar tarafından {{Bekletmeli sil}} şablonu ile işaretlenmiştir ve silme yetkisine sahip hizmetlilerden birinin incelemesi için beklemektedir, lütfen sayfa ve dosyaları silmeden önce hızlı silme politikasına uygunluğunu kontrol ediniz.",
+        "list-pages-for-prod": "Aday Sayfaları Listele",
+        "prod-requests": "BS aday sayfalar"
     }
 }

@@ -308,5 +308,9 @@
   "pages-for-csd": "Hızlı silinmeye aday sayfalar",
   "dashboard-pages-for-csd-welcome": "Bu modüldeki sayfa ve dosyalar, kullanıcılar tarafından {{Sil}} şablonu ile işaretlenmiştir ve silme yetkisine sahip hizmetlilerden birinin incelemesi için beklemektedir, lütfen sayfa ve dosyaları silmeden önce hızlı silme kriterlerine uygunluğunu kontrol ediniz.",
   "list-pages-for-csd": "Aday Sayfaları Listele",
-  "afd-requests": "Silinmeye Aday Sayfalar"
+  "afd-requests": "Silinmeye Aday Sayfalar",
+  "pages-for-prod": "Bekletmeli silinmeye aday sayfalar",
+  "dashboard-pages-for-prod-welcome": "Bu modüldeki sayfa ve dosyalar, kullanıcılar tarafından {{Bekletmeli sil}} şablonu ile işaretlenmiştir ve silme yetkisine sahip hizmetlilerden birinin incelemesi için beklemektedir, lütfen sayfa ve dosyaları silmeden önce hızlı silme politikasına uygunluğunu kontrol ediniz.",
+  "list-pages-for-prod": "Aday Sayfaları Listele",
+  "prod-requests": "BS aday sayfalar"
 }
