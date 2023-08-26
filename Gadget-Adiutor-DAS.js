@@ -467,31 +467,43 @@ administratorToolsLayoutCsd.prototype.setupOutlineItem = function() {
 											case 3:
 											case 10:
 											case 100:
-												for(i = 0; i < speedyDeletionReasons.length; i++) {
-													if(speedyDeletionReasons[i].namespace === item.namespace) {
-														selectedNamespace = {
-															name: speedyDeletionReasons[i].name,
-															reasons: speedyDeletionReasons[i].reasons
-														};
-														break;
-													}
+												// Find the selected namespace based on the condition
+												selectedNamespace;
+												if(item.namespace === 2 || item.namespace === 3) {
+													// Case 2 and 3 should share the same namespace
+													selectedNamespace = speedyDeletionReasons.find(reason => reason.namespace === 2);
+												} else {
+													selectedNamespace = speedyDeletionReasons.find(reason => reason.namespace === item.namespace);
 												}
-												NameSpaceDeletionReasons = new OO.ui.FieldsetLayout({
-													label: selectedNamespace.name
-												});
-												for(i = 0; i < selectedNamespace.reasons.length; i++) {
-													reason = selectedNamespace.reasons[i];
-													checkboxWidget = new OO.ui.CheckboxInputWidget({
-														value: reason.value,
-														data: reason.data,
-														selected: false
+												// Continue with the rest of the code
+												if(selectedNamespace) {
+													NameSpaceDeletionReasons = new OO.ui.FieldsetLayout({
+														label: selectedNamespace.name
 													});
-													fieldLayout = new OO.ui.FieldLayout(checkboxWidget, {
-														label: reason.label,
-														align: 'inline',
-														help: reason.help
-													});
-													NameSpaceDeletionReasons.addItems([fieldLayout]);
+													for(i = 0; i < selectedNamespace.reasons.length; i++) {
+														reason = selectedNamespace.reasons[i];
+														checkboxWidget = new OO.ui.CheckboxInputWidget({
+															value: reason.value,
+															data: reason.data,
+															selected: false
+														});
+														fieldLayout = new OO.ui.FieldLayout(checkboxWidget, {
+															label: reason.label,
+															align: 'inline',
+															help: reason.help
+														});
+														NameSpaceDeletionReasons.addItems([fieldLayout]);
+													}
+												} else {
+													// Handle the case where the selected namespace is not found
+													NameSpaceDeletionReasons = new OO.ui.FieldsetLayout({});
+													NameSpaceDeletionReasons.addItems([
+														new OO.ui.FieldLayout(new OO.ui.MessageWidget({
+															type: 'warning',
+															inline: true,
+															label: new OO.ui.HtmlSnippet(mw.msg('no-namespace-reason-for-csd'))
+														})),
+													]);
 												}
 												break;
 											default:

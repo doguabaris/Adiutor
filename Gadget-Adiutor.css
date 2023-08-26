@@ -121,6 +121,7 @@ label.adiutor-user-dashboard-logo {
 	background: #ffffff;
 	border-bottom: 1px solid #c8ccd0;
 	position: fixed;
+	width: 100%;
 	width: -webkit-fill-available;
 	text-align: right;
 }
