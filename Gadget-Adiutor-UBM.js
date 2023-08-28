@@ -308,6 +308,7 @@ UserBlockDialog.prototype.getActionProcess = function(action) {
 				} else {
 					// Gather input values
 					var username = mwConfig.wgPageName.replace(/_/g, " ").replace('Kullanıcı:', '').replace('Özel:Katkılar/', '').replace('Kullanıcı mesaj:', '');
+					var allowusertalkValue = !preventEditOwnTalkPageValue;
 					// API request parameters
 					var params = {
 						action: 'block',
@@ -315,7 +316,7 @@ UserBlockDialog.prototype.getActionProcess = function(action) {
 						expiry: duration,
 						reason: blockReason + additionalReason,
 						nocreate: preventAccountCreationValue,
-						allowusertalk: preventEditOwnTalkPageValue,
+						allowusertalk: allowusertalkValue,
 						noemail: preventEmailSendingValue,
 						tags: 'Adiutor'
 					};
