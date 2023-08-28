@@ -70,43 +70,70 @@ api.get({
 					csdAdminProcessDialog.super.prototype.initialize.apply(this, arguments);
 					var i, reason, checkboxWidget, fieldLayout;
 					var selectedNamespace = null;
-					switch(mwConfig.wgNamespaceNumber) {
-						case 0:
-						case 6:
-						case 14:
-						case 2:
-						case 3:
-						case 10:
-						case 100:
-							// Find the selected namespace based on the condition
-							selectedNamespace;
-							if(mwConfig.wgNamespaceNumber === 2 || mwConfig.wgNamespaceNumber === 3) {
-								// Case 2 and 3 should share the same namespace
-								selectedNamespace = speedyDeletionReasons.find(reason => reason.namespace === 2);
-							} else {
-								selectedNamespace = speedyDeletionReasons.find(reason => reason.namespace === mwConfig.wgNamespaceNumber);
-							}
-							// Continue with the rest of the code
-							if(selectedNamespace) {
-								NameSpaceDeletionReasons = new OO.ui.FieldsetLayout({
-									label: selectedNamespace.name
-								});
-								for(i = 0; i < selectedNamespace.reasons.length; i++) {
-									reason = selectedNamespace.reasons[i];
-									checkboxWidget = new OO.ui.CheckboxInputWidget({
-										value: reason.value,
-										data: reason.data,
-										selected: false
-									});
-									fieldLayout = new OO.ui.FieldLayout(checkboxWidget, {
-										label: reason.label,
-										align: 'inline',
-										help: reason.help
-									});
-									NameSpaceDeletionReasons.addItems([fieldLayout]);
+					if(mw.config.get('wgIsRedirect')) {
+						selectedNamespace = speedyDeletionReasons.find(reason => reason.namespace === 'redirect');
+						NameSpaceDeletionReasons = new OO.ui.FieldsetLayout({
+							label: selectedNamespace.name
+						});
+						for(i = 0; i < selectedNamespace.reasons.length; i++) {
+							reason = selectedNamespace.reasons[i];
+							checkboxWidget = new OO.ui.CheckboxInputWidget({
+								value: reason.value,
+								data: reason.data,
+								selected: false
+							});
+							fieldLayout = new OO.ui.FieldLayout(checkboxWidget, {
+								label: reason.label,
+								align: 'inline',
+								help: reason.help
+							});
+							NameSpaceDeletionReasons.addItems([fieldLayout]);
+						}
+					} else {
+						switch(mwConfig.wgNamespaceNumber) {
+							case 0:
+							case 6:
+							case 14:
+							case 2:
+							case 3:
+							case 10:
+							case 100:
+								selectedNamespace;
+								if(mwConfig.wgNamespaceNumber === 2 || mwConfig.wgNamespaceNumber === 3) {
+									selectedNamespace = speedyDeletionReasons.find(reason => reason.namespace === 2);
+								} else {
+									selectedNamespace = speedyDeletionReasons.find(reason => reason.namespace === mwConfig.wgNamespaceNumber);
 								}
-							} else {
-								// Handle the case where the selected namespace is not found
+								if(selectedNamespace) {
+									NameSpaceDeletionReasons = new OO.ui.FieldsetLayout({
+										label: selectedNamespace.name
+									});
+									for(i = 0; i < selectedNamespace.reasons.length; i++) {
+										reason = selectedNamespace.reasons[i];
+										checkboxWidget = new OO.ui.CheckboxInputWidget({
+											value: reason.value,
+											data: reason.data,
+											selected: false
+										});
+										fieldLayout = new OO.ui.FieldLayout(checkboxWidget, {
+											label: reason.label,
+											align: 'inline',
+											help: reason.help
+										});
+										NameSpaceDeletionReasons.addItems([fieldLayout]);
+									}
+								} else {
+									NameSpaceDeletionReasons = new OO.ui.FieldsetLayout({});
+									NameSpaceDeletionReasons.addItems([
+										new OO.ui.FieldLayout(new OO.ui.MessageWidget({
+											type: 'warning',
+											inline: true,
+											label: new OO.ui.HtmlSnippet(mw.msg('no-namespace-reason-for-csd'))
+										})),
+									]);
+								}
+								break;
+							default:
 								NameSpaceDeletionReasons = new OO.ui.FieldsetLayout({});
 								NameSpaceDeletionReasons.addItems([
 									new OO.ui.FieldLayout(new OO.ui.MessageWidget({
@@ -115,18 +142,8 @@ api.get({
 										label: new OO.ui.HtmlSnippet(mw.msg('no-namespace-reason-for-csd'))
 									})),
 								]);
-							}
-							break;
-						default:
-							NameSpaceDeletionReasons = new OO.ui.FieldsetLayout({});
-							NameSpaceDeletionReasons.addItems([
-								new OO.ui.FieldLayout(new OO.ui.MessageWidget({
-									type: 'warning',
-									inline: true,
-									label: new OO.ui.HtmlSnippet(mw.msg('no-namespace-reason-for-csd'))
-								})),
-							]);
-							break;
+								break;
+						}
 					}
 					selectedNamespaceForGeneral = null;
 					for(i = 0; i < speedyDeletionReasons.length; i++) {
@@ -161,7 +178,7 @@ api.get({
 							data: reason.data,
 							selected: false
 						});
-						if (reason.value === 'G9') {
+						if(reason.value === 'G9') {
 							fieldLayout = new OO.ui.FieldLayout(checkboxWidget, {
 								label: reason.label,
 								align: 'inline',
@@ -293,7 +310,7 @@ api.get({
 									}).join(', ');
 									SaltCSDSummary = SaltCSDSummary.replace(/,(?=[^,]*$)/, ' ve');
 								} else {
-									SaltCSDSummary = CSDSummary = '[[VP:HS#' + CSDReasons[0].value + ']]';
+									SaltCSDSummary = CSDSummary = CSDReasons[0].data;
 								}
 								SaltCSDSummary += CopVioURL;
 								CSDSummary = SaltCSDSummary;
