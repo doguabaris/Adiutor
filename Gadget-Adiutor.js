@@ -73,7 +73,7 @@ var adiutorUserOptionsDefault = {
 	},
 	"inlinePageInfo": true,
 	"showEditSummaries": true,
-	"adiutorVersion": "v1.2.3"
+	"adiutorVersion": "v1.2.4"
 };
 // Get user options related to the Adiutor gadget
 var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor'));

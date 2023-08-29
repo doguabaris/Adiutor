@@ -139,9 +139,9 @@ if((mw.config.get("wgNamespaceNumber") === 2 || mw.config.get("wgNamespaceNumber
 					} else {
 						registrationLink = "<a href='" + mw.config.get("wgScriptPath") + "/index.php?title=Special:ListUsers&amp;limit=1&amp;username=" + encodedTitle + "'>";
 					}
-					statusText += ", " + mw.msg('registration-info', registrationLink, formatRelativeDateDifference(registrationDate));
+					statusText += ", " + mw.msg('registration-info', formatRelativeDateDifference(registrationDate));
 				}
-				statusText = "Bu " + statusText;
+				statusText = mw.msg('this')  + ' ' + statusText;
 				// Show the correct gender symbol
 				var firstHeading = document.getElementById("firstHeading") || document.getElementById("section-0");
 				if(!firstHeading) {
@@ -187,13 +187,13 @@ if((mw.config.get("wgNamespaceNumber") === 2 || mw.config.get("wgNamespaceNumber
 				});
 				var lastEditedText = mw.msg('last-edited-default');
 				if(lastEditedDate) {
-					lastEditedText = mw.msg('last-edited', mw.config.get("wgArticlePath").replace("$1", "Special:Contributions/" + mw.util.rawurlencode(user.name)), formatRelativeDateDifference(lastEditedDate));
+					lastEditedText = mw.msg('last-edited', formatRelativeDateDifference(lastEditedDate));
 				}
 				var userPageChangeCount = new OO.ui.MessageWidget({
 					type: 'notice',
 					icon: 'edit',
 					inline: false,
-					label: new OO.ui.HtmlSnippet('<strong>' + formatQuantityWithCommas(editCount) + ' ' + mw.msg('has-x-edit-count', formatQuantityWithCommas(editCount)) + '</strong><br>' + lastEditedText + '.'),
+					label: new OO.ui.HtmlSnippet('<strong>' + mw.msg('has-x-edit-count', formatQuantityWithCommas(editCount)) + '</strong><br>' + lastEditedText + '.'),
 					classes: ['adiutor-user-page-change-count']
 				});
 				var UnBlockButton = new OO.ui.ButtonWidget({
@@ -249,13 +249,13 @@ if((mw.config.get("wgNamespaceNumber") === 2 || mw.config.get("wgNamespaceNumber
 						blockedUserSection = new OO.ui.MessageWidget({
 							type: 'warning',
 							icon: 'block',
-							label: new OO.ui.HtmlSnippet(mw.msg('user-partially-blocked', user.blockedtimestampformatted, user.blockreason, user.blockedby))
+							label: new OO.ui.HtmlSnippet('<strong>' + mw.msg('user-partially-blocked-title') + '</strong><br>' + mw.msg('user-partially-blocked', user.blockedtimestampformatted, user.blockreason, user.blockedby))
 						});
 					} else {
 						blockedUserSection = new OO.ui.MessageWidget({
 							type: 'error',
 							icon: 'block',
-							label: new OO.ui.HtmlSnippet(mw.msg('user-blocked-message', user.blockedtimestampformatted, user.blockreason, user.blockedby))
+							label: new OO.ui.HtmlSnippet('<strong>' + mw.msg('user-blocked-message-title') + '</strong><br>' + mw.msg('user-blocked-message', user.blockedtimestampformatted, user.blockreason, user.blockedby))
 						});
 					}
 					userPanelStack = new OO.ui.StackLayout({

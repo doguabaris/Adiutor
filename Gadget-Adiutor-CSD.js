@@ -126,7 +126,7 @@ api.get({
 								new OO.ui.FieldLayout(new OO.ui.MessageWidget({
 									type: 'warning',
 									inline: true,
-									label: new OO.ui.HtmlSnippet(mw.msg('no-namespace-reason-for-csd'))
+									label: new OO.ui.HtmlSnippet('<strong>' + mw.msg('no-namespace-reason-for-csd-title') + '</strong><br><small>' + mw.msg('no-namespace-reason-for-csd') + '</small>')
 								})),
 							]);
 						}
@@ -137,7 +137,7 @@ api.get({
 							new OO.ui.FieldLayout(new OO.ui.MessageWidget({
 								type: 'warning',
 								inline: true,
-								label: new OO.ui.HtmlSnippet(mw.msg('no-namespace-reason-for-csd'))
+								label: new OO.ui.HtmlSnippet('<strong>' + mw.msg('no-namespace-reason-for-csd-title') + '</strong><br><small>' + mw.msg('no-namespace-reason-for-csd') + '</small>')
 							})),
 						]);
 						break;
