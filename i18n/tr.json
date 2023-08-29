@@ -293,7 +293,7 @@
   "and": "ve",
   "registration-info": "$1 önce üye oldu.",
   "last-edited-default": "Son değişiklik bilgisi alınamıyor",
-  "last-edited": "Son değişikliğini $1 önce yaptı</a>",
+  "last-edited": "Son değişikliğini $1 önce yaptı",
   "has-x-edit-count": "$1 değişikliğe sahip",
   "unblock-button-label": "Engeli Kaldır",
   "block-button-label": "Engelle",

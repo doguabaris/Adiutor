@@ -294,7 +294,7 @@
     "and": "и",
     "registration-info": "registered $1 ago.",
     "last-edited-default": "Last edit information not available",
-    "last-edited": "Last edited $1 ago</a>",
+    "last-edited": "Last edited $1 ago",
     "has-x-edit-count": "има $1 измена",
     "unblock-button-label": "Деблокирај",
     "block-button-label": "Блокирај",
