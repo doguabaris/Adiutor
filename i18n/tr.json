@@ -1,8 +1,8 @@
 {
   "@metadata": {
-      "authors": [
-          "Vikipolimer"
-      ]
+    "authors": [
+      "Vikipolimer"
+    ]
   },
   "create": "Oluştur",
   "okay": "Tamam",
@@ -155,10 +155,13 @@
   "tag-page": "Sayfayı Etiketle",
   "copyright-violation-check": "Telif Kontrolü",
   "adiutor-settings": "Adiutor Ayarları",
-  "page-info-tip": "<strong>$1</strong> tarihinde <strong><a href='/wiki/Kullanıcı:$2'>$2</a></strong> ($3) tarafından oluşturuldu, $4 revizyon, $5 editör, <strong>$6</strong> sayfa gösterimi ($7 gün)",
-  "page-more-info-tip-author": "<strong>Oluşturan</strong><br>Bu madde <strong><a href='/wiki/Kullanıcı:$1'>$1</a></strong> tarafından oluşturulmuş.",
-  "page-more-info-tip-date": "<strong>Oluşturulma Tarihi</strong><br>Bu madde <strong>$1</strong> tarihinde oluşturulmuş.",
-  "page-more-info-tip-keyword": "<strong>Kelime Sayısı</strong><br>Bu madde <strong>$1</strong> kelimeden oluşmaktadır.",
+  "page-info-tip": "$1 tarihinde $2 ($3) tarafından oluşturuldu, $4 revizyon, $5 editör, $6 sayfa gösterimi ($7 gün)",
+  "page-more-info-tip-author-title": "Oluşturan:",
+  "page-more-info-tip-author": "Bu madde $1 tarafından oluşturulmuş.",
+  "page-more-info-tip-date-title": "Oluşturulma tarihi:",
+  "page-more-info-tip-date": "Bu madde $1 tarihinde oluşturulmuş.",
+  "page-more-info-tip-keyword-title": "Kelime sayısı:",
+  "page-more-info-tip-keyword": "Bu madde $1 kelimeden oluşmaktadır.",
   "show-inline-page-info": "Satır içi madde bilgisini göster",
   "show-inline-page-info-description": "Bunu işaretlediğinizde maddenin üst kısmına madde bilgisi yer alan bir alan ekler.",
   "choose-duration": "Süre seçiniz",
@@ -208,9 +211,12 @@
   "user-blocking": "Kullanıcı engelleme",
   "block": "Engelle",
   "you-can-not-block-yourself": "Kendini engelleyemezsin",
-  "adiutor-dashboard-total-edit": "<strong>Toplam değişiklik</strong><br>Adiutor aracılığı ile toplamda <strong>$1</strong> değişiklik yaptın.",
-  "adiutor-dashboard-csd-requests": "<strong>Hızlı silme talebi</strong><br>Adiutor aracılığı ile <strong>$1</strong> sayfanın hızlı silinmesini talep ettin.",
-  "adiutor-dashboard-user-warnings": "<strong>Kullanıcı uyarma</strong><br>Adiutor aracılığı ile <strong>$1</strong> kullanıcıyı uyardın.",
+  "adiutor-dashboard-total-edit-title": "Toplam değişiklik",
+  "adiutor-dashboard-total-edit": "Adiutor aracılığı ile toplamda $1 değişiklik yaptın.",
+  "adiutor-dashboard-csd-requests-title": "Hızlı silme talebi",
+  "adiutor-dashboard-csd-requests": "Adiutor aracılığı ile $1 sayfanın hızlı silinmesini talep ettin.",
+  "adiutor-dashboard-user-warnings-title": "Kullanıcı uyarma",
+  "adiutor-dashboard-user-warnings": "Adiutor aracılığı ile $1 kullanıcıyı uyardın.",
   "use-pre-defined-edit-summaries": "Hazır değişillik özetlerini kullan",
   "use-pre-defined-edit-summaries-help": "Bu özellik aktif edildiğinde sayfa değişikliklerinde hazır ön tanımlı değişiklik özetlerini kullanabilirsiniz.",
   "frequently-used-edit-summaries": "Sık kullanılan değişiklik özetleri",
@@ -222,7 +228,8 @@
   "copyvio-potential-violation": "Muhtemel İhlal: %$1",
   "copyvio-potential-violation-low": "Muhtemel İhlal: %$1 | Bu sayfada kritik seviyeye yakın derecede telif hakkı ihlali var, telifli kısımları çıkarabilirsiniz.",
   "high-violation-link": "Yüksek İhlal İçeren Bağlantı",
-  "page-deletion-count-warning": "Bu sayfa daha önce $1 kez silindi! (<a href='/w/index.php?title=Special:Log&page=$2&type=delete'>Günlük Kaydı</a>)",
+  "page-deletion-count-warning": "Bu sayfa daha önce $1 kez silindi! ($2)",
+  "log": "Günlük Kaydı",
   "processing": "Processing",
   "full-protection": "Tam koruma",
   "semi-protection": "Yarı koruma",

@@ -283,9 +283,11 @@ api.get({
 				classes: ['adiutor-csd-modal-container-panel-1']
 			});
 			if(revDelCount >= "1") {
-				HeaderBarRevDel = new OO.ui.MessageWidget({
+				var deletionMessage = mw.msg('page-deletion-count-warning', revDelCount);
+				var deletionMessageWithLink = deletionMessage.replace(/\$2/g, '<a href="/wiki/Special:Log?type=delete&user=&page=' + mwConfig.wgPageName + '">' + mw.msg('log') + '</a>');
+				var HeaderBarRevDel = new OO.ui.MessageWidget({
 					type: 'warning',
-					label: new OO.ui.HtmlSnippet(mw.msg('page-deletion-count-warning', revDelCount, mwConfig.wgPageName))
+					label: new OO.ui.HtmlSnippet(deletionMessageWithLink)
 				});
 				this.panel1.$element.append(headerTitle.$element, headerTitleDescription.$element, HeaderBarRevDel.$element, stack.$element);
 			} else {

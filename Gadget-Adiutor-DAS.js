@@ -52,21 +52,21 @@ function SectionOneLayout(name, config) {
 		type: 'success',
 		icon: 'edit',
 		inline: false,
-		label: new OO.ui.HtmlSnippet(mw.msg('adiutor-dashboard-total-edit', totalEditCount)),
+		label: new OO.ui.HtmlSnippet('<strong>' + mw.msg('adiutor-dashboard-total-edit-title') + '</strong><br>' + mw.msg('adiutor-dashboard-total-edit', totalEditCount)),
 		classes: ['adiutor-user-dashboard-adiutor-total-stats']
 	});
 	var adiutorDashboardCsdStats = new OO.ui.MessageWidget({
 		type: 'notice',
 		icon: 'trash',
 		inline: false,
-		label: new OO.ui.HtmlSnippet(mw.msg('adiutor-dashboard-csd-requests', adiutorUserOptions.stats.csdRequests)),
+		label: new OO.ui.HtmlSnippet('<strong>' + mw.msg('adiutor-dashboard-csd-requests-title') + '</strong><br>' + mw.msg('adiutor-dashboard-csd-requests', adiutorUserOptions.stats.csdRequests)),
 		classes: ['adiutor-user-dashboard-adiutor-csd-stats']
 	});
 	var adiutorDashboardAfDStats = new OO.ui.MessageWidget({
 		type: 'notice',
 		icon: 'ongoingConversation',
 		inline: false,
-		label: new OO.ui.HtmlSnippet(mw.msg('adiutor-dashboard-user-warnings', adiutorUserOptions.stats.userWarnings)),
+		label: new OO.ui.HtmlSnippet('<strong>' + mw.msg('adiutor-dashboard-user-warnings-title') + '</strong><br>' + mw.msg('adiutor-dashboard-user-warnings', adiutorUserOptions.stats.userWarnings)),
 		classes: ['adiutor-user-dashboard-adiutor-afd-stats']
 	});
 	var adiutorEditStats = new OO.ui.StackLayout({
@@ -620,9 +620,11 @@ administratorToolsLayoutCsd.prototype.setupOutlineItem = function() {
 											classes: ['adiutor-csd-modal-container-panel-1']
 										});
 										if(revDelCount >= "1") {
-											HeaderBarRevDel = new OO.ui.MessageWidget({
+											var deletionMessage = mw.msg('page-deletion-count-warning', revDelCount);
+											var deletionMessageWithLink = deletionMessage.replace(/\$2/g, '<a href="/wiki/Special:Log?type=delete&user=&page=' + mwConfig.wgPageName + '">' + mw.msg('log') + '</a>');
+											var HeaderBarRevDel = new OO.ui.MessageWidget({
 												type: 'warning',
-												label: new OO.ui.HtmlSnippet(mw.msg('page-deletion-count-warning', revDelCount, mwConfig.wgPageName))
+												label: new OO.ui.HtmlSnippet(deletionMessageWithLink)
 											});
 											HeaderBarRevDel.$element.css({
 												'margin-bottom': '20px',

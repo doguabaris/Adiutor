@@ -20,12 +20,12 @@ $.ajax({
 	url: apiUrl,
 	method: "GET",
 	dataType: "json",
-	success: function(response) {
-		var isAlreadyAdded = adiutorUserOptions.myWorks.some(function(article) {
+	success: function (response) {
+		var isAlreadyAdded = adiutorUserOptions.myWorks.some(function (article) {
 			return article.id === newArticleToWorkOnIt.id;
 		});
 		var authorEditcount = response.author_editcount;
-		if(authorEditcount === null) {
+		if (authorEditcount === null) {
 			authorEditcount = 0;
 		}
 		// Define details to buttons
@@ -43,7 +43,7 @@ $.ajax({
 			],
 			classes: ['adiutor-aricle-detail-box-button-group']
 		});
-		infoButton.on('click', function() {
+		infoButton.on('click', function () {
 			api.get({
 				action: 'query',
 				prop: 'revisions',
@@ -51,7 +51,7 @@ $.ajax({
 				rvprop: 'user|content|timestamp', // Fetch user, content, and timestamp from revision history
 				rvlimit: 1, // Only retrieve the latest revision
 				formatversion: 2
-			}).then(function(data) {
+			}).then(function (data) {
 				// Extract relevant information from the API response
 				var revision = data.query.pages[0].revisions[0];
 				// Clean up the content by removing unnecessary elements
@@ -98,43 +98,45 @@ $.ajax({
 					flags: ['safe', 'back']
 				}];
 				// Initialize the dialog with its elements
-				ArticleInfoDialog.prototype.initialize = function() {
+				ArticleInfoDialog.prototype.initialize = function () {
 					ArticleInfoDialog.super.prototype.initialize.apply(this, arguments);
 					// Create elements to display information
+					var authorMessage = mw.msg('page-more-info-tip-author');
+					var authorMessageWithStrong = authorMessage.replace(/\$1/g, '<strong><a href="/wiki/Kullanıcı:' + response.author + '">' + response.author + '</a></strong>');
 					var articleCreator = new OO.ui.MessageWidget({
 						type: 'warning',
 						icon: 'infoFilled',
 						inline: false,
-						label: new OO.ui.HtmlSnippet(mw.msg('page-more-info-tip-author', response.author)),
+						label: new OO.ui.HtmlSnippet(mw.msg('page-more-info-tip-author-title') + '<br>' + authorMessageWithStrong),
 						classes: ['adiutor-page-more-info-tip-author']
 					});
 					var articleDate = new OO.ui.MessageWidget({
 						type: 'notice',
 						icon: 'edit',
 						inline: false,
-						label: new OO.ui.HtmlSnippet(mw.msg('page-more-info-tip-date', response.created_at)),
+						label: new OO.ui.HtmlSnippet(mw.msg('page-more-info-tip-date-title') + '<br>' + mw.msg('page-more-info-tip-date', response.created_at)),
 						classes: ['adiutor-page-more-info-tip-date']
 					});
 					var wordCountLabel = new OO.ui.MessageWidget({
 						type: 'notice',
 						icon: 'article',
 						inline: false,
-						label: new OO.ui.HtmlSnippet(mw.msg('page-more-info-tip-keyword', wordCount)),
+						label: new OO.ui.HtmlSnippet(mw.msg('page-more-info-tip-keyword-title') + '<br>' + mw.msg('page-more-info-tip-keyword', wordCount)),
 						classes: ['adiutor-page-more-info-tip-keyword']
 					});
 					this.$body.append(articleCreator.$element, articleDate.$element, wordCountLabel.$element);
 				};
 				// Set up the dialog's initial state
-				ArticleInfoDialog.prototype.getSetupProcess = function(data) {
-					return ArticleInfoDialog.super.prototype.getSetupProcess.call(this, data).next(function() {
+				ArticleInfoDialog.prototype.getSetupProcess = function (data) {
+					return ArticleInfoDialog.super.prototype.getSetupProcess.call(this, data).next(function () {
 						this.actions.setMode('edit');
 					}, this);
 				};
 				// Handle actions performed in the dialog
-				ArticleInfoDialog.prototype.getActionProcess = function(action) {
-					if(action === 'continue') {
+				ArticleInfoDialog.prototype.getActionProcess = function (action) {
+					if (action === 'continue') {
 						var dialog = this;
-						return new OO.ui.Process(function() {
+						return new OO.ui.Process(function () {
 							dialog.close();
 						});
 					}
@@ -150,7 +152,16 @@ $.ajax({
 				windowManager.openWindow(dialog);
 			});
 		});
-		var AboutArticleContent = $('<div>').append(mw.msg('page-info-tip', response.created_at, response.author, authorEditcount, response.revisions, response.editors, response.pageviews, response.pageviews_offset)).append(AboutArticleActionButtons.$element);
+		var translationKey = "page-info-tip";
+		var translation = mw.msg(translationKey);
+		var translatedText = translation.replace(/\$1/g, '<strong>' + response.created_at + '</strong>')
+			.replace(/\$2/g, "<strong><a href='/wiki/Kullanıcı:" + response.author + "'>" + response.author + "</a></strong>")
+			.replace(/\$3/g, response.author_editcount)
+			.replace(/\$4/g, response.revisions)
+			.replace(/\$5/g, response.editors)
+			.replace(/\$6/g, '<strong>' + response.pageviews + '</strong>')
+			.replace(/\$7/g, response.pageviews_offset);
+		var AboutArticleContent = $('<div>').html(translatedText).append(AboutArticleActionButtons.$element);
 		var AboutArticle = new OO.ui.MessageWidget({
 			type: 'notice',
 			icon: 'article',
@@ -158,9 +169,9 @@ $.ajax({
 			label: new OO.ui.HtmlSnippet(AboutArticleContent),
 			classes: ['adiutor-aricle-detail-box']
 		});
-		AboutArticleActionButtons.items[0].on('click', function() {
-			if(isAlreadyAdded) {
-				var indexToRemove = adiutorUserOptions.myWorks.findIndex(function(article) {
+		AboutArticleActionButtons.items[0].on('click', function () {
+			if (isAlreadyAdded) {
+				var indexToRemove = adiutorUserOptions.myWorks.findIndex(function (article) {
 					return article.id === newArticleToWorkOnIt.id;
 				});
 				adiutorUserOptions.myWorks.splice(indexToRemove, 1);
@@ -180,7 +191,7 @@ $.ajax({
 		});
 		$('.vector-body-before-content').prepend(AboutArticle.$element);
 	},
-	error: function(xhr, status, error) {
+	error: function (xhr, status, error) {
 		console.error("AJAX error:", error);
 	}
 });
@@ -192,6 +203,6 @@ function updateOptions(updatedOptions) {
 		optionname: 'userjs-adiutor',
 		optionvalue: JSON.stringify(updatedOptions),
 		formatversion: 2,
-	}).done(function() {});
+	}).done(function () { });
 }
 /* </nowiki> */
