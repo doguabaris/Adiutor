@@ -73,7 +73,7 @@ var adiutorUserOptionsDefault = {
 	},
 	"inlinePageInfo": true,
 	"showEditSummaries": true,
-	"adiutorVersion": "v1.2.2"
+	"adiutorVersion": "v1.2.3"
 };
 // Get user options related to the Adiutor gadget
 var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor'));
@@ -111,7 +111,5 @@ if(adiutorUserInterfaceTranslations) {
 	mw.messages.set(messages[lang] || messages.en);
 }
 // Load the Gadget-Adiutor-Loader.js file
-mw.loader.load(mw.util.getUrl('MediaWiki:Gadget-Adiutor-Loader.js', {
-	action: 'raw'
-}) + '&ctype=text/javascript', 'text/javascript');
+mw.loader.load(mw.util.getUrl('MediaWiki:Gadget-Adiutor-Loader.js', {action: 'raw'}) + '&ctype=text/javascript', 'text/javascript');
 /* </nowiki> */
