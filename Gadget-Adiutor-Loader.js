@@ -286,13 +286,13 @@ switch(mwConfig.skin) {
 		$('#pt-notifications-notice').after(adiutorIconContainer);
 		break;
 	case 'monobook':
-		//
+		$('#pt-notifications-notice').after(adiutorIconContainer);
 		break;
 	case 'timeless':
-		//
+		$('#pt-notifications-notice').after(adiutorIconContainer);
 		break;
 	case 'minerva':
-		//
+		$('#pt-notifications-notice').after(adiutorIconContainer);
 		break;
 }
 var myWorks = new OO.ui.FieldsetLayout({});
