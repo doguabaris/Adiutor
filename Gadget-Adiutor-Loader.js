@@ -255,7 +255,7 @@ switch(mwConfig.wgNamespaceNumber) {
 					$('.vector-collapsible').append(adiutorMenu.$element);
 					break;
 				case 'monobook':
-					$('.mw-indicators').append(adiutorMenu.$element);
+					$('#pt-notifications-notice').append(adiutorMenu.$element);
 					break;
 				case 'timeless':
 					$('.mw-portlet-body').append(adiutorMenu.$element);

@@ -109,7 +109,7 @@ if(adiutorUserInterfaceTranslations) {
 	var lang = mw.config.get('wgUserLanguage') || 'en';
 	// Set messages for the user interface based on the user's language
 	mw.messages.set(messages[lang] || messages.en);
+	// Load the Gadget-Adiutor-Loader.js file
+	mw.loader.load(mw.util.getUrl('MediaWiki:Gadget-Adiutor-Loader.js', { action: 'raw' }) + '&ctype=text/javascript', 'text/javascript');
 }
-// Load the Gadget-Adiutor-Loader.js file
-mw.loader.load(mw.util.getUrl('MediaWiki:Gadget-Adiutor-Loader.js', {action: 'raw'}) + '&ctype=text/javascript', 'text/javascript');
 /* </nowiki> */
