@@ -37,69 +37,73 @@ UserWarningDialog.prototype.initialize = function() {
 	var RationaleSelector = new OO.ui.DropdownWidget({
 		menu: {
 			items: [
+				//data = template name and label = the message which shown on the menu.
 				new OO.ui.MenuOptionWidget({
-					data: 1,
+					data: 'ADT-Vandalizm',
 					label: 'Vandalizm'
 				}),
 				new OO.ui.MenuOptionWidget({
-					data: 2,
+					data: 'ADT-İşleyiş',
 					label: 'İşleyiş Aksatıcı Değişiklik'
 				}),
 				new OO.ui.MenuOptionWidget({
-					data: 3,
+					data: 'ADT-Deneme',
 					label: 'Deneme Amaçlı Değişiklik'
 				}),
 				new OO.ui.MenuOptionWidget({
-					data: 4,
+					data: 'ADT-Silme',
 					label: 'İçeriğin Kaldırılması (silme)'
 				}),
 				new OO.ui.MenuOptionWidget({
-					data: 5,
+					data: 'ADT-Şaka',
 					label: 'Şaka Amaçlı Değişiklik'
 				}),
 				new OO.ui.MenuOptionWidget({
-					data: 6,
+					data: 'ADT-Özgün',
 					label: 'Özgün Araştırma Bilgi Eklemesi'
 				}),
 				new OO.ui.MenuOptionWidget({
-					data: 7,
+					data: 'ADT-Reklam',
 					label: 'Reklam Amaçlı Değişiklik'
 				}),
 				new OO.ui.MenuOptionWidget({
-					data: 8,
+					data: 'ADT-Çıkar',
 					label: 'Çıkar Çatışması'
 				}),
 				new OO.ui.MenuOptionWidget({
-					data: 9,
+					data: 'ADT-Telif',
 					label: 'Telif Hakkı İhlali'
 				}),
 				new OO.ui.MenuOptionWidget({
-					data: 10,
+					data: 'ADT-Otobiyografi',
 					label: 'Otobiyografi Oluşturma'
 				}),
 				new OO.ui.MenuOptionWidget({
-					data: 11,
+					data: 'ADT-Ansiklopedik',
 					label: 'Ansiklopedik Olmayan Bilgi Eklemesi'
 				}),
 				new OO.ui.MenuOptionWidget({
-					data: 12,
+					data: 'ADT-Hz',
 					label: 'Hz. vb İfadeleri Ekleme'
 				}),
 				new OO.ui.MenuOptionWidget({
-					data: 13,
+					data: 'ADT-Makine',
 					label: 'Makine Çevirisi Ekleme'
 				}),
 				new OO.ui.MenuOptionWidget({
-					data: 14,
+					data: 'ADT-Yorum',
 					label: 'Yorum İçeren Katkı'
 				}),
 				new OO.ui.MenuOptionWidget({
-					data: 15,
+					data: 'ADT-Nezaket',
 					label: 'Nezaket İhlali'
 				}),
 			]
 		},
 		label: new OO.ui.deferMsg('warning-type'),
+	});
+	RationaleSelector.getMenu().on('choose', function(menuOption) {
+		warningTemplate = menuOption.getData();
 	});
 	RationaleSelector.$element.css('margin-top', '20px');
 	relatedPageField = new OO.ui.FieldLayout(relatedPage = new OO.ui.TextInputWidget({
@@ -127,55 +131,6 @@ UserWarningDialog.prototype.initialize = function() {
 	relatedPageField.$element.css({
 		'margin-top': '20px',
 		'margin-bottom': '20px'
-	});
-	RationaleSelector.getMenu().on('choose', function(menuOption) {
-		switch(menuOption.getData()) {
-			case 1:
-				warningTemplate = "ADT-Vandalizm";
-				break;
-			case 2:
-				warningTemplate = "ADT-İşleyiş";
-				break;
-			case 3:
-				warningTemplate = "ADT-Deneme";
-				break;
-			case 4:
-				warningTemplate = "ADT-Silme";
-				break;
-			case 5:
-				warningTemplate = "ADT-Şaka";
-				break;
-			case 6:
-				warningTemplate = "ADT-Özgün";
-				break;
-			case 7:
-				warningTemplate = "ADT-Reklam";
-				break;
-			case 8:
-				warningTemplate = "ADT-Çıkar";
-				break;
-			case 9:
-				warningTemplate = "ADT-Telif";
-				break;
-			case 10:
-				warningTemplate = "ADT-Otobiyografi";
-				break;
-			case 11:
-				warningTemplate = "ADT-Ansiklopedik";
-				break;
-			case 12:
-				warningTemplate = "ADT-Hz";
-				break;
-			case 13:
-				warningTemplate = "ADT-Makine";
-				break;
-			case 14:
-				warningTemplate = "ADT-Yorum";
-				break;
-			case 15:
-				warningTemplate = "ADT-Nezaket";
-				break;
-		}
 	});
 	this.content.$element.append(headerTitle.$element, RationaleSelector.$element, relatedPageField.$element, warningLevel.$element);
 	this.$body.append(this.content.$element);
