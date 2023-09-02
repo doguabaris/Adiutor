@@ -202,6 +202,7 @@ switch(mwConfig.wgNamespaceNumber) {
 				1: 'CSD',
 				2: 'PRD',
 				3: 'AFD',
+				4: 'diff',
 				5: 'COV',
 				6: 'OPT',
 				7: 'INF',

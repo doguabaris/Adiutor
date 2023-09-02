@@ -1052,7 +1052,7 @@ administratorToolsLayoutCsd.prototype.setupOutlineItem = function() {
 													// Delete corresponding talk pages
 													api.postWithToken('csrf', {
 														action: 'delete',
-														title: "Talk:" + pageTitle,
+														title: "Tartışma:" + pageTitle,
 														reason: '[[VP:HS#G7]]: Silinen sayfanın tartışma sayfası',
 														tags: 'Adiutor',
 														format: 'json'
