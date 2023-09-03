@@ -250,7 +250,6 @@ switch(mwConfig.wgNamespaceNumber) {
 			switch(mwConfig.skin) {
 				case 'vector':
 					$('.mw-portlet-cactions').parent().append(adiutorMenu.$element);
-					$('.vector-menu-content-list').append($('<li>').append(AdiutorDashboardIcon.$element));
 					break;
 				case 'vector-2022':
 					$('.vector-collapsible').append(adiutorMenu.$element);
