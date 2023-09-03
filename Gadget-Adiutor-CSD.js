@@ -88,17 +88,22 @@ api.get({
 					NameSpaceDeletionReasons.addItems([fieldLayout]);
 				}
 			} else {
+				var NS_MAIN = 0,
+					NS_USER = 2,
+					NS_USER_TALK = 3,
+					NS_FILE = 6,
+					NS_TEMPLATE = 10,
+					NS_CATEGORY = 14;
 				switch(mwConfig.wgNamespaceNumber) {
-					case 0:
-					case 6:
-					case 14:
-					case 2:
-					case 3:
-					case 10:
-					case 100:
+					case NS_MAIN:
+					case NS_FILE:
+					case NS_CATEGORY:
+					case NS_USER:
+					case NS_USER_TALK:
+					case NS_TEMPLATE:
 						selectedNamespace;
-						if(mwConfig.wgNamespaceNumber === 2 || mwConfig.wgNamespaceNumber === 3) {
-							selectedNamespace = speedyDeletionReasons.find(reason => reason.namespace === 2);
+						if(mwConfig.wgNamespaceNumber === NS_USER || mwConfig.wgNamespaceNumber === NS_USER_TALK) {
+							selectedNamespace = speedyDeletionReasons.find(reason => reason.namespace === NS_USER);
 						} else {
 							selectedNamespace = speedyDeletionReasons.find(reason => reason.namespace === mwConfig.wgNamespaceNumber);
 						}

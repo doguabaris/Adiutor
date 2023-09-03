@@ -459,19 +459,24 @@ administratorToolsLayoutCsd.prototype.setupOutlineItem = function() {
 										csdAdminProcessDialog.super.prototype.initialize.apply(this, arguments);
 										var i, reason, checkboxWidget, fieldLayout;
 										var selectedNamespace = null;
+										var NS_MAIN = 0,
+											NS_USER = 2,
+											NS_USER_TALK = 3,
+											NS_FILE = 6,
+											NS_TEMPLATE = 10,
+											NS_CATEGORY = 14;
 										switch(item.namespace) {
-											case 0:
-											case 6:
-											case 14:
-											case 2:
-											case 3:
-											case 10:
-											case 100:
+											case NS_MAIN:
+											case NS_FILE:
+											case NS_CATEGORY:
+											case NS_USER:
+											case NS_USER_TALK:
+											case NS_TEMPLATE:
 												// Find the selected namespace based on the condition
 												selectedNamespace;
-												if(item.namespace === 2 || item.namespace === 3) {
+												if(item.namespace === NS_USER || item.namespace === NS_USER_TALK) {
 													// Case 2 and 3 should share the same namespace
-													selectedNamespace = speedyDeletionReasons.find(reason => reason.namespace === 2);
+													selectedNamespace = speedyDeletionReasons.find(reason => reason.namespace === NS_USER);
 												} else {
 													selectedNamespace = speedyDeletionReasons.find(reason => reason.namespace === item.namespace);
 												}
