@@ -141,7 +141,6 @@ function putTemplate(GFATemplate, nextNominationNumber) {
 		format: 'json'
 	}).done(function() {
 		createNominationPage(nominatedPage);
-		logNomination(nominatedPage);
 	});
 }
 
@@ -160,7 +159,7 @@ function createNominationPage(nominatedPage) {
 	api.postWithToken('csrf', {
 		action: 'edit',
 		title: 'Vikipedi:Kaliteli_madde_adayları/' + nominatedPage,
-		appendtext: '=== [[' + mwConfig.wgPageName.replace(/_/g, " ") + ']] === \n' + rationaleInput.value + ' ~~~~' + "\n",
+		appendtext: '{{subst:SMA2 |madde_adı = ' + mwConfig.wgPageName.replace(/_/g, " ") + ' |gerekçe = ' + rationaleInput.value + ' ~~~~ }}',
 		summary: 'Sayfa [[VP:KMA|kaliteli madde adayı]] gösterildi',
 		tags: 'Adiutor',
 		format: 'json'
@@ -170,59 +169,43 @@ function createNominationPage(nominatedPage) {
 }
 
 function addNominationToGaPage(nominatedPage) {
-	var pageContent;
+	// Önce sayfanın içeriğini çekelim
 	api.get({
-		action: 'parse',
-		page: "Vikipedi:Kaliteli_madde_adayları",
-		prop: 'wikitext',
-		format: "json"
+		action: 'query',
+		prop: 'revisions',
+		titles: 'Vikipedi:Kaliteli_madde_adayları',
+		rvprop: 'content',
+		format: 'json'
 	}).done(function(data) {
-		pageContent = data.parse.wikitext['*'];
-		var NominatedBefore = pageContent.includes("{{Vikipedi:Kaliteli madde adayları/" + nominatedPage.replace(/_/g, " ") + "}}");
-		if(!NominatedBefore) {
-			api.postWithToken('csrf', {
-				action: 'edit',
-				title: "Vikipedi:Kaliteli_madde_adayları",
-				appendtext: "\n" + "{{Vikipedi:Kaliteli madde adayları/" + nominatedPage.replace(/_/g, " ") + "}}",
-				summary: "Adaylık [[Vikipedi:Kaliteli madde adayları|kma]] listesine eklendi.",
-				tags: 'Adiutor',
-				format: 'json'
-			}).done(function() {
-				addNominationToGaLogPage(nominatedPage);
-			});
+		var pageId = Object.keys(data.query.pages)[0];
+		var currentPageContent = data.query.pages[pageId].revisions[0]['*'];
+		// "== Adaylıklar ==" başlığını bulalım
+		var headingPosition = currentPageContent.indexOf("== Adaylıklar ==");
+		if(headingPosition === -1) {
+			console.error("Heading not found");
+			return;
 		}
-	});
-}
-
-function addNominationToGaLogPage(nominatedPage) {
-	var date = new Date();
-	var date_months = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
-	var date_year = date.getUTCFullYear();
-	var month_name = date_months[date.getUTCMonth()];
-	var pageContent;
-	api.get({
-		action: 'parse',
-		page: "Vikipedi:Kaliteli_madde_adayları/Arşiv/" + month_name + "_" + date_year,
-		prop: 'wikitext',
-		format: "json"
-	}).done(function(data) {
-		pageContent = data.parse.wikitext['*'];
-		var NominatedBefore = pageContent.includes("{{Vikipedi:Kaliteli madde adayları/" + nominatedPage.replace(/_/g, " ") + "}}");
-		//Eğer daha önce aday gösterilmişe
-		if(!NominatedBefore) {
-			api.postWithToken('csrf', {
-				action: 'edit',
-				title: "Vikipedi:Kaliteli_madde_adayları/Arşiv/" + month_name + "_" + date_year,
-				appendtext: "\n" + "{{Vikipedi:Kaliteli madde adayları/" + nominatedPage.replace(/_/g, " ") + "}}",
-				summary: "Adaylık [[Vikipedi:Kaliteli madde adayları/Arşiv/" + month_name + " " + date_year + "|mevcut ayın]] kayıtlarına eklendi.",
-				tags: 'Adiutor',
-				format: 'json'
-			}).done(function() {
-				window.location = '/wiki/Vikipedi:Kaliteli madde adayları/' + nominatedPage.replace(/_/g, " ");
-			});
-		} else {
-			window.location = '/wiki/Vikipedi:Kaliteli madde adayları/' + nominatedPage.replace(/_/g, " ");
-		}
+		// "== Adaylıklar ==" başlığı sonrasındaki kısmı alalım
+		var contentAfterHeading = currentPageContent.substring(headingPosition + "== Adaylıklar ==\n".length);
+		// Yeni adayı içeren şablonu oluşturalım
+		var nominationTemplate = "{{Vikipedi:Kaliteli madde adayları/" + nominatedPage.replace(/_/g, " ") + "}}\n";
+		// Yeni adayı içeriğin sonuna ekleyelim
+		var updatedPageContent = currentPageContent.substring(0, headingPosition + "== Adaylıklar ==\n".length) + nominationTemplate + contentAfterHeading;
+		// Sayfayı güncelleyelim
+		api.postWithToken('csrf', {
+			action: 'edit',
+			title: 'Vikipedi:Kaliteli_madde_adayları',
+			text: updatedPageContent,
+			summary: "Adaylık [[Vikipedi:Kaliteli madde adayları|kma]] listesine en üstten eklendi.",
+			tags: 'Adiutor',
+			format: 'json'
+		}).done(function() {
+			window.location = '/wiki/Vikipedi:Kaliteli_madde_adayları/' + nominatedPage.replace(/_/g, " ");
+		}).fail(function() {
+			console.error("Failed to edit the page");
+		});
+	}).fail(function() {
+		console.error("Failed to fetch page content");
 	});
 }
 
