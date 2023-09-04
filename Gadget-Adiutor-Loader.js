@@ -258,7 +258,7 @@ switch(mwConfig.wgNamespaceNumber) {
 					$('#pt-notifications-notice').append(adiutorMenu.$element);
 					break;
 				case 'timeless':
-					$('.mw-portlet-body').append(adiutorMenu.$element);
+					$('#p-cactions-label').append(adiutorMenu.$element);
 					break;
 				case 'minerva':
 					$('.page-actions-menu__list').append(adiutorMenu.$element);
