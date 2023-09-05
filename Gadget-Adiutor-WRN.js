@@ -9,7 +9,9 @@
 // Get essential configuration from MediaWiki
 var mwConfig = mw.config.get(["skin", "wgAction", "wgArticleId", "wgPageName", "wgNamespaceNumber", "wgTitle", "wgUserGroups", "wgUserName", "wgUserEditCount", "wgUserRegistration", "wgCanonicalNamespace"]);
 var api = new mw.Api();
-var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor'));
+var wikiId = mw.config.get('wgWikiID');
+var wikiAdiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor') || '{}'); // Provide a default empty object if no options are set.
+var adiutorUserOptions = wikiAdiutorUserOptions[wikiId];
 var RequestRationale, warningTemplate;
 
 function UserWarningDialog(config) {

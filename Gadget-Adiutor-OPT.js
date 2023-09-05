@@ -8,7 +8,9 @@
 /* <nowiki> */
 // Get essential configuration from MediaWiki
 var api = new mw.Api();
-var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor'));
+var wikiId = mw.config.get('wgWikiID');
+var wikiAdiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor') || '{}'); // Provide a default empty object if no options are set.
+var adiutorUserOptions = wikiAdiutorUserOptions[wikiId];
 if(!adiutorUserOptions.hasOwnProperty('myCustomSummaries')) {
 	adiutorUserOptions.myCustomSummaries = [];
 }
@@ -200,11 +202,13 @@ windowManager.addWindows([dialog]);
 windowManager.openWindow(dialog);
 // Define functions below as needed
 function updateOptions(updatedOptions) {
+	var aditutorOptions = {};
+	aditutorOptions[wikiId] = updatedOptions;
 	api.postWithEditToken({
 		action: 'globalpreferences',
 		format: 'json',
 		optionname: 'userjs-adiutor',
-		optionvalue: JSON.stringify(updatedOptions),
+		optionvalue: JSON.stringify(aditutorOptions),
 		formatversion: 2,
 	}).done(function() {
 		mw.notify(mw.msg('settings-has-been-updated'), {

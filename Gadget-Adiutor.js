@@ -9,12 +9,15 @@
 // Initialize the MediaWiki API
 var api = new mw.Api();
 // Function to update user options
+var wikiId = mw.config.get('wgWikiID'); // Declare 'var' before 'wikiId' to make it a local variable.
 function updateOptions(options) {
+	var aditutorOptions = {}; // Declare 'aditutorOptions' here to create an empty object.
+	aditutorOptions[wikiId] = options; // Correct the way to set options for a specific wikiId.
 	api.postWithEditToken({
 		action: 'globalpreferences',
 		format: 'json',
 		optionname: 'userjs-adiutor',
-		optionvalue: JSON.stringify(options),
+		optionvalue: JSON.stringify(aditutorOptions),
 		formatversion: 2,
 	}).done(function() {});
 }
@@ -73,10 +76,12 @@ var adiutorUserOptionsDefault = {
 	},
 	"inlinePageInfo": true,
 	"showEditSummaries": true,
-	"adiutorVersion": "v1.2.4"
+	"adiutorVersion": "v1.2.5"
 };
 // Get user options related to the Adiutor gadget
-var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor'));
+var wikiAdiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor') || '{}'); // Provide a default empty object if no options are set.
+var adiutorUserOptions = wikiAdiutorUserOptions[wikiId];
+console.log(wikiAdiutorUserOptions);
 var hasNewOptions = false;
 // Check if user options are not present or empty
 if(!adiutorUserOptions || Object.keys(adiutorUserOptions).length === 0) {
@@ -95,8 +100,8 @@ if(!adiutorUserOptions || Object.keys(adiutorUserOptions).length === 0) {
 		}
 	}
 	// Update user options if new settings are found
-	if(hasNewOptions || hasNewVersion) {
-		updateOptions(adiutorUserOptions);
+	if(hasNewOptions) {
+		updateOptions(adiutorUserOptions); // Remove '|| hasNewVersion' which is undefined.
 		updateTranslations();
 	}
 }
