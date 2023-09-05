@@ -328,5 +328,10 @@
     "list-pages-for-afd": "Наведи чланке за брисање",
     "select-speedy-deletion-reason": "Морате изабрати бар један разлог за брзо брисање.",
     "warning": "Упозорење",
-    "this": "Ово"
+    "this": "Ово",
+    "rfd-header-title": "Request for deletion",
+    "rfd-rationale-placeholder": "Why should this file be deleted?",
+    "rfd-module-title": "Adiutor - Request for deletion",
+    "rfd-header-description": "The initiation of a discussion for the deletion of the file, even though it doesn't meet the stricter and more challenging criteria required for speedy deletion.",
+    "nominate-file-for-deletion": "Nominate for deletion"
 }

@@ -327,5 +327,10 @@
     "list-pages-for-afd": "This message will be displayed on the Adiutor dashboard.",
     "select-speedy-deletion-reason": "This message will be displayed on the Adiutor dashboard.",
     "warning": "This message will be displayed on the various windows.",
-    "this": "This message will be displayed on the user page widget."
+    "this": "This message will be displayed on the user page widget.",
+    "rfd-header-title": "This message will be displayed on the deletion request widget.",
+    "rfd-rationale-placeholder": "This message will be displayed on the deletion request widget.",
+    "rfd-module-title":"This message will be displayed on the deletion request widget.",
+    "rfd-header-description": "This message will be displayed on the deletion request widget.",
+    "nominate-file-for-deletion": "This message will be displayed on the adiutor menu."
 }

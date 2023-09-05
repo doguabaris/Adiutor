@@ -327,5 +327,10 @@
   "list-pages-for-afd": "Silinməyə namizəd səhifələr sırala",
   "select-speedy-deletion-reason": "Ən az bir sürətli silmə səbəbi seçməlisiniz.",
   "warning": "Xəbərdarlıq",
-  "this": "Bu"
+  "this": "Bu",
+  "rfd-header-title": "Request for deletion",
+  "rfd-rationale-placeholder": "Why should this file be deleted?",
+  "rfd-module-title": "Adiutor - Request for deletion",
+  "rfd-header-description": "The initiation of a discussion for the deletion of the file, even though it doesn't meet the stricter and more challenging criteria required for speedy deletion.",
+  "nominate-file-for-deletion": "Nominate for deletion"
 }

@@ -329,7 +329,12 @@
         "list-pages-for-afd": "List Articles For Deletion",
         "select-speedy-deletion-reason": "You must select at least one speedy deletion reason.",
         "warning": "Warning",
-        "this": "This"
+        "this": "This",
+        "rfd-header-title": "Request for deletion",
+        "rfd-rationale-placeholder": "Why should this file be deleted?",
+        "rfd-module-title": "Adiutor - Request for deletion",
+        "rfd-header-description": "The initiation of a discussion for the deletion of the file, even though it doesn't meet the stricter and more challenging criteria required for speedy deletion.",
+        "nominate-file-for-deletion": "Nominate for deletion"
     },
     "tr": {
         "create": "Oluştur",
@@ -655,6 +660,11 @@
         "list-pages-for-afd": "Aday Sayfaları Listele",
         "select-speedy-deletion-reason": "En az bir hızlı silme gerekçesi seçmelisiniz.",
         "warning": "Uyarı",
-        "this": "Bu"
+        "this": "Bu",
+        "rfd-header-title": "Silme talebi",
+        "rfd-rationale-placeholder": "Bu dosya neden silinmeli?",
+        "rfd-module-title": "Adiutor - Silme talebi",
+        "rfd-header-description": "Hızlı silme için gereken daha katı ve zorlu kriterleri karşılamasa da dosyanın silinmesi için bir tartışma başlatılması.",
+        "nominate-file-for-deletion": "Silinmeye aday göster"
     }
 }
