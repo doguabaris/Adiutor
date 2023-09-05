@@ -10,8 +10,7 @@
 var mwConfig = mw.config.get(["skin", "wgAction", "wgArticleId", "wgPageName", "wgNamespaceNumber", "wgUserName", "wgTitle", "wgUserGroups", "wgUserEditCount", "wgUserRegistration", "wgRelevantUserName", "wgCanonicalNamespace"]);
 var api = new mw.Api();
 var wikiId = mw.config.get('wgWikiID');
-var wikiAdiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor') || '{}'); // Provide a default empty object if no options are set.
-var adiutorUserOptions = wikiAdiutorUserOptions[wikiId];
+var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-'+wikiId));
 var adiutorUserInterfaceTranslations = mw.user.options.get('userjs-adiutor-i18-translations');
 if(adiutorUserOptions) {
 	var messages = JSON.parse(adiutorUserInterfaceTranslations);
