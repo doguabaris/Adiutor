@@ -9,13 +9,13 @@
 // Initialize the MediaWiki API
 var api = new mw.Api();
 var wikiId = mw.config.get('wgWikiID');
-var wikiOptions = 'userjs-adiutor-'+wikiId;
+var wikiOptions = 'userjs-adiutor-' + wikiId;
 // Function to update user options
 function updateOptions(options) {
 	api.postWithEditToken({
 		action: 'globalpreferences',
 		format: 'json',
-		optionname: 'userjs-adiutor-'+wikiId,
+		optionname: 'userjs-adiutor-' + wikiId,
 		optionvalue: JSON.stringify(options),
 		formatversion: 2,
 	}).done(function() {});
@@ -30,14 +30,20 @@ function updateTranslations() {
 		formatversion: 2
 	}).done(function(data) {
 		var defaultTranslationData = data.query.pages[0].revisions[0].content;
-		// Send default translation data to the server using API
-		api.postWithEditToken({
-			action: 'globalpreferences',
-			format: 'json',
-			optionname: 'userjs-adiutor-i18-translations',
-			optionvalue: defaultTranslationData,
-			formatversion: 2,
-		}).done(function() {});
+		var jsonData = JSON.parse(defaultTranslationData);
+		var result = {};
+		Object.keys(jsonData).forEach(function(langCode) {
+			if(langCode !== '@metadata') {
+				var optionValue = JSON.stringify(jsonData[langCode]);
+				api.postWithEditToken({
+					action: 'globalpreferences',
+					format: 'json',
+					optionname: 'userjs-adiutor-i18-' + langCode,
+					optionvalue: optionValue,
+					formatversion: 2,
+				}).done(function() {});
+			}
+		});
 	});
 }
 // Define default user options for the Adiutor gadget
@@ -103,15 +109,18 @@ if(!adiutorUserOptions || Object.keys(adiutorUserOptions).length === 0) {
 	}
 }
 // Get user interface translations for the Adiutor gadget
-var adiutorUserInterfaceTranslations = mw.user.options.get('userjs-adiutor-i18-translations');
-if(adiutorUserInterfaceTranslations) {
-	// Parse JSON translations into an object
-	var messages = JSON.parse(adiutorUserInterfaceTranslations);
-	// Get user's preferred language or default to 'en'
-	var lang = mw.config.get('wgUserLanguage') || 'en';
-	// Set messages for the user interface based on the user's language
-	mw.messages.set(messages[lang] || messages.en);
-	// Load the Gadget-Adiutor-Loader.js file
-	mw.loader.load(mw.util.getUrl('MediaWiki:Gadget-Adiutor-Loader.js', { action: 'raw' }) + '&ctype=text/javascript', 'text/javascript');
+// Get user interface translations for the Adiutor gadget
+var userLanguage = mw.config.get('wgUserLanguage'); // Kullanıcının dilini alın
+var adiutorUserInterfaceTranslations;
+// Belirtilen dildeki çevriyi deneyin
+adiutorUserInterfaceTranslations = mw.user.options.get('userjs-adiutor-i18-' + userLanguage);
+// Eğer belirtilen dilde çeviri yoksa, İngilizce çevriyi deneyin
+if(!adiutorUserInterfaceTranslations) {
+	adiutorUserInterfaceTranslations = mw.user.options.get('userjs-adiutor-i18-en');
 }
+var messages = JSON.parse(adiutorUserInterfaceTranslations);
+console.log(messages);
+mw.messages.set(messages);
+// Load the Gadget-Adiutor-Loader.js file
+mw.loader.load(mw.util.getUrl('MediaWiki:Gadget-Adiutor-Loader.js', { action: 'raw' }) + '&ctype=text/javascript', 'text/javascript');
 /* </nowiki> */
