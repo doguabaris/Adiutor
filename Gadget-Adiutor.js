@@ -108,19 +108,27 @@ if(!adiutorUserOptions || Object.keys(adiutorUserOptions).length === 0) {
 		updateTranslations();
 	}
 }
-// Get user interface translations for the Adiutor gadget
-// Get user interface translations for the Adiutor gadget
-var userLanguage = mw.config.get('wgUserLanguage'); // Kullanıcının dilini alın
-var adiutorUserInterfaceTranslations;
-// Belirtilen dildeki çevriyi deneyin
-adiutorUserInterfaceTranslations = mw.user.options.get('userjs-adiutor-i18-' + userLanguage);
-// Eğer belirtilen dilde çeviri yoksa, İngilizce çevriyi deneyin
-if(!adiutorUserInterfaceTranslations) {
-	adiutorUserInterfaceTranslations = mw.user.options.get('userjs-adiutor-i18-en');
-}
-var messages = JSON.parse(adiutorUserInterfaceTranslations);
-console.log(messages);
-mw.messages.set(messages);
-// Load the Gadget-Adiutor-Loader.js file
-mw.loader.load(mw.util.getUrl('MediaWiki:Gadget-Adiutor-Loader.js', { action: 'raw' }) + '&ctype=text/javascript', 'text/javascript');
+try {
+	var userLanguage = mw.config.get('wgUserLanguage'); // Get user's language
+  	var adiutorUserInterfaceTranslations = mw.user.options.get('userjs-adiutor-i18-' + userLanguage); // Get translation for user's language
+
+  	// If there is no translation, use English as a fallback.
+  	if (!adiutorUserInterfaceTranslations) {
+		adiutorUserInterfaceTranslations = mw.user.options.get('userjs-adiutor-i18-en');
+	}
+	
+	// Ensure messages is an object with valid translations.
+	var messages = JSON.parse(adiutorUserInterfaceTranslations);
+	if (typeof messages !== 'object' || Object.keys(messages).length === 0) {
+    		throw new Error('Invalid or empty translations');
+	}
+	// If so, work with the messages object.
+	console.log(messages);
+	mw.messages.set(messages);
+
+  	// Load the Gadget-Adiutor-Loader.js file
+  	mw.loader.load(mw.util.getUrl('MediaWiki:Gadget-Adiutor-Loader.js', { action: 'raw' }) + '&ctype=text/javascript', 'text/javascript');
+	} catch (error) {
+		console.error('Error fetching and processing translations:', error);
+	}
 /* </nowiki> */
