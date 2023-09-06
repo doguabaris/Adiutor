@@ -295,7 +295,7 @@
     "registration-info": "registered $1 ago.",
     "last-edited-default": "Last edit information not available",
     "last-edited": "Last edited $1 ago",
-    "has-x-edit-count": "has $1 edits",
+    "has-x-edit-count": "This user has $1 edits",
     "unblock-button-label": "Unblock",
     "block-button-label": "Block",
     "warn-button-label": "Warn",
