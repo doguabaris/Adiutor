@@ -451,14 +451,54 @@ function putCSDTemplate(CSDReason, CSDSummary) {
 
 function logCsdRequest(CSDSummary, adiutorUserOptions) {
 	if(adiutorUserOptions.speedyDeletion.csdLogNominatedPages === true) {
-		api.postWithToken('csrf', {
-			action: 'edit',
-			title: 'Kullanıcı:'.concat(mwConfig.wgUserName, '/' + adiutorUserOptions.speedyDeletion.csdLogPageName + '').split(' ').join('_'),
-			appendtext: "\n" + "# '''[[" + mwConfig.wgPageName.replace(/_/g, " ") + "|" + mwConfig.wgPageName.replace(/_/g, " ") + "]]''' " + CSDSummary + " ~~~~~",
-			summary: '[[' + mwConfig.wgPageName.replace(/_/g, " ") + ']] sayfasının hızlı silme adaylığının günlük kaydı tutuluyor.',
-			tags: 'Adiutor',
-			format: 'json'
-		}).done(function() {});
+		// Get the current date and format it as "Month Year"
+		var currentDate = new Date();
+		var currentMonthYear = currentDate.toLocaleString('tr-TR', {
+			month: 'long',
+			year: 'numeric'
+		});
+		// Define the section title using the current month and year
+		var sectionTitle = "== " + currentMonthYear + " ==";
+		var newContent; // Define newContent here in a higher scope
+		// Fetch the content of the page
+		api.get({
+			action: 'parse',
+			page: 'Kullanıcı:'.concat(mwConfig.wgUserName, '/' + adiutorUserOptions.speedyDeletion.csdLogPageName + '').split(' ').join('_'),
+			format: 'json',
+			prop: 'wikitext'
+		}).then(function(data) {
+			var pageContent = data.parse.wikitext['*'];
+			// Check if the section title exists in the page content
+			if(pageContent.includes(sectionTitle)) {
+				// Append the log entry just below the section
+				newContent = pageContent.replace(sectionTitle, sectionTitle + "\n" + "# '''[[:" + mwConfig.wgPageName.replace(/_/g, " ") + "|" + mwConfig.wgPageName.replace(/_/g, " ") + "]]''' " + CSDSummary + " ~~~~~");
+			} else {
+				// Create the section and append the log entry
+				newContent = pageContent + "\n\n" + sectionTitle + "\n" + "# '''[[:" + mwConfig.wgPageName.replace(/_/g, " ") + "|" + mwConfig.wgPageName.replace(/_/g, " ") + "]]''' " + CSDSummary + " ~~~~~";
+			}
+			// Perform the edit to update the page content
+			return api.postWithToken('csrf', {
+				action: 'edit',
+				title: 'Kullanıcı:'.concat(mwConfig.wgUserName, '/' + adiutorUserOptions.speedyDeletion.csdLogPageName + '').split(' ').join('_'),
+				text: newContent,
+				summary: '[[' + mwConfig.wgPageName.replace(/_/g, " ") + ']] sayfasının hızlı silme adaylığının günlük kaydı tutuluyor.',
+				tags: 'Adiutor',
+				format: 'json'
+			});
+		}).catch(function(error) {
+			// Handle the error here
+			console.error('Error:', error);
+			// If you want to retry the edit in the catch block, you can do so
+			api.postWithToken('csrf', {
+				action: 'edit',
+				title: 'Kullanıcı:'.concat(mwConfig.wgUserName, '/' + adiutorUserOptions.speedyDeletion.csdLogPageName + '').split(' ').join('_'),
+				section: 'new',
+				sectiontitle: sectionTitle,
+				text: "# '''[[:" + mwConfig.wgPageName.replace(/_/g, " ") + "|" + mwConfig.wgPageName.replace(/_/g, " ") + "]]''' " + CSDSummary + " ~~~~~",
+				summary: '[[' + mwConfig.wgPageName.replace(/_/g, " ") + ']] sayfasının hızlı silme adaylığının günlük kaydı tutuluyor.',
+				format: 'json',
+			}).done(function() {});
+		});
 	}
 }
 
