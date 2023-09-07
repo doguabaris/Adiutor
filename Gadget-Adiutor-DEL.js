@@ -12,7 +12,7 @@ var mwConfig = mw.config.get(["skin", "wgAction", "wgArticleId", "wgPageName", "
 var api = new mw.Api();
 // Get user options from Adiutor configuration
 var wikiId = mw.config.get('wgWikiID');
-var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-'+wikiId));
+var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-' + wikiId));
 var params = {};
 // Sayfa mevcudiyetini kontrol et
 api.get({
@@ -38,13 +38,13 @@ api.get({
 			api.get({
 				action: 'query',
 				prop: 'revisions',
-				titles: 'MediaWiki:Gadget-Adiutor.json',
+				titles: 'MediaWiki:Gadget-Adiutor-CSD.json',
 				rvprop: 'content',
 				formatversion: 2
 			}).done(function(data) {
 				var content = data.query.pages[0].revisions[0].content;
 				var jsonData = JSON.parse(content);
-				var speedyDeletionReasons = jsonData[1].adiutorSpeedyDeletionReasons;
+				var speedyDeletionReasons = jsonData.speedyDeletionReasons;
 
 				function csdAdminProcessDialog(config) {
 					csdAdminProcessDialog.super.call(this, config);

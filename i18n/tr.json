@@ -342,5 +342,11 @@
 	"report-suspected-sockpuppet": "Şüpheli kukla bildir",
 	"sockpuppeteer": "Kuklacı",
 	"sockpuppet": "Kukla",
-	"sockpuppeteer-help-text": "Kullanıcı: öneki olmadan kuklacının kullanıcı adı"
+	"sockpuppeteer-help-text": "Kullanıcı: öneki olmadan kuklacının kullanıcı adı",
+	"cmr-module-title": "Adiutor - Danışan Cevap",
+	"cmr-header-title": "Danışman Yanıt Modülü",
+	"cmr-header-description": "Bu alanda size soru soran danışanınıza hazır ceplardan birini seçerek hızlıca cevap verebilirsiniz.",
+	"cmr-choose-answer": "Cevap Seç",
+	"cmr-response": "Cevapla",
+	"cmr-canned-response": "Hazır Cevap"
 }

@@ -342,5 +342,11 @@
     "report-suspected-sockpuppet": "Report suspected sockpuppet",
     "sockpuppeteer": "Sockpuppeteer",
     "sockpuppet": "Sockpuppet",
-    "sockpuppeteer-help-text": "The username of the sockpuppeteer without the User: prefix"
+    "sockpuppeteer-help-text": "The username of the sockpuppeteer without the User: prefix",
+    "cmr-module-title": "Adiutor - Mentee Response",
+    "cmr-header-title": "Mentee Response Module",
+    "cmr-header-description": "In this area, you can quickly respond to your mentee who has asked you a question by selecting one of the prepared responses.",
+    "cmr-choose-answer": "Choose Response",
+    "cmr-response": "Respond",
+    "cmr-canned-response": "Canned Response"
 }

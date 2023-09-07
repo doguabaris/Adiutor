@@ -1,0 +1,394 @@
+{
+    "speedyDeletionReasons": [
+        {
+            "name": "Maddeler",
+            "namespace": 0,
+            "reasons": [
+                {
+                    "namespace": 0,
+                    "value": "M1",
+                    "data": "[[VP:HS#M1|Madde 1]]: Taslak madde kriterlerini karşılamayan madde",
+                    "selected": false,
+                    "label": "M1 - Taslak madde kriterlerini karşılamayan madde"
+                },
+                {
+                    "namespace": 0,
+                    "value": "M2",
+                    "data": "[[VP:HS#M2|Madde 2]]: Yabancı dilde yazılmış madde",
+                    "selected": false,
+                    "label": "M2 - Yabancı dilde yazılmış madde"
+                },
+                {
+                    "namespace": 0,
+                    "value": "M3",
+                    "data": "[[VP:HS#M3|Madde 3]]: Anlamlı bir içerikten yoksun madde",
+                    "selected": false,
+                    "label": "M3 - Anlamlı bir içerikten yoksun madde"
+                },
+                {
+                    "namespace": 0,
+                    "value": "M4",
+                    "data": "[[VP:HS#M4|Madde 4]]: Başka bir Wikimedia projesine taşınmış madde",
+                    "selected": false,
+                    "label": "M4 - Başka bir Wikimedia projesine taşınmış madde"
+                },
+                {
+                    "namespace": 0,
+                    "value": "M6",
+                    "data": "[[VP:HS#M6|Madde 6]]: Kayda değerlik ölçütlerini sağlamayan konuya sahip madde",
+                    "selected": false,
+                    "label": "M6 - Kayda değerlik ölçüt ve kriterlerini sağlamayan madde"
+                },
+                {
+                    "namespace": 0,
+                    "value": "M8",
+                    "data": "[[VP:HS#M8|Madde 8]]: Düzen ve ansiklopediklik açısından uygun olmayan madde",
+                    "selected": false,
+                    "label": "M8 - Düzen ve ansiklopediklik açısından uygunsuz madde"
+                },
+                {
+                    "namespace": 0,
+                    "value": "M9",
+                    "data": "[[VP:HS#M9|Madde 9]]: Niteliksiz makine çevirisiyle oluşturulmuş madde",
+                    "selected": false,
+                    "label": "M9 - Niteliksiz makine çevirisiyle oluşturulmuş madde"
+                }
+            ]
+        },
+        {
+            "name": "Dosyalar",
+            "namespace": 6,
+            "reasons": [
+                {
+                    "namespace": 6,
+                    "value": "D1",
+                    "data": "[[VP:HS#D1|Dosya 1]]: Çift kopya dosya",
+                    "selected": false,
+                    "label": "D1 - Çift kopya dosya"
+                },
+                {
+                    "namespace": 6,
+                    "value": "D2",
+                    "data": "[[VP:HS#D2|Dosya 2]]: Bozuk veya boş dosya",
+                    "selected": false,
+                    "label": "D2 - Bozuk veya boş dosya"
+                },
+                {
+                    "namespace": 6,
+                    "value": "D3",
+                    "data": "[[VP:HS#D3|Dosya 3]]: Uygunsuz lisanslı dosya",
+                    "selected": false,
+                    "label": "D3 - Uygunsuz lisanslı dosya"
+                },
+                {
+                    "namespace": 6,
+                    "value": "D4",
+                    "data": "[[VP:HS#D4|Dosya 4]]: Belirsiz lisans/kaynaklı dosya",
+                    "selected": false,
+                    "label": "D4 - Belirsiz lisans/kaynaklı dosya"
+                },
+                {
+                    "namespace": 6,
+                    "value": "D5",
+                    "data": "[[VP:HS#D5|Dosya 5]]: Kullanılmayan adil kullanım dosyası",
+                    "selected": false,
+                    "label": "D5 - Kullanılmayan adil kullanım dosyası"
+                },
+                {
+                    "namespace": 6,
+                    "value": "D6",
+                    "data": "[[VP:HS#D6|Dosya 6]]: Adil kullanımı hatalı belirtilmiş dosya",
+                    "selected": false,
+                    "label": "D6 - Adil kullanımı hatalı belirtilmiş dosya"
+                },
+                {
+                    "namespace": 6,
+                    "value": "D7",
+                    "data": "[[VP:HS#D7|Dosya 7]]: Gerekçelendirilmemiş adil kullanım dosyası",
+                    "selected": false,
+                    "label": "D7 - Gerekçelendirilmemiş adil kullanım dosyası"
+                },
+                {
+                    "namespace": 6,
+                    "value": "D8",
+                    "data": "[[VP:HS#D8|Dosya 8]]: Ansiklopedik olmayan ve kullanılmayan dosya",
+                    "selected": false,
+                    "label": "D8 - Ansiklopedik olmayan ve kullanılmayan dosya"
+                },
+                {
+                    "namespace": 6,
+                    "value": "D9",
+                    "data": "[[VP:HS#D9|Dosya 9]]: Kullanışsız dosya",
+                    "selected": false,
+                    "label": "D9 - Kullanışsız dosya"
+                },
+                {
+                    "namespace": 6,
+                    "value": "D10",
+                    "data": "[[VP:HS#D10|Dosya 10]]: Vektörel dosya",
+                    "selected": false,
+                    "label": "D10 - Vektörel dosya"
+                },
+                {
+                    "namespace": 6,
+                    "value": "D11",
+                    "data": "[[VP:HS#D11|Dosya 11]]: Şüpheli dosya",
+                    "selected": false,
+                    "label": "D11 - Şüpheli dosya"
+                },
+                {
+                    "namespace": 6,
+                    "value": "D12",
+                    "data": "[[VP:HS#D12|Dosya 12]]: Tanımlanamayan dosya",
+                    "selected": false,
+                    "label": "D12 - Tanımlanamayan dosya"
+                },
+                {
+                    "namespace": 6,
+                    "value": "D13",
+                    "data": "[[VP:HS#D13|Dosya 13]]: Kaynaklandırılmamış dosya",
+                    "selected": false,
+                    "label": "D13 - Kaynaklandırılmamış dosya"
+                }
+            ]
+        },
+        {
+            "name": "Kategoriler",
+            "namespace": 14,
+            "reasons": [
+                {
+                    "data": "[[VP:HS#K1|Kategori 1]]: Boş kategori",
+                    "value": "K1",
+                    "selected": false,
+                    "label": "K1 - Boş kategori",
+                    "namespace": 14
+                },
+                {
+                    "data": "[[VP:HS#K2|Kategori 2]]: Adı değiştirilen kategori",
+                    "value": "K2",
+                    "selected": false,
+                    "label": "K2 - Adı değiştirilen kategori",
+                    "namespace": 14
+                },
+                {
+                    "data": "[[VP:HS#K3|Kategori 3]]: Şablon kategorisi",
+                    "value": "K3",
+                    "selected": false,
+                    "label": "K3 - Şablon kategorisi",
+                    "namespace": 14
+                }
+            ]
+        },
+        {
+            "name": "Kullanıcı sayfaları",
+            "namespace": 2,
+            "reasons": [
+                {
+                    "data": "[[VP:HS#KS2|Kullanıcı Sayfası 2]]: Var olmayan kullanıcı",
+                    "value": "KS2",
+                    "selected": false,
+                    "label": "KS2 - Var olmayan kullanıcı",
+                    "namespace": 2
+                },
+                {
+                    "data": "[[VP:HS#KS3|Kullanıcı Sayfası 3]]: [[VP:AKP|Adil kullanım]] galerisi",
+                    "value": "KS3",
+                    "selected": false,
+                    "label": "KS3 - Adil kullanım galerisi",
+                    "namespace": 2
+                },
+                {
+                    "data": "[[VP:HS#KS4|Kullanıcı Sayfası 4]]: [[VP:İNAL|Vikipedi'nin kişisel sayfa olarak kullanımı]]",
+                    "value": "KS4",
+                    "selected": false,
+                    "label": "KS4 - Vikipedi'nin kişisel sayfa olarak kullanımı",
+                    "namespace": 2
+                }
+            ]
+        },
+        {
+            "name": "Şablonlar",
+            "namespace": 10,
+            "reasons": [
+                {
+                    "data": "[[VP:HS#Ş1|Şablon 1]]: Bölücü veya kışkırtıcı şablon",
+                    "value": "Ş1",
+                    "selected": false,
+                    "label": "Ş1 - Bölücü veya kışkırtıcı şablon",
+                    "namespace": 10
+                },
+                {
+                    "data": "[[VP:HS#Ş2|Şablon 2]]: Kullanılmayan şablon",
+                    "value": "Ş2",
+                    "selected": false,
+                    "label": "Ş2 - Kullanılmayan şablon",
+                    "namespace": 10
+                }
+            ]
+        },
+        {
+            "name": "Portaller",
+            "namespace": 100,
+            "reasons": [
+                {
+                    "data": "[[VP:HS#P1|Portal 1]]: [[VP:HS#M|Madde kriterlerini]] karşılamayan [[VP:P|portal]] sayfası",
+                    "value": "P1",
+                    "selected": false,
+                    "label": "P1 - Madde kriterlerini karşılamayan portal sayfası",
+                    "namespace": 100
+                },
+                {
+                    "data": "[[VP:HS#P2|Portal 2]]: Belirli kriterleri sağlamayan [[VP:P|portal]]",
+                    "value": "P2",
+                    "selected": false,
+                    "label": "P2 - Belirli kriterleri sağlamayan portal",
+                    "namespace": 100
+                }
+            ]
+        },
+        {
+            "name": "Genel",
+            "namespace": "general",
+            "reasons": [
+                {
+                    "data": "[[VP:HS#G1|Genel 1]]: Anlamsız karakter dizilerinden ibaret sayfa",
+                    "value": "G1",
+                    "selected": false,
+                    "label": "G1 - Anlamsız karakter dizilerinden ibaret sayfa",
+                    "namespace": "general"
+                },
+                {
+                    "data": "[[VP:HS#G2|Genel 2]]: Deneme amaçlı sayfa",
+                    "value": "G2",
+                    "selected": false,
+                    "label": "G2 - Deneme amaçlı sayfa",
+                    "namespace": "general"
+                },
+                {
+                    "data": "[[VP:HS#G3|Genel 3]]: [[VP:Vandalizm|Vandalizm]]",
+                    "value": "G3",
+                    "selected": false,
+                    "label": "G3 - Vandalizm",
+                    "namespace": "general"
+                },
+                {
+                    "data": "[[VP:HS#G4|Genel 4]]: Daha önce [[VP:SP|silinmiş]] içerik",
+                    "value": "G4",
+                    "selected": false,
+                    "label": "G4 - Daha önce silinmiş içerik",
+                    "namespace": "general"
+                },
+                {
+                    "data": "[[VP:HS#G6|Genel 6]]: Sayfayı oluşturan kullanıcının talebi",
+                    "value": "G6",
+                    "selected": false,
+                    "label": "G6 - Sayfayı oluşturan kullanıcının talebi",
+                    "namespace": "general"
+                },
+                {
+                    "data": "[[VP:HS#G7|Genel 7]]: Silinmiş sayfanın [[VP:TS|tartışma sayfası]]",
+                    "value": "G7",
+                    "selected": false,
+                    "label": "G7 - Silinmiş sayfanın tartışma sayfası",
+                    "namespace": "general"
+                },
+                {
+                    "data": "[[VP:HS#G8|Genel 8]]: Temizlik işlemi",
+                    "value": "G8",
+                    "selected": false,
+                    "label": "G8 - Temizlik işlemi",
+                    "namespace": "general"
+                },
+                {
+                    "data": "[[VP:HS#G9|Genel 9]]: [[VP:TELİF|Telif hakkı ihlali]] yaratan sayfa",
+                    "value": "G9",
+                    "selected": false,
+                    "label": "G9 - Telif hakkı ihlali yaratan sayfa",
+                    "namespace": "general"
+                },
+                {
+                    "data": "[[VP:HS#G10|Genel 10]]: [[VP:SS|Saldırı]] amaçlı sayfa",
+                    "value": "G10",
+                    "selected": false,
+                    "label": "G10 - Saldırı amaçlı sayfa",
+                    "namespace": "general"
+                },
+                {
+                    "data": "[[VP:HS#G11|Genel 11]]: [[VP:REKLAM|Reklam]] amaçlı sayfa",
+                    "value": "G11",
+                    "selected": false,
+                    "label": "G11 - Reklam amaçlı sayfa",
+                    "namespace": "general"
+                },
+                {
+                    "data": "[[VP:HS#G12|Genel 12]]: İçeriği geliştirmeye yönelik olmayan [[VP:TS|tartışma sayfası]]",
+                    "value": "G12",
+                    "selected": false,
+                    "label": "G12 - İçeriği geliştirmeye yönelik olmayan tartışma sayfası",
+                    "namespace": "general"
+                }
+            ]
+        },
+        {
+            "name": "Yönlendirmeler",
+            "namespace": "redirect",
+            "reasons": [
+                {
+                    "data": "[[VP:HS#Y1|Yönlendirme 1]]: Boşa yönlendirme",
+                    "value": "Y1",
+                    "selected": false,
+                    "label": "Y1 - Boşa yönlendirme",
+                    "namespace": "redirect"
+                },
+                {
+                    "data": "[[VP:HS#Y2|Yönlendirme 2]]: Kötü yönlendirme",
+                    "value": "Y2",
+                    "selected": false,
+                    "label": "Y2 - Kötü yönlendirme",
+                    "namespace": "redirect"
+                },
+                {
+                    "data": "[[VP:HS#Y3|Yönlendirme 3]]: Farklı ad alanları arasında yönlendirme",
+                    "value": "Y3",
+                    "selected": false,
+                    "label": "Y3 - Farklı ad alanları arasında yönlendirme",
+                    "namespace": "redirect"
+                }
+            ]
+        },
+        {
+            "name": "Diğer",
+            "namespace": "other",
+            "reasons": [
+                {
+                    "data": "[[VP:SAS]]: Silinmeye aday sayfa",
+                    "value": "01",
+                    "selected": false,
+                    "label": "Silinmeye aday sayfa",
+                    "namespace": "other"
+                },
+                {
+                    "data": "[[VP:KT]]: Kategori tartışması",
+                    "value": "01",
+                    "selected": false,
+                    "label": "Kategori tartışması",
+                    "namespace": "other"
+                },
+                {
+                    "data": "[[VP:ŞT]]: Şablon tartışması",
+                    "value": "02",
+                    "selected": false,
+                    "label": "Şablon tartışması",
+                    "namespace": "other"
+                },
+                {
+                    "data": "[[VP:SÖ]]: Bekletmeli silinen sayfa",
+                    "value": "04",
+                    "selected": false,
+                    "label": "Bekletmeli silinen sayfa",
+                    "namespace": "other"
+                }
+            ]
+        }
+    ]
+}

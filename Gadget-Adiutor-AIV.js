@@ -18,13 +18,13 @@ var sockpuppeteerInput;
 api.get({
 	action: "query",
 	prop: "revisions",
-	titles: "MediaWiki:Gadget-Adiutor.json",
+	titles: "MediaWiki:Gadget-Adiutor-AIV.json",
 	rvprop: "content",
 	formatversion: 2
 }).done(function(data) {
 	var content = data.query.pages[0].revisions[0].content;
 	var jsonData = JSON.parse(content);
-	var reportRationales = jsonData[2].adiutorReportRationales;
+	var reportRationales = jsonData.reportRationales;
 	console.log(reportRationales);
 
 	function AivDialog(config) {

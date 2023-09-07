@@ -10,7 +10,7 @@
         "okay": "Tamam",
         "more-about-this-page": "Daha fazla bilgi",
         "add-tag": "Etiketle",
-        "hello": "Merhaba, ",
+        "hello": "Merhaba,",
         "close": "Kapat",
         "comment": "Yorum",
         "help": "Yardım",
@@ -28,7 +28,7 @@
         "csd-requests": "Hızlı Silme Talepleri",
         "help-and-guides": "Yardım ve Kılavuzlar",
         "my-contributions": "Katkılarım",
-        "welcome-date-change-message": "$1 tarihinden bu yana $2 değişiklik ile Vikipedi’ye katkıda bulundun.",
+        "welcome-date-change-message": "$1 tarihinden bu yana $2 {{PLURAL:$2|değişiklik}} ile Vikipedi'ye katkıda bulundun.",
         "propose": "Öner",
         "adiutor-dashboard-about-adiutor-title": "Adiutor Nedir?",
         "adiutor-dashboard-about-adiutor-description": "Adiutor, Vikipedi'deki bakım görevlerini daha verimli ve kullanıcı dostu hale getirmek amacıyla geliştirilen bir araçtır. OOUI tabanlı MediaWiki JS ve JavaScript kullanılarak oluşturulan Adiutor, kullanıcılara çeşitli görevleri kolaylıkla gerçekleştirme imkanı sunmak üzere tasarlanmıştır. Tüm öneriler ve hata raporları, aracın sürekli olarak geliştirilmesi ve iyileştirilmesi için tartışma sayfasında gözden geçirilir ve tartışılır. Vikipedi topluluğunun aktif katılımı ve desteği, Adiutor'un daha işlevsel ve kullanıcı dostu bir araç haline gelmesinde önemli bir rol oynar.",
@@ -343,6 +343,12 @@
         "report-suspected-sockpuppet": "Şüpheli kukla bildir",
         "sockpuppeteer": "Kuklacı",
         "sockpuppet": "Kukla",
-        "sockpuppeteer-help-text": "Kullanıcı: öneki olmadan kuklacının kullanıcı adı"
+        "sockpuppeteer-help-text": "Kullanıcı: öneki olmadan kuklacının kullanıcı adı",
+        "cmr-module-title": "Adiutor - Danışan Cevap",
+        "cmr-header-title": "Danışman Yanıt Modülü",
+        "cmr-header-description": "Bu alanda size soru soran danışanınıza hazır ceplardan birini seçerek hızlıca cevap verebilirsiniz.",
+        "cmr-choose-answer": "Cevap Seç",
+        "cmr-response": "Cevapla",
+        "cmr-canned-response": "Hazır Cevap"
     }
 }

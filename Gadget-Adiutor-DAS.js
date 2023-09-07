@@ -10,7 +10,7 @@
 var mwConfig = mw.config.get(["skin", "wgAction", "wgArticleId", "wgPageName", "wgNamespaceNumber", "wgTitle", "wgUserGroups", "wgUserName", "wgUserEditCount", "wgUserRegistration", "wgCanonicalNamespace"]);
 var api = new mw.Api();
 var wikiId = mw.config.get('wgWikiID');
-var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-'+wikiId));
+var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-' + wikiId));
 
 function SectionOneLayout(name, config) {
 	SectionOneLayout.super.call(this, name, config);
@@ -113,13 +113,13 @@ function SectionTwoLayout(name, config) {
 	api.get({
 		action: 'query',
 		prop: 'revisions',
-		titles: 'MediaWiki:Gadget-Adiutor.json',
+		titles: 'MediaWiki:Gadget-Adiutor-DAS.json',
 		rvprop: 'content',
 		formatversion: 2
 	}).then(data => {
 		var content = data.query.pages[0].revisions[0].content;
-		var contentObject = JSON.parse(content);
-		var tabPanelData = contentObject[0].adiutorHelpArticles;
+		var jsonData = JSON.parse(content);
+		var tabPanelData = jsonData.adiutorHelpArticles;
 
 		function AdiutorGuideTabPanelLayout(name) {
 			AdiutorGuideTabPanelLayout.super.call(this, name);
@@ -410,13 +410,13 @@ administratorToolsLayoutCsd.prototype.setupOutlineItem = function() {
 							api.get({
 								action: 'query',
 								prop: 'revisions',
-								titles: 'MediaWiki:Gadget-Adiutor.json',
+								titles: 'MediaWiki:Gadget-Adiutor-CSD.json',
 								rvprop: 'content',
 								formatversion: 2
 							}).done(function(data) {
 								var content = data.query.pages[0].revisions[0].content;
 								var jsonData = JSON.parse(content);
-								var speedyDeletionReasons = jsonData[1].adiutorSpeedyDeletionReasons;
+								var speedyDeletionReasons = jsonData.speedyDeletionReasons;
 								api.get({
 									action: 'query',
 									list: 'logevents',
@@ -936,14 +936,14 @@ administratorToolsLayoutCsd.prototype.setupOutlineItem = function() {
 							api.get({
 								action: 'query',
 								prop: 'revisions',
-								titles: 'MediaWiki:Gadget-Adiutor.json',
+								titles: 'MediaWiki:Gadget-Adiutor-CSD.json',
 								rvprop: 'content',
 								formatversion: 2
 							}).done(function(data) {
 								// Extract speedy deletion reasons from the retrieved JSON data
 								var content = data.query.pages[0].revisions[0].content;
 								var jsonData = JSON.parse(content);
-								var speedyDeletionReasons = jsonData[1].adiutorSpeedyDeletionReasons;
+								var speedyDeletionReasons = jsonData.speedyDeletionReasons;
 								// Define a class for the Batch Deletion Dialog
 								function BatchDeletionDialog(config) {
 									BatchDeletionDialog.super.call(this, config);

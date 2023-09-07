@@ -1,0 +1,72 @@
+{
+    "predefinedResponses": [
+        {
+            "label": "Nasıl...?",
+            "options": [
+                {
+                    "data": "Merhaba, [[Vikipedi]]'deki maddeler [[VP:PY|politikalar ve yönergeler]] doğrultusunda kabul edilir, yeni bir madde oluşturmadan önce lütfen [[VP:Kayda değerlik]] politikamızı inceleyiniz. [[VP:Madde sihirbazı]] yardımı ile ya da yukarıdaki arama kutucuğuna oluşturmak istediğiniz maddenin adını yazıp aşağıdaki kırmızı bağlantıya tıkladıktan sonra maddenizi oluşturabilirsiniz. Madde içeriğinizin [[VP:ÖAYV|özgün araştırma]] olmamasına dikkat edin, ayrıca bir başka web sitesinden ya da kaynaktan doğrudan [[Vikipedi:Kopyala-yapıştır]] ile alınmadığından emin olunuz, bu durum Vikipedi'nin [[Vikipedi:Telif hakları]] politikasının ihlali olarak değerlendirilir ve maddeniz [[VP:Silme politikası|silinebilir]].",
+                    "label": "Yeni Madde (Genel)"
+                },
+                {
+                    "data": "Merhaba, [[Vikipedi]]'deki maddeler [[VP:PY|politikalar ve yönergeler]] doğrultusunda kabul edilir, yeni bir madde oluşturmadan önce lütfen [[VP:Kayda değerlik]] ve [[Vikipedi:Kayda değerlik (kişiler)]] politikalarımızı inceleyiniz. [[VP:Madde sihirbazı]] yardımı ile ya da yukarıdaki arama kutucuğuna oluşturmak istediğiniz maddenin adını yazıp aşağıdaki kırmızı bağlantıya tıkladıktan sonra maddenizi oluşturabilirsiniz. Madde içeriğinizin [[VP:ÖAYV|özgün araştırma]] olmamasına dikkat edin, ayrıca bir başka web sitesinden ya da kaynaktan doğrudan [[Vikipedi:Kopyala-yapıştır]] ile alınmadığından emin olunuz, bu durum Vikipedi'nin [[Vikipedi:Telif hakları]] politikasının ihlali olarak değerlendirilir ve maddeniz [[VP:Silme politikası|silinebilir]].",
+                    "label": "Yeni Madde (Kişi)"
+                },
+                {
+                    "data": "Merhaba, [[Vikipedi]]'deki maddeler [[VP:PY|politikalar ve yönergeler]] doğrultusunda kabul edilir, yeni bir madde oluşturmadan önce lütfen [[VP:Kayda değerlik]] ve [[Vikipedi:Kayda değerlik (organizasyonlar ve şirketler)]] politikalarımızı inceleyiniz. [[VP:Madde sihirbazı]] yardımı ile ya da yukarıdaki arama kutucuğuna oluşturmak istediğiniz maddenin adını yazıp aşağıdaki kırmızı bağlantıya tıkladıktan sonra maddenizi oluşturabilirsiniz. Madde içeriğinizin [[VP:ÖAYV|özgün araştırma]] olmamasına dikkat edin, ayrıca bir başka web sitesinden ya da kaynaktan doğrudan [[Vikipedi:Kopyala-yapıştır]] ile alınmadığından emin olunuz, bu durum Vikipedi'nin [[Vikipedi:Telif hakları]] politikasının ihlali olarak değerlendirilir ve maddeniz [[VP:Silme politikası|silinebilir]].",
+                    "label": "Yeni Madde (Organizasyon)"
+                },
+                {
+                    "data": "Merhaba, [[Vikipedi]]'deki maddeler [[VP:PY|politikalar ve yönergeler]] doğrultusunda kabul edilir, yeni bir madde oluşturmadan önce lütfen [[VP:Kayda değerlik]], [[Vikipedi:Kayda değerlik (kişiler)]] ve [[Vikipedi:Kayda değerlik (müzik)]] politikalarımızı inceleyiniz. [[VP:Madde sihirbazı]] yardımı ile ya da yukarıdaki arama kutucuğuna oluşturmak istediğiniz maddenin adını yazıp aşağıdaki kırmızı bağlantıya tıkladıktan sonra maddenizi oluşturabilirsiniz. Madde içeriğinizin [[VP:ÖAYV|özgün araştırma]] olmamasına dikkat edin, ayrıca bir başka web sitesinden ya da kaynaktan doğrudan [[Vikipedi:Kopyala-yapıştır]] ile alınmadığından emin olunuz, bu durum Vikipedi'nin [[Vikipedi:Telif hakları]] politikasının ihlali olarak değerlendirilir ve maddeniz [[VP:Silme politikası|silinebilir]].",
+                    "label": "Yeni Madde (Müzisyen)"
+                },
+                {
+                    "data": "Merhaba, [[Vikipedi]]'deki maddeler [[VP:PY|politikalar ve yönergeler]] doğrultusunda kabul edilir, yeni bir madde oluşturmadan önce lütfen [[VP:Kayda değerlik]], [[Vikipedi:Kayda değerlik (kişiler)]] ve [[Vikipedi:Kayda değerlik (akademisyenler)]] politikalarımızı inceleyiniz. [[VP:Madde sihirbazı]] yardımı ile ya da yukarıdaki arama kutucuğuna oluşturmak istediğiniz maddenin adını yazıp aşağıdaki kırmızı bağlantıya tıkladıktan sonra maddenizi oluşturabilirsiniz. Madde içeriğinizin [[VP:ÖAYV|özgün araştırma]] olmamasına dikkat edin, ayrıca bir başka web sitesinden ya da kaynaktan doğrudan [[Vikipedi:Kopyala-yapıştır]] ile alınmadığından emin olunuz, bu durum Vikipedi'nin [[Vikipedi:Telif hakları]] politikasının ihlali olarak değerlendirilir ve maddeniz [[VP:Silme politikası|silinebilir]].",
+                    "label": "Yeni Madde (Akademisyen)"
+                },
+                {
+                    "data": "Merhaba, hoş geldiniz! [[VP:OTO|Otobiyografi]] yazımı yanlılık unsurları içerebileceğinden ötürü Vikipedi’de hoş karşılanmaz ve yazmanız önerilmez. [[VP:KD|Kayda değerlik]] kriterlerini karşılıyorsa açılmasının önünde herhangi bir engel yoktur ama yazmadan evvel Jimmy Wales’in Kendiniz hakkında yazmanız toplumsal bir gaftır. sözü hatırlanmalıdır. Bilgilerinize sunarım.",
+                    "label": "Yeni Madde (Otobiyografi)"
+                },
+                {
+                    "data": "Merhaba, hoş geldiniz! Beyaz liste değişiklikleri sürüm kontrolüne takılmadan otomatik olarak onaylanan kullanıcı grubudur. Bir hizmetli yapıcı katkılarınızı fark ettiğinde sizi beyaz listeye alacaktır. Değerlendirme talebinde bulunmak için hizmetli duyuru panosuna bildirimde bulunabilirsiniz. Bilgilerinize sunarım.",
+                    "label": "Beyaz liste nasıl olurum?"
+                }
+            ]
+        },
+        {
+            "label": "Neden...?",
+            "options": [
+                {
+                    "data": "Merhaba, [[Vikipedi]]'deki maddeler [[VP:PY|politikalar ve yönergeler]] doğrultusunda kabul edilir, [[VP:HS]] sayfsından maddenizin silinme gerekçesinin açıklamasını öğrenebilirsiniz. Yeni bir madde oluşturmadan önce lütfen [[VP:Kayda değerlik]] politikamızı inceleyiniz. Ayrıca maddenizi ısrarlı biçimde oluşturmaya devam ederseniz [[VP:Koruma politikası]] kapsamında maddenize oluşturma koruması uygulanabilir.  Madde içeriğinizin [[VP:ÖAYV|özgün araştırma]] olmamasına dikkat edin, ayrıca bir başka web sitesinden ya da kaynaktan doğrudan [[Vikipedi:Kopyala-yapıştır]] ile alınmadığından emin olunuz, bu durum Vikipedi'nin [[Vikipedi:Telif hakları]] politikasının ihlali olarak değerlendirilir ve maddeniz [[VP:Silme politikası|silinebilir]].",
+                    "label": "Maddem Silindi (Genel)"
+                },
+                {
+                    "data": "Merhaba, hoş geldiniz! Maddeniz Vikipedi’nin hızlı silme politikasında yer alan silme gerekçelerine dayanarak bir hizmetli tarafından silinmiştir. İlgili hizmetliyle mesaj sayfasından iletişim kurabilirsiniz, mesaj atmadan önce bağlantı verdiğim sayfayı okumanızı da öneririm. Bilgilerinize sunarım.",
+                    "label": "Maddem neden hızlı silindi?"
+                },
+                {
+                    "data": "Merhaba, hoş geldiniz! Oluşturduğunuz maddenin Vikipedi’nin kayda değerlik kriterlerine uymadığı gerekçesiyle bir kullanıcı tarafından silinmesi önerilmiş. Bu süre zarfında topluluk incelemesiyle madde hakkında karar verilecektir, tartışmaya sizin de iştirak etmenizde kuklacılık yapılmadığı sürece herhangi bir engel bulunmamaktadır. Bilgilerinize sunarım.",
+                    "label": "Maddem silinmeye aday gösterildi?"
+                },
+                {
+                    "data": "Merhaba, hoş geldiniz! Türkçe Vikipedi’de sürüm kontrolü uygulaması bulunmaktadır. Değişikliğiniz mutlaka bir devriye tarafından incelenecektir. İnceleme süresi iş yoğunluğuna göre değişebilmektedir. Sabrınız ve anlayışınız için şükranlarımı sunarım.",
+                    "label": "Değişikliklerim neden bekliyor?"
+                },
+                {
+                    "data": "Merhaba, yaptığınız değişiklikler, devriye ve üstü haklara sahip kullanıcılar tarafından kontrol edilir. Bu süreçte katkınızın onaylanıp onaylanmayacağı ve ne kadar süreceği konusunda herhangi bir süre garanti edilemez.",
+                    "label": "Değişiklik Onaylama"
+                }
+            ]
+        },
+        {
+            "label": "Nedir...?",
+            "options": [
+                {
+                    "data": "Merhaba, hoş geldiniz! Vikipedi’nin kayda değerlik politikasına erişim sağlamak için buraya tıklamalısınız. Bilgilerinize sunarım.",
+                    "label": "Kayda değerlik"
+                }
+            ]
+        }
+    ],
+    "apiPostSummary": "Danışana cevap verildi."
+}

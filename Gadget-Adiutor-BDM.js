@@ -86,14 +86,14 @@ api.get({
 	api.get({
 		action: 'query',
 		prop: 'revisions',
-		titles: 'MediaWiki:Gadget-Adiutor.json',
+		titles: 'MediaWiki:Gadget-Adiutor-CSD.json',
 		rvprop: 'content',
 		formatversion: 2
 	}).done(function(data) {
 		// Extract speedy deletion reasons from the retrieved JSON data
 		var content = data.query.pages[0].revisions[0].content;
-		var jsonData = JSON.parse(content);
-		var speedyDeletionReasons = jsonData[1].adiutorSpeedyDeletionReasons;
+	var jsonData = JSON.parse(content);
+	var speedyDeletionReasons = jsonData.speedyDeletionReasons;
 		// Define a class for the Batch Deletion Dialog
 		function BatchDeletionDialog(config) {
 			BatchDeletionDialog.super.call(this, config);

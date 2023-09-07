@@ -10,7 +10,7 @@
 var mwConfig = mw.config.get(["skin", "wgAction", "wgArticleId", "wgPageName", "wgNamespaceNumber", "wgTitle", "wgUserGroups", "wgUserName", "wgUserEditCount", "wgUserRegistration", "wgCanonicalNamespace"]);
 var api = new mw.Api();
 var wikiId = mw.config.get('wgWikiID');
-var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-'+wikiId));
+var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-' + wikiId));
 api.get({
 	action: 'query',
 	list: 'logevents',
@@ -26,13 +26,13 @@ api.get({
 	api.get({
 		action: 'query',
 		prop: 'revisions',
-		titles: 'MediaWiki:Gadget-Adiutor.json',
+		titles: 'MediaWiki:Gadget-Adiutor-CSD.json',
 		rvprop: 'content',
 		formatversion: 2
 	}).done(function(data) {
 		var content = data.query.pages[0].revisions[0].content;
 		var jsonData = JSON.parse(content);
-		var speedyDeletionReasons = jsonData[1].adiutorSpeedyDeletionReasons;
+		var speedyDeletionReasons = jsonData.speedyDeletionReasons;
 
 		function ProcessDialog(config) {
 			ProcessDialog.super.call(this, config);

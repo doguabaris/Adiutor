@@ -907,7 +907,7 @@ function addNominationToAfdLogPage() {
 }
 
 function clearURLfromOrigin(AfDPageUrl) {
-	return decodeURIComponent(AfDPageUrl.replace('https://tr.wikipedia.org/w/index.php?title=', '').replace('&section=1&veaction=editsource', '').replace('/w/index.php?title=', '').replace(/\&section=T-1&veaction=editsource/g, "").replace(/\&action=edit&section=1/g, "").replace(/\&action=edit&section=T-1/g, ""));
+	return decodeURIComponent(AfDPageUrl.replace('https:'+mw.config.get("wgServer")+'/w/index.php?title=', '').replace('&section=1&veaction=editsource', '').replace('/w/index.php?title=', '').replace(/\&section=T-1&veaction=editsource/g, "").replace(/\&action=edit&section=1/g, "").replace(/\&action=edit&section=T-1/g, ""));
 }
 
 function alertDialog(title, message) {
