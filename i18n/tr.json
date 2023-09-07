@@ -332,5 +332,14 @@
   "rfd-rationale-placeholder": "Bu dosya neden silinmeli?",
   "rfd-module-title": "Adiutor - Silme talebi",
   "rfd-header-description": "Hızlı silme için gereken daha katı ve zorlu kriterleri karşılamasa da dosyanın silinmesi için bir tartışma başlatılması.",
-  "nominate-file-for-deletion": "Silinmeye aday göster"
+  "nominate-file-for-deletion": "Silinmeye aday göster",
+  "report-suspected-sockpuppeteer": "Şüpheli kuklacıyı bildir",
+  "sockpuppetery-warning-text": "Şu anda bu kullanıcıyı denetçilere bildiriliyorsunuz.",
+  "sockpuppets-input-placeholder": "Kullanıcı adlarını Kullanıcı: öneki olmadan enter kullanarak ekleyin.",
+  "evidence-input-placeholder": "Lütfen kanıtlarınızı sağlayın.",
+  "evidence": "Kanıt",
+  "report-suspected-sockpuppet": "Şüpheli kukla bildir",
+  "sockpuppeteer": "Kuklacı",
+  "sockpuppet": "Kukla",
+  "sockpuppeteer-help-text": "Kullanıcı: öneki olmadan kuklacının kullanıcı adı"
 }

@@ -452,5 +452,79 @@
                 ]
             }
         ]
+    },
+    {
+        "adiutorReportRationales": [
+            {
+                "data": "Birden çok kez uyarılmasına rağmen yapılan vandalizm",
+                "value": "1",
+                "related": "general",
+                "selected": false,
+                "label": "Birden çok kez uyarılmasına rağmen yapılan vandalizm"
+            },
+            {
+                "data": "Engeli bittikten sonra (1 gün içinde) yapılan vandalizm",
+                "value": "2",
+                "related": "general",
+                "selected": false,
+                "label": "Engeli bittikten sonra (1 gün içinde) yapılan vandalizm"
+            },
+            {
+                "data": "Sadece vandalizm amaçlı hesap",
+                "value": "3",
+                "related": "general",
+                "selected": false,
+                "label": "Sadece vandalizm amaçlı hesap"
+            },
+            {
+                "data": "Yalnızca reklam amaçlı hesap",
+                "value": "4",
+                "related": "general",
+                "selected": false,
+                "label": "Yalnızca reklam amaçlı hesap"
+            },
+            {
+                "data": "Spambot veya şifresi ele geçirilmiş hesap",
+                "value": "5",
+                "related": "general",
+                "selected": false,
+                "label": "Spambot veya şifresi ele geçirilmiş hesap"
+            },
+            {
+                "data": "Şaşırtıcı, yanlış yönlendirici, problem yaratıcı kullanıcı adı",
+                "value": "6",
+                "related": "username",
+                "selected": false,
+                "label": "Şaşırtıcı, yanlış yönlendirici, problem yaratıcı kullanıcı adı"
+            },
+            {
+                "data": "Ticari marka içeren kullanıcı adı",
+                "value": "7",
+                "related": "username",
+                "selected": false,
+                "label": "Ticari marka içeren kullanıcı adı"
+            },
+            {
+                "data": "Halen yaşayan ya da yeni ölmüş tanınmış kişi adı",
+                "value": "8",
+                "related": "username",
+                "selected": false,
+                "label": "Halen yaşayan ya da yeni ölmüş tanınmış kişi adı"
+            },
+            {
+                "data": "Taciz edici veya karalayıcı kullanıcı adı",
+                "value": "9",
+                "related": "username",
+                "selected": false,
+                "label": "Taciz edici veya karalayıcı kullanıcı adı"
+            },
+            {
+                "data": "Spam amaçlı veya reklam içeren kullanıcı adı",
+                "value": "10",
+                "related": "username",
+                "selected": false,
+                "label": "Spam amaçlı veya reklam içeren kullanıcı adı"
+            }
+        ]
     }
 ]
