@@ -12,7 +12,6 @@ var api = new mw.Api();
 var wikiId = mw.config.get('wgWikiID');
 var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-'+wikiId));
 var DefaultMenuItems = [];
-console.log(mwConfig.wgCanonicalSpecialPageName);
 switch(mwConfig.wgNamespaceNumber) {
 	case -1:
 	case 0:
