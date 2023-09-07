@@ -335,7 +335,7 @@
     "rfd-header-description": "The initiation of a discussion for the deletion of the file, even though it doesn't meet the stricter and more challenging criteria required for speedy deletion.",
     "nominate-file-for-deletion": "Nominate for deletion",
     "report-suspected-sockpuppeteer": "Report suspected sockpuppeteer",
-    "sockpuppetery-warning-text": "You are currently reporting this user to checkusers.",
+    "sockpuppetry-warning-text": "You are currently reporting this user to checkusers.",
     "sockpuppets-input-placeholder": "Add usernames using enter without User: prefix.",
     "evidence-input-placeholder": "Please provide your evidence.",
     "evidence": "Evidence",

@@ -9,7 +9,7 @@ var mwConfig = mw.config.get(["skin", "wgAction", "wgArticleId", "wgPageName", "
 var api = new mw.Api();
 var wikiId = mw.config.get("wgWikiID");
 var adiutorUserOptions = JSON.parse(mw.user.options.get("userjs-adiutor-" + wikiId));
-var rationaleInput, VandalizedPageInput, reportType, sockPuppetsList, sockpuppeteryType, revId;
+var rationaleInput, VandalizedPageInput, reportType, sockPuppetsList, sockpuppetryType, revId;
 var VandalizedPage = {};
 VandalizedPage.value = null;
 var revisionID = {};
@@ -171,7 +171,7 @@ api.get({
 						}),
 					]);
 					reportType = "sockpuppetry";
-					sockpuppeteryType = "sockpuppeteer";
+					sockpuppetryType = "sockpuppeteer";
 					break;
 				case 4:
 					RequestRationale = new OO.ui.FieldsetLayout({
@@ -200,7 +200,7 @@ api.get({
 						}),
 					]);
 					reportType = "sockpuppetry";
-					sockpuppeteryType = "sockpuppet";
+					sockpuppetryType = "sockpuppet";
 					break;
 			}
 			console.log(reportType);
@@ -214,7 +214,7 @@ api.get({
 		if(action) {
 			switch(reportType) {
 				case "sockpuppetry":
-					switch(sockpuppeteryType) {
+					switch(sockpuppetryType) {
 						case "sockpuppeteer":
 							var selectedValues = sockPuppetsList.getValue();
 							var sockpuppets = selectedValues.map(function(value) {

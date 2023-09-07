@@ -65,9 +65,6 @@ function processTranslation(langCode, translationData) {
 		console.error('Failed to update translation for langCode: ' + langCode, err);
 	});
 }
-// Rest of your code remains the same
-// Call the function to update translations
-updateTranslations();
 // Define default user options for the Adiutor gadget
 var adiutorUserOptionsDefault = {
 	"myWorks": [],
