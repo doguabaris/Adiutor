@@ -152,6 +152,6 @@ api.get({
 });
 
 function clearURLfromOrigin(sectionPart) {
-	return decodeURIComponent(sectionPart.replace('https:' + mw.config.get("wgServer") + '/w/index.php?title=', ''));
+	return decodeURIComponent(sectionPart.replace('https//:' + mw.config.get("wgServerName") + '/w/index.php?title=', ''));
 }
 /* </nowiki> */

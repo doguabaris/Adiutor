@@ -15,7 +15,7 @@ var newArticleToWorkOnIt = {
 	"id": mwConfig.wgArticleId,
 	"name": mwConfig.wgPageName
 };
-var apiUrl = "https://xtools.wmcloud.org/api/page/articleinfo/tr.wikipedia.org/" + encodeURIComponent(mwConfig.wgPageName) + "?format=json";
+var apiUrl = "https://xtools.wmcloud.org/api/page/articleinfo/"+mw.config.get("wgServerName")+"/" + encodeURIComponent(mwConfig.wgPageName) + "?format=json";
 // AJAX isteği
 $.ajax({
 	url: apiUrl,

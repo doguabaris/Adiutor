@@ -324,7 +324,7 @@ administratorToolsLayoutCsd.prototype.setupOutlineItem = function() {
 							"id": mwConfig.wgArticleId,
 							"name": mwConfig.wgPageName
 						};
-						var apiUrl = "https://xtools.wmcloud.org/api/page/articleinfo/tr.wikipedia.org/" + encodeURIComponent(item.label) + "?format=json";
+						var apiUrl = "https://xtools.wmcloud.org/api/page/articleinfo/"+mw.config.get("wgServerName")+"/" + encodeURIComponent(item.label) + "?format=json";
 						// AJAX isteği
 						$.ajax({
 							url: apiUrl,
