@@ -1,0 +1,146 @@
+{
+    "blockDurations": [
+        {
+            "data": "infinity",
+            "label": "Süresiz"
+        },
+        {
+            "data": "3 hours",
+            "label": "3 saat"
+        },
+        {
+            "data": "12 hours",
+            "label": "12 saat"
+        },
+        {
+            "data": "24 hours",
+            "label": "24 saat"
+        },
+        {
+            "data": "32 hours",
+            "label": "32 saat"
+        },
+        {
+            "data": "36 hours",
+            "label": "36 saat"
+        },
+        {
+            "data": "48 hours",
+            "label": "48 saat"
+        },
+        {
+            "data": "60 hours",
+            "label": "60 saat"
+        },
+        {
+            "data": "72 hours",
+            "label": "72 saat"
+        },
+        {
+            "data": "1 week",
+            "label": "1 hafta"
+        },
+        {
+            "data": "2 weeks",
+            "label": "2 hafta"
+        },
+        {
+            "data": "1 month",
+            "label": "1 ay"
+        },
+        {
+            "data": "3 months",
+            "label": "3 ay"
+        },
+        {
+            "data": "6 months",
+            "label": "6 ay"
+        },
+        {
+            "data": "1 year",
+            "label": "1 yıl"
+        },
+        {
+            "data": "2 years",
+            "label": "2 yıl"
+        },
+        {
+            "data": "3 years",
+            "label": "3 yıl"
+        }
+    ],
+    "blockReasons": [
+        {
+            "data": "Küfürlü değişiklik",
+            "label": "Küfürlü değişiklik"
+        },
+        {
+            "data": "Karşıtlık ve rahatsızlık verme",
+            "label": "Karşıtlık ve rahatsızlık verme"
+        },
+        {
+            "data": "[[VP:BOTPOL|Onaysız botlar]]",
+            "label": "Onaysız botlar"
+        },
+        {
+            "data": "[[VP:3GD|Yoğun geri dönüş]]",
+            "label": "Yoğun geri dönüş"
+        },
+        {
+            "data": "[[VP:V|Vandalizm]]",
+            "label": "Vandalizm"
+        },
+        {
+            "data": "[[VP:YTY|Yasal işlem tehdidi]]",
+            "label": "Yasal işlem tehdidi"
+        },
+        {
+            "data": "Kişisel bilgileri izinsiz açıklama",
+            "label": "Kişisel bilgileri izinsiz açıklama"
+        },
+        {
+            "data": "[[VP:TELİF|Telif hakkı ihlali]]",
+            "label": "Telif hakkı ihlali"
+        },
+        {
+            "data": "[[VP:KA|Uygun olmayan kullanıcı adı]]",
+            "label": "Uygun olmayan kullanıcı adı"
+        },
+        {
+            "data": "[[VP:EPT|Topluluğun sabrını zorlama]]",
+            "label": "Topluluğun sabrını zorlama"
+        },
+        {
+            "data": "[[VP:APY|Anonim veya açık vekil sunucu]]",
+            "label": "Anonim veya açık vekil sunucu"
+        },
+        {
+            "data": "Temel içerik politikalarının ([[VP:D]]/[[VP:TBA]]/[[VP:ÖAYV]]) ihlali",
+            "label": "Temel içerik politikalarının ihlali"
+        },
+        {
+            "data": "[[VP:KUKLA|Uygunsuz kukla kullanımı]]",
+            "label": "Uygunsuz kukla kullanımı"
+        },
+        {
+            "data": "[[VP:İÜY|Kişi üzerine yorum]]",
+            "label": "Kişi üzerine yorum"
+        },
+        {
+            "data": "[[VP:N|Nezaket ihlali]]",
+            "label": "Nezaket ihlali"
+        },
+        {
+            "data": "[[VP:RKP|Israrlı adil kullanım ihlali]]",
+            "label": "Israrlı adil kullanım ihlali"
+        },
+        {
+            "data": "[[VP:YİB|Israrlı VP:YİB ihlali]]",
+            "label": "Israrlı VP:YİB ihlali"
+        }
+    ],
+    "warningMessageTitle": "Uyarı!",
+    "userPagePrefix": "Kullanıcı:",
+    "userTalkPagePrefix": "Kullanıcı mesaj:",
+    "specialContibutions": "Özel:Katkılar/"
+}

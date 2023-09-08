@@ -348,5 +348,8 @@
     "cmr-header-description": "In this area, you can quickly respond to your mentee who has asked you a question by selecting one of the prepared responses.",
     "cmr-choose-answer": "Choose Response",
     "cmr-response": "Respond",
-    "cmr-canned-response": "Canned Response"
+    "cmr-canned-response": "Canned Response",
+    "related-page-required": "Please enter the related page.",
+    "warning-required": "Please select a warning to proceed.",
+    "additional-rationale": "Additional rationale"
 }

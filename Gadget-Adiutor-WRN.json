@@ -1,0 +1,74 @@
+{
+    "userWarnings": [
+        {
+            "title": "Vandalizm amaçlı değişiklik uyarısı!",
+            "body": "Merhaba, $1 sayfasında yaptığınız bir değişiklik vandalizm olarak görülmüş ve geri alınmıştır. Deneme yapmak isterseniz, lütfen deneme tahtanızı kullanın. Vandalizmin devamı değişiklik yapma hakkınızın elinizden alınması ile sonuçlanabilir. Bir hata olduğunu düşünüyorsanız ya da herhangi bir sorunuz olursa mesaj sayfama yazabilirsiniz.",
+            "label": "Vandalizm amaçlı değişiklik"
+        },
+        {
+            "title": "İşleyişi aksatıcı değişiklik uyarısı!",
+            "body": "Merhaba, kısa süre önce $1 sayfasında yapmış olduğunuz değişiklikler yapıcı görülmemiş ve geri alınmıştır. Lütfen bir süre ayırıp [[Vikipedi:Politika ve yönergeler|politika ve yönergelerimizi]] inceleyin. [[Vikipedi:Hoş geldiniz|Hoş geldiniz sayfamızda]] bu konuyla ilgili bilgilere ulaşabilir, [[Vikipedi:Vikipedi'ye katkı sağlamak|ansiklopediye yapıcı katkılarda bulunma]] konusunda da bilgiler bulabilirsiniz. Yalnızca deneme yapmak istediyseniz, bunun için lütfen {{safesubst:\u003Cnoinclude/\u003EIP-mesaj|[[Vikipedi:Deneme tahtası|deneme tahtasını]]|[[{{safesubst:\u003Cnoinclude /\u003ESUBJECTPAGENAME}}/deneme tahtası|deneme tahtanızı]]|[[Vikipedi:Deneme tahtası|deneme tahtanızı]]}} kullanın.",
+            "label": "İşletiş aksastıcı değişiklik"
+        },
+        {
+            "title": "Deneme amaçlı değişiklik uyarısı!",
+            "body": "Merhaba, $1 sayfasında yaptığınız bir değişiklik deneme amaçlı olarak görülmüş ve geri alınmıştır. Deneme yapmak istiyorsanız, lütfen {{safesubst:\u003Cnoinclude/\u003EIP-mesaj|[[Vikipedi:Deneme tahtası|deneme tahtasını]]|[[{{safesubst:\u003Cnoinclude /\u003ESUBJECTPAGENAME}}/deneme tahtası|deneme tahtanızı]]|[[Vikipedi:Deneme tahtası|deneme tahtasını]]}} kullanın.",
+            "label": "Deneme amaçlı değişiklik"
+        },
+        {
+            "title": "Reklam uyarısı!",
+            "body": "Merhaba, $1 sayfasında kısa süre önce yapmış olduğunuz değişiklikler]] tanıtım amaçlı göründüğü için geri alınmıştır. Vikipedi'deki maddeler [[Vikipedi:Güvenilir kaynaklar|güvenilir kaynaklar]] kullanılarak ve [[Vikipedi:Tarafsız bakış açısı|tarafsız bakış açısı]] gözetilerek yazılır. Dolayısıyla [[Vikipedi:Vikipedi_ne_değildir%3F#Vikipedi_özgür_kürsü_değildir|tanıtım]] ve [[Vikipedi:Reklam|reklam]] amaçlı değişiklikler uygunsuz olarak kabul edilmektedir. Vikipedi hakkında daha fazla bilgi için [[Vikipedi:Hoş geldiniz|karşılama sayfası]]nı inceleyebilirsiniz.",
+            "label": "Reklam amaçlı değişiklik"
+        },
+        {
+            "title": "Otobiyografi uyarısı!",
+            "body": "Merhaba, Vikipedi'ye [[Yardım:İçindekiler/Başlarken|hoş geldiniz]]. [[Special:Contributions/{{\u003Cincludeonly\u003Esafesubst:\u003C/includeonly\u003EBASEPAGENAME}}|Katkılarınızı]] takdir ediyoruz ancak $1 maddesi kendinizle ilgili gibi görünmekte. Vikipedi'de bir otobiyografi oluşturmak ''kesinlikle'' tavsiye edilmez ve oluşturursanız [[Vikipedi:Silme politikası|silinebilir]]. Lütfen [[Vikipedi:Otobiyografi|bu konudaki rehberimize]] göz atın. Hayatta yaptığınız şey gerçekten [[Vikipedi:Kayda değerlik|dikkate değerse]] ve [[Vikipedi:Yaşayan insanların biyografileri|yaşayan insanlarla ilgili maddeler için belirlenen politikamız]] uyarınca doğrulanabiliyorsa, muhtemelen başka biri er ya da geç sizin hakkınızda bir madde oluşturacaktır. Kendinizle ilgili mevcut bir maddede değişiklik yapmak isterseniz, maddenin tartışma sayfasında bu değişiklikleri önerebilirsiniz. Lütfen Vikipedi'nin [[Vikipedi:Vikipedi ne değildir?#Vikipedi internet sayfanız için bir alan değildir|kişisel bir web alanı veya sosyal ağ sitesi]] değil, bir ansiklopedi olduğunu unutmayın. Maddeniz zaten silinmişse ve silme işleminin hatalı olduğunu düşünüyorsanız lütfen bunu silme işlemini yapan hizmetli ile görüşün.",
+            "label": "Otobiyografi"
+        },
+        {
+            "title": "Telif uyarısı!",
+            "body": "Merhaba, $1 sayfasındaki değişikliğinizde telif hakkı sahibinin izni olmaksızın Vikipedi'ye [[Vikipedi:Telif hakları|telif hakkıyla]] korunan materyal eklediğiniz için değişikliğiniz tamamen veya kısmen kaldırıldı. \u003C!--Telif hakkı sahibi sizseniz, materyalinizin Vikipedi'de izin vermek için lütfen [[Wikipedia:Donating copyrighted materials|telif hakkıyla korunan materyalleri bağışlama]] sayfasını okuyun.--\u003E Yasal nedenlerden dolayı Vikipedi, uygun ve doğrulanabilir bir lisans olmadan, basılı yayınlardan veya diğer web sitelerinden metin ve resimler dahil olmak üzere telif hakkıyla korunan materyalleri kabul edemez. Bu tür tüm değişiklikler silinecektir. Harici web sitelerini veya yayınları bilgi kaynağı olarak kullanabilirsiniz, ancak cümleler veya resimler gibi içerikleri direkt olarak kullanamazsınız; kendi kelimelerinizi kullanarak yazmalısınız. Vikipedi'de telif hakkı çok ciddiye alınmaktadır ve telif hakkı politikamızı sürekli ihlal eden kullanıcıların '''değişiklik yapması [[VP:EP|engellenecektir]]'''. Daha fazla bilgi için [[Vikipedi:Kopyala-yapıştır]] sayfasına göz atın.",
+            "label": "Telif hakkı ihlali"
+        },
+        {
+            "title": "Çıkar çatışması uyarısı!",
+            "body": "Merhaba, {{SAFESUBST:\u003Cnoinclude /\u003EBASEPAGENAME}}. Vikipedi'ye katkı sağladığın için teşekkür ederiz, ancak [[Special:Contributions/{{SAFESUBST:\u003Cnoinclude /\u003EBASEPAGENAME}}|katkıda]] bulunduğun kişi, yer veya konularda [[çıkar çatışması]] yaşayabilirsin. Ayrıntılı bilgi için '''[[Vikipedi:Çıkar çatışması|çıkar çatışması kılavuzuna]]''' ve [[Vikipedi:Sıkça sorulan sorular|SSS]] sayfalarına göz atabilirsiniz. Sizden beklenen şunlardır: kendiniz, aileniz, arkadaşlarınız, iş arkadaşlarınız, şirket, organizasyon, müşteri veya rakipleriniz ile ilgili '''madde düzenlemek veya oluşturmaktan kaçınmanız''' ; bu konudan etkilenen maddelerin tartışma sayfalarında '''düzenleme önermeniz''' (bunu {{tl|değişiklik isteği}} şablonu ile yapabilirsiniz); çıkar çatışması yaşadığınız maddeler hakkında tartışırken çıkar çatışmanızı '''açıkça belirtmeniz'''; maddelerde kendi şirketinizin '''bağlantılarını eklemekten kaçınmanız''' (bakınız [[VP:ARTSPAM]]) [[Vikipedi:Beş temel taş]] politikasına uygun hareket etmeniz. Bunların yanı sıra [[Wikimedia Vakfı]] kuralları gereği; ücretli katkı sağladığınız işlerle ilgili işveren, müşteri ve bağlantılarınızın tamamını açıkça belirtmeniz gerekmektedir. Bakınız [[Vikipedi:Ücretli editörlük]]. Ayrıca; reklam, tanıtım veya benzeri çalışmaların Vikipedi'de yapılmasına izin verilmemektedir.{{SAFESUBST:\u003Cnoinclude /\u003E#if:{{{username|}}}| Kullanıcı adınızın reklam veya tanıtım yaptığı izlenimini vermek istemiyorsanız [[Vikipedi:Kullanıcı adı değiştirme|kullanıcı adınızı]] değiştirebilirsiniz.",
+            "label": "Çıkat çatışması"
+        },
+        {
+            "title": "Özgün araştırma uyarısı!",
+            "body": "Merhaba, [[Vikipedi:Hoş geldiniz|Hoş geldiniz]]. [[Special:Contributions/{{\u003Cincludeonly\u003Esafesubst:\u003C/includeonly\u003EBASEPAGENAME}}|Katkılarınız]],\u0026nbsp;{{\u003Cincludeonly\u003Esafesubst:\u003C/includeonly\u003E#if:{{{1|}}}| [[:{{{1}}}]] maddesine yaptığınız dahil,\u0026nbsp;}}için teşekkür ederiz fakat [[Vikipedi:Özgün araştırmalara yer vermemek|özgün araştırmaları kabul edemeyiz]]. Güvenilir, yayımlanmış kaynaklara dayanmayan yaygın bilinen gerçekler, iddialar ve fikirler özgün araştırma olarak kabul edilir. Özgün araştırma kavramı aynı zamanda [[Vikipedi:Özgün araştırmalara yer vermemek#Yayımlanmış materyalin geliştirme amaçlı birleştirilmesi|yayımlanmış materyallerin geliştirme amaçlı birleştirilmesi]]ni de kapsamaktadır. Lütfen katkılarınızı [[Vikipedi:Güvenilir kaynaklar|güvenilir kaynaklara]] dayandırdığınıza emin olun.",
+            "label": "Özgün araştırma"
+        },
+        {
+            "title": "Nezaket ihlali uyarısı!",
+            "body": "Merhaba, fark ettim ki $1 sayfasında [[Vikipedi:Nezaket|nezaket]]e aykırı bir yorum yaptın. Yorumunu sildim. Vikipedi'nin gelişmesi için senin benim gibi insanlara ihtiyaç var. Bu nedenle kullanıcıların birbirlerine karşı nazik ve saygılı olması temel prensiplerimizden biridir.",
+            "label": "Nezaket ihlali"
+        },
+        {
+            "title": "Makine çevirisi uyarısı!",
+            "body": "Merhaba, Vikipedi'ye katkıda bulunmak istemenizi takdirle ve teşekkürle karşılıyorum. Özgür ansiklopedinin gelişmesi ancak sizin gibi kullanıcıların aramıza katılımıyla mümkündür, katkılarınızın bu vesileyle devamını diliyorum. Bununla beraber, lütfen İçerik Çevirmeni aracı, çeşitli programlar ya da web sayfaları aracılığıyla Türkçe dışında bir dilden çevirisi yapılmış sayfaları, anlaşılırlık ve çeviri doğruluğu konusunda gerekli kontrollerde bulunmadan Vikipedi'ye eklemeyiniz. Bu tür sayfalar, ciddi düzeyde ifade ve anlam bozuklukları içerdiğinden, hatta hatalı çeviri içerme ve okuyucuyu yanlış bilgilendirme riskine sahip olduklarından [[Vikipedi:Hızlı silme|hızlı silme kuralları]] gereği silinecektir. Eğer dil bilginiz yeterli değilse, diğer kullanıcılara mesaj atıp yardım isteyebilirsiniz. Vikipedi'ye farklı alanlarda katkıda bulunmak istiyorsanız, neler yapabileceğiniz hakkında daha fazla bilgi edinmek için '''[[Vikipedi:Hoş geldiniz|hoş geldin]]''' sayfasına bir göz atın.",
+            "label": "Makine çevirisi"
+        },
+        {
+            "title": "Ansiklopedik olmayan içerik uyarısı!",
+            "body": "Vikipedi'ye hoş geldiniz. Büyük olasılıkla yaptığınız son değişiklerden bazıları silindi, silinmek üzere işaretlendi ya da geri alındı. Lütfen sadece '''ansiklopedik''' bilgiler eklemeye özen gösteriniz. Bu konuda '''[[Vikipedi:Kayda değerlik|kayda değerlik ölçütleri]]''' sayfamızdan bilgi edinebilirsiniz.",
+            "label": "Ansiklopedik olmayan içerik"
+        },
+        {
+            "title": "Yapıcı görünmeyen içerik uyarısı!",
+            "body": "Merhaba, kısa süre önce $1 sayfasında yapmış olduğunuz değişiklikler yapıcı görünmediği için geri alınmıştır. Maddelere Hz, (S.A.V.), Sayın, Saygıdeğer, Yüce vb ifadeler eklemekten kaçınınız. Bu ifadeler, Vikipedi'nin [[Vikipedi:Tarafsız bakış açısı|tarafsız bakış açısı politikasına]] aykırıdır. Saygı ifadelerini eklemenizde [[VP:İNV|hiçbir art niyet olmadığına inanıyoruz]], lütfen {{safesubst:\u003Cnoinclude/\u003EIP-mesaj|[[Vikipedi:Deneme tahtası|deneme tahtasını]]|[[{{safesubst:\u003Cnoinclude /\u003ESUBJECTPAGENAME}}/deneme tahtası|deneme tahtanızı]]|[[Vikipedi:Deneme tahtası|deneme tahtasını]]}} kullanın. Herhangi bir sorunuz olursa [[Vikipedi:Danışma masası|danışma masasında]] sorabilirsiniz.",
+            "label": "Maddelere H.Z. ifadesi ekleme"
+        },
+        {
+            "title": "Şaka amaçlı değişiklik uyarısı!",
+            "body": "Merhaba, $1 sayfasında yaptığınız bir değişiklik şaka amaçlı olarak görülmüş ve geri alınmıştır. Deneme yapmak isterseniz, lütfen {{safesubst:\u003Cnoinclude/\u003EIP-mesaj|[[Vikipedi:Deneme tahtası|deneme tahtasını]]|[[{{safesubst:\u003Cnoinclude /\u003ESUBJECTPAGENAME}}/deneme tahtası|deneme tahtanızı]]|[[Vikipedi:Deneme tahtası|deneme tahtasını]]}} kullanın. şaka amaçlı düzenlemenin devamı [[Vikipedi:Engelleme politikası|değişiklik yapma hakkınızın elinizden alınması]] ile sonuçlanabilir. Bir hata olduğunu düşünüyorsanız ya da herhangi bir sorunuz olursa mesaj sayfama yazabilirsiniz.",
+            "label": "Şaka amaçlı değişiklik"
+        }
+    ],
+    "warningMessageTitle": "Uyarı!",
+    "userPagePrefix": "Kullanıcı:",
+    "userTalkPagePrefix": "Kullanıcı mesaj:",
+    "specialContibutions": "Özel:Katkılar/",
+    "apiPostSummary": "Kullanıcı uyarıldı"
+}
