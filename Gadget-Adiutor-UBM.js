@@ -185,7 +185,7 @@ api.get({
 				function CheckDurationAndRationaleMessageDialog(config) {
 					CheckDurationAndRationaleMessageDialog.super.call(this, config);
 				}
-				if(mwConfig.wgPageName.includes(mwConfig.wgUserName)) {
+				if (userToBlock === mwConfig.wgUserName) {
 					mw.notify(mw.message('you-can-not-block-yourself').text(), {
 						title: mw.msg('operation-completed'),
 						type: 'error'
