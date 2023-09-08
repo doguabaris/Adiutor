@@ -38,7 +38,7 @@ if((mw.config.get("wgNamespaceNumber") === 2 || mw.config.get("wgNamespaceNumber
 						lastEditedDate = new Date(queryResult.query.usercontribs[0].timestamp);
 					}
 					for(var i = 0; i < queryResult.query.allmessages.length; i++) {
-						groupPages[queryResult.query.allmessages[i].name.replace("grouppage-", "")] = queryResult.query.allmessages[i]["*"].replace("{{ns:project}}:", "Vikipedi:");
+						groupPages[queryResult.query.allmessages[i].name.replace("grouppage-", "")] = queryResult.query.allmessages[i]["*"].replace("{{ns:project}}:", mw.config.get("wgSiteName")+":");
 					}
 				} catch(e) {
 					return;
@@ -219,10 +219,10 @@ if((mw.config.get("wgNamespaceNumber") === 2 || mw.config.get("wgNamespaceNumber
 					loadAdiutorScript('WRN');
 				});
 				userContributions.on('click', function() {
-					window.location.href = '/wiki/Özel:Katkılar/' + mw.util.rawurlencode(user.name);
+					window.location.href = '/wiki/Special:Contributions/' + mw.util.rawurlencode(user.name);
 				});
 				UnBlockButton.on('click', function() {
-					window.location.href = '/wiki/Özel:EngeliKaldır/' + mw.util.rawurlencode(user.name);
+					window.location.href = '/wiki/Special:Unblock/' + mw.util.rawurlencode(user.name);
 				});
 				var userPageActionButtons = new OO.ui.ButtonGroupWidget({
 					items: [warnUserButton, userContributions],
