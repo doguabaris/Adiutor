@@ -1,0 +1,13 @@
+{
+    "//": "You can utilize the parameters within this file, which include: $1 page name, $2 rationale, $3 day, $4 month, $5 year, and $6 requster.",
+    "standardProposeTemplate": "{{Bekletmeli sil-tarih|sorun=$2|gün=$3|ay=$4|yıl=$5|isteyen=$6}}",
+    "livingPersonProposeTemplate": "{{yk:bekletmeli sil|Hiçbir kaynak içermeyen [[VP:YİB|yaşayan insan biyografisi]]|yardım=kapalı}}",
+    "apiPostSummary": "[[VP:SÖ]] uyarınca sayfanın sililinmesi önerildi",
+    "apiPostSummaryforCreator": "[[VP:SÖ]] uyarınca [[$1|$1]] sayfasının silinmesi önerildi",
+    "apiPostSummaryforLog": "[[$1|$1]] sayfasının bekletmeli silme adaylığının günlük kaydı tutuluyor.",
+    "prodNotificationTemplate": "{{subst:Bs bildirim|$1}}",
+    "userPagePrefix": "Kullanıcı:",
+    "userTalkPagePrefix": "Kullanıcı mesaj:",
+    "specialContibutions": "Özel:Katkılar/",
+    "localMonthsNames": ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"]
+}
