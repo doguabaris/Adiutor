@@ -6,32 +6,67 @@
  * Module: Speedy Deletion
  */
 /* <nowiki> */
-// Get essential configuration from MediaWiki
-var mwConfig = mw.config.get(["skin", "wgAction", "wgArticleId", "wgPageName", "wgNamespaceNumber", "wgTitle", "wgUserGroups", "wgUserName", "wgUserEditCount", "wgUserRegistration", "wgCanonicalNamespace"]);
 var api = new mw.Api();
+var mwConfig = mw.config.get(["wgArticleId", "wgPageName", "wgNamespaceNumber", "wgUserName"]);
 var wikiId = mw.config.get('wgWikiID');
 var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-' + wikiId));
-api.get({
-	action: 'query',
-	list: 'logevents',
-	leaction: 'delete/delete',
-	letprop: 'delete',
-	letitle: mwConfig.wgPageName
-}).done(function(data) {
-	if(data.query.logevents) {
-		revDelCount = data.query.logevents.length;
-	} else {
-		revDelCount = 0;
-	}
+var casdReason, csdSummary, notificationMessage, articleAuthor;
+var csdOptions = [];
+var casdReasons = [];
+var saltCsdSummary = '';
+var pageTitle = mw.config.get("wgPageName").replace(/_/g, " ");
+
+function fetchApiData(callback) {
+	var api = new mw.Api();
 	api.get({
-		action: 'query',
-		prop: 'revisions',
-		titles: 'MediaWiki:Gadget-Adiutor-CSD.json',
-		rvprop: 'content',
+		action: "query",
+		prop: "revisions",
+		titles: "MediaWiki:Gadget-Adiutor-CSD.json",
+		rvprop: "content",
 		formatversion: 2
 	}).done(function(data) {
 		var content = data.query.pages[0].revisions[0].content;
-		var jsonData = JSON.parse(content);
+		try {
+			var jsonData = JSON.parse(content);
+			callback(jsonData);
+		} catch(error) {
+			// Handle JSON parsing error
+			mw.notify('Failed to parse JSON data from API.', {
+				title: mw.msg('operation-failed'),
+				type: 'error'
+			});
+		}
+	}).fail(function() {
+		// Handle API request failure
+		mw.notify('Failed to fetch data from the API.', {
+			title: mw.msg('operation-failed'),
+			type: 'error'
+		});
+		// You may choose to stop code execution here
+	});
+}
+fetchApiData(function(jsonData) {
+	if(!jsonData) {
+		// Handle a case where jsonData is empty or undefined
+		mw.notify('MediaWiki:Gadget-Adiutor-UBM.json data is empty or undefined.', {
+			title: mw.msg('operation-failed'),
+			type: 'error'
+		});
+		// You may choose to stop code execution here
+		return;
+	}
+	api.get({
+		action: 'query',
+		list: 'logevents',
+		leaction: 'delete/delete',
+		letprop: 'delete',
+		letitle: pageTitle
+	}).done(function(data) {
+		if(data.query.logevents) {
+			revDelCount = data.query.logevents.length;
+		} else {
+			revDelCount = 0;
+		}
 		var speedyDeletionReasons = jsonData.speedyDeletionReasons;
 		var csdTemplateStart = jsonData.csdTemplateStart;
 		var csdTemplateEnd = jsonData.csdTemplateEnd;
@@ -46,7 +81,6 @@ api.get({
 		var localLangCode = jsonData.localLangCode;
 		var singleReasonSummary = jsonData.singleReasonSummary;
 		var multipleReasonSummary = jsonData.multipleReasonSummary;
-		var pageTitle = mw.config.get("wgPageName").replace(/_/g, " ");
 
 		function ProcessDialog(config) {
 			ProcessDialog.super.call(this, config);
@@ -85,7 +119,7 @@ api.get({
 			var selectedNamespace = null;
 			if(mw.config.get('wgIsRedirect')) {
 				selectedNamespace = speedyDeletionReasons.find(reason => reason.namespace === 'redirect');
-				NameSpaceDeletionReasons = new OO.ui.FieldsetLayout({
+				nameSpaceDeletionReasons = new OO.ui.FieldsetLayout({
 					label: selectedNamespace.name
 				});
 				for(i = 0; i < selectedNamespace.reasons.length; i++) {
@@ -100,7 +134,7 @@ api.get({
 						align: 'inline',
 						help: reason.help
 					});
-					NameSpaceDeletionReasons.addItems([fieldLayout]);
+					nameSpaceDeletionReasons.addItems([fieldLayout]);
 				}
 			} else {
 				var NS_MAIN = 0,
@@ -123,7 +157,7 @@ api.get({
 							selectedNamespace = speedyDeletionReasons.find(reason => reason.namespace === mwConfig.wgNamespaceNumber);
 						}
 						if(selectedNamespace) {
-							NameSpaceDeletionReasons = new OO.ui.FieldsetLayout({
+							nameSpaceDeletionReasons = new OO.ui.FieldsetLayout({
 								label: selectedNamespace.name
 							});
 							for(i = 0; i < selectedNamespace.reasons.length; i++) {
@@ -138,11 +172,11 @@ api.get({
 									align: 'inline',
 									help: reason.help
 								});
-								NameSpaceDeletionReasons.addItems([fieldLayout]);
+								nameSpaceDeletionReasons.addItems([fieldLayout]);
 							}
 						} else {
-							NameSpaceDeletionReasons = new OO.ui.FieldsetLayout({});
-							NameSpaceDeletionReasons.addItems([
+							nameSpaceDeletionReasons = new OO.ui.FieldsetLayout({});
+							nameSpaceDeletionReasons.addItems([
 								new OO.ui.FieldLayout(new OO.ui.MessageWidget({
 									type: 'warning',
 									inline: true,
@@ -152,8 +186,8 @@ api.get({
 						}
 						break;
 					default:
-						NameSpaceDeletionReasons = new OO.ui.FieldsetLayout({});
-						NameSpaceDeletionReasons.addItems([
+						nameSpaceDeletionReasons = new OO.ui.FieldsetLayout({});
+						nameSpaceDeletionReasons.addItems([
 							new OO.ui.FieldLayout(new OO.ui.MessageWidget({
 								type: 'warning',
 								inline: true,
@@ -186,7 +220,7 @@ api.get({
 			});
 			copyVioInput.$element.hide();
 			isCopyVio = false;
-			GeneralReasons = new OO.ui.FieldsetLayout({
+			generalReasons = new OO.ui.FieldsetLayout({
 				label: selectedNamespaceForGeneral.name
 			});
 			for(i = 0; i < selectedNamespaceForGeneral.reasons.length; i++) {
@@ -211,7 +245,7 @@ api.get({
 						help: reason.help
 					});
 				}
-				GeneralReasons.addItems([fieldLayout]);
+				generalReasons.addItems([fieldLayout]);
 			}
 			selectedNamespaceForOthers = null;
 			for(i = 0; i < speedyDeletionReasons.length; i++) {
@@ -223,7 +257,7 @@ api.get({
 					break;
 				}
 			}
-			OtherReasons = new OO.ui.FieldsetLayout({
+			otherReasons = new OO.ui.FieldsetLayout({
 				label: selectedNamespaceForOthers.name
 			});
 			for(i = 0; i < selectedNamespaceForOthers.reasons.length; i++) {
@@ -238,17 +272,17 @@ api.get({
 					align: 'inline',
 					help: reason.help
 				});
-				OtherReasons.addItems([fieldLayout]);
+				otherReasons.addItems([fieldLayout]);
 			}
-			GeneralReasons.$element.on('click', function(item) {
+			generalReasons.$element.on('click', function(item) {
 				if(item.target.value === 'G9') {
 					copyVioInput.$element.show();
 				}
 			});
-			DeletionOptions = new OO.ui.FieldsetLayout({
+			deletionOptions = new OO.ui.FieldsetLayout({
 				label: mw.msg('other-options'),
 			});
-			DeletionOptions.addItems([
+			deletionOptions.addItems([
 				new OO.ui.FieldLayout(new OO.ui.CheckboxInputWidget({
 					selected: false,
 					value: 'recreationProrection'
@@ -280,12 +314,12 @@ api.get({
 				'margin-bottom': '10px'
 			});
 			var left_panel = new OO.ui.PanelLayout({
-				$content: [NameSpaceDeletionReasons.$element, DeletionOptions.$element],
+				$content: [nameSpaceDeletionReasons.$element, deletionOptions.$element],
 				classes: ['one'],
 				scrollable: false,
 			});
 			var right_panel = new OO.ui.PanelLayout({
-				$content: GeneralReasons.$element,
+				$content: generalReasons.$element,
 				classes: ['two'],
 				scrollable: false,
 			});
@@ -305,11 +339,11 @@ api.get({
 			if(revDelCount >= "1") {
 				var deletionMessage = mw.msg('page-deletion-count-warning', revDelCount);
 				var deletionMessageWithLink = deletionMessage.replace(/\$2/g, '<a href="/wiki/Special:Log?type=delete&user=&page=' + mwConfig.wgPageName + '">' + mw.msg('log') + '</a>');
-				var HeaderBarRevDel = new OO.ui.MessageWidget({
+				var headerBarRevDel = new OO.ui.MessageWidget({
 					type: 'warning',
 					label: new OO.ui.HtmlSnippet(deletionMessageWithLink)
 				});
-				this.panel1.$element.append(headerTitle.$element, headerTitleDescription.$element, HeaderBarRevDel.$element, stack.$element);
+				this.panel1.$element.append(headerTitle.$element, headerTitleDescription.$element, headerBarRevDel.$element, stack.$element);
 			} else {
 				this.panel1.$element.append(headerTitle.$element, headerTitleDescription.$element, stack.$element);
 			}
@@ -318,7 +352,6 @@ api.get({
 			});
 			this.$body.append(this.stackLayout.$element);
 		};
-		var CSDReasons = [];
 		// Set up the initial mode of the window ('edit', in this example.)  
 		ProcessDialog.prototype.getSetupProcess = function(data) {
 			return ProcessDialog.super.prototype.getSetupProcess.call(this, data).next(function() {
@@ -337,86 +370,82 @@ api.get({
 			} else if(action === 'continue') {
 				var dialog = this;
 				return new OO.ui.Process(function() {
-					var CSDReason;
-					var CSDSummary;
-					var CSDOptions = [];
-					NameSpaceDeletionReasons.items.forEach(function(Reason) {
+					nameSpaceDeletionReasons.items.forEach(function(Reason) {
 						if(Reason.fieldWidget.selected) {
-							CSDReasons.push({
+							casdReasons.push({
 								value: Reason.fieldWidget.value,
 								data: Reason.fieldWidget.data,
 								selected: Reason.fieldWidget.selected
 							});
 						}
 					});
-					GeneralReasons.items.forEach(function(Reason) {
+					generalReasons.items.forEach(function(Reason) {
 						if(Reason.fieldWidget.selected) {
-							CSDReasons.push({
+							casdReasons.push({
 								value: Reason.fieldWidget.value,
 								data: Reason.fieldWidget.data,
 								selected: Reason.fieldWidget.selected
 							});
 						}
 					});
-					if(CSDReasons.length > 0) {
-						var SaltCSDSummary = '';
+					if(casdReasons.length > 0) {
 						if(copyVioInput.value != "") {
 							CopVioURL = '|url=' + copyVioInput.value;
 						} else {
 							CopVioURL = "";
 						}
-						if(CSDReasons.length > 1) {
+						if(casdReasons.length > 1) {
 							var SaltCSDReason = csdTemplateStart;
 							var i = 0;
-							var keys = Object.keys(CSDReasons);
+							var keys = Object.keys(casdReasons);
 							for(i = 0; i < keys.length; i++) {
 								if(i > 0) SaltCSDReason += (i < keys.length - 1) ? ', ' : ' ' + reasonAndSeperator + ' ';
-								SaltCSDReason += '[[' + speedyDeletionPolicyPageShorcut + '#' + CSDReasons[keys[i]].value + ']]';
+								SaltCSDReason += '[[' + speedyDeletionPolicyPageShorcut + '#' + casdReasons[keys[i]].value + ']]';
 							}
 							for(i = 0; i < keys.length; i++) {
-								if(i > 0) SaltCSDSummary += (i < keys.length - 1) ? ', ' : ' ' + reasonAndSeperator + ' ';
-								SaltCSDSummary += '[[' + speedyDeletionPolicyPageShorcut + '#' + CSDReasons[keys[i]].value + ']]';
+								if(i > 0) saltCsdSummary += (i < keys.length - 1) ? ', ' : ' ' + reasonAndSeperator + ' ';
+								saltCsdSummary += '[[' + speedyDeletionPolicyPageShorcut + '#' + casdReasons[keys[i]].value + ']]';
 							}
-							CSDReason = SaltCSDReason + CopVioURL + csdTemplateEnd;
-							CSDSummary = replaceParameter(multipleReasonSummary, '2', SaltCSDSummary);
+							casdReason = SaltCSDReason + CopVioURL + csdTemplateEnd;
+							csdSummary = replaceParameter(multipleReasonSummary, '2', saltCsdSummary);
 						} else {
-							CSDReason = csdTemplateStart + CSDReasons[0].data + CopVioURL + csdTemplateEnd;
-							CSDSummary = replaceParameter(singleReasonSummary, '2', CSDReasons[0].data);
-							SaltCSDSummary = replaceParameter(singleReasonSummary, '2', CSDReasons[0].data);
+							casdReason = csdTemplateStart + casdReasons[0].data + CopVioURL + csdTemplateEnd;
+							csdSummary = replaceParameter(singleReasonSummary, '2', casdReasons[0].data);
+							saltCsdSummary = replaceParameter(singleReasonSummary, '2', casdReasons[0].data);
 						}
 						//Şablon ekleme fonksyionu çağır
-						DeletionOptions.items.forEach(function(Option) {
+						deletionOptions.items.forEach(function(Option) {
 							if(Option.fieldWidget.selected) {
-								CSDOptions.push({
+								csdOptions.push({
 									value: Option.fieldWidget.value,
 									selected: Option.fieldWidget.selected
 								});
 							}
 						});
-						CSDOptions.forEach(function(Option) {
+						csdOptions.forEach(function(Option) {
 							if(Option.value === "recreationProrection") {
-								CSDReason = CSDReason + "\n" + '{{Salt}}';
+								casdReason = casdReason + "\n" + '{{Salt}}';
 							}
 							if(Option.value === "informCreator") {
 								getCreator().then(function(data) {
-									var Author = data.query.pages[mw.config.get('wgArticleId')].revisions[0].user;
-									if(!mw.util.isIPAddress(Author)) {
+									articleAuthor = data.query.pages[mw.config.get('wgArticleId')].revisions[0].user;
+									if(!mw.util.isIPAddress(articleAuthor)) {
 										var placeholders = {
 											$1: pageTitle,
-											$2: SaltCSDSummary,
+											$2: saltCsdSummary,
 										};
-										var message = replacePlaceholders(csdNotificationTemplate, placeholders);
-										sendMessageToAuthor(Author, message);
+										notificationMessage = replacePlaceholders(csdNotificationTemplate, placeholders);
+										sendMessageToAuthor(articleAuthor, notificationMessage);
 									}
 								});
 							}
 						});
-						putCSDTemplate(CSDReason, CSDSummary);
-						logCsdRequest(SaltCSDSummary, adiutorUserOptions);
+						putCSDTemplate();
+						logCsdRequest();
 						showProgress();
 						dialog.close();
 					} else {
-						mw.notify(mw.message('select-speedy-deletion-reason').text(), {
+						mw.notify(mw.notificationMessage('select-speedy-deletion-reason').text(), {
 							title: mw.msg('warning'),
 							type: 'error'
 						});
@@ -440,12 +469,12 @@ api.get({
 		// Open the window.
 		windowManager.openWindow(processDialog);
 		// Define functions below as needed
-		function putCSDTemplate(CSDReason, CSDSummary) {
+		function putCSDTemplate(casdReason, csdSummary) {
 			api.postWithToken('csrf', {
 				action: 'edit',
 				title: mwConfig.wgPageName,
-				prependtext: CSDReason + "\n",
-				summary: CSDSummary,
+				prependtext: casdReason + "\n",
+				summary: csdSummary,
 				tags: 'Adiutor',
 				format: 'json'
 			}).done(function() {
@@ -461,7 +490,7 @@ api.get({
 			});
 		}
 
-		function logCsdRequest(CSDSummary, adiutorUserOptions) {
+		function logCsdRequest() {
 			if(adiutorUserOptions.speedyDeletion.csdLogNominatedPages === true) {
 				// Get the current date and format it as "Month Year"
 				var currentDate = new Date();
@@ -483,10 +512,10 @@ api.get({
 					// Check if the section title exists in the page content
 					if(pageContent.includes(sectionTitle)) {
 						// Append the log entry just below the section
-						newContent = pageContent.replace(sectionTitle, sectionTitle + "\n" + "# '''[[:" + pageTitle + "|" + pageTitle + "]]''' " + CSDSummary + " ~~~~~");
+						newContent = pageContent.replace(sectionTitle, sectionTitle + "\n" + "# '''[[:" + pageTitle + "|" + pageTitle + "]]''' " + csdSummary + " ~~~~~");
 					} else {
 						// Create the section and append the log entry
-						newContent = pageContent + "\n\n" + sectionTitle + "\n" + "# '''[[:" + pageTitle + "|" + pageTitle + "]]''' " + CSDSummary + " ~~~~~";
+						newContent = pageContent + "\n\n" + sectionTitle + "\n" + "# '''[[:" + pageTitle + "|" + pageTitle + "]]''' " + csdSummary + " ~~~~~";
 					}
 					// Perform the edit to update the page content
 					return api.postWithToken('csrf', {
@@ -506,7 +535,7 @@ api.get({
 						title: userPagePrefix.concat(mwConfig.wgUserName, '/' + adiutorUserOptions.speedyDeletion.csdLogPageName + '').split(' ').join('_'),
 						section: 'new',
 						sectiontitle: sectionTitle,
-						text: "# '''[[:" + pageTitle + "]]''' " + CSDSummary + " ~~~~~",
+						text: "# '''[[:" + pageTitle + "]]''' " + csdSummary + " ~~~~~",
 						summary: replaceParameter(apiPostSummaryforLog, '1', pageTitle),
 						format: 'json',
 					}).done(function() {});
@@ -525,11 +554,11 @@ api.get({
 			});
 		}
 
-		function sendMessageToAuthor(Author, message) {
+		function sendMessageToAuthor(articleAuthor, notificationMessage) {
 			api.postWithToken('csrf', {
 				action: 'edit',
-				title: userTalkPagePrefix + Author,
-				appendtext: '\n' + message,
+				title: userTalkPagePrefix + articleAuthor,
+				appendtext: '\n' + notificationMessage,
 				summary: replaceParameter(apiPostSummary, '1', pageTitle),
 				tags: 'Adiutor',
 				format: 'json'
@@ -544,7 +573,7 @@ api.get({
 			windowManager.addWindows([processStartedDialog]);
 			windowManager.openWindow(processStartedDialog, {
 				title: mw.msg('processing'),
-				message: progressBar.$element
+				notificationMessage: progressBar.$element
 			});
 		}
 

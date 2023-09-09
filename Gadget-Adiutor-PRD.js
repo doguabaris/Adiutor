@@ -183,7 +183,7 @@ fetchApiData(function(jsonData) {
 						getCreator().then(function(data) {
 							var Author = data.query.pages[mw.config.get('wgArticleId')].revisions[0].user;
 							if(!mw.util.isIPAddress(Author)) {
-								var message = prodNotificationTemplate;
+								var message = replaceParameter(prodNotificationTemplate, '1', pageTitle);
 								sendMessageToAuthor(Author, message);
 							}
 						});

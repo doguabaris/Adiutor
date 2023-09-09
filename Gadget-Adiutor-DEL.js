@@ -6,44 +6,75 @@
  * Module: Admin delete page module
  */
 /* <nowiki> */
-// Get essential configuration from MediaWiki
-var mwConfig = mw.config.get(["skin", "wgAction", "wgArticleId", "wgPageName", "wgNamespaceNumber", "wgTitle", "wgUserGroups", "wgUserName", "wgUserEditCount", "wgUserRegistration", "wgCanonicalNamespace"]);
 // Create an API instance
 var api = new mw.Api();
-// Get user options from Adiutor configuration
+var mwConfig = mw.config.get(["wgPageName", "wgNamespaceNumber"]);
 var wikiId = mw.config.get('wgWikiID');
 var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-' + wikiId));
+var casdReason, csdSummary;
+var casdReasons = [];
+var saltCsdSummary = '';
 var params = {};
-// Sayfa mevcudiyetini kontrol et
-api.get({
-	action: "query",
-	format: "json",
-	titles: mwConfig.wgPageName
-}).done(function(data) {
-	var pages = data.query.pages;
-	var pageId = Object.keys(pages)[0];
-	if(pageId !== "-1") {
-		api.get({
-			action: 'query',
-			list: 'logevents',
-			leaction: 'delete/delete',
-			letprop: 'delete',
-			letitle: mwConfig.wgPageName
-		}).done(function(data) {
-			if(data.query.logevents) {
-				revDelCount = data.query.logevents.length;
-			} else {
-				revDelCount = 0;
-			}
+
+function fetchApiData(callback) {
+	var api = new mw.Api();
+	api.get({
+		action: "query",
+		prop: "revisions",
+		titles: "MediaWiki:Gadget-Adiutor-CSD.json",
+		rvprop: "content",
+		formatversion: 2
+	}).done(function(data) {
+		var content = data.query.pages[0].revisions[0].content;
+		try {
+			var jsonData = JSON.parse(content);
+			callback(jsonData);
+		} catch(error) {
+			// Handle JSON parsing error
+			mw.notify('Failed to parse JSON data from API.', {
+				title: mw.msg('operation-failed'),
+				type: 'error'
+			});
+		}
+	}).fail(function() {
+		// Handle API request failure
+		mw.notify('Failed to fetch data from the API.', {
+			title: mw.msg('operation-failed'),
+			type: 'error'
+		});
+		// You may choose to stop code execution here
+	});
+}
+fetchApiData(function(jsonData) {
+	if(!jsonData) {
+		// Handle a case where jsonData is empty or undefined
+		mw.notify('MediaWiki:Gadget-Adiutor-UBM.json data is empty or undefined.', {
+			title: mw.msg('operation-failed'),
+			type: 'error'
+		});
+		// You may choose to stop code execution here
+		return;
+	}
+	api.get({
+		action: "query",
+		format: "json",
+		titles: mwConfig.wgPageName
+	}).done(function(data) {
+		var pages = data.query.pages;
+		var pageId = Object.keys(pages)[0];
+		if(pageId !== "-1") {
 			api.get({
 				action: 'query',
-				prop: 'revisions',
-				titles: 'MediaWiki:Gadget-Adiutor-CSD.json',
-				rvprop: 'content',
-				formatversion: 2
+				list: 'logevents',
+				leaction: 'delete/delete',
+				letprop: 'delete',
+				letitle: mwConfig.wgPageName
 			}).done(function(data) {
-				var content = data.query.pages[0].revisions[0].content;
-				var jsonData = JSON.parse(content);
+				if(data.query.logevents) {
+					revDelCount = data.query.logevents.length;
+				} else {
+					revDelCount = 0;
+				}
 				var speedyDeletionReasons = jsonData.speedyDeletionReasons;
 				var talkPagePrefix = jsonData.talkPagePrefix;
 				var apiPostSummaryforTalkPage = jsonData.apiPostSummaryforTalkPage;
@@ -75,7 +106,7 @@ api.get({
 					var selectedNamespace = null;
 					if(mw.config.get('wgIsRedirect')) {
 						selectedNamespace = speedyDeletionReasons.find(reason => reason.namespace === 'redirect');
-						NameSpaceDeletionReasons = new OO.ui.FieldsetLayout({
+						nameSpaceDeletionReasons = new OO.ui.FieldsetLayout({
 							label: selectedNamespace.name
 						});
 						for(i = 0; i < selectedNamespace.reasons.length; i++) {
@@ -90,7 +121,7 @@ api.get({
 								align: 'inline',
 								help: reason.help
 							});
-							NameSpaceDeletionReasons.addItems([fieldLayout]);
+							nameSpaceDeletionReasons.addItems([fieldLayout]);
 						}
 					} else {
 						var NS_MAIN = 0,
@@ -113,7 +144,7 @@ api.get({
 									selectedNamespace = speedyDeletionReasons.find(reason => reason.namespace === mwConfig.wgNamespaceNumber);
 								}
 								if(selectedNamespace) {
-									NameSpaceDeletionReasons = new OO.ui.FieldsetLayout({
+									nameSpaceDeletionReasons = new OO.ui.FieldsetLayout({
 										label: selectedNamespace.name
 									});
 									for(i = 0; i < selectedNamespace.reasons.length; i++) {
@@ -128,11 +159,11 @@ api.get({
 											align: 'inline',
 											help: reason.help
 										});
-										NameSpaceDeletionReasons.addItems([fieldLayout]);
+										nameSpaceDeletionReasons.addItems([fieldLayout]);
 									}
 								} else {
-									NameSpaceDeletionReasons = new OO.ui.FieldsetLayout({});
-									NameSpaceDeletionReasons.addItems([
+									nameSpaceDeletionReasons = new OO.ui.FieldsetLayout({});
+									nameSpaceDeletionReasons.addItems([
 										new OO.ui.FieldLayout(new OO.ui.MessageWidget({
 											type: 'warning',
 											inline: true,
@@ -142,8 +173,8 @@ api.get({
 								}
 								break;
 							default:
-								NameSpaceDeletionReasons = new OO.ui.FieldsetLayout({});
-								NameSpaceDeletionReasons.addItems([
+								nameSpaceDeletionReasons = new OO.ui.FieldsetLayout({});
+								nameSpaceDeletionReasons.addItems([
 									new OO.ui.FieldLayout(new OO.ui.MessageWidget({
 										type: 'warning',
 										inline: true,
@@ -176,7 +207,7 @@ api.get({
 					});
 					copyVioInput.$element.hide();
 					isCopyVio = false;
-					GeneralReasons = new OO.ui.FieldsetLayout({
+					generalReasons = new OO.ui.FieldsetLayout({
 						label: selectedNamespaceForGeneral.name
 					});
 					for(i = 0; i < selectedNamespaceForGeneral.reasons.length; i++) {
@@ -201,7 +232,7 @@ api.get({
 								help: reason.help
 							});
 						}
-						GeneralReasons.addItems([fieldLayout]);
+						generalReasons.addItems([fieldLayout]);
 					}
 					selectedNamespaceForOthers = null;
 					for(i = 0; i < speedyDeletionReasons.length; i++) {
@@ -213,7 +244,7 @@ api.get({
 							break;
 						}
 					}
-					OtherReasons = new OO.ui.FieldsetLayout({
+					otherReasons = new OO.ui.FieldsetLayout({
 						label: selectedNamespaceForOthers.name
 					});
 					for(i = 0; i < selectedNamespaceForOthers.reasons.length; i++) {
@@ -228,20 +259,20 @@ api.get({
 							align: 'inline',
 							help: reason.help
 						});
-						OtherReasons.addItems([fieldLayout]);
+						otherReasons.addItems([fieldLayout]);
 					}
-					GeneralReasons.$element.on('click', function(item) {
+					generalReasons.$element.on('click', function(item) {
 						if(item.target.value === 'G9') {
 							copyVioInput.$element.show();
 						}
 					});
 					var left_panel = new OO.ui.PanelLayout({
-						$content: [NameSpaceDeletionReasons.$element],
+						$content: [nameSpaceDeletionReasons.$element],
 						classes: ['one'],
 						scrollable: false,
 					});
 					var right_panel = new OO.ui.PanelLayout({
-						$content: [GeneralReasons.$element, OtherReasons.$element],
+						$content: [generalReasons.$element, otherReasons.$element],
 						classes: ['two'],
 						scrollable: false,
 					});
@@ -258,14 +289,14 @@ api.get({
 					if(revDelCount >= "1") {
 						var deletionMessage = mw.msg('page-deletion-count-warning', revDelCount);
 						var deletionMessageWithLink = deletionMessage.replace(/\$2/g, '<a href="/wiki/Special:Log?type=delete&user=&page=' + mwConfig.wgPageName + '">' + mw.msg('log') + '</a>');
-						var HeaderBarRevDel = new OO.ui.MessageWidget({
+						var headerBarRevDel = new OO.ui.MessageWidget({
 							type: 'warning',
 							label: new OO.ui.HtmlSnippet(deletionMessageWithLink)
 						});
-						HeaderBarRevDel.$element.css({
+						headerBarRevDel.$element.css({
 							'margin-bottom': '20px',
 						});
-						this.panel1.$element.append(HeaderBarRevDel.$element, stack.$element);
+						this.panel1.$element.append(headerBarRevDel.$element, stack.$element);
 					} else {
 						this.panel1.$element.append(stack.$element);
 					}
@@ -290,21 +321,18 @@ api.get({
 					} else if(action === 'continue') {
 						var dialog = this;
 						return new OO.ui.Process(function() {
-							var CSDReason;
-							var CSDSummary;
-							var CSDReasons = [];
-							NameSpaceDeletionReasons.items.forEach(function(Reason) {
+							nameSpaceDeletionReasons.items.forEach(function(Reason) {
 								if(Reason.fieldWidget.selected) {
-									CSDReasons.push({
+									casdReasons.push({
 										value: Reason.fieldWidget.value,
 										data: Reason.fieldWidget.data,
 										selected: Reason.fieldWidget.selected
 									});
 								}
 							});
-							GeneralReasons.items.forEach(function(Reason) {
+							generalReasons.items.forEach(function(Reason) {
 								if(Reason.fieldWidget.selected) {
-									CSDReasons.push({
+									casdReasons.push({
 										value: Reason.fieldWidget.value,
 										data: Reason.fieldWidget.data,
 										selected: Reason.fieldWidget.selected
@@ -312,22 +340,21 @@ api.get({
 								}
 							});
 							var CopVioURL = copyVioInput.value ? ' | ' + mw.msg('copyright-violation') + ':' + copyVioInput.value : '';
-							var SaltCSDSummary = '';
-							if(CSDReasons.length > 0) {
-								if(CSDReasons.length > 1) {
-									SaltCSDSummary = CSDReasons.map(function(reason) {
+							if(casdReasons.length > 0) {
+								if(casdReasons.length > 1) {
+									saltCsdSummary = casdReasons.map(function(reason) {
 										return '[[VP:HS#' + reason.value + ']]';
 									}).join(', ');
-									SaltCSDSummary = SaltCSDSummary.replace(/,(?=[^,]*$)/, ' ve');
+									saltCsdSummary = saltCsdSummary.replace(/,(?=[^,]*$)/, ' ve');
 								} else {
-									SaltCSDSummary = CSDSummary = CSDReasons[0].data;
+									saltCsdSummary = csdSummary = casdReasons[0].data;
 								}
-								SaltCSDSummary += CopVioURL;
-								CSDSummary = SaltCSDSummary;
+								saltCsdSummary += CopVioURL;
+								csdSummary = saltCsdSummary;
 								api.postWithToken('csrf', {
 									action: 'delete',
 									title: mwConfig.wgPageName,
-									reason: CSDSummary,
+									reason: csdSummary,
 									tags: 'Adiutor',
 									format: 'json'
 								}).done(function() {
@@ -360,14 +387,14 @@ api.get({
 				CsdWindowManager.addWindows([dialog]);
 				CsdWindowManager.openWindow(dialog);
 			});
-		});
-	} else {
-		mw.notify(mw.message('page-not-found').text(), {
-			title: mw.msg('warning'),
-			type: 'error'
-		});
-	}
-}).catch(error => {
-	console.error("API hatası:", error);
+		} else {
+			mw.notify(mw.message('page-not-found').text(), {
+				title: mw.msg('warning'),
+				type: 'error'
+			});
+		}
+	}).catch(error => {
+		console.error("API hatası:", error);
+	});
 });
 /* </nowiki> */

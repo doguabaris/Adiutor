@@ -1,0 +1,18 @@
+{
+    "//": "You can utilize the parameters within this file, which include: $1 page name, $2 nomination number.",
+    "afdTemplate": "{{sas|$1|$2|yardım=hayır}}",
+    "afdPageTitleForMultipleNomination": "$1 ($2. aday gösterme)",
+    "apiPostSummary": "Sayfa [[VP:SAS|silinmeye aday]] gösterildi",
+    "apiPostSummaryforCreator": "[[$1]] silinmeye aday gösterildi",
+    "apiPostSummaryforUserLog": "Silinmeye aday gösterilen sayfanın günlük kaydı tutuluyor.",
+    "apiPostSummaryforAfdPage": "Adaylık [[Vikipedi:Silinmeye aday sayfalar|sas]] listesine eklendi.",
+    "afdPage": "Vikipedi:Silinmeye aday sayfalar",
+    "logNominations": true,
+    "afdLogPage": "Vikipedi:Silinmeye aday sayfalar/Kayıt/",
+    "afdNotificationTemplate": "{{subst:sas bildirim|$1}}",
+    "userLogText": "# '''[[:$1]]''' sayfasını silinmeye aday gösterdi ~~~~~",
+    "userPagePrefix": "Kullanıcı:",
+    "userTalkPagePrefix": "Kullanıcı mesaj:",
+    "specialContibutions": "Özel:Katkılar/",
+    "localMonthsNames": ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"]
+}

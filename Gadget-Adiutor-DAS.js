@@ -6,12 +6,10 @@
  * Module: Adiutor User Dashboard
  */
 /* <nowiki> */
-// Get essential configuration from MediaWiki
-var mwConfig = mw.config.get(["skin", "wgAction", "wgArticleId", "wgPageName", "wgNamespaceNumber", "wgTitle", "wgUserGroups", "wgUserName", "wgUserEditCount", "wgUserRegistration", "wgCanonicalNamespace"]);
 var api = new mw.Api();
+var mwConfig = mw.config.get(["wgArticleId", "wgPageName", "wgUserGroups", "wgUserName", "wgUserEditCount", "wgUserRegistration"]);
 var wikiId = mw.config.get('wgWikiID');
 var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-' + wikiId));
-
 function SectionOneLayout(name, config) {
 	SectionOneLayout.super.call(this, name, config);
 	var currentUserWelcomeText = new OO.ui.LabelWidget({
@@ -483,7 +481,7 @@ administratorToolsLayoutCsd.prototype.setupOutlineItem = function() {
 												}
 												// Continue with the rest of the code
 												if(selectedNamespace) {
-													NameSpaceDeletionReasons = new OO.ui.FieldsetLayout({
+													nameSpaceDeletionReasons = new OO.ui.FieldsetLayout({
 														label: selectedNamespace.name
 													});
 													for(i = 0; i < selectedNamespace.reasons.length; i++) {
@@ -498,12 +496,12 @@ administratorToolsLayoutCsd.prototype.setupOutlineItem = function() {
 															align: 'inline',
 															help: reason.help
 														});
-														NameSpaceDeletionReasons.addItems([fieldLayout]);
+														nameSpaceDeletionReasons.addItems([fieldLayout]);
 													}
 												} else {
 													// Handle the case where the selected namespace is not found
-													NameSpaceDeletionReasons = new OO.ui.FieldsetLayout({});
-													NameSpaceDeletionReasons.addItems([
+													nameSpaceDeletionReasons = new OO.ui.FieldsetLayout({});
+													nameSpaceDeletionReasons.addItems([
 														new OO.ui.FieldLayout(new OO.ui.MessageWidget({
 															type: 'warning',
 															inline: true,
@@ -513,8 +511,8 @@ administratorToolsLayoutCsd.prototype.setupOutlineItem = function() {
 												}
 												break;
 											default:
-												NameSpaceDeletionReasons = new OO.ui.FieldsetLayout({});
-												NameSpaceDeletionReasons.addItems([
+												nameSpaceDeletionReasons = new OO.ui.FieldsetLayout({});
+												nameSpaceDeletionReasons.addItems([
 													new OO.ui.FieldLayout(new OO.ui.MessageWidget({
 														type: 'warning',
 														inline: true,
@@ -546,7 +544,7 @@ administratorToolsLayoutCsd.prototype.setupOutlineItem = function() {
 										});
 										copyVioInput.$element.hide();
 										isCopyVio = false;
-										GeneralReasons = new OO.ui.FieldsetLayout({
+										generalReasons = new OO.ui.FieldsetLayout({
 											label: selectedNamespaceForGeneral.name
 										});
 										for(i = 0; i < selectedNamespaceForGeneral.reasons.length; i++) {
@@ -571,7 +569,7 @@ administratorToolsLayoutCsd.prototype.setupOutlineItem = function() {
 													help: reason.help
 												});
 											}
-											GeneralReasons.addItems([fieldLayout]);
+											generalReasons.addItems([fieldLayout]);
 										}
 										selectedNamespaceForOthers = null;
 										for(i = 0; i < speedyDeletionReasons.length; i++) {
@@ -583,7 +581,7 @@ administratorToolsLayoutCsd.prototype.setupOutlineItem = function() {
 												break;
 											}
 										}
-										OtherReasons = new OO.ui.FieldsetLayout({
+										otherReasons = new OO.ui.FieldsetLayout({
 											label: selectedNamespaceForOthers.name
 										});
 										for(i = 0; i < selectedNamespaceForOthers.reasons.length; i++) {
@@ -598,20 +596,20 @@ administratorToolsLayoutCsd.prototype.setupOutlineItem = function() {
 												align: 'inline',
 												help: reason.help
 											});
-											OtherReasons.addItems([fieldLayout]);
+											otherReasons.addItems([fieldLayout]);
 										}
-										GeneralReasons.$element.on('click', function(item) {
+										generalReasons.$element.on('click', function(item) {
 											if(item.target.value === 'G9') {
 												copyVioInput.$element.show();
 											}
 										});
 										var left_panel = new OO.ui.PanelLayout({
-											$content: [NameSpaceDeletionReasons.$element],
+											$content: [nameSpaceDeletionReasons.$element],
 											classes: ['one'],
 											scrollable: false,
 										});
 										var right_panel = new OO.ui.PanelLayout({
-											$content: [GeneralReasons.$element, OtherReasons.$element],
+											$content: [generalReasons.$element, otherReasons.$element],
 											classes: ['two'],
 											scrollable: false,
 										});
@@ -628,14 +626,14 @@ administratorToolsLayoutCsd.prototype.setupOutlineItem = function() {
 										if(revDelCount >= "1") {
 											var deletionMessage = mw.msg('page-deletion-count-warning', revDelCount);
 											var deletionMessageWithLink = deletionMessage.replace(/\$2/g, '<a href="/wiki/Special:Log?type=delete&user=&page=' + mwConfig.wgPageName + '">' + mw.msg('log') + '</a>');
-											var HeaderBarRevDel = new OO.ui.MessageWidget({
+											var headerBarRevDel = new OO.ui.MessageWidget({
 												type: 'warning',
 												label: new OO.ui.HtmlSnippet(deletionMessageWithLink)
 											});
-											HeaderBarRevDel.$element.css({
+											headerBarRevDel.$element.css({
 												'margin-bottom': '20px',
 											});
-											this.panel1.$element.append(HeaderBarRevDel.$element, stack.$element);
+											this.panel1.$element.append(headerBarRevDel.$element, stack.$element);
 										} else {
 											this.panel1.$element.append(stack.$element);
 										}
@@ -660,57 +658,57 @@ administratorToolsLayoutCsd.prototype.setupOutlineItem = function() {
 										} else if(action === 'continue') {
 											var dialog = this;
 											return new OO.ui.Process(function() {
-												var CSDReason;
-												var CSDSummary;
-												var CSDReasons = [];
-												var CSDOptions = [];
-												NameSpaceDeletionReasons.items.forEach(function(Reason) {
+												var casdReason;
+												var csdSummary;
+												var casdReasons = [];
+												var csdOptions = [];
+												nameSpaceDeletionReasons.items.forEach(function(Reason) {
 													if(Reason.fieldWidget.selected) {
-														CSDReasons.push({
+														casdReasons.push({
 															value: Reason.fieldWidget.value,
 															data: Reason.fieldWidget.data,
 															selected: Reason.fieldWidget.selected
 														});
 													}
 												});
-												GeneralReasons.items.forEach(function(Reason) {
+												generalReasons.items.forEach(function(Reason) {
 													if(Reason.fieldWidget.selected) {
-														CSDReasons.push({
+														casdReasons.push({
 															value: Reason.fieldWidget.value,
 															data: Reason.fieldWidget.data,
 															selected: Reason.fieldWidget.selected
 														});
 													}
 												});
-												var SaltCSDSummary = '';
+												var saltCsdSummary = '';
 												if(copyVioInput.value != "") {
 													CopVioURL = '|url=' + copyVioInput.value;
 												} else {
 													CopVioURL = "";
 												}
-												if(CSDReasons.length > 1) {
+												if(casdReasons.length > 1) {
 													var SaltCSDReason = '{{sil|';
 													var i = 0;
-													var keys = Object.keys(CSDReasons);
+													var keys = Object.keys(casdReasons);
 													for(i = 0; i < keys.length; i++) {
 														if(i > 0) SaltCSDReason += (i < keys.length - 1) ? ', ' : ' ve ';
-														SaltCSDReason += '[[VP:HS#' + CSDReasons[keys[i]].value + ']]';
+														SaltCSDReason += '[[VP:HS#' + casdReasons[keys[i]].value + ']]';
 													}
 													for(i = 0; i < keys.length; i++) {
-														if(i > 0) SaltCSDSummary += (i < keys.length - 1) ? ', ' : ' ve ';
-														SaltCSDSummary += '[[VP:HS#' + CSDReasons[keys[i]].value + ']]';
+														if(i > 0) saltCsdSummary += (i < keys.length - 1) ? ', ' : ' ve ';
+														saltCsdSummary += '[[VP:HS#' + casdReasons[keys[i]].value + ']]';
 													}
-													CSDReason = SaltCSDReason + CopVioURL + '}}';
-													CSDSummary = SaltCSDSummary;
+													casdReason = SaltCSDReason + CopVioURL + '}}';
+													csdSummary = saltCsdSummary;
 												} else {
-													CSDReason = '{{sil|' + CSDReasons[0].data + CopVioURL + '}}';
-													CSDSummary = CSDReasons[0].data;
-													SaltCSDSummary = CSDReasons[0].data;
+													casdReason = '{{sil|' + casdReasons[0].data + CopVioURL + '}}';
+													csdSummary = casdReasons[0].data;
+													saltCsdSummary = casdReasons[0].data;
 												}
 												api.postWithToken('csrf', {
 													action: 'delete',
 													title: item.label,
-													reason: CSDSummary,
+													reason: csdSummary,
 													tags: 'Adiutor',
 													format: 'json'
 												}).done(function() {
