@@ -45,6 +45,8 @@ api.get({
 				var content = data.query.pages[0].revisions[0].content;
 				var jsonData = JSON.parse(content);
 				var speedyDeletionReasons = jsonData.speedyDeletionReasons;
+				var talkPagePrefix = jsonData.talkPagePrefix;
+				var apiPostSummaryforTalkPage = jsonData.apiPostSummaryforTalkPage;
 
 				function csdAdminProcessDialog(config) {
 					csdAdminProcessDialog.super.call(this, config);
@@ -331,8 +333,8 @@ api.get({
 								}).done(function() {
 									api.postWithToken('csrf', {
 										action: 'delete',
-										title: "Tartışma:" + mwConfig.wgPageName,
-										reason: '[[VP:HS#G7]]: Silinen sayfanın tartışma sayfası',
+										title: talkPagePrefix + mwConfig.wgPageName,
+										reason: apiPostSummaryforTalkPage,
 										tags: 'Adiutor',
 										format: 'json'
 									}).done(function() {});

@@ -12,88 +12,90 @@ var mwConfig = mw.config.get(["skin", "wgAction", "wgArticleId", "wgPageName", "
 var api = new mw.Api();
 // Retrieve user options for Adiutor from JSON and initialize variables
 var wikiId = mw.config.get('wgWikiID');
-var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-'+wikiId));
+var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-' + wikiId));
 var batchDeletionList = [];
 var selectedOptions;
 var selectedReason;
-// Fetch list of pages to be considered for batch deletion from a specific category
+// Fetch JSON data containing speedy deletion reasons
 api.get({
 	action: 'query',
-	list: 'categorymembers',
-	cmtitle: 'Kategori:Hızlı silinmeye aday sayfalar',
-	cmsort: 'timestamp',
-	cmdir: 'desc',
-	format: 'json'
+	prop: 'revisions',
+	titles: 'MediaWiki:Gadget-Adiutor-CSD.json',
+	rvprop: 'content',
+	formatversion: 2
 }).done(function(data) {
-	// Process the retrieved pages and create CheckboxMultioptionWidgets for each
-	var members = data.query.categorymembers;
-	members.sort(function(a, b) {
-		return a.title.localeCompare(b.title);
-	});
-	members.forEach(function(page) {
-		batchDeletionList.push(new OO.ui.CheckboxMultioptionWidget({
-			data: page.title,
-			selected: false,
-			label: new OO.ui.HtmlSnippet(page.title + '<a style="margin-left:10px" target="_blank" href="' + page.title + '">→ ' + mw.msg('see') + '</a>')
-		}));
-	});
-	// Create a CheckboxMultiselectWidget to display the list of pages
-	var multiselectInput = new OO.ui.CheckboxMultiselectWidget({
-		items: batchDeletionList,
-	});
-	multiselectInput.$element.css({
-		'margin-top': '10px'
-	});
-	// Create a "Select All" button to select all checkboxes at once
-	var selectAllButton = new OO.ui.ButtonWidget({
-		label: mw.msg('select-all'),
-		flags: ['progressive']
-	});
-	// Create a "Clear Selection" button to clear all checkboxes at once
-	var clearSelectionButton = new OO.ui.ButtonWidget({
-		label: mw.msg('uncheck-selected')
-	});
-	// Event handler for the "Select All" button
-	selectAllButton.on('click', function() {
-		batchDeletionList.forEach(function(option) {
-			option.setSelected(true);
-		});
-		printSelectedOptions();
-	});
-	// Event handler for the "Clear Selection" button
-	clearSelectionButton.on('click', function() {
-		batchDeletionList.forEach(function(option) {
-			option.setSelected(false);
-		});
-		printSelectedOptions();
-	});
-	// Event handler for checkbox changes
-	batchDeletionList.forEach(function(option) {
-		option.on('change', function() {
-			printSelectedOptions();
-		});
-	});
-	// Function to update the selectedOptions array and clear console
-	function printSelectedOptions() {
-		selectedOptions = batchDeletionList.filter(function(option) {
-			return option.isSelected();
-		}).map(function(option) {
-			return option.data;
-		});
-		console.clear();
-	}
-	// Fetch JSON data containing speedy deletion reasons
-	api.get({
-		action: 'query',
-		prop: 'revisions',
-		titles: 'MediaWiki:Gadget-Adiutor-CSD.json',
-		rvprop: 'content',
-		formatversion: 2
-	}).done(function(data) {
-		// Extract speedy deletion reasons from the retrieved JSON data
-		var content = data.query.pages[0].revisions[0].content;
+	// Extract speedy deletion reasons from the retrieved JSON data
+	var content = data.query.pages[0].revisions[0].content;
 	var jsonData = JSON.parse(content);
 	var speedyDeletionReasons = jsonData.speedyDeletionReasons;
+	var csdCategoryForBatchDeletion = jsonData.csdCategoryForBatchDeletion;
+	var apiPostSummaryforTalkPage = jsonData.apiPostSummaryforTalkPage;
+	// Fetch list of pages to be considered for batch deletion from a specific category
+	api.get({
+		action: 'query',
+		list: 'categorymembers',
+		cmtitle: csdCategoryForBatchDeletion,
+		cmsort: 'timestamp',
+		cmdir: 'desc',
+		format: 'json'
+	}).done(function(data) {
+		// Process the retrieved pages and create CheckboxMultioptionWidgets for each
+		var members = data.query.categorymembers;
+		members.sort(function(a, b) {
+			return a.title.localeCompare(b.title);
+		});
+		members.forEach(function(page) {
+			batchDeletionList.push(new OO.ui.CheckboxMultioptionWidget({
+				data: page.title,
+				selected: false,
+				label: new OO.ui.HtmlSnippet(page.title + '<a style="margin-left:10px" target="_blank" href="' + page.title + '">→ ' + mw.msg('see') + '</a>')
+			}));
+		});
+		// Create a CheckboxMultiselectWidget to display the list of pages
+		var multiselectInput = new OO.ui.CheckboxMultiselectWidget({
+			items: batchDeletionList,
+		});
+		multiselectInput.$element.css({
+			'margin-top': '10px'
+		});
+		// Create a "Select All" button to select all checkboxes at once
+		var selectAllButton = new OO.ui.ButtonWidget({
+			label: mw.msg('select-all'),
+			flags: ['progressive']
+		});
+		// Create a "Clear Selection" button to clear all checkboxes at once
+		var clearSelectionButton = new OO.ui.ButtonWidget({
+			label: mw.msg('uncheck-selected')
+		});
+		// Event handler for the "Select All" button
+		selectAllButton.on('click', function() {
+			batchDeletionList.forEach(function(option) {
+				option.setSelected(true);
+			});
+			printSelectedOptions();
+		});
+		// Event handler for the "Clear Selection" button
+		clearSelectionButton.on('click', function() {
+			batchDeletionList.forEach(function(option) {
+				option.setSelected(false);
+			});
+			printSelectedOptions();
+		});
+		// Event handler for checkbox changes
+		batchDeletionList.forEach(function(option) {
+			option.on('change', function() {
+				printSelectedOptions();
+			});
+		});
+		// Function to update the selectedOptions array and clear console
+		function printSelectedOptions() {
+			selectedOptions = batchDeletionList.filter(function(option) {
+				return option.isSelected();
+			}).map(function(option) {
+				return option.data;
+			});
+			console.clear();
+		}
 		// Define a class for the Batch Deletion Dialog
 		function BatchDeletionDialog(config) {
 			BatchDeletionDialog.super.call(this, config);
@@ -209,7 +211,7 @@ api.get({
 							api.postWithToken('csrf', {
 								action: 'delete',
 								title: "Tartışma:" + pageTitle,
-								reason: '[[VP:HS#G7]]: Silinen sayfanın tartışma sayfası',
+								reason: apiPostSummaryforTalkPage,
 								tags: 'Adiutor',
 								format: 'json'
 							}).done(function() {});

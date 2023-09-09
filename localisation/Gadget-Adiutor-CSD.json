@@ -1,4 +1,4 @@
-{
+{   "//": "You can utilize the parameters within this file, which include: $1 page name, and $2 reason.",
     "speedyDeletionReasons": [
         {
             "name": "Maddeler",
@@ -390,5 +390,21 @@
                 }
             ]
         }
-    ]
+    ],
+    "csdTemplateStart": "{{sil|",
+    "csdTemplateEnd": "}}",
+    "reasonAndSeperator": "ve",
+    "speedyDeletionPolicyLink": "Vikipedi:Hızlı_silme",
+    "speedyDeletionPolicyPageShorcut": "VP:HS",
+    "apiPostSummaryforTalkPage": "[[VP:HS#G7]]: Silinen sayfanın tartışma sayfası",
+    "apiPostSummaryforLog": "[[$1]] sayfasının hızlı silme adaylığının günlük kaydı tutuluyor.",
+    "apiPostSummary": "[[$1]] sayfası için hızlı silinme talep edildi",
+    "csdNotificationTemplate": "{{subst:HS-Bildirim|1=$1|2=$2}}",
+    "talkPagePrefix": "Tartışma:",
+    "userPagePrefix": "Kullanıcı:",
+    "userTalkPagePrefix": "Kullanıcı mesaj:",
+    "localLangCode": "tr-TR",
+    "singleReasonSummary": "$2 gerekçesiyle sayfanın hızlı silinmesi talep ediliyor.",
+    "multipleReasonSummary": "$2 gerekçeleriyle sayfanın hızlı silinmesi talep ediliyor.",
+    "csdCategoryForBatchDeletion": "Kategori:Hızlı silinmeye aday sayfalar"
 }

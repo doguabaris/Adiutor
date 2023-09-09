@@ -33,6 +33,20 @@ api.get({
 		var content = data.query.pages[0].revisions[0].content;
 		var jsonData = JSON.parse(content);
 		var speedyDeletionReasons = jsonData.speedyDeletionReasons;
+		var csdTemplateStart = jsonData.csdTemplateStart;
+		var csdTemplateEnd = jsonData.csdTemplateEnd;
+		var reasonAndSeperator = jsonData.reasonAndSeperator;
+		var speedyDeletionPolicyLink = jsonData.speedyDeletionPolicyLink;
+		var speedyDeletionPolicyPageShorcut = jsonData.speedyDeletionPolicyPageShorcut;
+		var apiPostSummaryforLog = jsonData.apiPostSummaryforLog;
+		var apiPostSummary = jsonData.apiPostSummary;
+		var csdNotificationTemplate = jsonData.csdNotificationTemplate;
+		var userPagePrefix = jsonData.userPagePrefix;
+		var userTalkPagePrefix = jsonData.userTalkPagePrefix;
+		var localLangCode = jsonData.localLangCode;
+		var singleReasonSummary = jsonData.singleReasonSummary;
+		var multipleReasonSummary = jsonData.multipleReasonSummary;
+		var pageTitle = mw.config.get("wgPageName").replace(/_/g, " ");
 
 		function ProcessDialog(config) {
 			ProcessDialog.super.call(this, config);
@@ -314,7 +328,7 @@ api.get({
 		// Use the getActionProcess() method to set the modes and displayed item.
 		ProcessDialog.prototype.getActionProcess = function(action) {
 			if(action === 'policy') {
-				window.open('/wiki/Vikipedi:Hızlı_silme', '_blank');
+				window.open('/wiki/' + speedyDeletionPolicyLink + '', '_blank');
 			} else if(action === 'back') {
 				// Set the mode to edit.
 				this.actions.setMode('edit');
@@ -352,23 +366,23 @@ api.get({
 							CopVioURL = "";
 						}
 						if(CSDReasons.length > 1) {
-							var SaltCSDReason = '{{sil|';
+							var SaltCSDReason = csdTemplateStart;
 							var i = 0;
 							var keys = Object.keys(CSDReasons);
 							for(i = 0; i < keys.length; i++) {
-								if(i > 0) SaltCSDReason += (i < keys.length - 1) ? ', ' : ' ve ';
-								SaltCSDReason += '[[VP:HS#' + CSDReasons[keys[i]].value + ']]';
+								if(i > 0) SaltCSDReason += (i < keys.length - 1) ? ', ' : ' ' + reasonAndSeperator + ' ';
+								SaltCSDReason += '[[' + speedyDeletionPolicyPageShorcut + '#' + CSDReasons[keys[i]].value + ']]';
 							}
 							for(i = 0; i < keys.length; i++) {
-								if(i > 0) SaltCSDSummary += (i < keys.length - 1) ? ', ' : ' ve ';
-								SaltCSDSummary += '[[VP:HS#' + CSDReasons[keys[i]].value + ']]';
+								if(i > 0) SaltCSDSummary += (i < keys.length - 1) ? ', ' : ' ' + reasonAndSeperator + ' ';
+								SaltCSDSummary += '[[' + speedyDeletionPolicyPageShorcut + '#' + CSDReasons[keys[i]].value + ']]';
 							}
-							CSDReason = SaltCSDReason + CopVioURL + '}}';
-							CSDSummary = SaltCSDSummary + ' gerekçeleriyle sayfanın hızlı silinmesi talep ediliyor.';
+							CSDReason = SaltCSDReason + CopVioURL + csdTemplateEnd;
+							CSDSummary = replaceParameter(multipleReasonSummary, '2', SaltCSDSummary);
 						} else {
-							CSDReason = '{{sil|' + CSDReasons[0].data + CopVioURL + '}}';
-							CSDSummary = CSDReasons[0].data + ' gerekçesiyle sayfanın hızlı silinmesi talep ediliyor.';
-							SaltCSDSummary = CSDReasons[0].data;
+							CSDReason = csdTemplateStart + CSDReasons[0].data + CopVioURL + csdTemplateEnd;
+							CSDSummary = replaceParameter(singleReasonSummary, '2', CSDReasons[0].data);
+							SaltCSDSummary = replaceParameter(singleReasonSummary, '2', CSDReasons[0].data);
 						}
 						//Şablon ekleme fonksyionu çağır
 						DeletionOptions.items.forEach(function(Option) {
@@ -387,7 +401,11 @@ api.get({
 								getCreator().then(function(data) {
 									var Author = data.query.pages[mw.config.get('wgArticleId')].revisions[0].user;
 									if(!mw.util.isIPAddress(Author)) {
-										var message = '{{subst:HS-Bildirim|1=' + mwConfig.wgPageName.replace(/_/g, " ") + '|2=' + SaltCSDSummary + '}}';
+										var placeholders = {
+											$1: pageTitle,
+											$2: SaltCSDSummary,
+										};
+										var message = replacePlaceholders(csdNotificationTemplate, placeholders);
 										sendMessageToAuthor(Author, message);
 									}
 								});
@@ -421,114 +439,130 @@ api.get({
 		windowManager.addWindows([processDialog]);
 		// Open the window.
 		windowManager.openWindow(processDialog);
-	});
-});
-// Define functions below as needed
-function putCSDTemplate(CSDReason, CSDSummary) {
-	api.postWithToken('csrf', {
-		action: 'edit',
-		title: mwConfig.wgPageName,
-		prependtext: CSDReason + "\n",
-		summary: CSDSummary,
-		tags: 'Adiutor',
-		format: 'json'
-	}).done(function() {
-		adiutorUserOptions.stats.csdRequests++;
-		api.postWithEditToken({
-			action: 'globalpreferences',
-			format: 'json',
-			optionname: 'userjs-adiutor',
-			optionvalue: JSON.stringify(adiutorUserOptions),
-			formatversion: 2,
-		}).done(function() {});
-		location.reload();
-	});
-}
-
-function logCsdRequest(CSDSummary, adiutorUserOptions) {
-	if(adiutorUserOptions.speedyDeletion.csdLogNominatedPages === true) {
-		// Get the current date and format it as "Month Year"
-		var currentDate = new Date();
-		var currentMonthYear = currentDate.toLocaleString('tr-TR', {
-			month: 'long',
-			year: 'numeric'
-		});
-		// Define the section title using the current month and year
-		var sectionTitle = "== " + currentMonthYear + " ==";
-		var newContent; // Define newContent here in a higher scope
-		// Fetch the content of the page
-		api.get({
-			action: 'parse',
-			page: 'Kullanıcı:'.concat(mwConfig.wgUserName, '/' + adiutorUserOptions.speedyDeletion.csdLogPageName + '').split(' ').join('_'),
-			format: 'json',
-			prop: 'wikitext'
-		}).then(function(data) {
-			var pageContent = data.parse.wikitext['*'];
-			// Check if the section title exists in the page content
-			if(pageContent.includes(sectionTitle)) {
-				// Append the log entry just below the section
-				newContent = pageContent.replace(sectionTitle, sectionTitle + "\n" + "# '''[[:" + mwConfig.wgPageName.replace(/_/g, " ") + "|" + mwConfig.wgPageName.replace(/_/g, " ") + "]]''' " + CSDSummary + " ~~~~~");
-			} else {
-				// Create the section and append the log entry
-				newContent = pageContent + "\n\n" + sectionTitle + "\n" + "# '''[[:" + mwConfig.wgPageName.replace(/_/g, " ") + "|" + mwConfig.wgPageName.replace(/_/g, " ") + "]]''' " + CSDSummary + " ~~~~~";
-			}
-			// Perform the edit to update the page content
-			return api.postWithToken('csrf', {
-				action: 'edit',
-				title: 'Kullanıcı:'.concat(mwConfig.wgUserName, '/' + adiutorUserOptions.speedyDeletion.csdLogPageName + '').split(' ').join('_'),
-				text: newContent,
-				summary: '[[' + mwConfig.wgPageName.replace(/_/g, " ") + ']] sayfasının hızlı silme adaylığının günlük kaydı tutuluyor.',
-				tags: 'Adiutor',
-				format: 'json'
-			});
-		}).catch(function(error) {
-			// Handle the error here
-			console.error('Error:', error);
-			// If you want to retry the edit in the catch block, you can do so
+		// Define functions below as needed
+		function putCSDTemplate(CSDReason, CSDSummary) {
 			api.postWithToken('csrf', {
 				action: 'edit',
-				title: 'Kullanıcı:'.concat(mwConfig.wgUserName, '/' + adiutorUserOptions.speedyDeletion.csdLogPageName + '').split(' ').join('_'),
-				section: 'new',
-				sectiontitle: sectionTitle,
-				text: "# '''[[:" + mwConfig.wgPageName.replace(/_/g, " ") + "|" + mwConfig.wgPageName.replace(/_/g, " ") + "]]''' " + CSDSummary + " ~~~~~",
-				summary: '[[' + mwConfig.wgPageName.replace(/_/g, " ") + ']] sayfasının hızlı silme adaylığının günlük kaydı tutuluyor.',
-				format: 'json',
+				title: mwConfig.wgPageName,
+				prependtext: CSDReason + "\n",
+				summary: CSDSummary,
+				tags: 'Adiutor',
+				format: 'json'
+			}).done(function() {
+				adiutorUserOptions.stats.csdRequests++;
+				api.postWithEditToken({
+					action: 'globalpreferences',
+					format: 'json',
+					optionname: 'userjs-adiutor',
+					optionvalue: JSON.stringify(adiutorUserOptions),
+					formatversion: 2,
+				}).done(function() {});
+				location.reload();
+			});
+		}
+
+		function logCsdRequest(CSDSummary, adiutorUserOptions) {
+			if(adiutorUserOptions.speedyDeletion.csdLogNominatedPages === true) {
+				// Get the current date and format it as "Month Year"
+				var currentDate = new Date();
+				var currentMonthYear = currentDate.toLocaleString(localLangCode, {
+					month: 'long',
+					year: 'numeric'
+				});
+				// Define the section title using the current month and year
+				var sectionTitle = "== " + currentMonthYear + " ==";
+				var newContent; // Define newContent here in a higher scope
+				// Fetch the content of the page
+				api.get({
+					action: 'parse',
+					page: userPagePrefix.concat(mwConfig.wgUserName, '/' + adiutorUserOptions.speedyDeletion.csdLogPageName + '').split(' ').join('_'),
+					format: 'json',
+					prop: 'wikitext'
+				}).then(function(data) {
+					var pageContent = data.parse.wikitext['*'];
+					// Check if the section title exists in the page content
+					if(pageContent.includes(sectionTitle)) {
+						// Append the log entry just below the section
+						newContent = pageContent.replace(sectionTitle, sectionTitle + "\n" + "# '''[[:" + pageTitle + "|" + pageTitle + "]]''' " + CSDSummary + " ~~~~~");
+					} else {
+						// Create the section and append the log entry
+						newContent = pageContent + "\n\n" + sectionTitle + "\n" + "# '''[[:" + pageTitle + "|" + pageTitle + "]]''' " + CSDSummary + " ~~~~~";
+					}
+					// Perform the edit to update the page content
+					return api.postWithToken('csrf', {
+						action: 'edit',
+						title: userPagePrefix.concat(mwConfig.wgUserName, '/' + adiutorUserOptions.speedyDeletion.csdLogPageName + '').split(' ').join('_'),
+						text: newContent,
+						summary: replaceParameter(apiPostSummaryforLog, '1', pageTitle),
+						tags: 'Adiutor',
+						format: 'json'
+					});
+				}).catch(function(error) {
+					// Handle the error here
+					console.error('Error:', error);
+					// If you want to retry the edit in the catch block, you can do so
+					api.postWithToken('csrf', {
+						action: 'edit',
+						title: userPagePrefix.concat(mwConfig.wgUserName, '/' + adiutorUserOptions.speedyDeletion.csdLogPageName + '').split(' ').join('_'),
+						section: 'new',
+						sectiontitle: sectionTitle,
+						text: "# '''[[:" + pageTitle + "]]''' " + CSDSummary + " ~~~~~",
+						summary: replaceParameter(apiPostSummaryforLog, '1', pageTitle),
+						format: 'json',
+					}).done(function() {});
+				});
+			}
+		}
+
+		function getCreator() {
+			return api.get({
+				action: 'query',
+				prop: 'revisions',
+				rvlimit: 1,
+				rvprop: ['user'],
+				rvdir: 'newer',
+				titles: mwConfig.wgPageName
+			});
+		}
+
+		function sendMessageToAuthor(Author, message) {
+			api.postWithToken('csrf', {
+				action: 'edit',
+				title: userTalkPagePrefix + Author,
+				appendtext: '\n' + message,
+				summary: replaceParameter(apiPostSummary, '1', pageTitle),
+				tags: 'Adiutor',
+				format: 'json'
 			}).done(function() {});
-		});
-	}
-}
+		}
 
-function getCreator() {
-	return api.get({
-		action: 'query',
-		prop: 'revisions',
-		rvlimit: 1,
-		rvprop: ['user'],
-		rvdir: 'newer',
-		titles: mwConfig.wgPageName
+		function showProgress() {
+			var processStartedDialog = new OO.ui.MessageDialog();
+			var progressBar = new OO.ui.ProgressBarWidget();
+			var windowManager = new OO.ui.WindowManager();
+			$(document.body).append(windowManager.$element);
+			windowManager.addWindows([processStartedDialog]);
+			windowManager.openWindow(processStartedDialog, {
+				title: mw.msg('processing'),
+				message: progressBar.$element
+			});
+		}
+
+		function replacePlaceholders(input, replacements) {
+			return input.replace(/\$(\d+)/g, function(match, group) {
+				var replacement = replacements['$' + group];
+				return replacement !== undefined ? replacement : match;
+			});
+		}
+
+		function replaceParameter(input, parameterName, newValue) {
+			const regex = new RegExp('\\$' + parameterName, 'g');
+			if(input.includes('$' + parameterName)) {
+				return input.replace(regex, newValue);
+			} else {
+				return input;
+			}
+		}
 	});
-}
-
-function sendMessageToAuthor(Author, message) {
-	api.postWithToken('csrf', {
-		action: 'edit',
-		title: 'Kullanıcı_mesaj:' + Author,
-		appendtext: '\n' + message,
-		summary: '[[' + mwConfig.wgPageName.replace(/_/g, " ") + ']]' + ' sayfası için hızlı silinme talep edildi',
-		tags: 'Adiutor',
-		format: 'json'
-	}).done(function() {});
-}
-
-function showProgress() {
-	var processStartedDialog = new OO.ui.MessageDialog();
-	var progressBar = new OO.ui.ProgressBarWidget();
-	var windowManager = new OO.ui.WindowManager();
-	$(document.body).append(windowManager.$element);
-	windowManager.addWindows([processStartedDialog]);
-	windowManager.openWindow(processStartedDialog, {
-		title: mw.msg('processing'),
-		message: progressBar.$element
-	});
-}
+});
 /* </nowiki> */
