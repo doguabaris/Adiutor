@@ -6,9 +6,6 @@
  * Module: Edit summaries helper
  */
 /* <nowiki> */
-// Get essential configuration from MediaWiki
-var mwConfig = mw.config.get(["skin", "wgAction", "wgArticleId", "wgPageName", "wgNamespaceNumber", "wgTitle", "wgUserGroups", "wgUserName", "wgUserEditCount", "wgUserRegistration", "wgCanonicalNamespace"]);
-// Create an API instance
 var api = new mw.Api();
 // Get user options from Adiutor configuration
 var wikiId = mw.config.get('wgWikiID');

@@ -6,8 +6,6 @@
  * Module: Article Tagging
  */
 /* <nowiki> */
-// Get essential configuration from MediaWiki
-var mwConfig = mw.config.get(["skin", "wgAction", "wgArticleId", "wgPageName", "wgNamespaceNumber", "wgTitle", "wgUserGroups", "wgUserName", "wgUserEditCount", "wgUserRegistration", "wgCanonicalNamespace"]);
 var api = new mw.Api();
 var wikiId = mw.config.get('wgWikiID');
 var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-'+wikiId));
@@ -276,7 +274,7 @@ windowManager.openWindow(dialog);
 function tagPage(preparedTags) {
 	var editParams = {
 		action: 'edit',
-		title: mwConfig.wgPageName,
+		title: mw.config.get("wgPageName"),
 		summary: 'Sayfa etiketlendi',
 		tags: 'Adiutor',
 		format: 'json'

@@ -7,7 +7,7 @@
  */
 /* <nowiki> */
 // Get essential configuration from MediaWiki
-var mwConfig = mw.config.get(["skin", "wgAction", "wgArticleId", "wgPageName", "wgNamespaceNumber", "wgTitle", "wgUserGroups", "wgUserName", "wgUserEditCount", "wgUserRegistration", "wgCanonicalNamespace"]);
+var mwConfig = mw.config.get(["wgNamespaceNumber", "wgTitle", "wgUserGroups"]);
 var api = new mw.Api();
 var wikiId = mw.config.get('wgWikiID');
 var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-'+wikiId));

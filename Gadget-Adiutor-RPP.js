@@ -7,7 +7,6 @@
  */
 /* <nowiki> */
 // Get essential configuration from MediaWiki
-var mwConfig = mw.config.get(["wgPageName"]);
 var api = new mw.Api();
 var apiParams = {};
 var wikiId = mw.config.get('wgWikiID');
@@ -64,7 +63,7 @@ fetchApiData(function(jsonData) {
 	var contentPattern = jsonData.contentPattern;
 	var apiPostSummary = jsonData.apiPostSummary;
 	var sectionTitle = jsonData.sectionTitle;
-	var pageTitle = mwConfig.wgPageName.replace(/_/g, " ");
+	var pageTitle = mw.config.get("wgPageName").replace(/_/g, " ");
 
 	function PageProtectionDialog(config) {
 		PageProtectionDialog.super.call(this, config);
