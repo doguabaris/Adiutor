@@ -143,8 +143,8 @@ try {
 	}
 	// If so, work with the messages object.
 	mw.messages.set(messages);
-	// Load the Gadget-Adiutor-Loader.js file
-	mw.loader.load(mw.util.getUrl('MediaWiki:Gadget-Adiutor-Loader.js', {
+	// Load the Adiutor interface launcher
+	mw.loader.load(mw.util.getUrl('MediaWiki:Gadget-Adiutor-AIL.js', {
 		action: 'raw'
 	}) + '&ctype=text/javascript', 'text/javascript');
 } catch(error) {

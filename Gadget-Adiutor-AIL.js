@@ -3,7 +3,7 @@
  * Author: Vikipolimer
  * Learn more at: https://meta.wikimedia.org/wiki/Adiutor
  * Licensing and Attribution: Licensed under Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
- * Module: Loader
+ * Module: Adiutor Interface Launcher
  */
 /* <nowiki> */
 // Get essential configuration from MediaWiki
@@ -114,12 +114,12 @@ switch(mwConfig.wgNamespaceNumber) {
 						});
 					}
 				}
-				DefaultMenuItems.push(new OO.ui.MenuOptionWidget({
+				/*DefaultMenuItems.push(new OO.ui.MenuOptionWidget({
 					icon: 'lock',
 					data: 'protect',
 					label: new OO.ui.deferMsg('protect'),
 					classes: ['adiutor-top-user-menu-end'],
-				}));
+				}));*/
 			}
 			if(mwConfig.wgCanonicalSpecialPageName === 'Contributions' || mwConfig.wgNamespaceNumber === 2 || mwConfig.wgNamespaceNumber === 3 && !mwConfig.wgPageName.includes(mwConfig.wgUserName)) {
 				if(mwConfig.wgUserGroups.includes('sysop')) {
