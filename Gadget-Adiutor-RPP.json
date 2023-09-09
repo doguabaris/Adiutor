@@ -1,0 +1,35 @@
+{
+    "//": "You can utilize the parameters within this file, which include: $1 page name, $2 protection duration, $3 protection type, and $4 protection rationale",
+    "protectionDurations": [
+        {
+            "value": "temporary",
+            "data": "Geçici",
+            "label": "Geçici"
+        },
+        {
+            "value": "indefinite",
+            "data": "Süresiz",
+            "label": "Süresiz"
+        }
+    ],
+    "protectionTypes": [
+        {
+            "value": "semi-protection",
+            "data": "yarı koruma",
+            "label": "Yarı koruma"
+        },
+        {
+            "value": "full-protection",
+            "data": "tam koruma",
+            "label": "Tam koruma"
+        }
+    ],
+    "noticeBoardTitle": "Vikipedi:Sayfa koruma talepleri",
+    "addNewSection": false,
+    "sectionTitle": "[[$1|$1]] sayfası için koruma talebi",
+    "appendUnderExistSection": true,
+    "prependUnderExistSection": false,
+    "sectionID": 1,
+    "contentPattern": "\n==== {{lmad|$1}} ====\n{{SKT|tür=$2 $3|gerekçe=$4 ~~~~|yorum=|karar=}}",
+    "apiPostSummary": "[[$1|$1]] için koruma talep edildi"
+}

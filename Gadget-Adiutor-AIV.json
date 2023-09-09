@@ -70,5 +70,12 @@
             "selected": false,
             "label": "Spam amaçlı veya reklam içeren kullanıcı adı"
         }
-    ]
+    ],
+    "noticeBoardTitle": "Vikipedi:Kullanıcı engelleme talepleri",
+    "vandalTemplate": "Vandal",
+    "rationaleText": "[[$1|$1]] sayfası üzerinde $2 $3",
+    "userPagePrefix": "Kullanıcı:",
+    "userTalkPagePrefix": "Kullanıcı mesaj:",
+    "specialContibutions": "Özel:Katkılar/",
+    "apiPostSummary": "Kullanıcı raporlandı."
 }

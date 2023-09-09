@@ -7,128 +7,240 @@
  */
 /* <nowiki> */
 // Get essential configuration from MediaWiki
-var mwConfig = mw.config.get(["skin", "wgAction", "wgArticleId", "wgPageName", "wgNamespaceNumber", "wgTitle", "wgUserGroups", "wgUserName", "wgUserEditCount", "wgUserRegistration", "wgCanonicalNamespace"]);
 var api = new mw.Api();
 var wikiId = mw.config.get('wgWikiID');
-var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-'+wikiId));
-var RDRRationale, RequestRationale;
+var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-' + wikiId));
+var deletionRationale, requestRationale;
 
-function RevisionDeleteRequestDialog(config) {
-	RevisionDeleteRequestDialog.super.call(this, config);
-}
-OO.inheritClass(RevisionDeleteRequestDialog, OO.ui.ProcessDialog);
-RevisionDeleteRequestDialog.static.name = 'RevisionDeleteRequestDialog';
-RevisionDeleteRequestDialog.static.title = new OO.ui.deferMsg('rdr-module-title');
-RevisionDeleteRequestDialog.static.actions = [{
-	action: 'save',
-	label: new OO.ui.deferMsg('create'),
-	flags: ['primary', 'progressive']
-}, {
-	label: new OO.ui.deferMsg('cancel'),
-	flags: 'safe'
-}];
-RevisionDeleteRequestDialog.prototype.initialize = function() {
-	RevisionDeleteRequestDialog.super.prototype.initialize.apply(this, arguments);
-	var headerTitle = new OO.ui.MessageWidget({
-		type: 'notice',
-		inline: true,
-		label: new OO.ui.deferMsg('rdr-header-title')
-	});
-	var headerTitleDescription = new OO.ui.LabelWidget({
-		label: new OO.ui.deferMsg('rdr-header-description')
-	});
-	RequestRationale = new OO.ui.FieldsetLayout({
-		label: new OO.ui.deferMsg('rationale'),
-	});
-	RequestRationale.addItems([
-		new OO.ui.FieldLayout(new OO.ui.CheckboxInputWidget({
-			selected: false,
-			data: mw.message('rdr-rationale-1').text(),
-		}), {
-			label: mw.message('rdr-rationale-1').text(),
-			align: 'inline'
-		}),
-		new OO.ui.FieldLayout(new OO.ui.CheckboxInputWidget({
-			selected: false,
-			data: mw.message('rdr-rationale-2').text(),
-		}), {
-			label: mw.message('rdr-rationale-2').text(),
-			align: 'inline'
-		}),
-		new OO.ui.FieldLayout(new OO.ui.CheckboxInputWidget({
-			selected: false,
-			data: mw.message('rdr-rationale-3').text(),
-		}), {
-			label: mw.message('rdr-rationale-3').text(),
-			align: 'inline'
-		}), new OO.ui.FieldLayout(new OO.ui.CheckboxInputWidget({
-			selected: false,
-			data: mw.message('rdr-rationale-4').text(),
-		}), {
-			label: mw.message('rdr-rationale-4').text(),
-			align: 'inline'
-		}), new OO.ui.FieldLayout(new OO.ui.CheckboxInputWidget({
-			selected: false,
-			data: mw.message('rdr-rationale-5').text(),
-		}), {
-			label: mw.message('rdr-rationale-5').text(),
-			align: 'inline'
-		}),
-		rationaleField = new OO.ui.FieldLayout(rationaleInput = new OO.ui.MultilineTextInputWidget({
-			placeholder: mw.message('rdr-comment-placeholder').text(),
-			value: '',
-		}), {
-			label: mw.message('comment').text(),
-			align: 'inline',
-		}),
-	]);
-	var revNum = mwConfig.wgRevisionId;
-	revisionField = new OO.ui.FieldLayout(revisionNumber = new OO.ui.TextInputWidget({
-			value: revNum
-		}), {
-			label: mw.message('revision-id').text(),
-			help: mw.message('rdr-revision-id-help').text(),
-		}),
-		this.content = new OO.ui.PanelLayout({
-			padded: true,
-			expanded: false
+function fetchApiData(callback) {
+	var api = new mw.Api();
+	api.get({
+		action: "query",
+		prop: "revisions",
+		titles: "MediaWiki:Gadget-Adiutor-RDR.json",
+		rvprop: "content",
+		formatversion: 2
+	}).done(function(data) {
+		var content = data.query.pages[0].revisions[0].content;
+		try {
+			var jsonData = JSON.parse(content);
+			callback(jsonData);
+		} catch(error) {
+			// Handle JSON parsing error
+			mw.notify('Failed to parse JSON data from API.', {
+				title: mw.msg('operation-failed'),
+				type: 'error'
+			});
+		}
+	}).fail(function() {
+		// Handle API request failure
+		mw.notify('Failed to fetch data from the API.', {
+			title: mw.msg('operation-failed'),
+			type: 'error'
 		});
-	this.content.$element.append(headerTitle.$element, '<br>', headerTitleDescription.$element, '<br><hr><br>', RequestRationale.$element, '<br>', rationaleInput.$element, '<br>', revisionField.$element);
-	this.$body.append(this.content.$element);
-};
-RevisionDeleteRequestDialog.prototype.getActionProcess = function(action) {
-	var dialog = this;
-	if(action) {
-		return new OO.ui.Process(function() {
-			RequestRationale.items.forEach(function(Rationale) {
-				if(Rationale.fieldWidget.selected) {
-					RDRRationale = Rationale.fieldWidget.data;
+		// You may choose to stop code execution here
+	});
+}
+fetchApiData(function(jsonData) {
+	if(!jsonData) {
+		// Handle a case where jsonData is empty or undefined
+		mw.notify('MediaWiki:Gadget-Adiutor-UBM.json data is empty or undefined.', {
+			title: mw.msg('operation-failed'),
+			type: 'error'
+		});
+		// You may choose to stop code execution here
+		return;
+	}
+	var noticeBoardTitle = jsonData.noticeBoardTitle;
+	var noticeBoardLink = noticeBoardTitle.replace(/ /g, '_');
+	var addNewSection = jsonData.addNewSection;
+	var appendUnderExistSection = jsonData.appendUnderExistSection;
+	var prependUnderExistSection = jsonData.prependUnderExistSection;
+	var sectionID = jsonData.sectionID;
+	var contentPattern = jsonData.contentPattern;
+	var apiPostSummary = jsonData.apiPostSummary;
+	var sectionTitle = jsonData.sectionTitle;
+	var pageTitle = mw.config.get("wgPageName").replace(/_/g, " ");
+
+	function revisionDeletionRequest(config) {
+		revisionDeletionRequest.super.call(this, config);
+	}
+	OO.inheritClass(revisionDeletionRequest, OO.ui.ProcessDialog);
+	revisionDeletionRequest.static.name = 'revisionDeletionRequest';
+	revisionDeletionRequest.static.title = new OO.ui.deferMsg('rdr-module-title');
+	revisionDeletionRequest.static.actions = [{
+		action: 'save',
+		label: new OO.ui.deferMsg('create'),
+		flags: ['primary', 'progressive']
+	}, {
+		label: new OO.ui.deferMsg('cancel'),
+		flags: 'safe'
+	}];
+	revisionDeletionRequest.prototype.initialize = function() {
+		revisionDeletionRequest.super.prototype.initialize.apply(this, arguments);
+		var headerTitle = new OO.ui.MessageWidget({
+			type: 'notice',
+			inline: true,
+			label: new OO.ui.deferMsg('rdr-header-title')
+		});
+		var headerTitleDescription = new OO.ui.LabelWidget({
+			label: new OO.ui.deferMsg('rdr-header-description')
+		});
+		headerTitleDescription.$element.css({
+			"margin-top": "10px",
+			"margin-left": "30px",
+			"margin-bottom": "20px",
+		});
+		requestRationale = new OO.ui.FieldsetLayout({
+			label: new OO.ui.deferMsg('rationale'),
+		});
+		requestRationale.addItems([
+			new OO.ui.FieldLayout(new OO.ui.CheckboxInputWidget({
+				selected: false,
+				data: mw.message('rdr-rationale-1').text(),
+			}), {
+				label: mw.message('rdr-rationale-1').text(),
+				align: 'inline'
+			}),
+			new OO.ui.FieldLayout(new OO.ui.CheckboxInputWidget({
+				selected: false,
+				data: mw.message('rdr-rationale-2').text(),
+			}), {
+				label: mw.message('rdr-rationale-2').text(),
+				align: 'inline'
+			}),
+			new OO.ui.FieldLayout(new OO.ui.CheckboxInputWidget({
+				selected: false,
+				data: mw.message('rdr-rationale-3').text(),
+			}), {
+				label: mw.message('rdr-rationale-3').text(),
+				align: 'inline'
+			}), new OO.ui.FieldLayout(new OO.ui.CheckboxInputWidget({
+				selected: false,
+				data: mw.message('rdr-rationale-4').text(),
+			}), {
+				label: mw.message('rdr-rationale-4').text(),
+				align: 'inline'
+			}), new OO.ui.FieldLayout(new OO.ui.CheckboxInputWidget({
+				selected: false,
+				data: mw.message('rdr-rationale-5').text(),
+			}), {
+				label: mw.message('rdr-rationale-5').text(),
+				align: 'inline'
+			}),
+			new OO.ui.FieldLayout(commentInput = new OO.ui.MultilineTextInputWidget({
+				placeholder: mw.message('rdr-comment-placeholder').text(),
+				value: '',
+			}), {
+				label: mw.message('comment').text(),
+				align: 'inline',
+			}),
+		]);
+		revisionField = new OO.ui.FieldLayout(revisionNumber = new OO.ui.TextInputWidget({
+				value: mw.config.get("wgRevisionId")
+			}), {
+				label: mw.message('revision-id').text(),
+				help: mw.message('rdr-revision-id-help').text(),
+			}),
+			this.content = new OO.ui.PanelLayout({
+				padded: true,
+				expanded: false
+			});
+		this.content.$element.append(headerTitle.$element, headerTitleDescription.$element, requestRationale.$element, commentInput.$element, revisionField.$element);
+		this.$body.append(this.content.$element);
+	};
+	revisionDeletionRequest.prototype.getActionProcess = function(action) {
+		var dialog = this;
+		if(action) {
+			return new OO.ui.Process(function() {
+				requestRationale.items.forEach(function(Rationale) {
+					if(Rationale.fieldWidget.selected) {
+						deletionRationale = Rationale.fieldWidget.data;
+					}
+				});
+				var placeholders = {
+					$1: revisionNumber.value,
+					$2: deletionRationale,
+					$3: commentInput.value,
+				};
+				var preparedContent = replacePlaceholders(contentPattern, placeholders);
+				if(addNewSection) {
+					apiParams = {
+						action: "edit",
+						title: noticeBoardTitle,
+						section: 'new',
+						sectiontitle: replaceParameter(sectionTitle, '1', pageTitle),
+						text: preparedContent,
+						summary: replaceParameter(apiPostSummary, '1', pageTitle),
+						tags: "Adiutor",
+						format: "json"
+					};
+					api.postWithToken('csrf', apiParams).done(function() {
+						window.location = '/wiki/' + noticeBoardLink;
+					});
+				} else {
+					if(sectionID) {
+						apiParams = {
+							action: 'edit',
+							title: noticeBoardTitle,
+							section: sectionID,
+							summary: replaceParameter(apiPostSummary, '1', pageTitle),
+							tags: 'Adiutor',
+							format: 'json'
+						};
+						if(appendUnderExistSection) {
+							apiParams.appendtext = preparedContent + "\n";
+						} else if(prependUnderExistSection) {
+							apiParams.prependtext = preparedContent + "\n";
+						}
+						api.postWithToken('csrf', apiParams).done(function() {
+							window.location = '/wiki/' + noticeBoardLink;
+						});
+					} else {
+						apiParams = {
+							action: 'edit',
+							title: noticeBoardTitle,
+							summary: replaceParameter(apiPostSummary, '1', pageTitle),
+							tags: 'Adiutor',
+							format: 'json'
+						};
+						if(appendUnderExistSection) {
+							apiParams.appendtext = preparedContent + "\n";
+						} else if(prependUnderExistSection) {
+							apiParams.prependtext = preparedContent + "\n";
+						}
+						api.postWithToken('csrf', apiParams).done(function() {
+							window.location = '/wiki/' + noticeBoardLink;
+						});
+					}
 				}
+				dialog.close({
+					action: action
+				});
 			});
-			createRequest(RDRRationale, revisionNumber, rationaleInput);
-			dialog.close({
-				action: action
-			});
+		}
+		return revisionDeletionRequest.super.prototype.getActionProcess.call(this, action);
+	};
+	var windowManager = new OO.ui.WindowManager();
+	$(document.body).append(windowManager.$element);
+	var dialog = new revisionDeletionRequest();
+	windowManager.addWindows([dialog]);
+	windowManager.openWindow(dialog);
+
+	function replacePlaceholders(input, replacements) {
+		return input.replace(/\$(\d+)/g, function(match, group) {
+			var replacement = replacements['$' + group];
+			return replacement !== undefined ? replacement : match;
 		});
 	}
-	return RevisionDeleteRequestDialog.super.prototype.getActionProcess.call(this, action);
-};
-var windowManager = new OO.ui.WindowManager();
-$(document.body).append(windowManager.$element);
-var dialog = new RevisionDeleteRequestDialog();
-windowManager.addWindows([dialog]);
-windowManager.openWindow(dialog);
 
-function createRequest(RDRRationale, revisionNumber, rationaleInput) {
-	api.postWithToken('csrf', {
-		action: 'edit',
-		title: 'Vikipedi:Sürüm gizleme talepleri',
-		appendtext: "\n" + '{{kopyala:Vikipedi:Sürüm gizleme talepleri/Önyükleme-şablon |1= [[Özel:Fark/' + revisionNumber.value + ']] |2= ' + RDRRationale + ' ' + rationaleInput.value + '}}' + "\n",
-		summary: '[[VP:SGT|Sürüm gizleme talebi]] oluşturuldu',
-		tags: 'Adiutor',
-		format: 'json'
-	}).done(function() {
-		window.location = '/wiki/Vikipedi:Sürüm gizleme talepleri';
-	});
-}
+	function replaceParameter(input, parameterName, newValue) {
+		const regex = new RegExp('\\$' + parameterName, 'g');
+		if(input.includes('$' + parameterName)) {
+			return input.replace(regex, newValue);
+		} else {
+			return input;
+		}
+	}
+});
 /* </nowiki> */

@@ -1,0 +1,11 @@
+{
+    "//": "You can utilize the parameters within this file, which include: $1 page name, $2 new page name, and $3 rationale.",
+    "noticeBoardTitle": "Vikipedi:Sayfa taşıma talepleri",
+    "addNewSection": false,
+    "sectionTitle": "[[$1|$1]] sayfası için taşıma talebi",
+    "appendUnderExistSection": true,
+    "prependUnderExistSection": false,
+    "sectionID": false,
+    "contentPattern": "\n{{kopyala:Vikipedi:Sayfa taşıma talepleri/Önyükleme-şablon|1=$1|2=$2|3=$3}}",
+    "apiPostSummary": "[[$1|$1]] sayfası için taşıma talebi oluşturuldu"
+}

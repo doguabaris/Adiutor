@@ -351,5 +351,6 @@
 	"cmr-canned-response": "Hazır Cevap",
 	"related-page-required": "İlgili sayfanın girilmesi zorunludur.",
 	"warning-required": "Lütfen devam etmek için bir uyarı seçin.",
-	"additional-rationale": "Ek gerekçe"
+	"additional-rationale": "Ek gerekçe",
+	"blocked-user-removed-from-the-noticeboad": "Engellenen kullanıcı bildirim panosundan kaldırıldı"
 }

@@ -18,21 +18,59 @@ var additionalReason = '';
 var preventAccountCreationValue;
 var preventEmailSendingValue;
 var preventEditOwnTalkPageValue;
-api.get({
-	action: "query",
-	prop: "revisions",
-	titles: "MediaWiki:Gadget-Adiutor-UBM.json",
-	rvprop: "content",
-	formatversion: 2
-}).done(function(data) {
-	var content = data.query.pages[0].revisions[0].content;
-	var jsonData = JSON.parse(content);
+
+function fetchApiData(callback) {
+	var api = new mw.Api();
+	api.get({
+		action: "query",
+		prop: "revisions",
+		titles: "MediaWiki:Gadget-Adiutor-UBM.json",
+		rvprop: "content",
+		formatversion: 2
+	}).done(function(data) {
+		var content = data.query.pages[0].revisions[0].content;
+		try {
+			var jsonData = JSON.parse(content);
+			callback(jsonData);
+		} catch(error) {
+			// Handle JSON parsing error
+			mw.notify('Failed to parse JSON data from API.', {
+				title: mw.msg('operation-failed'),
+				type: 'error'
+			});
+		}
+	}).fail(function() {
+		// Handle API request failure
+		mw.notify('Failed to fetch data from the API.', {
+			title: mw.msg('operation-failed'),
+			type: 'error'
+		});
+		// You may choose to stop code execution here
+	});
+}
+fetchApiData(function(jsonData) {
+	if(!jsonData) {
+		// Handle a case where jsonData is empty or undefined
+		mw.notify('MediaWiki:Gadget-Adiutor-UBM.json data is empty or undefined.', {
+			title: mw.msg('operation-failed'),
+			type: 'error'
+		});
+		// You may choose to stop code execution here
+		return;
+	}
 	var blockDurations = jsonData.blockDurations;
 	var blockReasons = jsonData.blockReasons;
 	var userPagePrefix = jsonData.userPagePrefix;
 	var userTalkPagePrefix = jsonData.userTalkPagePrefix;
 	var specialContibutions = jsonData.specialContibutions;
-	var userToBlock = userTalkPagePrefix + mwConfig.wgPageName.replace(/_/g, " ").replace(userPagePrefix, '').replace(specialContibutions, '').replace(userTalkPagePrefix, '');
+	var noticeBoardTitle = jsonData.noticeBoardTitle;
+	var apiPostSummary = jsonData.apiPostSummary;
+	var userToBlock = window.adiutorUserToBlock;
+	var headlineElement = window.headlineElement;
+	var sectionID = window.sectionID;
+	if(!userToBlock) {
+		userToBlock = getFormattedPageName();
+	}
 
 	function UserBlockDialog(config) {
 		UserBlockDialog.super.call(this, config);
@@ -76,6 +114,10 @@ api.get({
 			},
 			label: mw.message('choose-duration').text(),
 		});
+		durationDropdown.on('change', function(value) {
+			console.log('Dropdown changed:', value);
+			duration = value;
+		});
 		// Create an input field for the block reason
 		var reasonInput = new OO.ui.MultilineTextInputWidget({
 			placeholder: mw.message('please-choose-block-rationale').text()
@@ -91,12 +133,11 @@ api.get({
 			},
 			label: mw.message('choose-reason').text()
 		});
-		// Add a listener for the change event of durationDropdown
-		durationDropdown.on('change', function(value) {
-			duration = value;
+		durationDropdown.getMenu().on('choose', function(menuOption) {
+			duration = menuOption.data;
 		});
-		reasonDropdown.on('change', function(value) {
-			blockReason = value;
+		reasonDropdown.getMenu().on('choose', function(menuOption) {
+			blockReason = menuOption.data;
 		});
 		reasonInput.on('change', function() {
 			additionalReason = ' | ' + mw.msg('additional-rationale') + ': ' + reasonInput.value;
@@ -119,11 +160,9 @@ api.get({
 				padded: true // Add padding
 			});
 		additionalOptionsFieldset.$element.addClass('additional-options-fieldset'); // Add a CSS class
-		mw.util.addCSS(`
-					.additional-options-fieldset {
-						margin-top: 20px; 
-					}
-				`);
+		additionalOptionsFieldset.$element.css({
+			"margin-top": "20px",
+		});
 		additionalOptionsFieldset.addItems([
 			new OO.ui.FieldLayout(preventAccountCreationCheckbox, {
 				label: mw.message('prevent-account-creation').text(),
@@ -185,7 +224,7 @@ api.get({
 				function CheckDurationAndRationaleMessageDialog(config) {
 					CheckDurationAndRationaleMessageDialog.super.call(this, config);
 				}
-				if (userToBlock === mwConfig.wgUserName) {
+				if(userToBlock.includes(mwConfig.wgUserName)) {
 					mw.notify(mw.message('you-can-not-block-yourself').text(), {
 						title: mw.msg('operation-completed'),
 						type: 'error'
@@ -243,12 +282,28 @@ api.get({
 								title: mw.msg('operation-completed'),
 								type: 'success'
 							});
+							if(sectionID) {
+								api.postWithToken('csrf', {
+									action: 'edit',
+									title: noticeBoardTitle,
+									section: sectionID,
+									text: '',
+									summary: apiPostSummary,
+									tags: 'Adiutor',
+									format: 'json'
+								}).done(function() {
+									if(headlineElement) {
+										headlineElement.css('text-decoration', 'line-through');
+									}
+								});
+							}
 						}).fail(function(error) {
 							mw.notify(error, {
 								title: mw.msg('operation-failed'),
 								type: 'error'
 							});
 						});
+						console.log(userToBlock);
 						BlockingDialog.close();
 					}
 				}
@@ -266,5 +321,10 @@ api.get({
 	});
 	windowManager.addWindows([BlockingDialog]);
 	windowManager.openWindow(BlockingDialog);
+
+	function getFormattedPageName() {
+		var cleanedPageName = mwConfig.wgPageName.replace(/_/g, " ").replace(userPagePrefix, '').replace(specialContibutions, '').replace(userTalkPagePrefix, '');
+		return cleanedPageName;
+	}
 });
 /* </nowiki> */

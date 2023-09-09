@@ -15,17 +15,56 @@ VandalizedPage.value = null;
 var revisionID = {};
 revisionID.value = null;
 var sockpuppeteerInput;
-api.get({
-	action: "query",
-	prop: "revisions",
-	titles: "MediaWiki:Gadget-Adiutor-AIV.json",
-	rvprop: "content",
-	formatversion: 2
-}).done(function(data) {
-	var content = data.query.pages[0].revisions[0].content;
-	var jsonData = JSON.parse(content);
+
+function fetchApiData(callback) {
+	var api = new mw.Api();
+	api.get({
+		action: "query",
+		prop: "revisions",
+		titles: "MediaWiki:Gadget-Adiutor-AIV.json",
+		rvprop: "content",
+		formatversion: 2
+	}).done(function(data) {
+		var content = data.query.pages[0].revisions[0].content;
+		try {
+			var jsonData = JSON.parse(content);
+			callback(jsonData);
+		} catch(error) {
+			// Handle JSON parsing error
+			mw.notify('Failed to parse JSON data from API.', {
+				title: mw.msg('operation-failed'),
+				type: 'error'
+			});
+		}
+	}).fail(function() {
+		// Handle API request failure
+		mw.notify('Failed to fetch data from the API.', {
+			title: mw.msg('operation-failed'),
+			type: 'error'
+		});
+		// You may choose to stop code execution here
+	});
+}
+fetchApiData(function(jsonData) {
+	if(!jsonData) {
+		// Handle a case where jsonData is empty or undefined
+		mw.notify('MediaWiki:Gadget-Adiutor-WRN.json data is empty or undefined.', {
+			title: mw.msg('operation-failed'),
+			type: 'error'
+		});
+		// You may choose to stop code execution here
+		return;
+	}
 	var reportRationales = jsonData.reportRationales;
-	console.log(reportRationales);
+	var noticeBoardTitle = jsonData.noticeBoardTitle;
+	var noticeBoardLink = noticeBoardTitle.replace(/ /g, '_');
+	var vandalTemplate = jsonData.vandalTemplate;
+	var apiPostSummary = jsonData.apiPostSummary;
+	var userPagePrefix = jsonData.userPagePrefix;
+	var userTalkPagePrefix = jsonData.userTalkPagePrefix;
+	var specialContibutions = jsonData.specialContibutions;
+	var rationaleText = jsonData.rationaleText;
+	var userReported = getFormattedPageName();
 
 	function AivDialog(config) {
 		AivDialog.super.call(this, config);
@@ -221,11 +260,11 @@ api.get({
 								return "\n* {{checkuser|" + value + "}}";
 							});
 							var formattedSockpuppets = sockpuppets.join("");
-							preparedText = "=== " + getFormattedPageName() + " === \n* {{checkuser|" + getFormattedPageName() + "}}" + formattedSockpuppets + "\n" + evidenceTextInput.value + " ~~~~";
-							postSockpuppetRequest(getFormattedPageName());
+							preparedText = "=== " + userReported + " === \n* {{checkuser|" + userReported + "}}" + formattedSockpuppets + "\n" + evidenceTextInput.value + " ~~~~";
+							postSockpuppetRequest(userReported);
 							break;
 						case "sockpuppet":
-							preparedText = "=== " + sockpuppeteerInput.value + " === \n* {{checkuser|" + sockpuppeteerInput.value + "}}  \n* {{checkuser|" + getFormattedPageName() + "}}\n" + evidenceTextInput.value + ". ~~~~";
+							preparedText = "=== " + sockpuppeteerInput.value + " === \n* {{checkuser|" + sockpuppeteerInput.value + "}}  \n* {{checkuser|" + userReported + "}}\n" + evidenceTextInput.value + ". ~~~~";
 							postSockpuppetRequest(sockpuppeteerInput.value);
 							break;
 					}
@@ -234,12 +273,14 @@ api.get({
 					if(RequestRationale) {
 						var rationaleInput = findSelectedRationale();
 						if(rationaleInput) {
-							var VandalizedPageInput = VandalizedPage.value ? "[[" + VandalizedPage.value + "]] sayfası üzerinde " : "";
-							var revId = revisionID.value ? "([[Özel:Fark/" + revisionID.value + "|fark]]) " : "";
-							preparedText = '{{kopyala:Vikipedi:Kullanıcı engelleme talepleri/Önyükleme-şablon |1= ' + getFormattedPageName() + ' |2=' + VandalizedPageInput + revId + rationaleInput + '}}';
+							var rationale = rationaleText.replace(/\$1/g, VandalizedPage.value).replace(/\$2/g, revisionID.value ? '([[Special:Diff|' + revisionID.value + ']])' : '').replace(/\$3/g, rationaleInput);
+							preparedText = '{{subst:' + vandalTemplate + '|' + userReported + '}}\n' + rationale + ' ~~~~';
 							postRegularReport();
 						} else {
-							OO.ui.alert(new OO.ui.deferMsg("select-rationale")).done(function() {});
+							mw.notify(mw.msg('select-rationale'), {
+								title: mw.msg('operation-failed'),
+								type: 'warning'
+							});
 						}
 					}
 					break;
@@ -249,7 +290,8 @@ api.get({
 	};
 
 	function getFormattedPageName() {
-		return mwConfig.wgPageName.replace(/_/g, " ").replace("Kullanıcı:", "").replace("Özel:Katkılar/", "");
+		var cleanedPageName = mwConfig.wgPageName.replace(/_/g, " ").replace(userPagePrefix, '').replace(specialContibutions, '').replace(userTalkPagePrefix, '');
+		return cleanedPageName;
 	}
 
 	function postSockpuppetRequest(sockpuppeteer) {
@@ -287,9 +329,11 @@ api.get({
 	function postRegularReport() {
 		api.postWithToken("csrf", {
 			action: "edit",
-			title: "Vikipedi:Kullanıcı engelleme talepleri",
-			appendtext: "\n" + preparedText + "\n",
-			summary: "[[Kullanıcı:" + getFormattedPageName() + "]] raporlandı.",
+			title: noticeBoardTitle,
+			section: 'new',
+			sectiontitle: userReported,
+			text: preparedText,
+			summary: apiPostSummary,
 			tags: "Adiutor",
 			format: "json"
 		}).done(function() {
@@ -301,7 +345,7 @@ api.get({
 				optionvalue: JSON.stringify(adiutorUserOptions),
 				formatversion: 2
 			}).done(function() {});
-			window.location = "/wiki/Vikipedi:Kullanıcı engelleme talepleri";
+			window.location = "/wiki/" + noticeBoardLink;
 		});
 	}
 	var windowManager = new OO.ui.WindowManager();

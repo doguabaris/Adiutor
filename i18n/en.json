@@ -351,5 +351,6 @@
     "cmr-canned-response": "Canned Response",
     "related-page-required": "Please enter the related page.",
     "warning-required": "Please select a warning to proceed.",
-    "additional-rationale": "Additional rationale"
+    "additional-rationale": "Additional rationale",
+    "blocked-user-removed-from-the-noticeboad": "Blocked user has been removed from the noticeboad"
 }

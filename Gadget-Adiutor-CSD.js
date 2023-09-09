@@ -398,13 +398,9 @@ api.get({
 						showProgress();
 						dialog.close();
 					} else {
-						var messageDialog = new OO.ui.MessageDialog();
-						var windowManager = new OO.ui.WindowManager();
-						$(document.body).append(windowManager.$element);
-						windowManager.addWindows([messageDialog]);
-						windowManager.openWindow(messageDialog, {
+						mw.notify(mw.message('select-speedy-deletion-reason').text(), {
 							title: mw.msg('warning'),
-							message: mw.msg('select-speedy-deletion-reason')
+							type: 'error'
 						});
 					}
 				});

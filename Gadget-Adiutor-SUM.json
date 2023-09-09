@@ -1,0 +1,38 @@
+{
+    "summaryCategories": {
+        "general": [
+            "Yazım hatası düzeltildi",
+            "Üslup iyileştirildi",
+            "Medya içeriği eklendi",
+            "Ufak düzenleme yapıldı",
+            "Geniş kapsamlı düzenleme gerçekleştirildi, [[Şablon:Düzenle|Düzenle]] şablonu kaldırıldı",
+            "Bağlantı düzeltilmesi",
+            "Güncelleme yapıldı",
+            "Kaynak ekleme/iyileştirme yapıldı",
+            "İçerik genişletildi",
+            "Dış bağlantı(lar) eklendi/değiştirildi",
+            "Kategori(ler) eklendi/değiştirildi",
+            "Interwiki/kategori eklendi/değiştirildi"
+        ],
+        "article": [
+            "Silinmiş Commmons dosyası çıkarıldı",
+            "Telif hakkı ihlali tespit edildi",
+            "Ansiklopedik olmayan içerik çıkarıldı",
+            "İlgisiz kategori(ler) kaldırıldı",
+            "İlgisiz dış bağlantı(lar) çıkarıldı",
+            "İlgisiz dil bağlantıları kaldırıldı",
+            "Kaynağı olmayan içerik çıkarıldı",
+            "Reklam amacı taşıyan veya ilgisiz dış bağlantı çıkarıldı",
+            "Temizleme yapıldı"
+        ],
+        "nonArticle": [
+            "Yanıt verildi",
+            "Yorum eklendi",
+            "Öneri sunuldu"
+        ],
+        "talkPage": [
+            "[[Vikipedi:Vikiproje|Vikiproje]] işareti eklendi",
+            "[[Vikipedi:Vikiproje|Vikiproje]] değerlendirmesi yapıldı"
+        ]
+    }
+}

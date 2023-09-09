@@ -340,13 +340,9 @@ api.get({
 									location.reload();
 								});
 							} else {
-								var messageDialog = new OO.ui.MessageDialog();
-								var windowManager = new OO.ui.WindowManager();
-								$(document.body).append(windowManager.$element);
-								windowManager.addWindows([messageDialog]);
-								windowManager.openWindow(messageDialog, {
+								mw.notify(mw.message('select-speedy-deletion-reason').text(), {
 									title: mw.msg('warning'),
-									message: mw.msg('select-speedy-deletion-reason')
+									type: 'error'
 								});
 							}
 						});
@@ -364,8 +360,10 @@ api.get({
 			});
 		});
 	} else {
-		// Sayfa mevcut değilse, hata mesajı göster
-		alert(mw.msg('page-not-found'));
+		mw.notify(mw.message('page-not-found').text(), {
+			title: mw.msg('warning'),
+			type: 'error'
+		});
 	}
 }).catch(error => {
 	console.error("API hatası:", error);

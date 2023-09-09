@@ -1,0 +1,11 @@
+{
+    "//": "You can utilize the parameters within this file, which include: $1 revisionNumber, $2 rationale, and $3 comment.",
+    "noticeBoardTitle": "Vikipedi:Sürüm gizleme talepleri",
+    "addNewSection": true,
+    "sectionTitle": "{{subst:LOCALDAY2}}-{{subst:LOCALMONTH}}-{{subst:LOCALYEAR}} {{subst:CURRENTTIME}}",
+    "appendUnderExistSection": false,
+    "prependUnderExistSection": false,
+    "sectionID": false,
+    "contentPattern": "*'''Revizyon:''' [[Özel:Fark/$1]]\n*'''Gerekçe:''' $2\n*'''Yorum:''' $3 ~~~~\n*'''Sonuç:'''",
+    "apiPostSummary": "[[$1|$1]] sayfası için sürüm gizleme talebi oluşturuldu"
+}

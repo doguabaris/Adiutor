@@ -10,7 +10,7 @@
 var mwConfig = mw.config.get(["skin", "wgAction", "wgArticleId", "wgPageName", "wgNamespaceNumber", "wgUserName", "wgTitle", "wgUserGroups", "wgUserEditCount", "wgUserRegistration", "wgRelevantUserName", "wgCanonicalNamespace", "wgCanonicalSpecialPageName"]);
 var api = new mw.Api();
 var wikiId = mw.config.get('wgWikiID');
-var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-'+wikiId));
+var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-' + wikiId));
 var DefaultMenuItems = [];
 switch(mwConfig.wgNamespaceNumber) {
 	case -1:
@@ -61,6 +61,57 @@ switch(mwConfig.wgNamespaceNumber) {
 							flags: ['destructive'],
 							classes: ['adiutor-top-user-menu-end'],
 						}));
+					}
+					if(mwConfig.wgPageName.includes('Kullanıcı_engelleme_talepleri')) {
+						$('.mw-editsection-like').each(function() {
+							blockButtonGroup = new OO.ui.ButtonGroupWidget({
+								items: [
+									blockedAlready = new OO.ui.ButtonWidget({
+										framed: false,
+										icon: 'tray',
+										label: mw.msg('blocked'),
+									}),
+									blockThisUser = new OO.ui.ButtonWidget({
+										framed: false,
+										flags: ['destructive'],
+										icon: 'block',
+										label: mw.msg('block-button-label'),
+									})
+								]
+							});
+							blockButtonGroup.$element.css({
+								'margin-left': '20px'
+							});
+							$(this).append(blockButtonGroup.$element);
+							blockThisUser.on('click', () => {
+								var sectionElement = $(this).closest('.ext-discussiontools-init-section');
+								var headlineElement = sectionElement.find('.mw-headline');
+								var headlineText = headlineElement.text();
+								var dateRegex = /\d{2}-\d{2}-\d{4}/;
+								window.adiutorUserToBlock = headlineText.replace(dateRegex, '').trim();
+								var sectionID = new URL(sectionElement.find('.mw-editsection a').attr('href')).searchParams.get('section');
+								window.sectionID = sectionID;
+								window.headlineElement = headlineElement;
+								loadAdiutorScript('UBM');
+							});
+							blockedAlready.on('click', () => {
+								var sectionElement = $(this).closest('.ext-discussiontools-init-section');
+								var headlineElement = sectionElement.find('.mw-headline');
+								var sectionID = new URL(sectionElement.find('.mw-editsection a').attr('href')).searchParams.get('section');
+								window.sectionID = sectionID;
+								api.postWithToken('csrf', {
+									action: 'edit',
+									title: mwConfig.wgPageName,
+									section: sectionID,
+									text: '',
+									summary: mw.msg('blocked-user-removed-from-the-noticeboad'),
+									tags: 'Adiutor',
+									format: 'json'
+								}).done(function() {
+									headlineElement.css('text-decoration', 'line-through');
+								});
+							});
+						});
 					}
 				}
 				DefaultMenuItems.push(new OO.ui.MenuOptionWidget({
@@ -226,7 +277,10 @@ switch(mwConfig.wgNamespaceNumber) {
 				window.location = '/w/index.php?title=' + mwConfig.wgPageName + "&diff=cur&oldid=prev&diffmode=source";
 			} else if(selectedOption === 'welcome') {
 				// Show an alert for the 'welcome' option
-				OO.ui.alert('Coming soon :)').done(function() {});
+				mw.notify('Coming soon :)'.text(), {
+					title: mw.msg('warning'),
+					type: 'warning'
+				});
 			} else {
 				// Load the Adiutor script based on the selected option
 				loadAdiutorScript(selectedOption);

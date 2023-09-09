@@ -139,8 +139,10 @@
             "label": "Israrlı VP:YİB ihlali"
         }
     ],
+    "noticeBoardTitle": "Vikipedi:Kullanıcı engelleme talepleri",
     "warningMessageTitle": "Uyarı!",
     "userPagePrefix": "Kullanıcı:",
     "userTalkPagePrefix": "Kullanıcı mesaj:",
-    "specialContibutions": "Özel:Katkılar/"
+    "specialContibutions": "Özel:Katkılar/",
+    "apiPostSummary": "Engellenen kullanıcı listeden çıkarıldı."
 }
