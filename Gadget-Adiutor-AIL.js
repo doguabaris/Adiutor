@@ -11,7 +11,12 @@ var mwConfig = mw.config.get(["skin", "wgAction", "wgArticleId", "wgPageName", "
 var api = new mw.Api();
 var wikiId = mw.config.get('wgWikiID');
 var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-' + wikiId));
-var DefaultMenuItems = [];
+var defaultMenuItems = [];
+var noticeBoards = {
+	csdCategory: "Hızlı_silinmeye_aday_sayfalar",
+	userBlockRequestNoticeBoard: "Kullanıcı_engelleme_talepleri",
+	afdNoticeBoard: "Silinmeye_aday_sayfalar"
+};
 switch(mwConfig.wgNamespaceNumber) {
 	case -1:
 	case 0:
@@ -45,7 +50,7 @@ switch(mwConfig.wgNamespaceNumber) {
 		}
 		if(mwConfig.wgUserGroups.includes('sysop')) {
 			if(!mwConfig.wgCanonicalSpecialPageName) {
-				DefaultMenuItems.push(new OO.ui.MenuOptionWidget({
+				defaultMenuItems.push(new OO.ui.MenuOptionWidget({
 					icon: 'trash',
 					data: 'delete',
 					label: new OO.ui.deferMsg('delete'),
@@ -53,8 +58,8 @@ switch(mwConfig.wgNamespaceNumber) {
 					classes: ['adiutor-top-user-menu-end'],
 				}));
 				if(mwConfig.wgNamespaceNumber != 0) {
-					if(mwConfig.wgPageName.includes('Hızlı_silinmeye_aday_sayfalar')) {
-						DefaultMenuItems.push(new OO.ui.MenuOptionWidget({
+					if(mwConfig.wgPageName.includes(noticeBoards.csdCategory)) {
+						defaultMenuItems.push(new OO.ui.MenuOptionWidget({
 							icon: 'trash',
 							data: 'batch-delete',
 							label: new OO.ui.deferMsg('batch-delete'),
@@ -62,7 +67,7 @@ switch(mwConfig.wgNamespaceNumber) {
 							classes: ['adiutor-top-user-menu-end'],
 						}));
 					}
-					if(mwConfig.wgPageName.includes('Kullanıcı_engelleme_talepleri')) {
+					if(mwConfig.wgPageName.includes(noticeBoards.userBlockRequestNoticeBoard)) {
 						$('.mw-editsection-like').each(function() {
 							blockButtonGroup = new OO.ui.ButtonGroupWidget({
 								items: [
@@ -114,16 +119,10 @@ switch(mwConfig.wgNamespaceNumber) {
 						});
 					}
 				}
-				/*DefaultMenuItems.push(new OO.ui.MenuOptionWidget({
-					icon: 'lock',
-					data: 'protect',
-					label: new OO.ui.deferMsg('protect'),
-					classes: ['adiutor-top-user-menu-end'],
-				}));*/
 			}
 			if(mwConfig.wgCanonicalSpecialPageName === 'Contributions' || mwConfig.wgNamespaceNumber === 2 || mwConfig.wgNamespaceNumber === 3 && !mwConfig.wgPageName.includes(mwConfig.wgUserName)) {
 				if(mwConfig.wgUserGroups.includes('sysop')) {
-					DefaultMenuItems.push(new OO.ui.MenuOptionWidget({
+					defaultMenuItems.push(new OO.ui.MenuOptionWidget({
 						icon: 'block',
 						data: 'block',
 						label: new OO.ui.deferMsg('block'),
@@ -134,7 +133,7 @@ switch(mwConfig.wgNamespaceNumber) {
 		}
 		if(mwConfig.wgUserGroups.includes('sysop')) {
 			if(/(?:\?|&)(?:action|diff|oldid)=/.test(window.location.href)) {
-				DefaultMenuItems.push(new OO.ui.MenuOptionWidget({
+				defaultMenuItems.push(new OO.ui.MenuOptionWidget({
 					icon: 'cancel',
 					data: 'rdr',
 					label: new OO.ui.deferMsg('create-revision-deletion-request'),
@@ -144,7 +143,7 @@ switch(mwConfig.wgNamespaceNumber) {
 		}
 		if(mwConfig.wgCanonicalSpecialPageName === 'Contributions' || mwConfig.wgNamespaceNumber === 2 || mwConfig.wgNamespaceNumber === 3 && !mwConfig.wgPageName.includes(mwConfig.wgUserName)) {
 			// Add common buttons
-			DefaultMenuItems.push(new OO.ui.MenuOptionWidget({
+			defaultMenuItems.push(new OO.ui.MenuOptionWidget({
 				icon: 'cancel',
 				data: 'report',
 				label: new OO.ui.deferMsg('report'),
@@ -157,7 +156,7 @@ switch(mwConfig.wgNamespaceNumber) {
 			}));
 		}
 		if(!mwConfig.wgCanonicalSpecialPageName) {
-			DefaultMenuItems.push(new OO.ui.MenuOptionWidget({
+			defaultMenuItems.push(new OO.ui.MenuOptionWidget({
 				icon: 'add',
 				data: 1,
 				label: mw.msg('create-speedy-deletion-request'),
@@ -201,7 +200,7 @@ switch(mwConfig.wgNamespaceNumber) {
 			}));
 		}
 		if(mwConfig.wgCanonicalSpecialPageName) {
-			DefaultMenuItems.push(new OO.ui.MenuOptionWidget({
+			defaultMenuItems.push(new OO.ui.MenuOptionWidget({
 				icon: 'settings',
 				data: 6,
 				label: mw.msg('adiutor-settings'),
@@ -217,7 +216,7 @@ switch(mwConfig.wgNamespaceNumber) {
 			classes: ['adiutor-top-selector', 'mw-indicator'],
 			menu: {
 				horizontalPosition: 'end',
-				items: DefaultMenuItems,
+				items: defaultMenuItems,
 				classes: ['adiutor-top-menu'],
 			}
 		});
@@ -297,7 +296,7 @@ switch(mwConfig.wgNamespaceNumber) {
 				}
 			}
 			if(mwConfig.wgNamespaceNumber === 4) {
-				if(mwConfig.wgPageName.includes('Silinmeye_aday_sayfalar')) {
+				if(mwConfig.wgPageName.includes(noticeBoards.afdNoticeBoard)) {
 					loadAdiutorScript('AFD-Helper');
 				}
 			}
@@ -321,17 +320,17 @@ switch(mwConfig.wgNamespaceNumber) {
 			break;
 		}
 }
-var AdiutorDashboardIcon = new OO.ui.ToggleButtonWidget({
+var adiutorDashboardIcon = new OO.ui.ToggleButtonWidget({
 	icon: 'infoFilled',
 	label: 'pin',
 	invisibleLabel: true,
 	framed: false
 });
-AdiutorDashboardIcon.on('click', function() {
+adiutorDashboardIcon.on('click', function() {
 	// Load the Adiutor Dashboard script using the loadAdiutorScript function
 	loadAdiutorScript('DAS');
 });
-var adiutorIconContainer = $('<li>').append(AdiutorDashboardIcon.$element);
+var adiutorIconContainer = $('<li>').append(adiutorDashboardIcon.$element);
 switch(mwConfig.skin) {
 	case 'vector':
 		$('#pt-notifications-notice').after(adiutorIconContainer);
@@ -386,15 +385,15 @@ if(adiutorUserOptions.myWorks.length > 0) {
 }
 // Add the items to the myWorks fieldset
 myWorks.addItems(items);
-var TopSearch = new OO.ui.TextInputWidget({
+var topSearch = new OO.ui.TextInputWidget({
 	placeholder: mw.msg('search-article'), // Add placeholder text
 	classes: ['articles-worked-on-popup-search-box'],
 });
 if(adiutorUserOptions.myWorks.length) {
-	myWorks.addItems(TopSearch);
+	myWorks.addItems(topSearch);
 }
 myWorks.addItems(items);
-var FooterButtonsGroup = new OO.ui.ButtonGroupWidget({
+var footerButtonsGroup = new OO.ui.ButtonGroupWidget({
 	items: [
 		new OO.ui.ButtonWidget({
 			label: mw.msg('clear'),
@@ -413,7 +412,7 @@ var FooterButtonsGroup = new OO.ui.ButtonGroupWidget({
 	],
 	classes: ['articles-worked-on-popup-footer-buttons']
 });
-var WorkListButton = new OO.ui.PopupButtonWidget({
+var workListButton = new OO.ui.PopupButtonWidget({
 	icon: 'flag',
 	framed: false,
 	label: mw.msg('works'),
@@ -427,13 +426,13 @@ var WorkListButton = new OO.ui.PopupButtonWidget({
 		padded: false,
 		align: 'center',
 		autoFlip: true,
-		$footer: (FooterButtonsGroup.$element),
+		$footer: (footerButtonsGroup.$element),
 		classes: ['articles-worked-on-popup'],
 	}
 });
 // Listen to search input and show/hide articles
-TopSearch.on('change', function() {
-	var query = TopSearch.getValue().toLowerCase();
+topSearch.on('change', function() {
+	var query = topSearch.getValue().toLowerCase();
 	items.forEach(function(articleWidget) {
 		var articleLabel = articleWidget.getLabel().toLowerCase();
 		if(articleLabel.includes(query)) {
@@ -443,7 +442,7 @@ TopSearch.on('change', function() {
 		}
 	});
 });
-$('#pt-notifications-notice').after($('<li>').append(WorkListButton.$element));
+$('#pt-notifications-notice').after($('<li>').append(workListButton.$element));
 if(adiutorUserOptions.showEditSummaries === true) {
 	loadAdiutorScript('SUM');
 }

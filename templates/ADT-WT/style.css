@@ -1,0 +1,86 @@
+/* Add these codes to MediaWiki:Common.css page. */
+/* The following lines are used by Adiutor */
+
+/* General styles */
+.ADT-WT-H {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    background: white;
+    padding-left: 20px;
+    background-repeat: no-repeat;
+    background-position: 98% 50%;
+    background-size: 32px;
+}
+
+.ADT-WT-B {
+    padding: 18px;
+}
+
+.ADT-WT-F {
+    padding: 18px;
+    border-top: none;
+    padding-top: 20px;
+    margin-top: -10px;
+    padding-bottom: 10px;
+}
+
+/* Header styles */
+.ADT-H-L1 {
+    border-top: 5px solid #3067cd;
+    border-left: 1px solid #3067cd;
+    border-right: 1px solid #3067cd;
+    background-image: url(https://upload.wikimedia.org/wikipedia/commons/3/37/Eo_circle_blue_info.svg);
+}
+
+.ADT-H-L2 {
+    border-top: 5px solid #ff5d01;
+    border-left: 1px solid #ff5d01;
+    border-right: 1px solid #ff5d01;
+    background-image: url(https://upload.wikimedia.org/wikipedia/commons/4/4c/OOjs_UI_icon_notice-warning.svg);
+}
+
+.ADT-H-L3 {
+    border-top: 5px solid #dd312f;
+    border-left: 1px solid #dd312f;
+    border-right: 1px solid #dd312f;
+    background-image: url(https://upload.wikimedia.org/wikipedia/commons/b/bf/OOjs_UI_icon_notice-destructive.svg);
+}
+
+/* Header content styles */
+.ADT-B-L1 {
+    border: 1px solid #3067cd;
+    border-bottom: none;
+}
+
+.ADT-B-L2 {
+    border: 1px solid #ff5d01;
+    border-bottom: none;
+}
+
+.ADT-B-L3 {
+    border: 1px solid #dd312f;
+    border-bottom: none;
+}
+
+/* Footer styles */
+.ADT-WT-F {
+    padding: 18px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: right;
+}
+
+/* Footer content styles */
+.ADT-F-L1 {
+    border: 1px solid #3067cd;
+}
+
+.ADT-F-L2 {
+    border: 1px solid #ff5d01;
+}
+
+.ADT-F-L3 {
+    border: 1px solid #dd312f;
+}
+
+/* The above lines are used by Adiutor */
