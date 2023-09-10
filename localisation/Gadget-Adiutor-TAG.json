@@ -222,7 +222,7 @@
                 },
                 {
                     "tag": "Güncel kişi",
-                    "description": "bu kişi güncel bir olaya konu olmuştur"
+                    "description": "Bu kişi güncel bir olaya konu olmuştur"
                 },
                 {
                     "tag": "Güncelle",
@@ -250,7 +250,7 @@
                 },
                 {
                     "tag": "Taraflı",
-                    "description": "bu madde taraflı olabilir"
+                    "description": "Bu madde taraflı olabilir"
                 },
                 {
                     "tag": "Tartışmalı",
@@ -343,7 +343,7 @@
                 },
                 {
                     "tag": "Öksüz",
-                    "description": "herhangi bir maddeden bu maddeye verilmiş bir bağlantı yok"
+                    "description": "Herhangi bir maddeden bu maddeye verilmiş bir bağlantı yok"
                 },
                 {
                     "tag": "Dipnotsuz",
@@ -359,7 +359,7 @@
                 },
                 {
                     "tag": "Kategorisiz",
-                    "description": "bu maddeye hiç kategori eklenmemiş"
+                    "description": "Bu maddeye hiçbir kategori eklenmemiş"
                 }
             ]
         },
@@ -393,7 +393,7 @@
                 },
                 {
                     "tag": "Çalışma",
-                    "description": "bu sayfada devam eden bir çalışma var"
+                    "description": "Bu sayfada devam eden bir çalışma var"
                 }
             ]
         }
