@@ -76,7 +76,7 @@ fetchApiData(function(jsonData) {
 		UserBlockDialog.super.call(this, config);
 	}
 	OO.inheritClass(UserBlockDialog, OO.ui.ProcessDialog);
-	UserBlockDialog.static.title = new OO.ui.deferMsg('user-blocking'),
+	UserBlockDialog.static.title = mw.msg('user-blocking') + ' ' + '('+userToBlock+')',
 		UserBlockDialog.static.name = 'UserBlockDialog';
 	UserBlockDialog.static.actions = [{
 		action: 'continue',
