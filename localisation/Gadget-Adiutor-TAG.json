@@ -162,7 +162,7 @@
                 },
                 {
                     "tag": "Kafa karıştırıcı",
-                    "description": "okuyucular için kafa karıştırıcı içeriklere veya net olmayan ifadelere sahip"
+                    "description": "Okuyucular için kafa karıştırıcı içeriklere veya net olmayan ifadelere sahip"
                 },
                 {
                     "tag": "Kurgu-gerçek",
@@ -234,7 +234,7 @@
                 },
                 {
                     "tag": "Evrenselleştir",
-                    "description": "konu hakkında evrensel bir bakış açısını yansıtmıyor",
+                    "description": "Konu hakkında evrensel bir bakış açısını yansıtmıyor",
                     "items": [
                         {
                             "name": "globalizeRegion",
