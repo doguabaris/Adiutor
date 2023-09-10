@@ -57,8 +57,8 @@ fetchApiData(function(jsonData) {
 	var protectionDurations = jsonData.protectionDurations;
 	var protectionTypes = jsonData.protectionTypes;
 	var addNewSection = jsonData.addNewSection;
-	var appendUnderExistSection = jsonData.appendUnderExistSection;
-	var prependUnderExistSection = jsonData.prependUnderExistSection;
+	var appendText = jsonData.appendText;
+	var prependText = jsonData.prependText;
 	var sectionID = jsonData.sectionID;
 	var contentPattern = jsonData.contentPattern;
 	var apiPostSummary = jsonData.apiPostSummary;
@@ -185,9 +185,9 @@ fetchApiData(function(jsonData) {
 							tags: 'Adiutor',
 							format: 'json'
 						};
-						if(appendUnderExistSection) {
+						if(appendText) {
 							apiParams.appendtext = preparedContent + "\n";
-						} else if(prependUnderExistSection) {
+						} else if(prependText) {
 							apiParams.prependtext = preparedContent + "\n";
 						}
 						api.postWithToken('csrf', apiParams).done(function() {
@@ -201,9 +201,9 @@ fetchApiData(function(jsonData) {
 							tags: 'Adiutor',
 							format: 'json'
 						};
-						if(appendUnderExistSection) {
+						if(appendText) {
 							apiParams.appendtext = preparedContent + "\n";
-						} else if(prependUnderExistSection) {
+						} else if(prependText) {
 							apiParams.prependtext = preparedContent + "\n";
 						}
 						api.postWithToken('csrf', apiParams).done(function() {
@@ -233,7 +233,7 @@ fetchApiData(function(jsonData) {
 
 	function replaceParameter(input, parameterName, newValue) {
 		const regex = new RegExp('\\$' + parameterName, 'g');
-		if (input.includes('$' + parameterName)) {
+		if(input.includes('$' + parameterName)) {
 			return input.replace(regex, newValue);
 		} else {
 			return input;

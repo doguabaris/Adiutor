@@ -190,6 +190,22 @@ fetchApiData(function(jsonData) {
 	windowManager.addWindows([dialog]);
 	windowManager.openWindow(dialog);
 
+	function replacePlaceholders(input, replacements) {
+		return input.replace(/\$(\d+)/g, function(match, group) {
+			var replacement = replacements['$' + group];
+			return replacement !== undefined ? replacement : match;
+		});
+	}
+
+	function replaceParameter(input, parameterName, newValue) {
+		const regex = new RegExp('\\$' + parameterName, 'g');
+		if(input.includes('$' + parameterName)) {
+			return input.replace(regex, newValue);
+		} else {
+			return input;
+		}
+	}
+	
 	function putAfDTemplate(AFDTempalte, nextNominationNumber) {
 		var nominatedPageTitle;
 		if(nextNominationNumber > 1) {

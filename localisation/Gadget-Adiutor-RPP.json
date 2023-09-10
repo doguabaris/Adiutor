@@ -27,8 +27,8 @@
     "noticeBoardTitle": "Vikipedi:Sayfa koruma talepleri",
     "addNewSection": false,
     "sectionTitle": "[[$1|$1]] sayfası için koruma talebi",
-    "appendUnderExistSection": true,
-    "prependUnderExistSection": false,
+    "appendText": true,
+    "prependText": false,
     "sectionID": 1,
     "contentPattern": "\n==== {{lmad|$1}} ====\n{{SKT|tür=$2 $3|gerekçe=$4 ~~~~|yorum=|karar=}}",
     "apiPostSummary": "[[$1|$1]] için koruma talep edildi"

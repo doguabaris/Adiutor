@@ -3,8 +3,8 @@
     "noticeBoardTitle": "Vikipedi:Sürüm gizleme talepleri",
     "addNewSection": true,
     "sectionTitle": "{{subst:LOCALDAY2}}-{{subst:LOCALMONTH}}-{{subst:LOCALYEAR}} {{subst:CURRENTTIME}}",
-    "appendUnderExistSection": false,
-    "prependUnderExistSection": false,
+    "appendText": false,
+    "prependText": false,
     "sectionID": false,
     "contentPattern": "*'''Revizyon:''' [[Özel:Fark/$1]]\n*'''Gerekçe:''' $2\n*'''Yorum:''' $3 ~~~~\n*'''Sonuç:'''",
     "apiPostSummary": "[[$1|$1]] sayfası için sürüm gizleme talebi oluşturuldu"

@@ -54,8 +54,8 @@ fetchApiData(function(jsonData) {
 	var noticeBoardTitle = jsonData.noticeBoardTitle;
 	var noticeBoardLink = noticeBoardTitle.replace(/ /g, '_');
 	var addNewSection = jsonData.addNewSection;
-	var appendUnderExistSection = jsonData.appendUnderExistSection;
-	var prependUnderExistSection = jsonData.prependUnderExistSection;
+	var appendText = jsonData.appendText;
+	var prependText = jsonData.prependText;
 	var sectionID = jsonData.sectionID;
 	var contentPattern = jsonData.contentPattern;
 	var apiPostSummary = jsonData.apiPostSummary;
@@ -164,56 +164,26 @@ fetchApiData(function(jsonData) {
 					$3: commentInput.value,
 				};
 				var preparedContent = replacePlaceholders(contentPattern, placeholders);
+				var apiParams = {
+					action: 'edit',
+					title: noticeBoardTitle,
+					summary: replaceParameter(apiPostSummary, '1', pageTitle),
+					tags: 'Adiutor',
+					format: 'json'
+				};
 				if(addNewSection) {
-					apiParams = {
-						action: "edit",
-						title: noticeBoardTitle,
-						section: 'new',
-						sectiontitle: replaceParameter(sectionTitle, '1', pageTitle),
-						text: preparedContent,
-						summary: replaceParameter(apiPostSummary, '1', pageTitle),
-						tags: "Adiutor",
-						format: "json"
-					};
-					api.postWithToken('csrf', apiParams).done(function() {
-						window.location = '/wiki/' + noticeBoardLink;
-					});
+					apiParams.section = 'new';
+					apiParams.sectiontitle = replaceParameter(sectionTitle, '1', sectionTitle);
+					apiParams.text = preparedContent;
 				} else {
 					if(sectionID) {
-						apiParams = {
-							action: 'edit',
-							title: noticeBoardTitle,
-							section: sectionID,
-							summary: replaceParameter(apiPostSummary, '1', pageTitle),
-							tags: 'Adiutor',
-							format: 'json'
-						};
-						if(appendUnderExistSection) {
-							apiParams.appendtext = preparedContent + "\n";
-						} else if(prependUnderExistSection) {
-							apiParams.prependtext = preparedContent + "\n";
-						}
-						api.postWithToken('csrf', apiParams).done(function() {
-							window.location = '/wiki/' + noticeBoardLink;
-						});
-					} else {
-						apiParams = {
-							action: 'edit',
-							title: noticeBoardTitle,
-							summary: replaceParameter(apiPostSummary, '1', pageTitle),
-							tags: 'Adiutor',
-							format: 'json'
-						};
-						if(appendUnderExistSection) {
-							apiParams.appendtext = preparedContent + "\n";
-						} else if(prependUnderExistSection) {
-							apiParams.prependtext = preparedContent + "\n";
-						}
-						api.postWithToken('csrf', apiParams).done(function() {
-							window.location = '/wiki/' + noticeBoardLink;
-						});
+						apiParams.section = sectionID;
 					}
+					apiParams[appendText ? 'appendtext' : prependText ? 'prependtext' : 'text'] = preparedContent + '\n';
 				}
+				api.postWithToken('csrf', apiParams).done(function() {
+					window.location = '/wiki/' + noticeBoardLink;
+				});
 				dialog.close({
 					action: action
 				});

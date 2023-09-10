@@ -1,4 +1,5 @@
 {
+    "//": "You can utilize the parameters within this file, which include: $1 username, and $2 rationale.",
     "reportRationales": [
         {
             "data": "Birden çok kez uyarılmasına rağmen yapılan vandalizm",
@@ -72,8 +73,17 @@
         }
     ],
     "noticeBoardTitle": "Vikipedi:Kullanıcı engelleme talepleri",
-    "vandalTemplate": "Vandal",
+    "addNewSection": false,
+    "sectionTitle": "[[Kullanıcı:$1|$1]]",
+    "sectionID": false,
+    "appendText": true,
+    "prependText": false,
+    "spiNoticeBoard": "Vikipedi:Denetçi isteği",
+    "spiNoticeBoardCase": "Vikipedi:Denetçi isteği/Dava",
+    "spiApiPostSummary": "[[Kullanıcı:$1]] davası oluşturuldu.",
+    "spiApiPostCaseSummary": "[[$1|Dava]] eklendi.",
     "rationaleText": "[[$1|$1]] sayfası üzerinde $2 $3",
+    "contentPattern": "\n{{kopyala:Vikipedi:Kullanıcı engelleme talepleri/Önyükleme-şablon |1=$1|2=$2}}",
     "userPagePrefix": "Kullanıcı:",
     "userTalkPagePrefix": "Kullanıcı mesaj:",
     "specialContibutions": "Özel:Katkılar/",

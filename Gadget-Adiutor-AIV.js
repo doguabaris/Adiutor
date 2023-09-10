@@ -59,7 +59,17 @@ fetchApiData(function(jsonData) {
 	var noticeBoardTitle = jsonData.noticeBoardTitle;
 	var noticeBoardLink = noticeBoardTitle.replace(/ /g, '_');
 	var vandalTemplate = jsonData.vandalTemplate;
+	var addNewSection = jsonData.addNewSection;
+	var sectionTitle = jsonData.sectionTitle;
 	var apiPostSummary = jsonData.apiPostSummary;
+	var sectionID = jsonData.sectionID;
+	var appendText = jsonData.appendText;
+	var prependText = jsonData.prependText;
+	var spiNoticeBoard = jsonData.spiNoticeBoard;
+	var spiNoticeBoardCase = jsonData.spiNoticeBoardCase;
+	var spiApiPostSummary = jsonData.spiApiPostSummary;
+	var spiApiPostCaseSummary = jsonData.spiApiPostCaseSummary;
+	var contentPattern = jsonData.contentPattern;
 	var userPagePrefix = jsonData.userPagePrefix;
 	var userTalkPagePrefix = jsonData.userTalkPagePrefix;
 	var specialContibutions = jsonData.specialContibutions;
@@ -260,11 +270,11 @@ fetchApiData(function(jsonData) {
 								return "\n* {{checkuser|" + value + "}}";
 							});
 							var formattedSockpuppets = sockpuppets.join("");
-							preparedText = "=== " + userReported + " === \n* {{checkuser|" + userReported + "}}" + formattedSockpuppets + "\n" + evidenceTextInput.value + " ~~~~";
+							preparedContent = "=== " + userReported + " === \n* {{checkuser|" + userReported + "}}" + formattedSockpuppets + "\n" + evidenceTextInput.value + " ~~~~";
 							postSockpuppetRequest(userReported);
 							break;
 						case "sockpuppet":
-							preparedText = "=== " + sockpuppeteerInput.value + " === \n* {{checkuser|" + sockpuppeteerInput.value + "}}  \n* {{checkuser|" + userReported + "}}\n" + evidenceTextInput.value + ". ~~~~";
+							preparedContent = "=== " + sockpuppeteerInput.value + " === \n* {{checkuser|" + sockpuppeteerInput.value + "}}  \n* {{checkuser|" + userReported + "}}\n" + evidenceTextInput.value + ". ~~~~";
 							postSockpuppetRequest(sockpuppeteerInput.value);
 							break;
 					}
@@ -273,8 +283,11 @@ fetchApiData(function(jsonData) {
 					if(RequestRationale) {
 						var rationaleInput = findSelectedRationale();
 						if(rationaleInput) {
-							var rationale = rationaleText.replace(/\$1/g, VandalizedPage.value).replace(/\$2/g, revisionID.value ? '([[Special:Diff|' + revisionID.value + ']])' : '').replace(/\$3/g, rationaleInput);
-							preparedText = '{{subst:' + vandalTemplate + '|' + userReported + '}}\n' + rationale + ' ~~~~';
+							var placeholders = {
+								$1: userReported,
+								$2: rationaleText.replace(/\$1/g, VandalizedPage.value).replace(/\$2/g, revisionID.value ? '([[Special:Diff|' + revisionID.value + ']])' : '').replace(/\$3/g, rationaleInput),
+							};
+							preparedContent = replacePlaceholders(contentPattern, placeholders);
 							postRegularReport();
 						} else {
 							mw.notify(mw.msg('select-rationale'), {
@@ -289,6 +302,22 @@ fetchApiData(function(jsonData) {
 		return AivDialog.super.prototype.getActionProcess.call(this, action);
 	};
 
+	function replacePlaceholders(input, replacements) {
+		return input.replace(/\$(\d+)/g, function(match, group) {
+			var replacement = replacements['$' + group];
+			return replacement !== undefined ? replacement : match;
+		});
+	}
+
+	function replaceParameter(input, parameterName, newValue) {
+		const regex = new RegExp('\\$' + parameterName, 'g');
+		if(input.includes('$' + parameterName)) {
+			return input.replace(regex, newValue);
+		} else {
+			return input;
+		}
+	}
+
 	function getFormattedPageName() {
 		var cleanedPageName = mwConfig.wgPageName.replace(/_/g, " ").replace(userPagePrefix, '').replace(specialContibutions, '').replace(userTalkPagePrefix, '');
 		return cleanedPageName;
@@ -297,21 +326,21 @@ fetchApiData(function(jsonData) {
 	function postSockpuppetRequest(sockpuppeteer) {
 		api.postWithToken("csrf", {
 			action: "edit",
-			title: "Vikipedi:Denetçi isteği/Dava/" + sockpuppeteer,
-			appendtext: "\n" + preparedText + "\n",
-			summary: "[[Kullanıcı:" + sockpuppeteer + "]] davası oluşturuldu.",
+			title: spiNoticeBoardCase + "/" + sockpuppeteer,
+			appendtext: "\n" + preparedContent + "\n",
+			summary: replaceParameter(spiApiPostSummary, '1', sockpuppeteer),
 			tags: "Adiutor",
 			format: "json"
 		}).done(function() {
 			api.postWithToken("csrf", {
 				action: "edit",
-				title: "Vikipedi:Denetçi isteği",
-				appendtext: "\n{{Vikipedi:Denetçi isteği/Dava/" + sockpuppeteer + "}}",
-				summary: "[[Vikipedi:Denetçi isteği/Dava/" + sockpuppeteer + "|Dava]] eklendi.",
+				title: spiNoticeBoard,
+				appendtext: "\n{{" + spiNoticeBoardCase + "/" + sockpuppeteer + "}}",
+				summary: replaceParameter(spiApiPostCaseSummary, '1', spiNoticeBoardCase + "/" + sockpuppeteer),
 				tags: "Adiutor",
 				format: "json"
 			}).done(function() {
-				window.location = "/wiki/Vikipedi:Denetçi isteği/Dava/" + sockpuppeteer;
+				window.location = "/wiki/" + spiNoticeBoardCase + "/" + sockpuppeteer;
 			});
 		});
 	}
@@ -327,25 +356,25 @@ fetchApiData(function(jsonData) {
 	}
 
 	function postRegularReport() {
-		api.postWithToken("csrf", {
-			action: "edit",
+		var apiParams = {
+			action: 'edit',
 			title: noticeBoardTitle,
-			section: 'new',
-			sectiontitle: userReported,
-			text: preparedText,
-			summary: apiPostSummary,
-			tags: "Adiutor",
-			format: "json"
-		}).done(function() {
-			adiutorUserOptions.stats.blockRequests++;
-			api.postWithEditToken({
-				action: "globalpreferences",
-				format: "json",
-				optionname: "userjs-adiutor",
-				optionvalue: JSON.stringify(adiutorUserOptions),
-				formatversion: 2
-			}).done(function() {});
-			window.location = "/wiki/" + noticeBoardLink;
+			summary: replaceParameter(apiPostSummary, '1', userReported),
+			tags: 'Adiutor',
+			format: 'json'
+		};
+		if(addNewSection) {
+			apiParams.section = 'new';
+			apiParams.sectiontitle = replaceParameter(sectionTitle, '1', userReported);
+			apiParams.text = preparedContent;
+		} else {
+			if(sectionID) {
+				apiParams.section = sectionID;
+			}
+			apiParams[appendText ? 'appendtext' : prependText ? 'prependtext' : 'text'] = preparedContent + '\n';
+		}
+		api.postWithToken('csrf', apiParams).done(function() {
+			window.location = '/wiki/' + noticeBoardLink;
 		});
 	}
 	var windowManager = new OO.ui.WindowManager();
