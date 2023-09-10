@@ -416,6 +416,7 @@ administratorToolsLayoutCsd.prototype.setupOutlineItem = function() {
 								var content = data.query.pages[0].revisions[0].content;
 								var jsonData = JSON.parse(content);
 								var speedyDeletionReasons = jsonData.speedyDeletionReasons;
+								var apiPostSummaryforTalkPage = jsonData.apiPostSummaryforTalkPage;
 								api.get({
 									action: 'query',
 									list: 'logevents',
@@ -716,7 +717,7 @@ administratorToolsLayoutCsd.prototype.setupOutlineItem = function() {
 													api.postWithToken('csrf', {
 														action: 'delete',
 														title: "Tartışma:" + item.label,
-														reason: '[[VP:HS#G7]]: Silinen sayfanın tartışma sayfası',
+														reason: apiPostSummaryforTalkPage,
 														tags: 'Adiutor',
 														format: 'json'
 													}).done(function() {});
@@ -1058,7 +1059,7 @@ administratorToolsLayoutCsd.prototype.setupOutlineItem = function() {
 													api.postWithToken('csrf', {
 														action: 'delete',
 														title: "Tartışma:" + pageTitle,
-														reason: '[[VP:HS#G7]]: Silinen sayfanın tartışma sayfası',
+														reason: apiPostSummaryforTalkPage,
 														tags: 'Adiutor',
 														format: 'json'
 													}).done(function() {});
