@@ -1,0 +1,405 @@
+{
+    "tagList": [
+        {
+            "label": "Temizlik ve bakım etiketleri",
+            "tags": [
+                {
+                    "tag": "Düzenle",
+                    "description": "Maddenin düzenlenmesi gerekli",
+                    "items": [
+                        {
+                            "name": "cleanup",
+                            "parameter": "gerekçe",
+                            "type": "input",
+                            "label": "Düzenlenmesi gerekmesinin sebebi:",
+                            "required": false
+                        }
+                    ]
+                },
+                {
+                    "tag": "Yeniden yaz",
+                    "description": "Maddenin Vikipedi'nin biçem yönergelerine uyması için yeniden yazılması gerek"
+                },
+                {
+                    "tag": "Dış bağlantı",
+                    "description": "Maddede kullanılan bazı dış bağlantılar politikalara uygun değil"
+                },
+                {
+                    "tag": "Kırmızı bağlantı temizleme",
+                    "description": "Maddede kullanılan kırmızı bağlantıların Vikipedi yönergelerine uymuyor"
+                },
+                {
+                    "tag": "Kopyala yapıştır",
+                    "description": "Madde, muhtemelen telif hakkı politikasını ihlal eden başka bir kaynaktan kopyalanmış.",
+                    "items": [
+                        {
+                            "name": "copypaste",
+                            "parameter": "url",
+                            "type": "input",
+                            "label": "Kaynak URL:"
+                        }
+                    ]
+                },
+                {
+                    "tag": "Temizle-spam",
+                    "description": "Madde promosyon malzemeleri ve diğer reklam amaçlı dış bağlantılar içeriyor",
+                    "items": [
+                        {
+                            "type": "hidden",
+                            "name": "temizlespam1",
+                            "parameter": "1",
+                            "value": "Madde"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "label": "Genel içerik sorunları",
+            "tags": [
+                {
+                    "tag": "Kayda değerlik",
+                    "description": "Maddenin konusu kayda değer olmayabilir",
+                    "items": [
+                        {
+                            "name": "notability",
+                            "parameter": "1",
+                            "type": "select",
+                            "items": [
+                                {
+                                    "label": "Kayda değerlik: maddenin konusu aşağıdakilere uymuyor",
+                                    "value": "none",
+                                    "type": "checkbox"
+                                },
+                                {
+                                    "label": "Kayda değerlik|biyografi: biyografi maddeleri için kayda değerlik",
+                                    "value": "biography",
+                                    "type": "checkbox"
+                                },
+                                {
+                                    "label": "Kayda değerlik|kitap: kitap maddeleri için kayda değerlik",
+                                    "value": "book",
+                                    "type": "checkbox"
+                                },
+                                {
+                                    "label": "Kayda değerlik|şirket: şirket maddeleri için kayda değerlik",
+                                    "value": "company",
+                                    "type": "checkbox"
+                                },
+                                {
+                                    "label": "Kayda değerlik|müzik: müzik maddeleri için kayda değerlik",
+                                    "value": "Music",
+                                    "type": "checkbox"
+                                },
+                                {
+                                    "label": "Kayda değerlik|internet: internet maddeleri için kayda değerlik",
+                                    "value": "internet",
+                                    "type": "checkbox"
+                                },
+                                {
+                                    "label": "Kayda değerlik|film: film maddeleri için kayda değerlik",
+                                    "value": "Movie",
+                                    "type": "checkbox"
+                                },
+                                {
+                                    "label": "Kayda değerlik|tiyatro: tiyatro maddeleri için kayda değerlik",
+                                    "value": "theatre",
+                                    "type": "checkbox"
+                                },
+                                {
+                                    "label": "Kayda değerlik|okul: okul maddeleri için kayda değerlik",
+                                    "value": "school",
+                                    "type": "checkbox"
+                                },
+                                {
+                                    "label": "Kayda değerlik|televizyon: televizyon maddeleri için kayda değerlik",
+                                    "value": "television",
+                                    "type": "checkbox"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "tag": "Aşırı alıntı",
+                    "description": "Madde ansiklopedik bir içerik için çok fazla veya çok uzun alıntılar içeriyor"
+                },
+                {
+                    "tag": "Çok resim",
+                    "description": "Maddede fazla sayıda görsel veya dosya bulunmaktadır ve temizlenmesi gerekmekte"
+                },
+                {
+                    "tag": "Deneme benzeri",
+                    "description": "Madde kişisel bir düşünce veya deneme gibi yazılmıştır."
+                },
+                {
+                    "tag": "Düzyazı",
+                    "description": "Madde liste biçiminde, ancak düzyazı olursa okunabilirliği artabilir"
+                },
+                {
+                    "tag": "Kılavuz gibi",
+                    "description": "Madde bir el kitabı veya kılavuz kitap gibi yazılmış"
+                },
+                {
+                    "tag": "Metrik",
+                    "description": "Maddede yalnızca SI olmayan ölçü birimleri kullanılmış"
+                },
+                {
+                    "tag": "Reklam-madde",
+                    "description": "Madde reklam gibi yazılmış"
+                },
+                {
+                    "tag": "Teknik",
+                    "description": "Madde çoğu okuyucunun anlayamayacağı kadar teknik"
+                },
+                {
+                    "tag": "Üslup",
+                    "description": "Maddenin üslubu, ansiklopedik bir yazıdan beklenen resmî ve ciddi üsluba uygun değil"
+                },
+                {
+                    "tag": "Yazım yanlışları",
+                    "description": "Madde yazım ve noktalama yanlışları ya da anlatım bozuklukları içermekte"
+                },
+                {
+                    "tag": "Kafa karıştırıcı",
+                    "description": "okuyucular için kafa karıştırıcı içeriklere veya net olmayan ifadelere sahip"
+                },
+                {
+                    "tag": "Kurgu-gerçek",
+                    "description": "Maddenin üslubu ve içeriği gerçek ve kurgusal öğeleri kesin olarak ayırt edememekte."
+                },
+                {
+                    "tag": "Eksik",
+                    "description": "Maddede belli bir konu eksik",
+                    "items": [
+                        {
+                            "name": "EksikKonu",
+                            "parameter": "1",
+                            "type": "input",
+                            "label": "Eksik olan konu:",
+                            "help": "Eksik olan konuyu belirtin. Gereklidir."
+                        }
+                    ]
+                },
+                {
+                    "tag": "Uzman",
+                    "description": "Maddenin gelişebilmesi için konuda uzman kişilere gereksinim var",
+                    "items": [
+                        {
+                            "name": "expertNeeded",
+                            "parameter": "vikiproje",
+                            "type": "input",
+                            "label": "İlgili Vikiprojenin adı:",
+                            "help": "İsteğe bağlı olarak bir Vikiproje adını girin. 'Vikiproje' ön ekini eklemeyin."
+                        },
+                        {
+                            "name": "expertNeededReason",
+                            "parameter": "gerekçe",
+                            "type": "input",
+                            "label": "Gerekçe:",
+                            "help": "Sorunu açıklayan kısa açıklama. Gerekçe ya da tartışma bağlantısı gereklidir."
+                        },
+                        {
+                            "name": "expertNeededTalk",
+                            "parameter": "tartışma",
+                            "type": "input",
+                            "label": "Tartışma:",
+                            "help": "Bu maddenin konunun tartışıldığı tartışma sayfasındaki bölümün adı. Bağlantı girmeyin, sadece bölümün adını girin. Gerekçe ya da tartışma bağlantısı gereklidir."
+                        }
+                    ]
+                },
+                {
+                    "tag": "Yersiz önem verme",
+                    "description": "Maddede çeşitli fikir, olay ve tartışmalara yersiz önem verilmiş"
+                },
+                {
+                    "tag": "Kehanet",
+                    "description": "Madde henüz olmamış gelecek olayları olmuş gibi göstermekte"
+                },
+                {
+                    "tag": "Güncel",
+                    "description": "Madde güncel bir olay hakkında"
+                },
+                {
+                    "tag": "Güncel kişi",
+                    "description": "bu kişi güncel bir olaya konu olmuştur"
+                },
+                {
+                    "tag": "Güncelle",
+                    "description": "Maddenin daha doğru ve güvenilir bilgi sunması için güncellenmesi gerek"
+                },
+                {
+                    "tag": "Doğruluk",
+                    "description": "Madde tamamen bir aldatmaca olabilir"
+                },
+                {
+                    "tag": "Evrenselleştir",
+                    "description": "konu hakkında evrensel bir bakış açısını yansıtmıyor",
+                    "items": [
+                        {
+                            "name": "globalizeRegion",
+                            "parameter": "1",
+                            "type": "input",
+                            "label": "Ağırlıklı bakış açısı yansıtılan ülke veya bölge"
+                        }
+                    ]
+                },
+                {
+                    "tag": "Otobiyografi",
+                    "description": "Madde bir otobiyografidir veya konuyla bağlı biri tarafından kapsamlı bir şekilde düzenlenmiştir"
+                },
+                {
+                    "tag": "Taraflı",
+                    "description": "bu madde taraflı olabilir"
+                },
+                {
+                    "tag": "Tartışmalı",
+                    "description": "Madde hakkında tartışmalar halen sürmekte"
+                },
+                {
+                    "tag": "Ücretli olabilir",
+                    "description": "Madde, çıkar çatışması gibi, ödeme karşılığında oluşturulmuş veya düzenlenmiş olabilir"
+                },
+                {
+                    "tag": "Yerellikten kurtar",
+                    "description": "Maddede yer alan bilgiler belli bir bölgenin bakış açısından ele alınmıştır"
+                },
+                {
+                    "tag": "Anakaynaklar",
+                    "description": "Madde güvenilir bir yayında çıkmış alıntı/referanslar içermiyor"
+                },
+                {
+                    "tag": "Ek kaynak gerekli",
+                    "description": "Maddenin doğrulanabilmesi için ek kaynaklara ihtiyacı var"
+                },
+                {
+                    "tag": "Kaynaksız",
+                    "description": "Madde herhangi bir kaynak içermiyor"
+                },
+                {
+                    "tag": "Özgün araştırma",
+                    "description": "Madde; özgün araştırma, doğrulanamaz veya yorumsal ifadeler içeriyor"
+                },
+                {
+                    "tag": "Şahsen yayımlanmış",
+                    "description": "Madde şahsen yayımlanmış kaynaklara verilen uygunsuz referanslar içeriyor"
+                },
+                {
+                    "tag": "Tek kaynak",
+                    "description": "Madde tümüyle ya da çoğunluğuyla tek kaynağa dayanıyor"
+                },
+                {
+                    "tag": "Üçüncül kaynak",
+                    "description": "Maddenin yazımında madde konusuyla doğrudan ilintili kaynaklardan haddinden fazla yararlanılmış"
+                }
+            ]
+        },
+        {
+            "label": "Belirli içerik sorunları",
+            "tags": [
+                {
+                    "tag": "Genişlet dil",
+                    "description": "Madde içeriği tercüme edilerek genişletilebilir",
+                    "items": [
+                        {
+                            "type": "hidden",
+                            "name": "expandLangTopic",
+                            "parameter": "topic",
+                            "value": "",
+                            "required": true
+                        },
+                        {
+                            "name": "expandLanguageLangCode",
+                            "parameter": "langcode",
+                            "type": "input",
+                            "label": "Dil kodu:",
+                            "help": "Maddenin genişletileceği dilin dil kodu",
+                            "required": true
+                        },
+                        {
+                            "name": "expandLanguageArticle",
+                            "parameter": "otherarticle",
+                            "type": "input",
+                            "label": "Madde adı:",
+                            "help": "Interwiki öneki olmadan genişletilecek maddenin diğer dildeki adı"
+                        }
+                    ]
+                },
+                {
+                    "tag": "Kötü çeviri",
+                    "description": "Madde başka bir dilden kötü bir biçimde tercüme edilmiş"
+                },
+                {
+                    "tag": "Türkçe değil",
+                    "description": "Madde Türkçe değil ve çevrilmesi gerekiyor"
+                },
+                {
+                    "tag": "Duvarlı bahçe",
+                    "description": "Maddeye yalnızca aynı konuya dair açılmış maddelerden bağlantılar veriliyor"
+                },
+                {
+                    "tag": "Çıkmaz sokak",
+                    "description": "Madde olması gerekenden az iç bağlantı içermektedir veya hiç içermemektedir"
+                },
+                {
+                    "tag": "Öksüz",
+                    "description": "herhangi bir maddeden bu maddeye verilmiş bir bağlantı yok"
+                },
+                {
+                    "tag": "Dipnotsuz",
+                    "description": "Metin içi kaynaklar yeterince veya hiç kullanılmadığı için, bazı bilgilerin kaynağı belirsiz"
+                },
+                {
+                    "tag": "Kaynakları düzenle",
+                    "description": "Madde önerilmeyen biçimde kaynaklandırılmış"
+                },
+                {
+                    "tag": "Yalın URL'leri temizle",
+                    "description": "Maddede yalın URL'ler kullanılmış"
+                },
+                {
+                    "tag": "Kategorisiz",
+                    "description": "bu maddeye hiç kategori eklenmemiş"
+                }
+            ]
+        },
+        {
+            "label": "Belirli içerik sorunları",
+            "tags": [
+                {
+                    "tag": "Birleştir",
+                    "description": "Madde başka bir maddeye çok benziyor ve birleştirilmesi gerekli"
+                },
+                {
+                    "tag": "Geçmiş birleştir",
+                    "description": "Maddenin başka bir maddeyle geçmişlerinin birleştirilmesi gerekli",
+                    "items": [
+                        {
+                            "name": "histmergeOriginalPage",
+                            "parameter": "1",
+                            "type": "input",
+                            "label": "Diğer madde:",
+                            "help": "Birleştirilmesi gereken sayfanın adı (gerekli).",
+                            "required": true
+                        },
+                        {
+                            "name": "histmergeReason",
+                            "parameter": "gerekçe",
+                            "type": "input",
+                            "label": "Gerekçe:",
+                            "help": "Geçmişlerinin birleşmesinin neden gerekli olduğunu açıklayan kısa açıklama."
+                        }
+                    ]
+                },
+                {
+                    "tag": "Çalışma",
+                    "description": "bu sayfada devam eden bir çalışma var"
+                }
+            ]
+        }
+    ],
+    "useMultipleIssuesTemplate": true,
+    "multipleIssuesTemplate": "Çoklu sorun",
+    "uncategorizedTemplate": "Kategorisiz",
+    "apiPostSummary": "Sayfa etiketlendi"
+}
