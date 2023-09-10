@@ -15,6 +15,7 @@ VandalizedPage.value = null;
 var revisionID = {};
 revisionID.value = null;
 var sockpuppeteerInput;
+var placeholders = {};
 
 function fetchApiData(callback) {
 	var api = new mw.Api();
@@ -58,7 +59,6 @@ fetchApiData(function(jsonData) {
 	var reportRationales = jsonData.reportRationales;
 	var noticeBoardTitle = jsonData.noticeBoardTitle;
 	var noticeBoardLink = noticeBoardTitle.replace(/ /g, '_');
-	var vandalTemplate = jsonData.vandalTemplate;
 	var addNewSection = jsonData.addNewSection;
 	var sectionTitle = jsonData.sectionTitle;
 	var apiPostSummary = jsonData.apiPostSummary;
@@ -74,6 +74,9 @@ fetchApiData(function(jsonData) {
 	var userTalkPagePrefix = jsonData.userTalkPagePrefix;
 	var specialContibutions = jsonData.specialContibutions;
 	var rationaleText = jsonData.rationaleText;
+	var sockpuppetTemplate = jsonData.sockpuppetTemplate;
+	var sockpuppeteerContentPattern = jsonData.sockpuppeteerContentPattern;
+	var sockpuppetContentPattern = jsonData.sockpuppetContentPattern;
 	var userReported = getFormattedPageName();
 
 	function AivDialog(config) {
@@ -267,14 +270,24 @@ fetchApiData(function(jsonData) {
 						case "sockpuppeteer":
 							var selectedValues = sockPuppetsList.getValue();
 							var sockpuppets = selectedValues.map(function(value) {
-								return "\n* {{checkuser|" + value + "}}";
+								return "\n* {{" + sockpuppetTemplate + "|" + value + "}}";
 							});
 							var formattedSockpuppets = sockpuppets.join("");
-							preparedContent = "=== " + userReported + " === \n* {{checkuser|" + userReported + "}}" + formattedSockpuppets + "\n" + evidenceTextInput.value + " ~~~~";
+							placeholders = {
+								$1: userReported,
+								$3: formattedSockpuppets,
+								$5: evidenceTextInput.value
+							};
+							preparedContent = replacePlaceholders(sockpuppeteerContentPattern, placeholders);
 							postSockpuppetRequest(userReported);
 							break;
 						case "sockpuppet":
-							preparedContent = "=== " + sockpuppeteerInput.value + " === \n* {{checkuser|" + sockpuppeteerInput.value + "}}  \n* {{checkuser|" + userReported + "}}\n" + evidenceTextInput.value + ". ~~~~";
+							placeholders = {
+								$1: sockpuppeteerInput.value,
+								$3: userReported,
+								$5: evidenceTextInput.value
+							};
+							preparedContent = replacePlaceholders(sockpuppetContentPattern, placeholders);
 							postSockpuppetRequest(sockpuppeteerInput.value);
 							break;
 					}
@@ -283,7 +296,7 @@ fetchApiData(function(jsonData) {
 					if(RequestRationale) {
 						var rationaleInput = findSelectedRationale();
 						if(rationaleInput) {
-							var placeholders = {
+							placeholders = {
 								$1: userReported,
 								$2: rationaleText.replace(/\$1/g, VandalizedPage.value).replace(/\$2/g, revisionID.value ? '([[Special:Diff|' + revisionID.value + ']])' : '').replace(/\$3/g, rationaleInput),
 							};
@@ -327,7 +340,7 @@ fetchApiData(function(jsonData) {
 		api.postWithToken("csrf", {
 			action: "edit",
 			title: spiNoticeBoardCase + "/" + sockpuppeteer,
-			appendtext: "\n" + preparedContent + "\n",
+			appendtext: preparedContent,
 			summary: replaceParameter(spiApiPostSummary, '1', sockpuppeteer),
 			tags: "Adiutor",
 			format: "json"

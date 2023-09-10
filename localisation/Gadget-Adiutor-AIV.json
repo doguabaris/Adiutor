@@ -1,5 +1,5 @@
 {
-    "//": "You can utilize the parameters within this file, which include: $1 username, and $2 rationale.",
+    "//": "You can utilize the parameters within this file, which include: $1 username, 2 rationale, $3 formatted sockpuppets list, and $4 sockpuppeteer, and $5 evidence",
     "reportRationales": [
         {
             "data": "Birden çok kez uyarılmasına rağmen yapılan vandalizm",
@@ -84,6 +84,9 @@
     "spiApiPostCaseSummary": "[[$1|Dava]] eklendi.",
     "rationaleText": "[[$1|$1]] sayfası üzerinde $2 $3",
     "contentPattern": "\n{{kopyala:Vikipedi:Kullanıcı engelleme talepleri/Önyükleme-şablon |1=$1|2=$2}}",
+    "sockpuppetTemplate": "checkuser",
+    "sockpuppeteerContentPattern": "=== $1 === \n* {{checkuser|$1}}\n$3\n$5 ~~~~",
+    "sockpuppetContentPattern": "=== $1 === \n* {{checkuser|$1}}\n* {{checkuser|$3}}\n$5 ~~~~",
     "userPagePrefix": "Kullanıcı:",
     "userTalkPagePrefix": "Kullanıcı mesaj:",
     "specialContibutions": "Özel:Katkılar/",
