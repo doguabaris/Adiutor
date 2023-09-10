@@ -6,9 +6,8 @@
  * Module: Adiutor Interface Launcher
  */
 /* <nowiki> */
-// Get essential configuration from MediaWiki
-var mwConfig = mw.config.get(["skin", "wgAction", "wgArticleId", "wgPageName", "wgNamespaceNumber", "wgUserName", "wgTitle", "wgUserGroups", "wgUserEditCount", "wgUserRegistration", "wgRelevantUserName", "wgCanonicalNamespace", "wgCanonicalSpecialPageName"]);
 var api = new mw.Api();
+var mwConfig = mw.config.get(["skin", "wgPageName", "wgNamespaceNumber", "wgUserName", "wgUserGroups", "wgCanonicalSpecialPageName"]);
 var wikiId = mw.config.get('wgWikiID');
 var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-' + wikiId));
 var defaultMenuItems = [];
