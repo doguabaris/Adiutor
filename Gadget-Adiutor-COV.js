@@ -7,9 +7,9 @@
  * Earwig's Copyvio Detector (https://copyvios.toolforge.org/) api used in MediaWiki:Gadget-Adiutor-COV.js
  */
 /* <nowiki> */
-// Get essential configuration from MediaWiki
-var mwConfig = mw.config.get(["skin", "wgAction", "wgArticleId", "wgPageName", "wgNamespaceNumber", "wgTitle", "wgUserGroups", "wgUserName", "wgUserEditCount", "wgUserRegistration", "wgCanonicalNamespace"]);
 var api = new mw.Api();
+var mwConfig = mw.config.get(["wgPageName"]);
+var wgContentLanguage = mw.config.get('wgContentLanguage');
 var wikiId = mw.config.get('wgWikiID');
 var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-'+wikiId));
 var messageDialog = new OO.ui.MessageDialog();
@@ -26,7 +26,7 @@ windowManager.openWindow(messageDialog, {
 // Fetch data from Copyvio Detector API
 $.get("https://copyvios.toolforge.org/api.json?", {
 	action: "search",
-	lang: "tr",
+	lang: wgContentLanguage,
 	project: "wikipedia",
 	title: mwConfig.wgPageName,
 	oldid: "",
@@ -151,7 +151,7 @@ $.get("https://copyvios.toolforge.org/api.json?", {
 				}) + '&ctype=text/javascript', 'text/javascript');
 			});
 		} else if(action === 'analysis') {
-			var targetURL = "https://copyvios.toolforge.org/?lang=tr&project=wikipedia&title=" + mwConfig.wgPageName;
+			var targetURL = "https://copyvios.toolforge.org/?lang="+wgContentLanguage+"&project=wikipedia&title=" + mwConfig.wgPageName;
 			window.open(targetURL, '_blank');
 		} else if(action === 'close') {
 			dialog.close();
