@@ -9,6 +9,7 @@
 var api = new mw.Api();
 var mwConfig = mw.config.get(["wgArticleId", "wgPageName", "wgUserGroups", "wgUserName", "wgUserEditCount", "wgUserRegistration"]);
 var wikiId = mw.config.get('wgWikiID');
+var wgContentLanguage = mw.config.get('wgContentLanguage');
 var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-' + wikiId));
 function SectionOneLayout(name, config) {
 	SectionOneLayout.super.call(this, name, config);
@@ -769,7 +770,7 @@ administratorToolsLayoutCsd.prototype.setupOutlineItem = function() {
 							// Fetch data from Copyvio Detector API
 							$.get("https://copyvios.toolforge.org/api.json?", {
 								action: "search",
-								lang: "tr",
+								lang: wgContentLanguage,
 								project: "wikipedia",
 								title: item.label,
 								oldid: "",
@@ -854,7 +855,7 @@ administratorToolsLayoutCsd.prototype.setupOutlineItem = function() {
 										var dialog = this;
 										return new OO.ui.Process(function() {
 											dialog.close();
-											var targetURL = "https://copyvios.toolforge.org/?lang=tr&project=wikipedia&title=" + item.label;
+											var targetURL = "https://copyvios.toolforge.org/?lang="+wgContentLanguage+"&project=wikipedia&title=" + item.label;
 											window.open(targetURL, '_blank');
 										});
 									}
