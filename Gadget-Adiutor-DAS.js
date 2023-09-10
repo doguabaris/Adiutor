@@ -1109,12 +1109,12 @@ administratorToolsLayoutCsd.prototype.setupOutlineItem = function() {
 					return false; // Bu tıklamanın sayfanın yeniden yüklenmesini engellemek için false döndürüyoruz
 				}).fail(function(jqXHR, textStatus, errorThrown) {
 					// Hata durumunda burada işlemler yapabilirsiniz
-					console.error("API hatası:", errorThrown);
+					console.error("API error:", errorThrown);
 				});
 			});
 		}).fail(function(jqXHR, textStatus, errorThrown) {
 			// Hata durumunda burada işlemler yapabilirsiniz
-			console.error("API hatası:", errorThrown);
+			console.error("API error:", errorThrown);
 		});
 	});
 };

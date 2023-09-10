@@ -394,7 +394,7 @@ fetchApiData(function(jsonData) {
 			});
 		}
 	}).catch(error => {
-		console.error("API hatası:", error);
+		console.error("API error:", error);
 	});
 });
 /* </nowiki> */
