@@ -341,5 +341,16 @@
 	"report-suspected-sockpuppet": "Prijavite domnevno lutko",
 	"sockpuppeteer": "Lutkar",
 	"sockpuppet": "Lutka",
-	"sockpuppeteer-help-text": "Uporabiško ime lutkarja brez predpone »Uporabnik«"
+	"sockpuppeteer-help-text": "Uporabiško ime lutkarja brez predpone »Uporabnik«",
+	"cmr-module-title": "Adiutor — odgovor mentoriranca",
+	"cmr-header-title": "Modul odgovorov mentorirancev",
+	"cmr-header-description": "V tem delu lahko hitro odgovorite svojemu mentorirancu, ki vam je zastavil vprašanje, tako da izberete enega od pripravljenih odgovorov.",
+	"cmr-choose-answer": "Izberite odgovor",
+	"cmr-response": "Odgovori",
+	"cmr-canned-response": "Pripravljen odgovor",
+	"related-page-required": "Vnesite povezano stran.",
+	"warning-required": "Za nadaljevanje izberite opozorilo.",
+	"additional-rationale": "Dodatna utemeljitev",
+	"blocked-user-removed-from-the-noticeboad": "Blokirani uporabnik je bil odstranjen z obvestilnega panela",
+	"select-a-tag": "Prosimo, izberite oznako."
 }

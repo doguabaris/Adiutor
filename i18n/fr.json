@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Eihel",
 			"Gomoko",
 			"Jules*",
 			"LD",
@@ -38,10 +39,10 @@
 	"update": "Update",
 	"continue": "Continue",
 	"options": "Options",
-	"article-info": "Article info",
-	"test-feature": "This feature is currently in testing.",
+	"article-info": "Info article",
+	"test-feature": "Cette fonctionnalité est actuellement en test.",
 	"active": "Active",
-	"suggest-edit": "Suggest edit",
+	"suggest-edit": "Suggérer une modification",
 	"unpin-from-works": "Unpin from {{GENDER:|my}} works",
 	"pin-to-works": "Pin to {{GENDER:|my}} works",
 	"clear": "Clear",
@@ -60,8 +61,8 @@
 	"rdr-rationale-5": "Autre",
 	"cancel": "Cancel",
 	"vandalism": "Vandalism",
-	"protect-against-rebuilding": "Protection against recreation",
-	"protect-against-rebuilding-help": "When selected, a {{salt}} tag is added to the speedy deletion tag, asking the administrator to apply creation protection. Select only if this page is persistently created.",
+	"protect-against-rebuilding": "Protection contre la recréation",
+	"protect-against-rebuilding-help": "Lorsqu'elle est sélectionnée, une balise {{salt}} est ajoutée à la balise de suppression rapide, demandant à l'administrateur d'appliquer la protection contre la création. Sélectionnez uniquement si cette page est créée de manière persistante.",
 	"username-violation": "Username violation",
 	"related-page": "Related page",
 	"wrn-related-page-help": "The page that caused the warning",
@@ -344,5 +345,16 @@
 	"report-suspected-sockpuppet": "Signaler un faux-nez suspecté",
 	"sockpuppeteer": "Faux-nez",
 	"sockpuppet": "Faux-nez",
-	"sockpuppeteer-help-text": "Le nom d’utilisateur du faux-nez sans le préfixe Utilisateur:."
+	"sockpuppeteer-help-text": "Le nom d’utilisateur du faux-nez sans le préfixe Utilisateur:.",
+	"cmr-module-title": "Adiutor — Réponse du tutoré",
+	"cmr-header-title": "Module de réponse du tutoré",
+	"cmr-header-description": "Dans cette zone, vous pouvez rapidement répondre à votre tutoré qui vous a posé une question en sélectionnant une des réponses prédéfinies.",
+	"cmr-choose-answer": "Choisir la réponse",
+	"cmr-response": "Répondre",
+	"cmr-canned-response": "Réponse toute faite",
+	"related-page-required": "Veuillez saisir la page correspondante.",
+	"warning-required": "Veuillez sélectionner un avertissement pour continuer.",
+	"additional-rationale": "Raison supplémentaire",
+	"blocked-user-removed-from-the-noticeboad": "L’utilisateur bloqué a été supprimé du panneau d’affichage",
+	"select-a-tag": "Veuillez sélectionner une balise."
 }
