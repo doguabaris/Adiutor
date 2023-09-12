@@ -1,17 +1,11 @@
-/* Adiutor: Enhancing Wikipedia Editing Through a Comprehensive Set of Versatile Tools and Modules.
- * Author: Vikipolimer
- * Learn more at: https://meta.wikimedia.org/wiki/Adiutor
- * License: Licensed under Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
-<nowiki> */
-var mwConfig = mw.config.get(["skin", "wgAction", "wgArticleId", "wgPageName", "wgNamespaceNumber", "wgTitle", "wgUserGroups", "wgUserName", "wgUserEditCount", "wgUserRegistration", "wgCanonicalNamespace"]);
 var api = new mw.Api();
 var wikiId = mw.config.get('wgWikiID');
 var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-' + wikiId));
+var mwConfig = mw.config.get(["wgArticleId", "wgPageName", "wgUserName"]);
 var nominatedPreviously;
 var nextNominationNumber = 0;
 
 function fetchApiData(callback) {
-	var api = new mw.Api();
 	api.get({
 		action: "query",
 		prop: "revisions",
@@ -42,15 +36,30 @@ function fetchApiData(callback) {
 fetchApiData(function(jsonData) {
 	if(!jsonData) {
 		// Handle a case where jsonData is empty or undefined
-		mw.notify('MediaWiki:Gadget-Adiutor-UBM.json data is empty or undefined.', {
+		mw.notify('MediaWiki:Adiutor-UBM.json data is empty or undefined.', {
 			title: mw.msg('operation-failed'),
 			type: 'error'
 		});
 		// You may choose to stop code execution here
 		return;
 	}
+	var afdTemplate = jsonData.afdTemplate;
+	var afdPageTitleForMultipleNomination = jsonData.afdPageTitleForMultipleNomination;
+	var apiPostSummary = jsonData.apiPostSummary;
+	var apiPostSummaryforCreator = jsonData.apiPostSummaryforCreator;
+	var apiPostSummaryforUserLog = jsonData.apiPostSummaryforUserLog;
+	var apiPostSummaryforAfdPage = jsonData.apiPostSummaryforAfdPage;
+	var afdPage = jsonData.afdPage;
+	var logNominations = jsonData.logNominations;
+	var afdLogPage = jsonData.afdLogPage;
 	var afdNotificationTemplate = jsonData.afdNotificationTemplate;
+	var userLogText = jsonData.userLogText;
+	var userPagePrefix = jsonData.userPagePrefix;
+	var userTalkPagePrefix = jsonData.userTalkPagePrefix;
+	var specialContibutions = jsonData.specialContibutions;
+	var localMonthsNames = jsonData.localMonthsNames;
 	var pageTitle = mw.config.get("wgPageName").replace(/_/g, " ");
+
 	function articleForDeletionDialog(config) {
 		articleForDeletionDialog.super.call(this, config);
 	}
@@ -112,22 +121,22 @@ fetchApiData(function(jsonData) {
 		if(action) {
 			return new OO.ui.Process(function() {
 				var afdTempalte;
-				var actionOptions = [];
+				var ActionOptions = [];
 				afdOptions.items.forEach(function(Option) {
 					if(Option.fieldWidget.selected) {
-						actionOptions.push({
+						ActionOptions.push({
 							value: Option.fieldWidget.value,
 							selected: Option.fieldWidget.selected
 						});
 					}
 					if(Option.fieldWidget.value === true) {
-						actionOptions.push({
+						ActionOptions.push({
 							value: Option.fieldWidget.value,
 							data: Option.fieldWidget.data
 						});
 					}
 				});
-				actionOptions.forEach(function(Option) {
+				ActionOptions.forEach(function(Option) {
 					if(Option.data === "informCreator") {
 						console.log(Option.data);
 						getCreator().then(function(data) {
@@ -139,7 +148,7 @@ fetchApiData(function(jsonData) {
 						});
 					}
 				});
-				checkPreviousNominations(afdPage+"/" + mwConfig.wgPageName).then(function(data) {
+				checkPreviousNominations(afdPage + "/" + mwConfig.wgPageName).then(function(data) {
 					if(data.query.pages["-1"]) {
 						var nomCount = 0;
 						console.log(nomCount);
@@ -152,7 +161,7 @@ fetchApiData(function(jsonData) {
 				});
 
 				function Rec(nomCount) {
-					checkPreviousNominations(afdPage+"/" + mwConfig.wgPageName + ' ' + '(' + nomCount + '._aday_gösterme)').then(function(data) {
+					checkPreviousNominations(afdPage + "/" + mwConfig.wgPageName + ' ' + '(' + nomCount + '._aday_gösterme)').then(function(data) {
 						if(!data.query.pages["-1"]) {
 							Rec(nomCount + 1);
 						} else {
@@ -201,7 +210,7 @@ fetchApiData(function(jsonData) {
 			return input;
 		}
 	}
-	
+
 	function putAfDTemplate(afdTempalte, nextNominationNumber) {
 		var nominatedPageTitle;
 		if(nextNominationNumber > 1) {
@@ -259,12 +268,12 @@ fetchApiData(function(jsonData) {
 			format: "json"
 		}).done(function(data) {
 			pageContent = data.parse.wikitext['*'];
-			var NominatedBefore = pageContent.includes("{{"+afdPage+"/" + nominatedPageTitle.replace(/_/g, " ") + "}}");
+			var NominatedBefore = pageContent.includes("{{" + afdPage + "/" + nominatedPageTitle.replace(/_/g, " ") + "}}");
 			if(!NominatedBefore) {
 				api.postWithToken('csrf', {
 					action: 'edit',
 					title: afdPage,
-					appendtext: "\n" + "{{"+afdPage+"/" + nominatedPageTitle.replace(/_/g, " ") + "}}",
+					appendtext: "\n" + "{{" + afdPage + "/" + nominatedPageTitle.replace(/_/g, " ") + "}}",
 					summary: apiPostSummaryforAfdPage,
 					tags: 'Adiutor',
 					format: 'json'
@@ -282,8 +291,7 @@ fetchApiData(function(jsonData) {
 			}
 		});
 	}
-
-	if(logNominations){
+	if(logNominations) {
 		function addNominationToAfdLogPage(nominatedPageTitle) {
 			var date = new Date();
 			var date_year = date.getUTCFullYear();
@@ -296,20 +304,20 @@ fetchApiData(function(jsonData) {
 				format: "json"
 			}).done(function(data) {
 				pageContent = data.parse.wikitext['*'];
-				var NominatedBefore = pageContent.includes("{{"+afdPage+"/" + nominatedPageTitle.replace(/_/g, " ") + "}}");
+				var NominatedBefore = pageContent.includes("{{" + afdPage + "/" + nominatedPageTitle.replace(/_/g, " ") + "}}");
 				if(!NominatedBefore) {
 					api.postWithToken('csrf', {
 						action: 'edit',
 						title: afdLogPage + date_year + "_" + month_name,
-						appendtext: "\n" + "{{"+afdPage+"/" + nominatedPageTitle.replace(/_/g, " ") + "}}",
-						summary: "Adaylık [["+afdLogPage+"" + date_year + " " + month_name + "|mevcut ayın]] kayıtlarına eklendi.",
+						appendtext: "\n" + "{{" + afdPage + "/" + nominatedPageTitle.replace(/_/g, " ") + "}}",
+						summary: "Adaylık [[" + afdLogPage + "" + date_year + " " + month_name + "|mevcut ayın]] kayıtlarına eklendi.",
 						tags: 'Adiutor',
 						format: 'json'
 					}).done(function() {
-						window.location = '/wiki/'+afdPage+'/' + nominatedPageTitle.replace(/_/g, " ");
+						window.location = '/wiki/' + afdPage + '/' + nominatedPageTitle.replace(/_/g, " ");
 					});
 				} else {
-					window.location = '/wiki/'+afdPage+'/' + nominatedPageTitle.replace(/_/g, " ");
+					window.location = '/wiki/' + afdPage + '/' + nominatedPageTitle.replace(/_/g, " ");
 				}
 			});
 		}
@@ -384,7 +392,7 @@ fetchApiData(function(jsonData) {
 			action: 'edit',
 			title: userTalkPagePrefix + Author,
 			appendtext: '\n' + message,
-			summary:  replaceParameter(apiPostSummaryforCreator, '1', pageTitle),
+			summary: replaceParameter(apiPostSummaryforCreator, '1', pageTitle),
 			tags: 'Adiutor',
 			format: 'json'
 		}).done(function() {});
@@ -402,4 +410,3 @@ fetchApiData(function(jsonData) {
 		});
 	}
 });
-/* </nowiki> */
