@@ -1,94 +1,38 @@
 {
-    "//": "You can utilize the parameters within this file, which include: $1 username, 2 rationale, $3 formatted sockpuppets list, and $4 sockpuppeteer, and $5 evidence",
+    "//": "You can utilize the parameters within this file, which include: $1 username, $2 rationale, $3 formatted sockpuppets list, $4 sockpuppeteer, and $5 evidence",
     "reportRationales": [
         {
-            "data": "Birden çok kez uyarılmasına rağmen yapılan vandalizm",
+            "data": "Vandalism",
             "value": "1",
             "related": "general",
             "selected": false,
-            "label": "Birden çok kez uyarılmasına rağmen yapılan vandalizm"
+            "label": "Vandalism"
         },
         {
-            "data": "Engeli bittikten sonra (1 gün içinde) yapılan vandalizm",
-            "value": "2",
-            "related": "general",
-            "selected": false,
-            "label": "Engeli bittikten sonra (1 gün içinde) yapılan vandalizm"
-        },
-        {
-            "data": "Sadece vandalizm amaçlı hesap",
-            "value": "3",
-            "related": "general",
-            "selected": false,
-            "label": "Sadece vandalizm amaçlı hesap"
-        },
-        {
-            "data": "Yalnızca reklam amaçlı hesap",
-            "value": "4",
-            "related": "general",
-            "selected": false,
-            "label": "Yalnızca reklam amaçlı hesap"
-        },
-        {
-            "data": "Spambot veya şifresi ele geçirilmiş hesap",
-            "value": "5",
-            "related": "general",
-            "selected": false,
-            "label": "Spambot veya şifresi ele geçirilmiş hesap"
-        },
-        {
-            "data": "Şaşırtıcı, yanlış yönlendirici, problem yaratıcı kullanıcı adı",
-            "value": "6",
-            "related": "username",
-            "selected": false,
-            "label": "Şaşırtıcı, yanlış yönlendirici, problem yaratıcı kullanıcı adı"
-        },
-        {
-            "data": "Ticari marka içeren kullanıcı adı",
-            "value": "7",
-            "related": "username",
-            "selected": false,
-            "label": "Ticari marka içeren kullanıcı adı"
-        },
-        {
-            "data": "Halen yaşayan ya da yeni ölmüş tanınmış kişi adı",
-            "value": "8",
-            "related": "username",
-            "selected": false,
-            "label": "Halen yaşayan ya da yeni ölmüş tanınmış kişi adı"
-        },
-        {
-            "data": "Taciz edici veya karalayıcı kullanıcı adı",
-            "value": "9",
-            "related": "username",
-            "selected": false,
-            "label": "Taciz edici veya karalayıcı kullanıcı adı"
-        },
-        {
-            "data": "Spam amaçlı veya reklam içeren kullanıcı adı",
+            "data": "Inappropriate username",
             "value": "10",
             "related": "username",
             "selected": false,
-            "label": "Spam amaçlı veya reklam içeren kullanıcı adı"
+            "label": "Inappropriate username"
         }
     ],
-    "noticeBoardTitle": "Vikipedi:Kullanıcı engelleme talepleri",
+    "noticeBoardTitle": "Wikipedia:Administrator intervention against vandalism",
     "addNewSection": false,
-    "sectionTitle": "[[Kullanıcı:$1|$1]]",
-    "sectionId": false,
+    "sectionTitle": "[[User:$1|$1]]",
+    "sectionId": 2,
     "appendText": true,
     "prependText": false,
-    "spiNoticeBoard": "Vikipedi:Denetçi isteği",
-    "spiNoticeBoardCase": "Vikipedi:Denetçi isteği/Dava",
-    "spiApiPostSummary": "[[Kullanıcı:$1]] davası oluşturuldu.",
-    "spiApiPostCaseSummary": "[[$1|Dava]] eklendi.",
-    "rationaleText": "[[$1|$1]] sayfası üzerinde $2 $3",
-    "contentPattern": "\n{{kopyala:Vikipedi:Kullanıcı engelleme talepleri/Önyükleme-şablon |1=$1|2=$2}}",
+    "spiNoticeBoard": "Wikipedia:Sockpuppet investigations",
+    "spiNoticeBoardCase": "Wikipedia:Sockpuppet investigations/Case",
+    "spiApiPostSummary": "[[User:$1]] case created.",
+    "spiApiPostCaseSummary": "[[$1|Case]] added to the list.",
+    "rationaleText": "[[User:$1|$1]] reported for $2 $3",
+    "contentPattern": "* {{Vandal|$1}} $2 ~~~~",
     "sockpuppetTemplate": "checkuser",
     "sockpuppeteerContentPattern": "=== $1 === \n* {{checkuser|$1}}\n$3\n$5 ~~~~",
     "sockpuppetContentPattern": "=== $1 === \n* {{checkuser|$1}}\n* {{checkuser|$3}}\n$5 ~~~~",
-    "userPagePrefix": "Kullanıcı:",
-    "userTalkPagePrefix": "Kullanıcı mesaj:",
-    "specialContibutions": "Özel:Katkılar/",
-    "apiPostSummary": "Kullanıcı raporlandı."
+    "userPagePrefix": "User:",
+    "userTalkPagePrefix": "User talk:",
+    "specialContributions": "Special:Contributions/",
+    "apiPostSummary": "User reported."
 }

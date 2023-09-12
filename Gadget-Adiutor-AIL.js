@@ -9,10 +9,10 @@ var wikiId = mw.config.get('wgWikiID');
 var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-' + wikiId));
 var defaultMenuItems = [];
 var miscellaneousConfigurations = {
-	csdCategory: "Hızlı_silinmeye_aday_sayfalar",
-	userBlockRequestNoticeBoard: "Kullanıcı_engelleme_talepleri",
-	afdNoticeBoard: "Silinmeye_aday_sayfalar",
-	mainPage: "Anasayfa"
+	csdCategory: "Candidates_for_speedy_deletion_as_spam",
+	userBlockRequestNoticeBoard: "Administrator_intervention_against_vandalism",
+	afdNoticeBoard: "Articles_for_deletion",
+	mainPage: "Main_Page"
 };
 switch(mwConfig.wgNamespaceNumber) {
 	case -1:

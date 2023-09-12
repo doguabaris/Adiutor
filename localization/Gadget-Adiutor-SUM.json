@@ -1,38 +1,38 @@
 {
     "summaryCategories": {
         "general": [
-            "Yazım hatası düzeltildi",
-            "Üslup iyileştirildi",
-            "Medya içeriği eklendi",
-            "Ufak düzenleme yapıldı",
-            "Geniş kapsamlı düzenleme gerçekleştirildi, [[Şablon:Düzenle|Düzenle]] şablonu kaldırıldı",
-            "Bağlantı düzeltilmesi",
-            "Güncelleme yapıldı",
-            "Kaynak ekleme/iyileştirme yapıldı",
-            "İçerik genişletildi",
-            "Dış bağlantı(lar) eklendi/değiştirildi",
-            "Kategori(ler) eklendi/değiştirildi",
-            "Interwiki/kategori eklendi/değiştirildi"
+            "Spelling/grammar correction",
+            "Fixing style/layout errors",
+            "Media content added",
+            "Minor edits made",
+            "Major edit performed, removed [[Template:Edit|Edit]] template",
+            "Link correction made",
+            "Update performed",
+            "Source added/improved",
+            "Content expanded",
+            "External link(s) added/modified",
+            "Category(ies) added/modified",
+            "Interwiki/category added/modified"
         ],
         "article": [
-            "Silinmiş Commmons dosyası çıkarıldı",
-            "Telif hakkı ihlali tespit edildi",
-            "Ansiklopedik olmayan içerik çıkarıldı",
-            "İlgisiz kategori(ler) kaldırıldı",
-            "İlgisiz dış bağlantı(lar) çıkarıldı",
-            "İlgisiz dil bağlantıları kaldırıldı",
-            "Kaynağı olmayan içerik çıkarıldı",
-            "Reklam amacı taşıyan veya ilgisiz dış bağlantı çıkarıldı",
-            "Temizleme yapıldı"
+            "Expanding article",
+            "Adding/improving reference(s)",
+            "Adding/removing category/ies",
+            "Adding/removing external link(s)",
+            "Adding/removing wikilink(s)",
+            "Removing unsourced content",
+            "Removing [[WP:SPAM|linkspam]] per [[WP:EL]]",
+            "Cleanup performed",
+            "Copyedit (major)"
         ],
         "nonArticle": [
-            "Yanıt verildi",
-            "Yorum eklendi",
-            "Öneri sunuldu"
+            "Reply",
+            "Comment",
+            "Suggestion"
         ],
         "talkPage": [
-            "[[Vikipedi:Vikiproje|Vikiproje]] işareti eklendi",
-            "[[Vikipedi:Vikiproje|Vikiproje]] değerlendirmesi yapıldı"
+            "[[Wikipedia:WikiProject|WikiProject]] tagging",
+            "[[Wikipedia:WikiProject|WikiProject]] assessment"
         ]
     }
 }

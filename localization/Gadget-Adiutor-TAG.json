@@ -1,65 +1,65 @@
 {
     "tagList": [
         {
-            "label": "Temizlik ve bakım etiketleri",
+            "label": "Cleanup and maintenance tags",
             "tags": [
                 {
-                    "tag": "Düzenle",
-                    "description": "Maddenin düzenlenmesi gerekli",
+                    "tag": "Edit",
+                    "description": "Article needs editing",
                     "items": [
                         {
                             "name": "cleanup",
-                            "parameter": "gerekçe",
+                            "parameter": "reason",
                             "type": "input",
-                            "label": "Düzenlenmesi gerekmesinin sebebi:",
+                            "label": "Reason for cleanup:",
                             "required": false
                         }
                     ]
                 },
                 {
-                    "tag": "Yeniden yaz",
-                    "description": "Maddenin Vikipedi'nin biçem yönergelerine uyması için yeniden yazılması gerek"
+                    "tag": "Rewrite",
+                    "description": "Article needs to be rewritten to comply with Wikipedia's style guidelines"
                 },
                 {
-                    "tag": "Dış bağlantı",
-                    "description": "Maddede kullanılan bazı dış bağlantılar politikalara uygun değil"
+                    "tag": "External link",
+                    "description": "Some external links used in the article do not comply with policies"
                 },
                 {
-                    "tag": "Kırmızı bağlantı temizleme",
-                    "description": "Maddede kullanılan kırmızı bağlantıların Vikipedi yönergelerine uymuyor"
+                    "tag": "Red link cleanup",
+                    "description": "Red links used in the article do not comply with Wikipedia guidelines"
                 },
                 {
-                    "tag": "Kopyala yapıştır",
-                    "description": "Madde, muhtemelen telif hakkı politikasını ihlal eden başka bir kaynaktan kopyalanmış.",
+                    "tag": "Copy-paste",
+                    "description": "Article may have been copied from another source that potentially violates copyright policy",
                     "items": [
                         {
                             "name": "copypaste",
                             "parameter": "url",
                             "type": "input",
-                            "label": "Kaynak URL:"
+                            "label": "Source URL:"
                         }
                     ]
                 },
                 {
-                    "tag": "Temizle-spam",
-                    "description": "Madde promosyon malzemeleri ve diğer reklam amaçlı dış bağlantılar içeriyor",
+                    "tag": "Cleanup-spam",
+                    "description": "Article contains promotional materials and other advertising links",
                     "items": [
                         {
                             "type": "hidden",
-                            "name": "temizlespam1",
+                            "name": "cleanupspam1",
                             "parameter": "1",
-                            "value": "Madde"
+                            "value": "Article"
                         }
                     ]
                 }
             ]
         },
         {
-            "label": "Genel içerik sorunları",
+            "label": "General content issues",
             "tags": [
                 {
-                    "tag": "Kayda değerlik",
-                    "description": "Maddenin konusu kayda değer olmayabilir",
+                    "tag": "Notability",
+                    "description": "Subject of the article may not be notable",
                     "items": [
                         {
                             "name": "notability",
@@ -67,52 +67,52 @@
                             "type": "select",
                             "items": [
                                 {
-                                    "label": "Kayda değerlik: maddenin konusu aşağıdakilere uymuyor",
+                                    "label": "Notability: subject does not meet the following criteria",
                                     "value": "none",
                                     "type": "checkbox"
                                 },
                                 {
-                                    "label": "Kayda değerlik|biyografi: biyografi maddeleri için kayda değerlik",
+                                    "label": "Notability|biography: notability for biography articles",
                                     "value": "biography",
                                     "type": "checkbox"
                                 },
                                 {
-                                    "label": "Kayda değerlik|kitap: kitap maddeleri için kayda değerlik",
+                                    "label": "Notability|book: notability for book articles",
                                     "value": "book",
                                     "type": "checkbox"
                                 },
                                 {
-                                    "label": "Kayda değerlik|şirket: şirket maddeleri için kayda değerlik",
+                                    "label": "Notability|company: notability for company articles",
                                     "value": "company",
                                     "type": "checkbox"
                                 },
                                 {
-                                    "label": "Kayda değerlik|müzik: müzik maddeleri için kayda değerlik",
+                                    "label": "Notability|music: notability for music articles",
                                     "value": "Music",
                                     "type": "checkbox"
                                 },
                                 {
-                                    "label": "Kayda değerlik|internet: internet maddeleri için kayda değerlik",
+                                    "label": "Notability|internet: notability for internet articles",
                                     "value": "internet",
                                     "type": "checkbox"
                                 },
                                 {
-                                    "label": "Kayda değerlik|film: film maddeleri için kayda değerlik",
+                                    "label": "Notability|film: notability for film articles",
                                     "value": "Movie",
                                     "type": "checkbox"
                                 },
                                 {
-                                    "label": "Kayda değerlik|tiyatro: tiyatro maddeleri için kayda değerlik",
+                                    "label": "Notability|theatre: notability for theatre articles",
                                     "value": "theatre",
                                     "type": "checkbox"
                                 },
                                 {
-                                    "label": "Kayda değerlik|okul: okul maddeleri için kayda değerlik",
+                                    "label": "Notability|school: notability for school articles",
                                     "value": "school",
                                     "type": "checkbox"
                                 },
                                 {
-                                    "label": "Kayda değerlik|televizyon: televizyon maddeleri için kayda değerlik",
+                                    "label": "Notability|television: notability for television articles",
                                     "value": "television",
                                     "type": "checkbox"
                                 }
@@ -121,285 +121,215 @@
                     ]
                 },
                 {
-                    "tag": "Aşırı alıntı",
-                    "description": "Madde ansiklopedik bir içerik için çok fazla veya çok uzun alıntılar içeriyor"
+                    "tag": "Excessive quotes",
+                    "description": "Article contains too many or overly long quotes for encyclopedic content"
                 },
                 {
-                    "tag": "Çok resim",
-                    "description": "Maddede fazla sayıda görsel veya dosya bulunmaktadır ve temizlenmesi gerekmekte"
+                    "tag": "Too many images",
+                    "description": "Article contains an excessive number of visuals or files and needs cleanup"
                 },
                 {
-                    "tag": "Deneme benzeri",
-                    "description": "Madde kişisel bir düşünce veya deneme gibi yazılmıştır."
+                    "tag": "Essay-like",
+                    "description": "Article is written like a personal opinion or essay"
                 },
                 {
-                    "tag": "Düzyazı",
-                    "description": "Madde liste biçiminde, ancak düzyazı olursa okunabilirliği artabilir"
+                    "tag": "Prose",
+                    "description": "Article is in list format, but readability may improve with prose"
                 },
                 {
-                    "tag": "Kılavuz gibi",
-                    "description": "Madde bir el kitabı veya kılavuz kitap gibi yazılmış"
+                    "tag": "Guide-like",
+                    "description": "Article is written like a handbook or guidebook"
                 },
                 {
-                    "tag": "Metrik",
-                    "description": "Maddede yalnızca SI olmayan ölçü birimleri kullanılmış"
+                    "tag": "Metric",
+                    "description": "Article uses non-SI units that most readers may not understand"
                 },
                 {
-                    "tag": "Reklam-madde",
-                    "description": "Madde reklam gibi yazılmış"
+                    "tag": "Advert",
+                    "description": "Article is written like an advertisement"
                 },
                 {
-                    "tag": "Teknik",
-                    "description": "Madde çoğu okuyucunun anlayamayacağı kadar teknik"
+                    "tag": "Technical",
+                    "description": "Article is too technical for most readers to understand"
                 },
                 {
-                    "tag": "Üslup",
-                    "description": "Maddenin üslubu, ansiklopedik bir yazıdan beklenen resmî ve ciddi üsluba uygun değil"
+                    "tag": "Tone",
+                    "description": "Article's tone does not adhere to the formal and serious tone expected in an encyclopedia"
                 },
                 {
-                    "tag": "Yazım yanlışları",
-                    "description": "Madde yazım ve noktalama yanlışları ya da anlatım bozuklukları içermekte"
+                    "tag": "Spelling",
+                    "description": "Article contains spelling and punctuation errors or language issues"
                 },
                 {
-                    "tag": "Kafa karıştırıcı",
-                    "description": "Okuyucular için kafa karıştırıcı içeriklere veya net olmayan ifadelere sahip"
+                    "tag": "Confusing",
+                    "description": "Article contains content that is confusing to readers or has unclear expressions"
                 },
                 {
-                    "tag": "Kurgu-gerçek",
-                    "description": "Maddenin üslubu ve içeriği gerçek ve kurgusal öğeleri kesin olarak ayırt edememekte."
+                    "tag": "Fiction",
+                    "description": "Article's style and content do not clearly distinguish between fact and fiction"
                 },
                 {
-                    "tag": "Eksik",
-                    "description": "Maddede belli bir konu eksik",
+                    "tag": "Incomplete",
+                    "description": "Article is incomplete in a specific area",
                     "items": [
                         {
-                            "name": "EksikKonu",
+                            "name": "MissingTopic",
                             "parameter": "1",
                             "type": "input",
-                            "label": "Eksik olan konu:",
-                            "help": "Eksik olan konuyu belirtin. Gereklidir."
+                            "label": "Missing topic:",
+                            "help": "Specify the missing topic. Required."
                         }
                     ]
                 },
                 {
-                    "tag": "Uzman",
-                    "description": "Maddenin gelişebilmesi için konuda uzman kişilere gereksinim var",
+                    "tag": "Expert",
+                    "description": "Article requires input from experts to improve",
                     "items": [
                         {
                             "name": "expertNeeded",
-                            "parameter": "vikiproje",
+                            "parameter": "wikiproject",
                             "type": "input",
-                            "label": "İlgili Vikiprojenin adı:",
-                            "help": "İsteğe bağlı olarak bir Vikiproje adını girin. 'Vikiproje' ön ekini eklemeyin."
+                            "label": "Relevant WikiProject:",
+                            "help": "Optionally enter the name of a WikiProject. Do not include the 'WikiProject' prefix."
                         },
                         {
                             "name": "expertNeededReason",
-                            "parameter": "gerekçe",
+                            "parameter": "reason",
                             "type": "input",
-                            "label": "Gerekçe:",
-                            "help": "Sorunu açıklayan kısa açıklama. Gerekçe ya da tartışma bağlantısı gereklidir."
+                            "label": "Reason:",
+                            "help": "A brief explanation of the issue that requires expert input. A reason or discussion link is required."
                         },
                         {
                             "name": "expertNeededTalk",
-                            "parameter": "tartışma",
+                            "parameter": "discussion",
                             "type": "input",
-                            "label": "Tartışma:",
-                            "help": "Bu maddenin konunun tartışıldığı tartışma sayfasındaki bölümün adı. Bağlantı girmeyin, sadece bölümün adını girin. Gerekçe ya da tartışma bağlantısı gereklidir."
+                            "label": "Discussion:",
+                            "help": "The section name on the discussion page of the article where the issue is being discussed. Do not enter a link, just the section name. A reason or discussion link is required."
                         }
                     ]
                 },
                 {
-                    "tag": "Yersiz önem verme",
-                    "description": "Maddede çeşitli fikir, olay ve tartışmalara yersiz önem verilmiş"
+                    "tag": "Undue",
+                    "description": "Article gives undue weight to various opinions, events, or controversies"
                 },
                 {
-                    "tag": "Kehanet",
-                    "description": "Madde henüz olmamış gelecek olayları olmuş gibi göstermekte"
+                    "tag": "Prediction",
+                    "description": "Article makes predictions about future events that may not have happened yet"
                 },
                 {
-                    "tag": "Güncel",
-                    "description": "Madde güncel bir olay hakkında"
+                    "tag": "Current",
+                    "description": "Article is about a current event"
                 },
                 {
-                    "tag": "Güncel kişi",
-                    "description": "Bu kişi güncel bir olaya konu olmuştur"
+                    "tag": "Current person",
+                    "description": "This person is associated with a current event"
                 },
                 {
-                    "tag": "Güncelle",
-                    "description": "Maddenin daha doğru ve güvenilir bilgi sunması için güncellenmesi gerek"
+                    "tag": "Update",
+                    "description": "Article needs to be updated for accuracy and reliability"
                 },
                 {
-                    "tag": "Doğruluk",
-                    "description": "Madde tamamen bir aldatmaca olabilir"
+                    "tag": "Hoax",
+                    "description": "Article may be entirely fraudulent"
                 },
                 {
-                    "tag": "Evrenselleştir",
-                    "description": "Konu hakkında evrensel bir bakış açısını yansıtmıyor",
+                    "tag": "Globalize",
+                    "description": "Article does not reflect a global perspective on the subject",
                     "items": [
                         {
                             "name": "globalizeRegion",
                             "parameter": "1",
                             "type": "input",
-                            "label": "Ağırlıklı bakış açısı yansıtılan ülke veya bölge"
+                            "label": "Region reflected in bias"
                         }
                     ]
                 },
                 {
-                    "tag": "Otobiyografi",
-                    "description": "Madde bir otobiyografidir veya konuyla bağlı biri tarafından kapsamlı bir şekilde düzenlenmiştir"
+                    "tag": "Autobiography",
+                    "description": "Article is an autobiography or has been extensively edited by someone closely connected to the subject"
                 },
                 {
-                    "tag": "Taraflı",
-                    "description": "Bu madde taraflı olabilir"
+                    "tag": "POV",
+                    "description": "This article may be biased"
                 },
                 {
-                    "tag": "Tartışmalı",
-                    "description": "Madde hakkında tartışmalar halen sürmekte"
+                    "tag": "Controversial",
+                    "description": "Article is currently the subject of ongoing controversies"
                 },
                 {
-                    "tag": "Ücretli olabilir",
-                    "description": "Madde, çıkar çatışması gibi, ödeme karşılığında oluşturulmuş veya düzenlenmiş olabilir"
+                    "tag": "Paid",
+                    "description": "Article may have been created or edited for payment, such as conflicts of interest"
                 },
                 {
-                    "tag": "Yerellikten kurtar",
-                    "description": "Maddede yer alan bilgiler belli bir bölgenin bakış açısından ele alınmıştır"
+                    "tag": "De-localize",
+                    "description": "Information in the article has been viewed from the perspective of a specific region"
                 },
                 {
-                    "tag": "Anakaynaklar",
-                    "description": "Madde güvenilir bir yayında çıkmış alıntı/referanslar içermiyor"
+                    "tag": "Primary sources",
+                    "description": "Article lacks reliable sources from reputable publications"
                 },
                 {
-                    "tag": "Ek kaynak gerekli",
-                    "description": "Maddenin doğrulanabilmesi için ek kaynaklara ihtiyacı var"
+                    "tag": "Additional sources",
+                    "description": "Article needs additional sources for verification"
                 },
                 {
-                    "tag": "Kaynaksız",
-                    "description": "Madde herhangi bir kaynak içermiyor"
+                    "tag": "Unsourced",
+                    "description": "Article lacks any references or sources"
                 },
                 {
-                    "tag": "Özgün araştırma",
-                    "description": "Madde; özgün araştırma, doğrulanamaz veya yorumsal ifadeler içeriyor"
+                    "tag": "Original research",
+                    "description": "Article contains original research, unverifiable claims, or editorial opinions"
                 },
                 {
-                    "tag": "Şahsen yayımlanmış",
-                    "description": "Madde şahsen yayımlanmış kaynaklara verilen uygunsuz referanslar içeriyor"
+                    "tag": "Self-published",
+                    "description": "Article contains inappropriate references to self-published sources"
                 },
                 {
-                    "tag": "Tek kaynak",
-                    "description": "Madde tümüyle ya da çoğunluğuyla tek kaynağa dayanıyor"
+                    "tag": "Single source",
+                    "description": "Article relies entirely or predominantly on a single source"
                 },
                 {
-                    "tag": "Üçüncül kaynak",
-                    "description": "Maddenin yazımında madde konusuyla doğrudan ilintili kaynaklardan haddinden fazla yararlanılmış"
+                    "tag": "Third-party sources",
+                    "description": "Article relies too much on third-party sources closely associated with the subject"
                 }
             ]
         },
         {
-            "label": "Belirli içerik sorunları",
+            "label": "Specific content issues",
             "tags": [
                 {
-                    "tag": "Genişlet dil",
-                    "description": "Madde içeriği tercüme edilerek genişletilebilir",
-                    "items": [
-                        {
-                            "type": "hidden",
-                            "name": "expandLangTopic",
-                            "parameter": "topic",
-                            "value": "",
-                            "required": true
-                        },
-                        {
-                            "name": "expandLanguageLangCode",
-                            "parameter": "langcode",
-                            "type": "input",
-                            "label": "Dil kodu:",
-                            "help": "Maddenin genişletileceği dilin dil kodu",
-                            "required": true
-                        },
-                        {
-                            "name": "expandLanguageArticle",
-                            "parameter": "otherarticle",
-                            "type": "input",
-                            "label": "Madde adı:",
-                            "help": "Interwiki öneki olmadan genişletilecek maddenin diğer dildeki adı"
-                        }
-                    ]
+                    "tag": "Merge",
+                    "description": "Article closely resembles another article and should be merged"
                 },
                 {
-                    "tag": "Kötü çeviri",
-                    "description": "Madde başka bir dilden kötü bir biçimde tercüme edilmiş"
-                },
-                {
-                    "tag": "Türkçe değil",
-                    "description": "Madde Türkçe değil ve çevrilmesi gerekiyor"
-                },
-                {
-                    "tag": "Duvarlı bahçe",
-                    "description": "Maddeye yalnızca aynı konuya dair açılmış maddelerden bağlantılar veriliyor"
-                },
-                {
-                    "tag": "Çıkmaz sokak",
-                    "description": "Madde olması gerekenden az iç bağlantı içermektedir veya hiç içermemektedir"
-                },
-                {
-                    "tag": "Öksüz",
-                    "description": "Herhangi bir maddeden bu maddeye verilmiş bir bağlantı yok"
-                },
-                {
-                    "tag": "Dipnotsuz",
-                    "description": "Metin içi kaynaklar yeterince veya hiç kullanılmadığı için, bazı bilgilerin kaynağı belirsiz"
-                },
-                {
-                    "tag": "Kaynakları düzenle",
-                    "description": "Madde önerilmeyen biçimde kaynaklandırılmış"
-                },
-                {
-                    "tag": "Yalın URL'leri temizle",
-                    "description": "Maddede yalın URL'ler kullanılmış"
-                },
-                {
-                    "tag": "Kategorisiz",
-                    "description": "Bu maddeye hiçbir kategori eklenmemiş"
-                }
-            ]
-        },
-        {
-            "label": "Belirli içerik sorunları",
-            "tags": [
-                {
-                    "tag": "Birleştir",
-                    "description": "Madde başka bir maddeye çok benziyor ve birleştirilmesi gerekli"
-                },
-                {
-                    "tag": "Geçmiş birleştir",
-                    "description": "Maddenin başka bir maddeyle geçmişlerinin birleştirilmesi gerekli",
+                    "tag": "History merge",
+                    "description": "The histories of this article and another article need to be merged",
                     "items": [
                         {
                             "name": "histmergeOriginalPage",
                             "parameter": "1",
                             "type": "input",
-                            "label": "Diğer madde:",
-                            "help": "Birleştirilmesi gereken sayfanın adı (gerekli).",
-                            "required": true
+                            "label": "Other page:",
+                            "help": "Name of the page that needs to be merged (required)."
                         },
                         {
                             "name": "histmergeReason",
-                            "parameter": "gerekçe",
+                            "parameter": "reason",
                             "type": "input",
-                            "label": "Gerekçe:",
-                            "help": "Geçmişlerinin birleşmesinin neden gerekli olduğunu açıklayan kısa açıklama."
+                            "label": "Reason:",
+                            "help": "A brief explanation of why the merger of histories is necessary."
                         }
                     ]
                 },
                 {
-                    "tag": "Çalışma",
-                    "description": "Bu sayfada devam eden bir çalışma var"
+                    "tag": "Work",
+                    "description": "There is ongoing work on this page"
                 }
             ]
         }
     ],
     "useMultipleIssuesTemplate": true,
-    "multipleIssuesTemplate": "Çoklu sorun",
-    "uncategorizedTemplate": "Kategorisiz",
-    "apiPostSummary": "Sayfa etiketlendi"
+    "multipleIssuesTemplate": "Multiple issues",
+    "uncategorizedTemplate": "Uncategorized",
+    "apiPostSummary": "Page has been tagged"
 }

@@ -3,33 +3,33 @@
     "protectionDurations": [
         {
             "value": "temporary",
-            "data": "Geçici",
-            "label": "Geçici"
+            "data": "Temporary",
+            "label": "Temporary"
         },
         {
             "value": "indefinite",
-            "data": "Süresiz",
-            "label": "Süresiz"
+            "data": "Indefinite",
+            "label": "Indefinite"
         }
     ],
     "protectionTypes": [
         {
             "value": "semi-protection",
-            "data": "yarı koruma",
-            "label": "Yarı koruma"
+            "data": "Semi-protection",
+            "label": "Semi-protection"
         },
         {
             "value": "full-protection",
-            "data": "tam koruma",
-            "label": "Tam koruma"
+            "data": "Full protection",
+            "label": "Full protection"
         }
     ],
-    "noticeBoardTitle": "Vikipedi:Sayfa koruma talepleri",
+    "noticeBoardTitle": "Wikipedia:Requests for page protection",
     "addNewSection": false,
-    "sectionTitle": "[[$1|$1]] sayfası için koruma talebi",
+    "sectionTitle": "Protection request for [[$1|$1]] page",
     "appendText": true,
     "prependText": false,
     "sectionId": 1,
-    "contentPattern": "\n==== {{lmad|$1}} ====\n{{SKT|tür=$2 $3|gerekçe=$4 ~~~~|yorum=|karar=}}",
-    "apiPostSummary": "[[$1|$1]] için koruma talep edildi"
+    "contentPattern": "Protection Type: $2 $3 Protection Rationale: $4 ~~~~ Comment: Decision:",
+    "apiPostSummary": "Protection requested for [[$1|$1]]"
 }

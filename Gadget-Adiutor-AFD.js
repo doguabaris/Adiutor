@@ -18,29 +18,24 @@ function fetchApiData(callback) {
 			var jsonData = JSON.parse(content);
 			callback(jsonData);
 		} catch(error) {
-			// Handle JSON parsing error
 			mw.notify('Failed to parse JSON data from API.', {
 				title: mw.msg('operation-failed'),
 				type: 'error'
 			});
 		}
 	}).fail(function() {
-		// Handle API request failure
 		mw.notify('Failed to fetch data from the API.', {
 			title: mw.msg('operation-failed'),
 			type: 'error'
 		});
-		// You may choose to stop code execution here
 	});
 }
 fetchApiData(function(jsonData) {
 	if(!jsonData) {
-		// Handle a case where jsonData is empty or undefined
 		mw.notify('MediaWiki:Adiutor-UBM.json data is empty or undefined.', {
 			title: mw.msg('operation-failed'),
 			type: 'error'
 		});
-		// You may choose to stop code execution here
 		return;
 	}
 	var afdTemplate = jsonData.afdTemplate;
@@ -49,7 +44,11 @@ fetchApiData(function(jsonData) {
 	var apiPostSummaryforCreator = jsonData.apiPostSummaryforCreator;
 	var apiPostSummaryforUserLog = jsonData.apiPostSummaryforUserLog;
 	var apiPostSummaryforAfdPage = jsonData.apiPostSummaryforAfdPage;
-	var afdPage = jsonData.afdPage;
+	var apiPostSummaryforAfdLog = jsonData.apiPostSummaryforAfdLog;
+	var addNominationToNoticeboard = jsonData.addNominationToNoticeboard;
+	var contentPattern = jsonData.contentPattern;
+	var noticeBoardTitle = jsonData.noticeBoardTitle;
+	var noticeBoardLink = noticeBoardTitle.replace(/ /g, '_');
 	var logNominations = jsonData.logNominations;
 	var afdLogPage = jsonData.afdLogPage;
 	var afdNotificationTemplate = jsonData.afdNotificationTemplate;
@@ -58,6 +57,12 @@ fetchApiData(function(jsonData) {
 	var userTalkPagePrefix = jsonData.userTalkPagePrefix;
 	var specialContibutions = jsonData.specialContibutions;
 	var localMonthsNames = jsonData.localMonthsNames;
+	var addNominationToNoticeboardByFindLast = jsonData.addNominationToNoticeboardByFindLast;
+	var addNewSection = jsonData.addNewSection;
+	var sectionTitle = jsonData.sectionTitle;
+	var appendText = jsonData.appendText;
+	var prependText = jsonData.prependText;
+	var sectionId = jsonData.sectionId;
 	var pageTitle = mw.config.get("wgPageName").replace(/_/g, " ");
 
 	function articleForDeletionDialog(config) {
@@ -148,20 +153,24 @@ fetchApiData(function(jsonData) {
 						});
 					}
 				});
-				checkPreviousNominations(afdPage + "/" + mwConfig.wgPageName).then(function(data) {
+				checkPreviousNominations(noticeBoardTitle + "/" + mwConfig.wgPageName).then(function(data) {
 					if(data.query.pages["-1"]) {
 						var nomCount = 0;
 						console.log(nomCount);
 						nominatedPreviously = false;
-						afdTempalte = '{{sas|yardım=hayır}}';
-						putAfDTemplate(afdTempalte, nextNominationNumber);
+						putAfDTemplate(afdTemplate, nextNominationNumber);
 					} else {
 						Rec(2);
 					}
 				});
 
 				function Rec(nomCount) {
-					checkPreviousNominations(afdPage + "/" + mwConfig.wgPageName + ' ' + '(' + nomCount + '._aday_gösterme)').then(function(data) {
+					var placeholders = {
+						$1: pageTitle,
+						$2: nomCount,
+					};
+					var newNominationTitle = replacePlaceholders(afdPageTitleForMultipleNomination, placeholders);
+					checkPreviousNominations(noticeBoardTitle + "/" + newNominationTitle).then(function(data) {
 						if(!data.query.pages["-1"]) {
 							Rec(nomCount + 1);
 						} else {
@@ -247,10 +256,16 @@ fetchApiData(function(jsonData) {
 	}
 
 	function createNominationPage(nominatedPageTitle) {
+		var placeholders = {
+			$1: pageTitle,
+			$2: nomCount,
+			$3: rationaleInput.value,
+		};
+		var preparedContent = replacePlaceholders(contentPattern, placeholders);
 		api.postWithToken('csrf', {
 			action: 'edit',
-			title: afdPage + nominatedPageTitle,
-			appendtext: '{{yk:sas2 |sa = ' + mwConfig.wgPageName.replace(/_/g, " ") + '|metin= ' + rationaleInput.value + ' ~~~~ }}' + "\n",
+			title: noticeBoardTitle + nominatedPageTitle,
+			appendtext: preparedContent,
 			summary: apiPostSummary,
 			tags: 'Adiutor',
 			format: 'json'
@@ -258,27 +273,56 @@ fetchApiData(function(jsonData) {
 			addNominationToAfdPage(nominatedPageTitle);
 		});
 	}
-
-	function addNominationToAfdPage(nominatedPageTitle) {
+	if(addNominationToNoticeboard) {
+		var placeholders = {
+			$1: pageTitle,
+			$2: newPageName.value,
+			$3: rationaleInput.value,
+		};
+		var preparedContent = replacePlaceholders(contentPattern, placeholders);
+		var apiParams = {
+			action: 'edit',
+			title: noticeBoardTitle,
+			summary: replaceParameter(apiPostSummary, '1', pageTitle),
+			tags: 'Adiutor',
+			format: 'json'
+		};
+		if(addNewSection) {
+			apiParams.section = 'new';
+			apiParams.sectiontitle = replaceParameter(sectionTitle, '1', pageTitle);
+			apiParams.text = preparedContent;
+		} else {
+			if(sectionId) {
+				apiParams.section = sectionId;
+			}
+			apiParams[appendText ? 'appendtext' : prependText ? 'prependtext' : 'text'] = preparedContent + '\n';
+		}
+		api.postWithToken('csrf', apiParams).done(function() {
+			window.location = '/wiki/' + noticeBoardLink;
+		});
+	}
+	if(addNominationToNoticeboardByFindLast) {
 		var pageContent;
 		api.get({
 			action: 'parse',
-			page: afdPage,
+			page: noticeBoardTitle,
 			prop: 'wikitext',
 			format: "json"
 		}).done(function(data) {
 			pageContent = data.parse.wikitext['*'];
-			var NominatedBefore = pageContent.includes("{{" + afdPage + "/" + nominatedPageTitle.replace(/_/g, " ") + "}}");
+			var NominatedBefore = pageContent.includes("{{" + noticeBoardTitle + "/" + nominatedPageTitle.replace(/_/g, " ") + "}}");
 			if(!NominatedBefore) {
 				api.postWithToken('csrf', {
 					action: 'edit',
-					title: afdPage,
-					appendtext: "\n" + "{{" + afdPage + "/" + nominatedPageTitle.replace(/_/g, " ") + "}}",
+					title: noticeBoardTitle,
+					appendtext: "\n" + "{{" + noticeBoardTitle + "/" + nominatedPageTitle.replace(/_/g, " ") + "}}",
 					summary: apiPostSummaryforAfdPage,
 					tags: 'Adiutor',
 					format: 'json'
 				}).done(function() {
-					addNominationToAfdLogPage(nominatedPageTitle);
+					if(logNominations) {
+						addNominationToAfdLogPage(nominatedPageTitle);
+					}
 					adiutorUserOptions.stats.afdRequests++;
 					api.postWithEditToken({
 						action: 'globalpreferences',
@@ -290,51 +334,52 @@ fetchApiData(function(jsonData) {
 				});
 			}
 		});
-	}
-	if(logNominations) {
-		function addNominationToAfdLogPage(nominatedPageTitle) {
-			var date = new Date();
-			var date_year = date.getUTCFullYear();
-			var month_name = localMonthsNames[date.getUTCMonth()];
-			var pageContent;
-			api.get({
-				action: 'parse',
-				page: afdLogPage + date_year + "_" + month_name,
-				prop: 'wikitext',
-				format: "json"
-			}).done(function(data) {
-				pageContent = data.parse.wikitext['*'];
-				var NominatedBefore = pageContent.includes("{{" + afdPage + "/" + nominatedPageTitle.replace(/_/g, " ") + "}}");
-				if(!NominatedBefore) {
-					api.postWithToken('csrf', {
-						action: 'edit',
-						title: afdLogPage + date_year + "_" + month_name,
-						appendtext: "\n" + "{{" + afdPage + "/" + nominatedPageTitle.replace(/_/g, " ") + "}}",
-						summary: "Adaylık [[" + afdLogPage + "" + date_year + " " + month_name + "|mevcut ayın]] kayıtlarına eklendi.",
-						tags: 'Adiutor',
-						format: 'json'
-					}).done(function() {
-						window.location = '/wiki/' + afdPage + '/' + nominatedPageTitle.replace(/_/g, " ");
-					});
-				} else {
-					window.location = '/wiki/' + afdPage + '/' + nominatedPageTitle.replace(/_/g, " ");
-				}
-			});
+	} else {
+		if(logNominations) {
+			addNominationToAfdLogPage(nominatedPageTitle);
 		}
+	}
+
+	function addNominationToAfdLogPage(nominatedPageTitle) {
+		var date = new Date();
+		var date_year = date.getUTCFullYear();
+		var month_name = localMonthsNames[date.getUTCMonth()];
+		var day = date.getUTCDate();
+		var pageContent;
+		api.get({
+			action: 'parse',
+			page: afdLogPage + date_year + "_" + month_name + "_" + day,
+			prop: 'wikitext',
+			format: "json"
+		}).done(function(data) {
+			pageContent = data.parse.wikitext['*'];
+			var NominatedBefore = pageContent.includes("{{" + noticeBoardTitle + "/" + nominatedPageTitle.replace(/_/g, " ") + "}}");
+			if(!NominatedBefore) {
+				api.postWithToken('csrf', {
+					action: 'edit',
+					title: afdLogPage + date_year + "_" + month_name + "_" + day,
+					appendtext: "\n" + "{{" + noticeBoardTitle + "/" + nominatedPageTitle.replace(/_/g, " ") + "}}",
+					summary: apiPostSummaryforAfdLog,
+					tags: 'Adiutor',
+					format: 'json'
+				}).done(function() {
+					window.location = '/wiki/' + noticeBoardTitle + '/' + nominatedPageTitle.replace(/_/g, " ");
+				});
+			} else {
+				window.location = '/wiki/' + noticeBoardTitle + '/' + nominatedPageTitle.replace(/_/g, " ");
+			}
+		});
 	}
 
 	function logNomination() {
 		if(adiutorUserOptions.speedyDeletion.afdLogNominatedPages === true) {
-			// Get the current date and format it as "Month Year"
 			var currentDate = new Date();
 			var currentMonthYear = currentDate.toLocaleString(localLangCode, {
 				month: 'long',
 				year: 'numeric'
 			});
-			// Define the section title using the current month and year
 			var sectionTitle = "== " + currentMonthYear + " ==";
-			var newContent; // Define newContent here in a higher scope
-			// Fetch the content of the page
+			var newContent;
 			api.get({
 				action: 'parse',
 				page: userPagePrefix.concat(mwConfig.wgUserName, '/' + adiutorUserOptions.speedyDeletion.afdLogPageName + '').split(' ').join('_'),
@@ -342,15 +387,11 @@ fetchApiData(function(jsonData) {
 				prop: 'wikitext'
 			}).then(function(data) {
 				var pageContent = data.parse.wikitext['*'];
-				// Check if the section title exists in the page content
 				if(pageContent.includes(sectionTitle)) {
-					// Append the log entry just below the section
 					newContent = pageContent.replace(sectionTitle, sectionTitle + "\n" + replaceParameter(userLogText, '1', pageTitle));
 				} else {
-					// Create the section and append the log entry
 					newContent = pageContent + "\n\n" + sectionTitle + "\n" + replaceParameter(userLogText, '1', pageTitle);
 				}
-				// Perform the edit to update the page content
 				return api.postWithToken('csrf', {
 					action: 'edit',
 					title: userPagePrefix.concat(mwConfig.wgUserName, '/' + adiutorUserOptions.speedyDeletion.csdLogPageName + '').split(' ').join('_'),
@@ -360,9 +401,7 @@ fetchApiData(function(jsonData) {
 					format: 'json'
 				});
 			}).catch(function(error) {
-				// Handle the error here
 				console.error('Error:', error);
-				// If you want to retry the edit in the catch block, you can do so
 				api.postWithToken('csrf', {
 					action: 'edit',
 					title: userPagePrefix.concat(mwConfig.wgUserName, '/' + adiutorUserOptions.speedyDeletion.afdLogPageName + '').split(' ').join('_'),
