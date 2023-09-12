@@ -7,7 +7,7 @@ var api = new mw.Api();
 var mwConfig = mw.config.get(["wgPageName", "wgNamespaceNumber"]);
 var wikiId = mw.config.get('wgWikiID');
 var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-' + wikiId));
-var casdReason, csdSummary, notificationMessage, articleAuthor;
+var csdReason, csdSummary, notificationMessage, articleAuthor;
 var csdOptions = [];
 var csdReasons = [];
 var saltCsdSummary = '';
@@ -335,7 +335,7 @@ fetchApiData(function(jsonData) {
 									});
 								}
 							});
-							var CopVioURL = copyVioInput.value ? ' | ' + mw.msg('copyright-violation') + ':' + copyVioInput.value : '';
+							var copyVioURL = copyVioInput.value ? ' | ' + mw.msg('copyright-violation') + ':' + copyVioInput.value : '';
 							if(csdReasons.length > 0) {
 								if(csdReasons.length > 1) {
 									saltCsdSummary = csdReasons.map(function(reason) {
@@ -345,7 +345,7 @@ fetchApiData(function(jsonData) {
 								} else {
 									saltCsdSummary = csdSummary = csdReasons[0].data;
 								}
-								saltCsdSummary += CopVioURL;
+								saltCsdSummary += copyVioURL;
 								csdSummary = saltCsdSummary;
 								api.postWithToken('csrf', {
 									action: 'delete',

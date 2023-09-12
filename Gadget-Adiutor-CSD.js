@@ -7,7 +7,7 @@ var api = new mw.Api();
 var mwConfig = mw.config.get(["wgArticleId", "wgPageName", "wgNamespaceNumber", "wgUserName"]);
 var wikiId = mw.config.get('wgWikiID');
 var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-' + wikiId));
-var casdReason, csdSummary, notificationMessage, articleAuthor;
+var csdReason, csdSummary, notificationMessage, articleAuthor;
 var csdOptions = [];
 var csdReasons = [];
 var saltCsdSummary = '';
@@ -464,11 +464,11 @@ fetchApiData(function(jsonData) {
 		// Open the window.
 		windowManager.openWindow(speedyDeletionRequestDialog);
 		// Define functions below as needed
-		function putCSDTemplate(casdReason, csdSummary) {
+		function putCSDTemplate(csdReason, csdSummary) {
 			api.postWithToken('csrf', {
 				action: 'edit',
 				title: mwConfig.wgPageName,
-				prependtext: casdReason + "\n",
+				prependtext: csdReason + "\n",
 				summary: csdSummary,
 				tags: 'Adiutor',
 				format: 'json'

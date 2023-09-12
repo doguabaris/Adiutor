@@ -657,13 +657,12 @@ administratorToolsLayoutCsd.prototype.setupOutlineItem = function() {
 										} else if(action === 'continue') {
 											var dialog = this;
 											return new OO.ui.Process(function() {
-												var casdReason;
+												var csdReason;
 												var csdSummary;
-												var casdReasons = [];
-												var csdOptions = [];
+												var csdReasons = [];
 												nameSpaceDeletionReasons.items.forEach(function(Reason) {
 													if(Reason.fieldWidget.selected) {
-														casdReasons.push({
+														csdReasons.push({
 															value: Reason.fieldWidget.value,
 															data: Reason.fieldWidget.data,
 															selected: Reason.fieldWidget.selected
@@ -672,7 +671,7 @@ administratorToolsLayoutCsd.prototype.setupOutlineItem = function() {
 												});
 												generalReasons.items.forEach(function(Reason) {
 													if(Reason.fieldWidget.selected) {
-														casdReasons.push({
+														csdReasons.push({
 															value: Reason.fieldWidget.value,
 															data: Reason.fieldWidget.data,
 															selected: Reason.fieldWidget.selected
@@ -681,28 +680,28 @@ administratorToolsLayoutCsd.prototype.setupOutlineItem = function() {
 												});
 												var saltCsdSummary = '';
 												if(copyVioInput.value != "") {
-													CopVioURL = '|url=' + copyVioInput.value;
+													copyVioURL = '|url=' + copyVioInput.value;
 												} else {
-													CopVioURL = "";
+													copyVioURL = "";
 												}
-												if(casdReasons.length > 1) {
-													var SaltCSDReason = '{{sil|';
+												if(csdReasons.length > 1) {
+													var saltCsdReason = '{{sil|';
 													var i = 0;
-													var keys = Object.keys(casdReasons);
+													var keys = Object.keys(csdReasons);
 													for(i = 0; i < keys.length; i++) {
-														if(i > 0) SaltCSDReason += (i < keys.length - 1) ? ', ' : ' ve ';
-														SaltCSDReason += '[[VP:HS#' + casdReasons[keys[i]].value + ']]';
+														if(i > 0) saltCsdReason += (i < keys.length - 1) ? ', ' : ' ve ';
+														saltCsdReason += '[[VP:HS#' + csdReasons[keys[i]].value + ']]';
 													}
 													for(i = 0; i < keys.length; i++) {
 														if(i > 0) saltCsdSummary += (i < keys.length - 1) ? ', ' : ' ve ';
-														saltCsdSummary += '[[VP:HS#' + casdReasons[keys[i]].value + ']]';
+														saltCsdSummary += '[[VP:HS#' + csdReasons[keys[i]].value + ']]';
 													}
-													casdReason = SaltCSDReason + CopVioURL + '}}';
+													csdReason = saltCsdReason + copyVioURL + '}}';
 													csdSummary = saltCsdSummary;
 												} else {
-													casdReason = '{{sil|' + casdReasons[0].data + CopVioURL + '}}';
-													csdSummary = casdReasons[0].data;
-													saltCsdSummary = casdReasons[0].data;
+													csdReason = '{{sil|' + csdReasons[0].data + copyVioURL + '}}';
+													csdSummary = csdReasons[0].data;
+													saltCsdSummary = csdReasons[0].data;
 												}
 												api.postWithToken('csrf', {
 													action: 'delete',
