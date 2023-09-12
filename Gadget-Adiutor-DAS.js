@@ -1210,14 +1210,4 @@ var dialog = new MyProcessDialog({
 });
 windowManager.addWindows([dialog]);
 windowManager.openWindow(dialog);
-
-function updateOptions(updatedOptions) {
-	api.postWithEditToken({
-		action: 'globalpreferences',
-		format: 'json',
-		optionname: 'userjs-adiutor',
-		optionvalue: JSON.stringify(updatedOptions),
-		formatversion: 2,
-	}).done(function() {});
-}
 /* </nowiki> */

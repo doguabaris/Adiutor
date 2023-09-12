@@ -197,9 +197,9 @@ function updateOptions(updatedOptions) {
 	api.postWithEditToken({
 		action: 'globalpreferences',
 		format: 'json',
-		optionname: 'userjs-adiutor',
+		optionname: 'userjs-adiutor-' + mw.config.get('wgWikiID'),
 		optionvalue: JSON.stringify(updatedOptions),
 		formatversion: 2,
-	}).done(function () { });
+	}, function() {});
 }
 /* </nowiki> */

@@ -7,10 +7,11 @@ var api = new mw.Api();
 var mwConfig = mw.config.get(["wgPageName", "wgNamespaceNumber"]);
 var wikiId = mw.config.get('wgWikiID');
 var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-' + wikiId));
-var casdReason, csdSummary;
-var casdReasons = [];
+var casdReason, csdSummary, notificationMessage, articleAuthor;
+var csdOptions = [];
+var csdReasons = [];
 var saltCsdSummary = '';
-var params = {};
+var pageTitle = mw.config.get("wgPageName").replace(/_/g, " ");
 
 function fetchApiData(callback) {
 	api.get({
@@ -43,7 +44,7 @@ function fetchApiData(callback) {
 fetchApiData(function(jsonData) {
 	if(!jsonData) {
 		// Handle a case where jsonData is empty or undefined
-		mw.notify('MediaWiki:Gadget-Adiutor-UBM.json data is empty or undefined.', {
+		mw.notify('MediaWiki:Gadget-Adiutor-CSD.json data is empty or undefined.', {
 			title: mw.msg('operation-failed'),
 			type: 'error'
 		});
@@ -318,7 +319,7 @@ fetchApiData(function(jsonData) {
 						return new OO.ui.Process(function() {
 							nameSpaceDeletionReasons.items.forEach(function(Reason) {
 								if(Reason.fieldWidget.selected) {
-									casdReasons.push({
+									csdReasons.push({
 										value: Reason.fieldWidget.value,
 										data: Reason.fieldWidget.data,
 										selected: Reason.fieldWidget.selected
@@ -327,7 +328,7 @@ fetchApiData(function(jsonData) {
 							});
 							generalReasons.items.forEach(function(Reason) {
 								if(Reason.fieldWidget.selected) {
-									casdReasons.push({
+									csdReasons.push({
 										value: Reason.fieldWidget.value,
 										data: Reason.fieldWidget.data,
 										selected: Reason.fieldWidget.selected
@@ -335,14 +336,14 @@ fetchApiData(function(jsonData) {
 								}
 							});
 							var CopVioURL = copyVioInput.value ? ' | ' + mw.msg('copyright-violation') + ':' + copyVioInput.value : '';
-							if(casdReasons.length > 0) {
-								if(casdReasons.length > 1) {
-									saltCsdSummary = casdReasons.map(function(reason) {
+							if(csdReasons.length > 0) {
+								if(csdReasons.length > 1) {
+									saltCsdSummary = csdReasons.map(function(reason) {
 										return '[[VP:HS#' + reason.value + ']]';
 									}).join(', ');
 									saltCsdSummary = saltCsdSummary.replace(/,(?=[^,]*$)/, ' ve');
 								} else {
-									saltCsdSummary = csdSummary = casdReasons[0].data;
+									saltCsdSummary = csdSummary = csdReasons[0].data;
 								}
 								saltCsdSummary += CopVioURL;
 								csdSummary = saltCsdSummary;

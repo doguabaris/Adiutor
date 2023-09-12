@@ -211,10 +211,10 @@ fetchApiData(function(jsonData) {
 			api.postWithEditToken({
 				action: 'globalpreferences',
 				format: 'json',
-				optionname: 'userjs-adiutor',
+				optionname: 'userjs-adiutor-' + mw.config.get('wgWikiID'),
 				optionvalue: JSON.stringify(adiutorUserOptions),
 				formatversion: 2,
-			}).done(function() {});
+			}, function() {});
 			location.reload();
 		});
 	}
