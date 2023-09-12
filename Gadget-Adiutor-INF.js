@@ -99,7 +99,7 @@ $.ajax({
 					articleInfoDialog.super.prototype.initialize.apply(this, arguments);
 					// Create elements to display information
 					var authorMessage = mw.msg('page-more-info-tip-author');
-					var authorMessageWithStrong = authorMessage.replace(/\$1/g, '<strong><a href="/wiki/Kullanıcı:' + response.author + '">' + response.author + '</a></strong>');
+					var authorMessageWithStrong = authorMessage.replace(/\$1/g, '<strong><a href="/wiki/User:' + response.author + '">' + response.author + '</a></strong>');
 					var articleCreator = new OO.ui.MessageWidget({
 						type: 'warning',
 						icon: 'infoFilled',
@@ -152,7 +152,7 @@ $.ajax({
 		var translationKey = "page-info-tip";
 		var translation = mw.msg(translationKey);
 		var translatedText = translation.replace(/\$1/g, '<strong>' + response.created_at + '</strong>')
-			.replace(/\$2/g, "<strong><a href='/wiki/Kullanıcı:" + response.author + "'>" + response.author + "</a></strong>")
+			.replace(/\$2/g, "<strong><a href='/wiki/User:" + response.author + "'>" + response.author + "</a></strong>")
 			.replace(/\$3/g, response.author_editcount)
 			.replace(/\$4/g, response.revisions)
 			.replace(/\$5/g, response.editors)

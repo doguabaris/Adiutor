@@ -28,7 +28,7 @@ function sectionOneLayout(name, config) {
 		flags: ['progressive']
 	});
 	myTalkButton.on('click', function() {
-		window.open('/wiki/Kullanıcı_mesaj:' + mwConfig.wgUserName + '', '_blank');
+		window.open('/wiki/User_talk:' + mwConfig.wgUserName + '', '_blank');
 	});
 	var myContributionsButton = new OO.ui.ButtonWidget({
 		label: mw.msg('my-contributions'),
