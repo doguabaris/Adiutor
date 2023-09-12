@@ -1,8 +1,8 @@
-![Alt text](https://upload.wikimedia.org/wikipedia/commons/3/36/Adiutor_promote_image.png)
-
 # Adiutor
 
 Adiutor is a tool developed to facilitate maintenance tasks on Wikipedia, making them more efficient and user-friendly. Built using OOUI-based MediaWiki JS and JavaScript, Adiutor is designed to provide users with convenience in performing various tasks. All suggestions and bug reports are reviewed and discussed on the discussion page to continually improve and refine the tool. The active participation and support from the Wikipedia community play a vital role in further developing Adiutor into a more functional and user-friendly tool.
+
+![Alt text](https://upload.wikimedia.org/wikipedia/commons/3/36/Adiutor_promote_image.png)
 
 # Features
 ## Common features for all users
@@ -40,9 +40,14 @@ Adiutor is a tool developed to facilitate maintenance tasks on Wikipedia, making
 * Administrators can block users by using a user-blocking module.
 * Administrators can perform speedy page deletion and batch page deletion.
 
-* Help
-Adapt to the local wiki
-Localization documentation
+# Screenshots
+
+![Screenshot](https://upload.wikimedia.org/wikipedia/commons/0/01/Aduitor_menu_01.png)
+![Screenshot](https://upload.wikimedia.org/wikipedia/commons/3/3d/Aduitor_menu_02.png)
+![Screenshot](https://upload.wikimedia.org/wikipedia/commons/3/3a/Aduitor_menu_03.png)
+![Screenshot](https://upload.wikimedia.org/wikipedia/commons/6/67/Aduitor_menu_04.png)
+
+
 
 # Licensing and Attribution
 
