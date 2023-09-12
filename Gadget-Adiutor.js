@@ -105,7 +105,6 @@ if(!adiutorUserOptions || Object.keys(adiutorUserOptions).length === 0) {
 	// Send default user options to the server using API
 	updateOptions(adiutorUserOptionsDefault);
 	// Retrieve default translation data
-	updateTranslations();
 } else {
 	var hasNewOptions = false; // Flag to check if there are new options
 	// Loop through the properties in adiutorUserOptionsDefault
@@ -122,7 +121,6 @@ if(!adiutorUserOptions || Object.keys(adiutorUserOptions).length === 0) {
 	// Update user options if new settings are found
 	if(hasNewOptions) {
 		updateOptions(adiutorUserOptions);
-		updateTranslations();
 	}
 }
 try {
