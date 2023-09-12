@@ -76,6 +76,7 @@ fetchApiData(function(jsonData) {
 		var localLangCode = jsonData.localLangCode;
 		var singleReasonSummary = jsonData.singleReasonSummary;
 		var multipleReasonSummary = jsonData.multipleReasonSummary;
+		var copyVioReasonValue = jsonData.copyVioReasonValue;
 
 		function SpeedyDeletionRequestDialog(config) {
 			SpeedyDeletionRequestDialog.super.call(this, config);
@@ -225,7 +226,7 @@ fetchApiData(function(jsonData) {
 					data: reason.data,
 					selected: false
 				});
-				if(reason.value === 'G9') {
+				if(reason.value === copyVioReasonValue) {
 					fieldLayout = new OO.ui.FieldLayout(checkboxWidget, {
 						label: reason.label,
 						align: 'inline',
@@ -270,7 +271,7 @@ fetchApiData(function(jsonData) {
 				otherReasons.addItems([fieldLayout]);
 			}
 			generalReasons.$element.on('click', function(item) {
-				if(item.target.value === 'G9') {
+				if(item.target.value === copyVioReasonValue) {
 					copyVioInput.$element.show();
 				}
 			});

@@ -1,4 +1,5 @@
-{   "//": "You can utilize the parameters within this file, which include: $1 page name, and $2 reason.",
+{
+    "//": "You can utilize the parameters within this file, which include: $1 page name, and $2 reason.",
     "speedyDeletionReasons": [
         {
             "name": "Articles",
@@ -88,6 +89,13 @@
                     "selected": false,
                     "label": "G1 - A test page",
                     "namespace": "general"
+                },
+                {
+                    "data": "[[WP:CSD#G2|CSD:G2]]: Copyright violation",
+                    "value": "G2",
+                    "selected": false,
+                    "label": "G2 - Copyright violation",
+                    "namespace": "general"
                 }
             ]
         },
@@ -133,5 +141,6 @@
     "localLangCode": "en-US",
     "singleReasonSummary": "Requesting fast deletion of the page due to reason $2.",
     "multipleReasonSummary": "Requesting fast deletion of the page due to reasons $2.",
-    "csdCategoryForBatchDeletion": "Category:Pages nominated for speedy deletion"
+    "csdCategoryForBatchDeletion": "Category:Pages nominated for speedy deletion",
+    "copyVioReasonValue": "G2"
 }
