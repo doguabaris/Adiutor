@@ -5,7 +5,7 @@
     "sectionTitle": "[[$1|$1]] sayfası için taşıma talebi",
     "appendText": true,
     "prependText": false,
-    "sectionID": false,
+    "sectionId": false,
     "contentPattern": "\n{{kopyala:Vikipedi:Sayfa taşıma talepleri/Önyükleme-şablon|1=$1|2=$2|3=$3}}",
     "apiPostSummary": "[[$1|$1]] sayfası için taşıma talebi oluşturuldu"
 }

@@ -1,19 +1,14 @@
-/*
- * Adiutor: Adiutor enables versatile editing options and modules to assist a variety of user actions to enhance the Wikipedia editing experience.
+/* Adiutor: Enhancing Wikipedia Editing Through a Comprehensive Set of Versatile Tools and Modules.
  * Author: Vikipolimer
  * Learn more at: https://meta.wikimedia.org/wiki/Adiutor
- * Licensing and Attribution: Licensed under Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
- * Module: Revision deletion requests
- */
-/* <nowiki> */
-// Get essential configuration from MediaWiki
+ * License: Licensed under Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
+<nowiki> */
 var api = new mw.Api();
 var wikiId = mw.config.get('wgWikiID');
 var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-' + wikiId));
 var deletionRationale, requestRationale;
 
 function fetchApiData(callback) {
-	var api = new mw.Api();
 	api.get({
 		action: "query",
 		prop: "revisions",
@@ -56,7 +51,7 @@ fetchApiData(function(jsonData) {
 	var addNewSection = jsonData.addNewSection;
 	var appendText = jsonData.appendText;
 	var prependText = jsonData.prependText;
-	var sectionID = jsonData.sectionID;
+	var sectionId = jsonData.sectionId;
 	var contentPattern = jsonData.contentPattern;
 	var apiPostSummary = jsonData.apiPostSummary;
 	var sectionTitle = jsonData.sectionTitle;
@@ -176,8 +171,8 @@ fetchApiData(function(jsonData) {
 					apiParams.sectiontitle = replaceParameter(sectionTitle, '1', sectionTitle);
 					apiParams.text = preparedContent;
 				} else {
-					if(sectionID) {
-						apiParams.section = sectionID;
+					if(sectionId) {
+						apiParams.section = sectionId;
 					}
 					apiParams[appendText ? 'appendtext' : prependText ? 'prependtext' : 'text'] = preparedContent + '\n';
 				}

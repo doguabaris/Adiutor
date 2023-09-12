@@ -1,17 +1,13 @@
-/*
- * Adiutor: Adiutor enables versatile editing options and modules to assist a variety of user actions to enhance the Wikipedia editing experience.
+/* Adiutor: Enhancing Wikipedia Editing Through a Comprehensive Set of Versatile Tools and Modules.
  * Author: Vikipolimer
  * Learn more at: https://meta.wikimedia.org/wiki/Adiutor
- * Licensing and Attribution: Licensed under Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
- * Module: User warning
- */
-/* <nowiki> */
-// Get essential configuration from MediaWiki
+ * License: Licensed under Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
+<nowiki> */
 var api = new mw.Api();
 var mwConfig = mw.config.get(["wgPageName", "wgNamespaceNumber"]);
 var wikiId = mw.config.get('wgWikiID');
 var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-' + wikiId));
-var RequestRationale, warningData;
+var requestRationale, warningData;
 
 function fetchApiData(callback) {
 	var api = new mw.Api();
@@ -60,13 +56,13 @@ fetchApiData(function(jsonData) {
 	var specialContibutions = jsonData.specialContibutions;
 	var userWarned = userTalkPagePrefix + mwConfig.wgPageName.replace(/_/g, " ").replace(userPagePrefix, '').replace(specialContibutions, '').replace(userTalkPagePrefix, '');
 
-	function UserWarningDialog(config) {
-		UserWarningDialog.super.call(this, config);
+	function userWarningDialog(config) {
+		userWarningDialog.super.call(this, config);
 	}
-	OO.inheritClass(UserWarningDialog, OO.ui.ProcessDialog);
-	UserWarningDialog.static.name = 'UserWarningDialog';
-	UserWarningDialog.static.title = new OO.ui.deferMsg('wrn-module-title');
-	UserWarningDialog.static.actions = [{
+	OO.inheritClass(userWarningDialog, OO.ui.ProcessDialog);
+	userWarningDialog.static.name = 'userWarningDialog';
+	userWarningDialog.static.title = new OO.ui.deferMsg('wrn-module-title');
+	userWarningDialog.static.actions = [{
 		action: 'save',
 		label: new OO.ui.deferMsg('warn'),
 		flags: ['primary', 'progressive'],
@@ -75,15 +71,15 @@ fetchApiData(function(jsonData) {
 		label: new OO.ui.deferMsg('cancel'),
 		flags: 'safe'
 	}];
-	UserWarningDialog.prototype.initialize = function() {
-		UserWarningDialog.super.prototype.initialize.apply(this, arguments);
+	userWarningDialog.prototype.initialize = function() {
+		userWarningDialog.super.prototype.initialize.apply(this, arguments);
 		var headerTitle = new OO.ui.MessageWidget({
 			type: 'notice',
 			inline: true,
 			label: new OO.ui.deferMsg('wrn-dialog-description')
 		});
 		headerTitle.$element.css('margin-top', '20px');
-		var RationaleSelector = new OO.ui.DropdownWidget({
+		var rationaleSelector = new OO.ui.DropdownWidget({
 			menu: {
 				items: userWarnings.map(function(warning) {
 					return new OO.ui.MenuOptionWidget({
@@ -94,11 +90,11 @@ fetchApiData(function(jsonData) {
 			},
 			label: new OO.ui.deferMsg('warning-type'),
 		});
-		RationaleSelector.getMenu().on('choose', function(menuOption) {
+		rationaleSelector.getMenu().on('choose', function(menuOption) {
 			warningData = menuOption.getData();
 			console.log(warningData);
 		});
-		RationaleSelector.$element.css('margin-top', '20px');
+		rationaleSelector.$element.css('margin-top', '20px');
 		relatedPageField = new OO.ui.FieldLayout(relatedPage = new OO.ui.TextInputWidget({
 			value: '',
 			required: true
@@ -126,10 +122,10 @@ fetchApiData(function(jsonData) {
 			'margin-top': '20px',
 			'margin-bottom': '20px'
 		});
-		this.content.$element.append(headerTitle.$element, RationaleSelector.$element, relatedPageField.$element, warningLevel.$element);
+		this.content.$element.append(headerTitle.$element, rationaleSelector.$element, relatedPageField.$element, warningLevel.$element);
 		this.$body.append(this.content.$element);
 	};
-	UserWarningDialog.prototype.getActionProcess = function(action) {
+	userWarningDialog.prototype.getActionProcess = function(action) {
 		if(action === 'save') {
 			if(relatedPage.value === '' || !warningData) {
 				// If the related page is empty or warning data is missing, show an error notification.
@@ -154,11 +150,11 @@ fetchApiData(function(jsonData) {
 				});
 			}
 		}
-		return UserWarningDialog.super.prototype.getActionProcess.call(this, action);
+		return userWarningDialog.super.prototype.getActionProcess.call(this, action);
 	};
 	var windowManager = new OO.ui.WindowManager();
 	$(document.body).append(windowManager.$element);
-	var dialog = new UserWarningDialog();
+	var dialog = new userWarningDialog();
 	windowManager.addWindows([dialog]);
 	windowManager.openWindow(dialog);
 
@@ -168,7 +164,7 @@ fetchApiData(function(jsonData) {
 			title: userWarned,
 			section: 'new',
 			sectiontitle: warningMessageTitle,
-			text: '{{subst:ADT-WT|' + warningLevel.getValue() + '|' + warningData.title + '|' + warningData.body.replace(/\$1/g, '[[' + relatedPage.value + ']]') + '|~~~~}}',
+			text: '{{subst:ADT-WT|' + warningLevel.getValue() + '|' + warningData.title + '|' + replaceParameter(warningData.body, '1', relatedPage.value) + '|~~~~}}',
 			summary: apiPostSummary,
 			tags: 'Adiutor',
 			watchlist: 'unwatch',

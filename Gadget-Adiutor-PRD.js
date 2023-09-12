@@ -1,19 +1,14 @@
-/*
- * Adiutor: Adiutor enables versatile editing options and modules to assist a variety of user actions to enhance the Wikipedia editing experience.
+/* Adiutor: Enhancing Wikipedia Editing Through a Comprehensive Set of Versatile Tools and Modules.
  * Author: Vikipolimer
  * Learn more at: https://meta.wikimedia.org/wiki/Adiutor
- * Licensing and Attribution: Licensed under Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
- * Module: Proposed deletion
- */
-/* <nowiki> */
-// Get essential configuration from MediaWiki
-var mwConfig = mw.config.get(["wgArticleId", "wgPageName", "wgUserGroups", "wgUserName"]);
+ * License: Licensed under Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
+<nowiki> */
 var api = new mw.Api();
+var mwConfig = mw.config.get(["wgArticleId", "wgPageName", "wgUserGroups", "wgUserName"]);
 var wikiId = mw.config.get('wgWikiID');
 var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-' + wikiId));
 
 function fetchApiData(callback) {
-	var api = new mw.Api();
 	api.get({
 		action: "query",
 		prop: "revisions",
@@ -62,13 +57,13 @@ fetchApiData(function(jsonData) {
 	var prodNotificationTemplate = jsonData.prodNotificationTemplate;
 	var pageTitle = mw.config.get("wgPageName").replace(/_/g, " ");
 
-	function ProposedDeletionDialog(config) {
-		ProposedDeletionDialog.super.call(this, config);
+	function proposedDeletionDialog(config) {
+		proposedDeletionDialog.super.call(this, config);
 	}
-	OO.inheritClass(ProposedDeletionDialog, OO.ui.ProcessDialog);
-	ProposedDeletionDialog.static.name = 'ProposedDeletionDialog';
-	ProposedDeletionDialog.static.title = new OO.ui.deferMsg('rpp-module-title');
-	ProposedDeletionDialog.static.actions = [{
+	OO.inheritClass(proposedDeletionDialog, OO.ui.ProcessDialog);
+	proposedDeletionDialog.static.name = 'proposedDeletionDialog';
+	proposedDeletionDialog.static.title = new OO.ui.deferMsg('rpp-module-title');
+	proposedDeletionDialog.static.actions = [{
 		action: 'save',
 		label: new OO.ui.deferMsg('propose'),
 		flags: ['primary', 'progressive']
@@ -76,8 +71,8 @@ fetchApiData(function(jsonData) {
 		label: new OO.ui.deferMsg('cancel'),
 		flags: 'safe'
 	}];
-	ProposedDeletionDialog.prototype.initialize = function() {
-		ProposedDeletionDialog.super.prototype.initialize.apply(this, arguments);
+	proposedDeletionDialog.prototype.initialize = function() {
+		proposedDeletionDialog.super.prototype.initialize.apply(this, arguments);
 		var headerTitle = new OO.ui.MessageWidget({
 			type: 'notice',
 			inline: true,
@@ -91,10 +86,10 @@ fetchApiData(function(jsonData) {
 			"margin-left": "30px",
 			"margin-bottom": "20px",
 		});
-		ProposeOptions = new OO.ui.FieldsetLayout({
+		proposeOptions = new OO.ui.FieldsetLayout({
 			label: new OO.ui.deferMsg('prd-deletion-type')
 		});
-		ProposeOptions.addItems([
+		proposeOptions.addItems([
 			new OO.ui.FieldLayout(new OO.ui.CheckboxInputWidget({
 				selected: false,
 				value: 'standardPropose'
@@ -138,10 +133,10 @@ fetchApiData(function(jsonData) {
 			padded: true,
 			expanded: false
 		});
-		this.content.$element.append(headerTitle.$element, headerTitleDescription.$element, ProposeOptions.$element);
+		this.content.$element.append(headerTitle.$element, headerTitleDescription.$element, proposeOptions.$element);
 		this.$body.append(this.content.$element);
 	};
-	ProposedDeletionDialog.prototype.getActionProcess = function(action) {
+	proposedDeletionDialog.prototype.getActionProcess = function(action) {
 		var dialog = this;
 		if(action) {
 			return new OO.ui.Process(function() {
@@ -149,7 +144,7 @@ fetchApiData(function(jsonData) {
 				var Months = localMonthsNames;
 				var PRDText;
 				var PRDoptions = [];
-				ProposeOptions.items.forEach(function(Option) {
+				proposeOptions.items.forEach(function(Option) {
 					if(Option.fieldWidget.selected) {
 						PRDoptions.push({
 							value: Option.fieldWidget.value,
@@ -196,14 +191,13 @@ fetchApiData(function(jsonData) {
 				});
 			});
 		}
-		return ProposedDeletionDialog.super.prototype.getActionProcess.call(this, action);
+		return proposedDeletionDialog.super.prototype.getActionProcess.call(this, action);
 	};
 	var windowManager = new OO.ui.WindowManager();
 	$(document.body).append(windowManager.$element);
-	var dialog = new ProposedDeletionDialog();
+	var dialog = new proposedDeletionDialog();
 	windowManager.addWindows([dialog]);
 	windowManager.openWindow(dialog);
-
 	function putPRDTemplate(PRDText) {
 		api.postWithToken('csrf', {
 			action: 'edit',

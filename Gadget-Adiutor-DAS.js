@@ -1,18 +1,15 @@
-/*
- * Adiutor: Adiutor enables versatile editing options and modules to assist a variety of user actions to enhance the Wikipedia editing experience.
+/* Adiutor: Enhancing Wikipedia Editing Through a Comprehensive Set of Versatile Tools and Modules.
  * Author: Vikipolimer
  * Learn more at: https://meta.wikimedia.org/wiki/Adiutor
- * Licensing and Attribution: Licensed under Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
- * Module: Adiutor User Dashboard
- */
-/* <nowiki> */
+ * License: Licensed under Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
+<nowiki> */
 var api = new mw.Api();
 var mwConfig = mw.config.get(["wgArticleId", "wgPageName", "wgUserGroups", "wgUserName", "wgUserEditCount", "wgUserRegistration"]);
 var wikiId = mw.config.get('wgWikiID');
 var wgContentLanguage = mw.config.get('wgContentLanguage');
 var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-' + wikiId));
-function SectionOneLayout(name, config) {
-	SectionOneLayout.super.call(this, name, config);
+function sectionOneLayout(name, config) {
+	sectionOneLayout.super.call(this, name, config);
 	var currentUserWelcomeText = new OO.ui.LabelWidget({
 		label: mw.msg('hello'),
 		classes: ['adiutor-user-dashboard-welcome-text']
@@ -101,13 +98,13 @@ function SectionOneLayout(name, config) {
 	});
 	this.$element.append(adiutorUserDahboardStack.$element);
 }
-OO.inheritClass(SectionOneLayout, OO.ui.PageLayout);
-SectionOneLayout.prototype.setupOutlineItem = function() {
+OO.inheritClass(sectionOneLayout, OO.ui.PageLayout);
+sectionOneLayout.prototype.setupOutlineItem = function() {
 	this.outlineItem.setLabel(mw.msg('adiutor-dashboard-main-page'));
 };
 
-function SectionTwoLayout(name, config) {
-	SectionTwoLayout.super.call(this, name, config);
+function sectionTwoLayout(name, config) {
+	sectionTwoLayout.super.call(this, name, config);
 	var tabPanelsArray = [];
 	api.get({
 		action: 'query',
@@ -203,8 +200,8 @@ function SectionTwoLayout(name, config) {
 		this.$element.append(index.$element);
 	}).catch(error => console.error("Error fetching data from API:", error));
 }
-OO.inheritClass(SectionTwoLayout, OO.ui.PageLayout);
-SectionTwoLayout.prototype.setupOutlineItem = function() {
+OO.inheritClass(sectionTwoLayout, OO.ui.PageLayout);
+sectionTwoLayout.prototype.setupOutlineItem = function() {
 	this.outlineItem.setLabel(mw.msg('help-and-guides'));
 };
 var _this = this;
@@ -337,15 +334,15 @@ administratorToolsLayoutCsd.prototype.setupOutlineItem = function() {
 								if(authorEditcount === null) {
 									authorEditcount = 0;
 								}
-								var AboutArticleContent = $('<div>').append(mw.msg('page-info-tip', response.created_at, response.author, authorEditcount, response.revisions, response.editors, response.pageviews, response.pageviews_offset)).append();
-								var AboutArticle = new OO.ui.MessageWidget({
+								var aboutArticleContent = $('<div>').append(mw.msg('page-info-tip', response.created_at, response.author, authorEditcount, response.revisions, response.editors, response.pageviews, response.pageviews_offset)).append();
+								var aboutArticle = new OO.ui.MessageWidget({
 									type: 'notice',
 									icon: 'article',
 									showClose: true,
-									label: new OO.ui.HtmlSnippet(AboutArticleContent),
+									label: new OO.ui.HtmlSnippet(aboutArticleContent),
 									classes: ['adiutor-aricle-detail-box']
 								});
-								pageLayout.$articleinfobox.append(AboutArticle.$element);
+								pageLayout.$articleinfobox.append(aboutArticle.$element);
 								pageLayout.$articleinfobox.css({
 									'margin-top': '53px',
 									'position': 'fixed',
@@ -781,14 +778,14 @@ administratorToolsLayoutCsd.prototype.setupOutlineItem = function() {
 							}, function(data) {
 								messageDialog.close();
 
-								function CopyVioDialog(config) {
-									CopyVioDialog.super.call(this, config);
+								function copyVioDialog(config) {
+									copyVioDialog.super.call(this, config);
 								}
-								OO.inheritClass(CopyVioDialog, OO.ui.ProcessDialog);
+								OO.inheritClass(copyVioDialog, OO.ui.ProcessDialog);
 								var copVioRatio = (data.best.confidence * 100).toFixed(2);
-								CopyVioDialog.static.title = mw.msg('copyvio-result', copVioRatio),
-									CopyVioDialog.static.name = 'CopyVioDialog';
-								CopyVioDialog.static.actions = [{
+								copyVioDialog.static.title = mw.msg('copyvio-result', copVioRatio),
+									copyVioDialog.static.name = 'copyVioDialog';
+								copyVioDialog.static.actions = [{
 									action: 'continue',
 									modes: 'edit',
 									label: mw.msg('detailed-analysis'),
@@ -818,8 +815,8 @@ administratorToolsLayoutCsd.prototype.setupOutlineItem = function() {
 										label: mw.msg('copyvio-potential-violation-low', copVioRatio),
 									});
 								}
-								CopyVioDialog.prototype.initialize = function() {
-									CopyVioDialog.super.prototype.initialize.apply(this, arguments);
+								copyVioDialog.prototype.initialize = function() {
+									copyVioDialog.super.prototype.initialize.apply(this, arguments);
 									var cvRelSource = data.sources.filter(function(source) {
 										return !source.excluded;
 									});
@@ -846,12 +843,12 @@ administratorToolsLayoutCsd.prototype.setupOutlineItem = function() {
 									}, this);
 									this.$body.append(this.panel1.$element);
 								};
-								CopyVioDialog.prototype.getSetupProcess = function(data) {
-									return CopyVioDialog.super.prototype.getSetupProcess.call(this, data).next(function() {
+								copyVioDialog.prototype.getSetupProcess = function(data) {
+									return copyVioDialog.super.prototype.getSetupProcess.call(this, data).next(function() {
 										this.actions.setMode('edit');
 									}, this);
 								};
-								CopyVioDialog.prototype.getActionProcess = function(action) {
+								copyVioDialog.prototype.getActionProcess = function(action) {
 									if(action === 'continue') {
 										var dialog = this;
 										return new OO.ui.Process(function() {
@@ -860,11 +857,11 @@ administratorToolsLayoutCsd.prototype.setupOutlineItem = function() {
 											window.open(targetURL, '_blank');
 										});
 									}
-									return CopyVioDialog.super.prototype.getActionProcess.call(this, action);
+									return copyVioDialog.super.prototype.getActionProcess.call(this, action);
 								};
 								var windowManager = new OO.ui.WindowManager();
 								$(document.body).append(windowManager.$element);
-								var dialog = new CopyVioDialog({
+								var dialog = new copyVioDialog({
 									size: 'larger'
 								});
 								windowManager.addWindows([dialog]);
@@ -945,16 +942,16 @@ administratorToolsLayoutCsd.prototype.setupOutlineItem = function() {
 								var jsonData = JSON.parse(content);
 								var speedyDeletionReasons = jsonData.speedyDeletionReasons;
 								// Define a class for the Batch Deletion Dialog
-								function BatchDeletionDialog(config) {
-									BatchDeletionDialog.super.call(this, config);
+								function batchDeletionDialog(config) {
+									batchDeletionDialog.super.call(this, config);
 								}
 								// Inherit from the ProcessDialog class
-								OO.inheritClass(BatchDeletionDialog, OO.ui.ProcessDialog);
+								OO.inheritClass(batchDeletionDialog, OO.ui.ProcessDialog);
 								// Set the dialog's name and title
-								BatchDeletionDialog.static.name = 'BatchDeletionDialog';
-								BatchDeletionDialog.static.title = mw.msg('batch-deletion');
+								batchDeletionDialog.static.name = 'batchDeletionDialog';
+								batchDeletionDialog.static.title = mw.msg('batch-deletion');
 								// Define the dialog's actions (Save and Cancel)
-								BatchDeletionDialog.static.actions = [{
+								batchDeletionDialog.static.actions = [{
 									action: 'save',
 									label: new OO.ui.deferMsg('confirm-action'),
 									flags: ['primary', 'destructive']
@@ -963,8 +960,8 @@ administratorToolsLayoutCsd.prototype.setupOutlineItem = function() {
 									flags: 'safe'
 								}];
 								// Initialize the dialog
-								BatchDeletionDialog.prototype.initialize = function() {
-									BatchDeletionDialog.super.prototype.initialize.apply(this, arguments);
+								batchDeletionDialog.prototype.initialize = function() {
+									batchDeletionDialog.super.prototype.initialize.apply(this, arguments);
 									// Create a notice message for header
 									var headerTitle = new OO.ui.MessageWidget({
 										type: 'notice',
@@ -1032,7 +1029,7 @@ administratorToolsLayoutCsd.prototype.setupOutlineItem = function() {
 									this.$body.append(this.content.$element);
 								};
 								// Define the action process for the dialog
-								BatchDeletionDialog.prototype.getActionProcess = function(action) {
+								batchDeletionDialog.prototype.getActionProcess = function(action) {
 									var dialog = this;
 									if(action) {
 										return new OO.ui.Process(function() {
@@ -1084,13 +1081,13 @@ administratorToolsLayoutCsd.prototype.setupOutlineItem = function() {
 											});
 										});
 									}
-									return BatchDeletionDialog.super.prototype.getActionProcess.call(this, action);
+									return batchDeletionDialog.super.prototype.getActionProcess.call(this, action);
 								};
 								// Create an instance of WindowManager to manage dialog windows
 								var windowManager = new OO.ui.WindowManager();
 								$(document.body).append(windowManager.$element);
 								// Create and open the Batch Deletion Dialog
-								var dialog = new BatchDeletionDialog();
+								var dialog = new batchDeletionDialog();
 								windowManager.addWindows([dialog]);
 								windowManager.openWindow(dialog);
 							});
@@ -1148,17 +1145,17 @@ var bookletadministratorToolsLayout = new OO.ui.BookletLayout({
 });
 bookletadministratorToolsLayout.addPages([administratorToolsLayoutCsdLayout, administratorToolsLayoutProdLayout, administratorToolsLayoutAfdLayout]);
 
-function SectionThreeLayout(name, config) {
-	SectionThreeLayout.super.call(this, name, config);
+function sectionThreeLayout(name, config) {
+	sectionThreeLayout.super.call(this, name, config);
 	this.$element.append(bookletadministratorToolsLayout.$element);
 }
-OO.inheritClass(SectionThreeLayout, OO.ui.PageLayout);
-SectionThreeLayout.prototype.setupOutlineItem = function() {
+OO.inheritClass(sectionThreeLayout, OO.ui.PageLayout);
+sectionThreeLayout.prototype.setupOutlineItem = function() {
 	this.outlineItem.setLabel(mw.msg('administrator-tools'));
 };
-var sectionOne = new SectionOneLayout('one');
-var sectionTwo = new SectionTwoLayout('two');
-var sectionThree = new SectionThreeLayout('four');
+var sectionOne = new sectionOneLayout('one');
+var sectionTwo = new sectionTwoLayout('two');
+var sectionThree = new sectionThreeLayout('four');
 var booklet2 = new OO.ui.BookletLayout({
 	outlined: true,
 	classes: ['adiutor-user-dashboard-main-3'],

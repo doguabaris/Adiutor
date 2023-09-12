@@ -29,7 +29,7 @@
     "sectionTitle": "[[$1|$1]] sayfası için koruma talebi",
     "appendText": true,
     "prependText": false,
-    "sectionID": 1,
+    "sectionId": 1,
     "contentPattern": "\n==== {{lmad|$1}} ====\n{{SKT|tür=$2 $3|gerekçe=$4 ~~~~|yorum=|karar=}}",
     "apiPostSummary": "[[$1|$1]] için koruma talep edildi"
 }

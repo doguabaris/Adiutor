@@ -1,19 +1,16 @@
-/*
- * Adiutor: Adiutor enables versatile editing options and modules to assist a variety of user actions to enhance the Wikipedia editing experience.
+/* Adiutor: Enhancing Wikipedia Editing Through a Comprehensive Set of Versatile Tools and Modules.
  * Author: Vikipolimer
  * Learn more at: https://meta.wikimedia.org/wiki/Adiutor
- * Licensing and Attribution: Licensed under Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
- * Module: User page widget
- */
-/* <nowiki> */
-// Get essential configuration from MediaWiki
-var mwConfig = mw.config.get(["wgNamespaceNumber", "wgTitle", "wgUserGroups"]);
-var api = new mw.Api();
-var wikiId = mw.config.get('wgWikiID');
-var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-'+wikiId));
+ * License: Licensed under Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
 // based on http://en.wikipedia.org/wiki/User:Fran Rogers/dimorphism.js
 // and on http://en.wikipedia.org/wiki/User:Splarka/sysopdectector.js
 // source: https://en.wikipedia.org/wiki/User:PleaseStand/userinfo.js
+<nowiki> */
+var api = new mw.Api();
+var mwConfig = mw.config.get(["wgNamespaceNumber", "wgTitle", "wgUserGroups"]);
+var wikiId = mw.config.get('wgWikiID');
+var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-'+wikiId));
+
 if((mw.config.get("wgNamespaceNumber") === 2 || mw.config.get("wgNamespaceNumber") === 3) && !(/\//.test(mw.config.get("wgTitle")))) {
 	mw.loader.using(['mediawiki.util'], function() {
 		$(function() {

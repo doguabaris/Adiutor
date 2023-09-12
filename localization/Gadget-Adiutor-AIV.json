@@ -75,7 +75,7 @@
     "noticeBoardTitle": "Vikipedi:Kullanıcı engelleme talepleri",
     "addNewSection": false,
     "sectionTitle": "[[Kullanıcı:$1|$1]]",
-    "sectionID": false,
+    "sectionId": false,
     "appendText": true,
     "prependText": false,
     "spiNoticeBoard": "Vikipedi:Denetçi isteği",

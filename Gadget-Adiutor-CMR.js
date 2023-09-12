@@ -1,14 +1,10 @@
-/*
- * Adiutor: Adiutor enables versatile editing options and modules to assist a variety of user actions to enhance the Wikipedia editing experience.
+/* Adiutor: Enhancing Wikipedia Editing Through a Comprehensive Set of Versatile Tools and Modules.
  * Author: Vikipolimer
  * Learn more at: https://meta.wikimedia.org/wiki/Adiutor
- * Licensing and Attribution: Licensed under Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
- * Module: Canned mentor responses
- */
-/* <nowiki> */
-// Get essential configuration from MediaWiki
-var mwConfig = mw.config.get(["skin", "wgAction", "wgArticleId", "wgPageName", "wgNamespaceNumber", "wgTitle", "wgUserGroups", "wgUserName", "wgUserEditCount", "wgUserRegistration", "wgCanonicalNamespace"]);
+ * License: Licensed under Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
+<nowiki> */
 var api = new mw.Api();
+var mwConfig = mw.config.get(["skin", "wgAction", "wgPageName", "wgTitle"]);
 var wikiId = mw.config.get('wgWikiID');
 var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-' + wikiId));
 var sectionLink, sectionPath, sectionNumber, mentorResponse;
@@ -44,13 +40,13 @@ api.get({
 		openCmrDialog();
 	});
 	function openCmrDialog() {
-		function CannedResponseDialog(config) {
-			CannedResponseDialog.super.call(this, config);
+		function cannedResponseDialog(config) {
+			cannedResponseDialog.super.call(this, config);
 		}
-		OO.inheritClass(CannedResponseDialog, OO.ui.ProcessDialog);
-		CannedResponseDialog.static.name = 'CannedResponseDialog';
-		CannedResponseDialog.static.title = mw.msg('cmr-module-title');
-		CannedResponseDialog.static.actions = [{
+		OO.inheritClass(cannedResponseDialog, OO.ui.ProcessDialog);
+		cannedResponseDialog.static.name = 'cannedResponseDialog';
+		cannedResponseDialog.static.title = mw.msg('cmr-module-title');
+		cannedResponseDialog.static.actions = [{
 			action: 'save',
 			label: mw.msg('cmr-response'),
 			flags: 'primary'
@@ -58,8 +54,8 @@ api.get({
 			label: mw.msg('cancel'),
 			flags: 'safe'
 		}];
-		CannedResponseDialog.prototype.initialize = function() {
-			CannedResponseDialog.super.prototype.initialize.apply(this, arguments);
+		cannedResponseDialog.prototype.initialize = function() {
+			cannedResponseDialog.super.prototype.initialize.apply(this, arguments);
 			var menuItems = [].concat.apply([], predefinedResponses.map(function(group) {
 				var groupItems = group.options.map(function(option) {
 					return new OO.ui.MenuOptionWidget({
@@ -113,7 +109,7 @@ api.get({
 				});
 			});
 		};
-		CannedResponseDialog.prototype.getActionProcess = function(action) {
+		cannedResponseDialog.prototype.getActionProcess = function(action) {
 			var dialog = this;
 			if(action) {
 				return new OO.ui.Process(function() {
@@ -123,15 +119,14 @@ api.get({
 					});
 				});
 			}
-			return CannedResponseDialog.super.prototype.getActionProcess.call(this, action);
+			return cannedResponseDialog.super.prototype.getActionProcess.call(this, action);
 		};
-		CannedResponseDialog.prototype.getBodyHeight = function() {
-			//return this.panel1.$element.outerHeight(true);
+		cannedResponseDialog.prototype.getBodyHeight = function() {
 			return Math.max(this.content.$element.outerHeight(true), 400);
 		};
 		var windowManager = new OO.ui.WindowManager();
 		$(document.body).append(windowManager.$element);
-		var dialog = new CannedResponseDialog();
+		var dialog = new cannedResponseDialog();
 		windowManager.addWindows([dialog]);
 		windowManager.openWindow(dialog);
 

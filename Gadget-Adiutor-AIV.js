@@ -1,24 +1,21 @@
-/* Adiutor: Adiutor enables versatile editing options and modules to assist a variety of user actions to enhance the Wikipedia editing experience. */
-/* Author: Vikipolimer */
-/* Learn more at: https://meta.wikimedia.org/wiki/Adiutor */
-/* Licensing and Attribution: Licensed under Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0) */
-/* Module: Administrator intervention against vandalism */
-/* <nowiki> */
-// Get essential configuration from MediaWiki
-var mwConfig = mw.config.get(["skin", "wgAction", "wgArticleId", "wgPageName", "wgNamespaceNumber", "wgTitle", "wgUserGroups", "wgUserName", "wgUserEditCount", "wgUserRegistration", "wgCanonicalNamespace"]);
+/* Adiutor: Enhancing Wikipedia Editing Through a Comprehensive Set of Versatile Tools and Modules.
+ * Author: Vikipolimer
+ * Learn more at: https://meta.wikimedia.org/wiki/Adiutor
+ * License: Licensed under Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
+<nowiki> */
 var api = new mw.Api();
+var mwConfig = mw.config.get(["skin", "wgAction", "wgArticleId", "wgPageName", "wgNamespaceNumber", "wgTitle", "wgUserGroups", "wgUserName", "wgUserEditCount", "wgUserRegistration", "wgCanonicalNamespace"]);
 var wikiId = mw.config.get("wgWikiID");
 var adiutorUserOptions = JSON.parse(mw.user.options.get("userjs-adiutor-" + wikiId));
-var rationaleInput, VandalizedPageInput, reportType, sockPuppetsList, sockpuppetryType, revId;
-var VandalizedPage = {};
-VandalizedPage.value = null;
+var rationaleInput, vandalizedPageInput, reportType, sockPuppetsList, sockpuppetryType, revId;
+var vandalizedPage = {};
+vandalizedPage.value = null;
 var revisionID = {};
 revisionID.value = null;
 var sockpuppeteerInput;
 var placeholders = {};
 
 function fetchApiData(callback) {
-	var api = new mw.Api();
 	api.get({
 		action: "query",
 		prop: "revisions",
@@ -62,7 +59,7 @@ fetchApiData(function(jsonData) {
 	var addNewSection = jsonData.addNewSection;
 	var sectionTitle = jsonData.sectionTitle;
 	var apiPostSummary = jsonData.apiPostSummary;
-	var sectionID = jsonData.sectionID;
+	var sectionId = jsonData.sectionId;
 	var appendText = jsonData.appendText;
 	var prependText = jsonData.prependText;
 	var spiNoticeBoard = jsonData.spiNoticeBoard;
@@ -79,13 +76,13 @@ fetchApiData(function(jsonData) {
 	var sockpuppetContentPattern = jsonData.sockpuppetContentPattern;
 	var userReported = getFormattedPageName();
 
-	function AivDialog(config) {
-		AivDialog.super.call(this, config);
+	function aivDialog(config) {
+		aivDialog.super.call(this, config);
 	}
-	OO.inheritClass(AivDialog, OO.ui.ProcessDialog);
-	AivDialog.static.name = "AivDialog";
-	AivDialog.static.title = new OO.ui.deferMsg("aiv-module-title");
-	AivDialog.static.actions = [{
+	OO.inheritClass(aivDialog, OO.ui.ProcessDialog);
+	aivDialog.static.name = "aivDialog";
+	aivDialog.static.title = new OO.ui.deferMsg("aiv-module-title");
+	aivDialog.static.actions = [{
 		action: "save",
 		label: new OO.ui.deferMsg("report"),
 		flags: ["primary", "progressive"]
@@ -93,8 +90,8 @@ fetchApiData(function(jsonData) {
 		label: new OO.ui.deferMsg("cancel"),
 		flags: "safe"
 	}];
-	AivDialog.prototype.initialize = function() {
-		AivDialog.super.prototype.initialize.apply(this, arguments);
+	aivDialog.prototype.initialize = function() {
+		aivDialog.super.prototype.initialize.apply(this, arguments);
 		var headerTitle = new OO.ui.MessageWidget({
 			type: "notice",
 			inline: true,
@@ -108,7 +105,7 @@ fetchApiData(function(jsonData) {
 			"margin-top": "20px",
 			"font-weight": "300"
 		});
-		var RationaleSelector = new OO.ui.DropdownWidget({
+		var rationaleSelector = new OO.ui.DropdownWidget({
 			menu: {
 				items: [
 					new OO.ui.MenuOptionWidget({
@@ -131,27 +128,27 @@ fetchApiData(function(jsonData) {
 			},
 			label: new OO.ui.deferMsg("report-type")
 		});
-		// Add margin-top to RationaleSelector
-		RationaleSelector.$element.css("margin-top", "20px");
+		// Add margin-top to rationaleSelector
+		rationaleSelector.$element.css("margin-top", "20px");
 		this.content = new OO.ui.PanelLayout({
 			padded: true,
 			expanded: false
 		});
-		var RequestRationaleContainer = new OO.ui.FieldsetLayout({
+		var requestRationaleContainer = new OO.ui.FieldsetLayout({
 			classes: ["adiutor-report-window-rationale-window"]
 		});
-		RequestRationaleContainer.$element.css("margin-top", "20px");
-		RationaleSelector.getMenu().on("choose", function(menuOption) {
+		requestRationaleContainer.$element.css("margin-top", "20px");
+		rationaleSelector.getMenu().on("choose", function(menuOption) {
 			switch(menuOption.getData()) {
 				case 1:
-					RequestRationale = new OO.ui.FieldsetLayout({
+					requestRationale = new OO.ui.FieldsetLayout({
 						label: mw.msg('rationale')
 					});
 					var generalRationales = reportRationales.filter(function(item) {
 						return item.related === "general";
 					});
-					RequestRationale.addItems([
-						new OO.ui.FieldLayout(VandalizedPage = new OO.ui.TextInputWidget({
+					requestRationale.addItems([
+						new OO.ui.FieldLayout(vandalizedPage = new OO.ui.TextInputWidget({
 							value: ""
 						}), {
 							label: new OO.ui.deferMsg("related-page"),
@@ -165,7 +162,7 @@ fetchApiData(function(jsonData) {
 						}),
 					]);
 					generalRationales.forEach(function(rationaleItem) {
-						RequestRationale.addItems([
+						requestRationale.addItems([
 							new OO.ui.FieldLayout(new OO.ui.CheckboxInputWidget({
 								selected: false,
 								data: rationaleItem.data
@@ -178,16 +175,16 @@ fetchApiData(function(jsonData) {
 					reportType = "regularReport";
 					break;
 				case 2:
-					RequestRationale = new OO.ui.FieldsetLayout({
+					requestRationale = new OO.ui.FieldsetLayout({
 						label: mw.msg('rationale')
 					});
 					// Burada, reportRationales setinden gelen ve related değeri username olan öğeleri filtreleyerek yeni bir dizi oluşturuyoruz.
 					var usernameRationales = reportRationales.filter(function(item) {
 						return item.related === "username";
 					});
-					// Şimdi bu usernameRationales dizisini kullanarak RequestRationale'a öğeleri ekleyebiliriz.
+					// Şimdi bu usernameRationales dizisini kullanarak requestRationale'a öğeleri ekleyebiliriz.
 					usernameRationales.forEach(function(rationaleItem) {
-						RequestRationale.addItems([
+						requestRationale.addItems([
 							new OO.ui.FieldLayout(new OO.ui.CheckboxInputWidget({
 								selected: false,
 								data: rationaleItem.data
@@ -200,10 +197,10 @@ fetchApiData(function(jsonData) {
 					reportType = "regularReport";
 					break;
 				case 3:
-					RequestRationale = new OO.ui.FieldsetLayout({
+					requestRationale = new OO.ui.FieldsetLayout({
 						label: mw.msg("report-suspected-sockpuppeteer")
 					});
-					RequestRationale.addItems([
+					requestRationale.addItems([
 						new OO.ui.MessageWidget({
 							type: "warning",
 							inline: true,
@@ -226,10 +223,10 @@ fetchApiData(function(jsonData) {
 					sockpuppetryType = "sockpuppeteer";
 					break;
 				case 4:
-					RequestRationale = new OO.ui.FieldsetLayout({
+					requestRationale = new OO.ui.FieldsetLayout({
 						label: mw.msg("report-suspected-sockpuppet")
 					});
-					RequestRationale.addItems([
+					requestRationale.addItems([
 						new OO.ui.MessageWidget({
 							type: "warning",
 							inline: true,
@@ -256,13 +253,13 @@ fetchApiData(function(jsonData) {
 					break;
 			}
 			console.log(reportType);
-			RequestRationaleContainer.$element.html(RequestRationale.$element);
+			requestRationaleContainer.$element.html(requestRationale.$element);
 			windowManager.onWindowResize();
 		});
-		this.content.$element.append(headerTitle.$element, headerTitleDescription.$element, RationaleSelector.$element, RequestRationaleContainer.$element);
+		this.content.$element.append(headerTitle.$element, headerTitleDescription.$element, rationaleSelector.$element, requestRationaleContainer.$element);
 		this.$body.append(this.content.$element);
 	};
-	AivDialog.prototype.getActionProcess = function(action) {
+	aivDialog.prototype.getActionProcess = function(action) {
 		if(action) {
 			switch(reportType) {
 				case "sockpuppetry":
@@ -293,12 +290,12 @@ fetchApiData(function(jsonData) {
 					}
 					break;
 				case "regularReport":
-					if(RequestRationale) {
+					if(requestRationale) {
 						var rationaleInput = findSelectedRationale();
 						if(rationaleInput) {
 							placeholders = {
 								$1: userReported,
-								$2: rationaleText.replace(/\$1/g, VandalizedPage.value).replace(/\$2/g, revisionID.value ? '([[Special:Diff|' + revisionID.value + ']])' : '').replace(/\$3/g, rationaleInput),
+								$2: rationaleText.replace(/\$1/g, vandalizedPage.value).replace(/\$2/g, revisionID.value ? '([[Special:Diff|' + revisionID.value + ']])' : '').replace(/\$3/g, rationaleInput),
 							};
 							preparedContent = replacePlaceholders(contentPattern, placeholders);
 							postRegularReport();
@@ -312,7 +309,7 @@ fetchApiData(function(jsonData) {
 					break;
 			}
 		}
-		return AivDialog.super.prototype.getActionProcess.call(this, action);
+		return aivDialog.super.prototype.getActionProcess.call(this, action);
 	};
 
 	function replacePlaceholders(input, replacements) {
@@ -360,7 +357,7 @@ fetchApiData(function(jsonData) {
 
 	function findSelectedRationale() {
 		var rationaleInput = null;
-		RequestRationale.items.forEach(function(Rationale) {
+		requestRationale.items.forEach(function(Rationale) {
 			if(Rationale.fieldWidget.selected) {
 				rationaleInput = Rationale.fieldWidget.data;
 			}
@@ -381,8 +378,8 @@ fetchApiData(function(jsonData) {
 			apiParams.sectiontitle = replaceParameter(sectionTitle, '1', userReported);
 			apiParams.text = preparedContent;
 		} else {
-			if(sectionID) {
-				apiParams.section = sectionID;
+			if(sectionId) {
+				apiParams.section = sectionId;
 			}
 			apiParams[appendText ? 'appendtext' : prependText ? 'prependtext' : 'text'] = preparedContent + '\n';
 		}
@@ -392,7 +389,7 @@ fetchApiData(function(jsonData) {
 	}
 	var windowManager = new OO.ui.WindowManager();
 	$(document.body).append(windowManager.$element);
-	var dialog = new AivDialog();
+	var dialog = new aivDialog();
 	windowManager.addWindows([dialog]);
 	windowManager.openWindow(dialog);
 });

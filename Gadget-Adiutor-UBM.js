@@ -1,14 +1,10 @@
-/*
- * Adiutor: Adiutor enables versatile editing options and modules to assist a variety of user actions to enhance the Wikipedia editing experience.
+/* Adiutor: Enhancing Wikipedia Editing Through a Comprehensive Set of Versatile Tools and Modules.
  * Author: Vikipolimer
  * Learn more at: https://meta.wikimedia.org/wiki/Adiutor
- * Licensing and Attribution: Licensed under Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
- * Module: User block module
- */
-/* <nowiki> */
-// Get essential configuration from MediaWiki
-var mwConfig = mw.config.get(["wgAction", "wgPageName", "wgTitle", "wgUserName"]);
+ * License: Licensed under Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
+<nowiki> */
 var api = new mw.Api();
+var mwConfig = mw.config.get(["wgAction", "wgPageName", "wgTitle", "wgUserName"]);
 var wikiId = mw.config.get('wgWikiID');
 var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-' + wikiId));
 var duration;
@@ -20,7 +16,7 @@ var preventEmailSendingValue;
 var preventEditOwnTalkPageValue;
 
 function fetchApiData(callback) {
-	var api = new mw.Api();
+	
 	api.get({
 		action: "query",
 		prop: "revisions",
@@ -67,18 +63,18 @@ fetchApiData(function(jsonData) {
 	var apiPostSummary = jsonData.apiPostSummary;
 	var userToBlock = window.adiutorUserToBlock;
 	var headlineElement = window.headlineElement;
-	var sectionID = window.sectionID;
+	var sectionId = window.sectionId;
 	if(!userToBlock) {
 		userToBlock = getFormattedPageName();
 	}
 
-	function UserBlockDialog(config) {
-		UserBlockDialog.super.call(this, config);
+	function userBlockDialog(config) {
+		userBlockDialog.super.call(this, config);
 	}
-	OO.inheritClass(UserBlockDialog, OO.ui.ProcessDialog);
-	UserBlockDialog.static.title = mw.msg('user-blocking') + ' ' + '('+userToBlock+')',
-		UserBlockDialog.static.name = 'UserBlockDialog';
-	UserBlockDialog.static.actions = [{
+	OO.inheritClass(userBlockDialog, OO.ui.ProcessDialog);
+	userBlockDialog.static.title = mw.msg('user-blocking') + ' ' + '('+userToBlock+')',
+		userBlockDialog.static.name = 'userBlockDialog';
+	userBlockDialog.static.actions = [{
 		action: 'continue',
 		modes: 'edit',
 		label: new OO.ui.deferMsg('block'),
@@ -97,8 +93,8 @@ fetchApiData(function(jsonData) {
 		label: new OO.ui.deferMsg('back'),
 		flags: 'safe'
 	}];
-	UserBlockDialog.prototype.initialize = function() {
-		UserBlockDialog.super.prototype.initialize.apply(this, arguments);
+	userBlockDialog.prototype.initialize = function() {
+		userBlockDialog.super.prototype.initialize.apply(this, arguments);
 		this.userBlockPanel = new OO.ui.PanelLayout({
 			padded: true,
 			expanded: false
@@ -210,12 +206,12 @@ fetchApiData(function(jsonData) {
 		preventEditOwnTalkPageValue = preventEditOwnTalkPageCheckbox.isSelected();
 		this.$body.append(this.userBlockStackLayout.$element);
 	};
-	UserBlockDialog.prototype.getSetupProcess = function(data) {
-		return UserBlockDialog.super.prototype.getSetupProcess.call(this, data).next(function() {
+	userBlockDialog.prototype.getSetupProcess = function(data) {
+		return userBlockDialog.super.prototype.getSetupProcess.call(this, data).next(function() {
 			this.actions.setMode('edit');
 		}, this);
 	};
-	UserBlockDialog.prototype.getActionProcess = function(action) {
+	userBlockDialog.prototype.getActionProcess = function(action) {
 		if(action === 'about') {
 			window.open('https://meta.wikimedia.org/wiki/Adiutor', '_blank');
 		} else if(action === 'continue') {
@@ -282,11 +278,11 @@ fetchApiData(function(jsonData) {
 								title: mw.msg('operation-completed'),
 								type: 'success'
 							});
-							if(sectionID) {
+							if(sectionId) {
 								api.postWithToken('csrf', {
 									action: 'edit',
 									title: noticeBoardTitle,
-									section: sectionID,
+									section: sectionId,
 									text: '',
 									summary: apiPostSummary,
 									tags: 'Adiutor',
@@ -309,14 +305,14 @@ fetchApiData(function(jsonData) {
 				}
 			});
 		}
-		return UserBlockDialog.super.prototype.getActionProcess.call(this, action);
+		return userBlockDialog.super.prototype.getActionProcess.call(this, action);
 	};
-	UserBlockDialog.prototype.getBodyHeight = function() {
+	userBlockDialog.prototype.getBodyHeight = function() {
 		return this.userBlockPanel.$element.outerHeight(true);
 	};
 	var windowManager = new OO.ui.WindowManager();
 	$(document.body).append(windowManager.$element);
-	var BlockingDialog = new UserBlockDialog({
+	var BlockingDialog = new userBlockDialog({
 		size: 'medium'
 	});
 	windowManager.addWindows([BlockingDialog]);

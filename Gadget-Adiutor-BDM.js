@@ -1,16 +1,10 @@
-/*
- * Adiutor: Adiutor enables versatile editing options and modules to assist a variety of user actions to enhance the Wikipedia editing experience.
+/* Adiutor: Enhancing Wikipedia Editing Through a Comprehensive Set of Versatile Tools and Modules.
  * Author: Vikipolimer
  * Learn more at: https://meta.wikimedia.org/wiki/Adiutor
- * Licensing and Attribution: Licensed under Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
- * Module: Batch deletion module
- */
-/* <nowiki> */
-// Get essential configuration from MediaWiki
-var mwConfig = mw.config.get(["skin", "wgAction", "wgArticleId", "wgPageName", "wgNamespaceNumber", "wgTitle", "wgUserGroups", "wgUserName", "wgUserEditCount", "wgUserRegistration", "wgCanonicalNamespace"]);
-// Create an instance of the MediaWiki API
+ * License: Licensed under Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
+<nowiki> */
 var api = new mw.Api();
-// Retrieve user options for Adiutor from JSON and initialize variables
+var mwConfig = mw.config.get(["skin", "wgAction", "wgArticleId", "wgPageName", "wgNamespaceNumber", "wgTitle", "wgUserGroups", "wgUserName", "wgUserEditCount", "wgUserRegistration", "wgCanonicalNamespace"]);
 var wikiId = mw.config.get('wgWikiID');
 var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-' + wikiId));
 var batchDeletionList = [];
@@ -97,16 +91,16 @@ api.get({
 			console.clear();
 		}
 		// Define a class for the Batch Deletion Dialog
-		function BatchDeletionDialog(config) {
-			BatchDeletionDialog.super.call(this, config);
+		function batchDeletionDialog(config) {
+			batchDeletionDialog.super.call(this, config);
 		}
 		// Inherit from the ProcessDialog class
-		OO.inheritClass(BatchDeletionDialog, OO.ui.ProcessDialog);
+		OO.inheritClass(batchDeletionDialog, OO.ui.ProcessDialog);
 		// Set the dialog's name and title
-		BatchDeletionDialog.static.name = 'BatchDeletionDialog';
-		BatchDeletionDialog.static.title = mw.msg('batch-deletion');
+		batchDeletionDialog.static.name = 'batchDeletionDialog';
+		batchDeletionDialog.static.title = mw.msg('batch-deletion');
 		// Define the dialog's actions (Save and Cancel)
-		BatchDeletionDialog.static.actions = [{
+		batchDeletionDialog.static.actions = [{
 			action: 'save',
 			label: new OO.ui.deferMsg('confirm-action'),
 			flags: ['primary', 'destructive']
@@ -115,8 +109,8 @@ api.get({
 			flags: 'safe'
 		}];
 		// Initialize the dialog
-		BatchDeletionDialog.prototype.initialize = function() {
-			BatchDeletionDialog.super.prototype.initialize.apply(this, arguments);
+		batchDeletionDialog.prototype.initialize = function() {
+			batchDeletionDialog.super.prototype.initialize.apply(this, arguments);
 			// Create a notice message for header
 			var headerTitle = new OO.ui.MessageWidget({
 				type: 'notice',
@@ -184,7 +178,7 @@ api.get({
 			this.$body.append(this.content.$element);
 		};
 		// Define the action process for the dialog
-		BatchDeletionDialog.prototype.getActionProcess = function(action) {
+		batchDeletionDialog.prototype.getActionProcess = function(action) {
 			var dialog = this;
 			if(action) {
 				return new OO.ui.Process(function() {
@@ -227,13 +221,13 @@ api.get({
 					});
 				});
 			}
-			return BatchDeletionDialog.super.prototype.getActionProcess.call(this, action);
+			return batchDeletionDialog.super.prototype.getActionProcess.call(this, action);
 		};
 		// Create an instance of WindowManager to manage dialog windows
 		var windowManager = new OO.ui.WindowManager();
 		$(document.body).append(windowManager.$element);
 		// Create and open the Batch Deletion Dialog
-		var dialog = new BatchDeletionDialog();
+		var dialog = new batchDeletionDialog();
 		windowManager.addWindows([dialog]);
 		windowManager.openWindow(dialog);
 	});

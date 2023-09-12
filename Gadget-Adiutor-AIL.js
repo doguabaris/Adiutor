@@ -1,20 +1,18 @@
-/*
- * Adiutor: Adiutor enables versatile editing options and modules to assist a variety of user actions to enhance the Wikipedia editing experience.
+/* Adiutor: Enhancing Wikipedia Editing Through a Comprehensive Set of Versatile Tools and Modules.
  * Author: Vikipolimer
  * Learn more at: https://meta.wikimedia.org/wiki/Adiutor
- * Licensing and Attribution: Licensed under Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
- * Module: Adiutor Interface Launcher
- */
-/* <nowiki> */
+ * License: Licensed under Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
+<nowiki> */
 var api = new mw.Api();
 var mwConfig = mw.config.get(["skin", "wgPageName", "wgNamespaceNumber", "wgUserName", "wgUserGroups", "wgCanonicalSpecialPageName"]);
 var wikiId = mw.config.get('wgWikiID');
 var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-' + wikiId));
 var defaultMenuItems = [];
-var noticeBoards = {
+var miscellaneousConfigurations = {
 	csdCategory: "Hızlı_silinmeye_aday_sayfalar",
 	userBlockRequestNoticeBoard: "Kullanıcı_engelleme_talepleri",
-	afdNoticeBoard: "Silinmeye_aday_sayfalar"
+	afdNoticeBoard: "Silinmeye_aday_sayfalar",
+	mainPage: "Anasayfa"
 };
 switch(mwConfig.wgNamespaceNumber) {
 	case -1:
@@ -57,7 +55,7 @@ switch(mwConfig.wgNamespaceNumber) {
 					classes: ['adiutor-top-user-menu-end'],
 				}));
 				if(mwConfig.wgNamespaceNumber != 0) {
-					if(mwConfig.wgPageName.includes(noticeBoards.csdCategory)) {
+					if(mwConfig.wgPageName.includes(miscellaneousConfigurations.csdCategory)) {
 						defaultMenuItems.push(new OO.ui.MenuOptionWidget({
 							icon: 'trash',
 							data: 'batch-delete',
@@ -66,7 +64,7 @@ switch(mwConfig.wgNamespaceNumber) {
 							classes: ['adiutor-top-user-menu-end'],
 						}));
 					}
-					if(mwConfig.wgPageName.includes(noticeBoards.userBlockRequestNoticeBoard)) {
+					if(mwConfig.wgPageName.includes(miscellaneousConfigurations.userBlockRequestNoticeBoard)) {
 						$('.mw-editsection-like').each(function() {
 							blockButtonGroup = new OO.ui.ButtonGroupWidget({
 								items: [
@@ -93,20 +91,20 @@ switch(mwConfig.wgNamespaceNumber) {
 								var headlineText = headlineElement.text();
 								var dateRegex = /\d{2}-\d{2}-\d{4}/;
 								window.adiutorUserToBlock = headlineText.replace(dateRegex, '').trim();
-								var sectionID = new URL(sectionElement.find('.mw-editsection a').attr('href')).searchParams.get('section');
-								window.sectionID = sectionID;
+								var sectionId = new URL(sectionElement.find('.mw-editsection a').attr('href')).searchParams.get('section');
+								window.sectionId = sectionId;
 								window.headlineElement = headlineElement;
 								loadAdiutorScript('UBM');
 							});
 							blockedAlready.on('click', () => {
 								var sectionElement = $(this).closest('.ext-discussiontools-init-section');
 								var headlineElement = sectionElement.find('.mw-headline');
-								var sectionID = new URL(sectionElement.find('.mw-editsection a').attr('href')).searchParams.get('section');
-								window.sectionID = sectionID;
+								var sectionId = new URL(sectionElement.find('.mw-editsection a').attr('href')).searchParams.get('section');
+								window.sectionId = sectionId;
 								api.postWithToken('csrf', {
 									action: 'edit',
 									title: mwConfig.wgPageName,
-									section: sectionID,
+									section: sectionId,
 									text: '',
 									summary: mw.msg('blocked-user-removed-from-the-noticeboad'),
 									tags: 'Adiutor',
@@ -284,7 +282,7 @@ switch(mwConfig.wgNamespaceNumber) {
 				loadAdiutorScript(selectedOption);
 			}
 		});
-		if(!mwConfig.wgPageName.includes('Anasayfa')) {
+		if(!mwConfig.wgPageName.includes(miscellaneousConfigurations.mainPage)) {
 			//Call the packages to be pre-loaded here
 			if(mwConfig.wgNamespaceNumber === 2) {
 				loadAdiutorScript('UPW');
@@ -295,7 +293,7 @@ switch(mwConfig.wgNamespaceNumber) {
 				}
 			}
 			if(mwConfig.wgNamespaceNumber === 4) {
-				if(mwConfig.wgPageName.includes(noticeBoards.afdNoticeBoard)) {
+				if(mwConfig.wgPageName.includes(miscellaneousConfigurations.afdNoticeBoard)) {
 					loadAdiutorScript('AFD-Helper');
 				}
 			}
