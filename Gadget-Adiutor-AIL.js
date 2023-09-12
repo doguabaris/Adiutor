@@ -294,7 +294,8 @@ switch(mwConfig.wgNamespaceNumber) {
 			}
 			if(mwConfig.wgNamespaceNumber === 4) {
 				if(mwConfig.wgPageName.includes(miscellaneousConfigurations.afdNoticeBoard)) {
-					loadAdiutorScript('AFD-Helper');
+					//This module is currently being made localizable.
+					//loadAdiutorScript('AFD-Helper');
 				}
 			}
 			switch(mwConfig.skin) {
