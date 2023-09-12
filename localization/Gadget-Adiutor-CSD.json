@@ -1,15 +1,65 @@
-{   "//": "You can utilize the parameters within this file, which include: $1 page name, and $2 reason.",
+{
+    "//": "You can utilize the parameters within this file, which include: $1 page name, and $2 reason.",
     "speedyDeletionReasons": [
         {
-            "name": "Articles",
+            "name": "Article",
             "namespace": 0,
             "reasons": [
                 {
                     "namespace": 0,
                     "value": "A1",
-                    "data": "[[WP:CSD#A1|CSD:A1]]: Test article",
+                    "data": "[[WP:CSD#A1|A1]]: No context",
                     "selected": false,
-                    "label": "A1 - Article created for test"
+                    "label": "A1 - No context."
+                },
+                {
+                    "namespace": 0,
+                    "value": "A2",
+                    "data": "[[WP:CSD#A2|A2]]: Article in a foreign language that exists on another project",
+                    "selected": false,
+                    "label": "A2 - Foreign language articles that exist on another Wikimedia project"
+                },
+                {
+                    "namespace": 0,
+                    "value": "A3",
+                    "data": "[[WP:CSD#A3|A3]]: No content",
+                    "selected": false,
+                    "label": "A3 - No content"
+                },
+                {
+                    "namespace": 0,
+                    "value": "A5",
+                    "data": "[[WP:CSD#A5|A5]]: Transwikied articles",
+                    "selected": false,
+                    "label": "A5 - Transwikied articles"
+                },
+                {
+                    "namespace": 0,
+                    "value": "A7",
+                    "data": "[[WP:CSD#A7|A7]]: No indication of importance (people, animals, organizations, web content, events)",
+                    "selected": false,
+                    "label": "A7 - No indication of importance (people, animals, organizations, web content, events)"
+                },
+                {
+                    "namespace": 0,
+                    "value": "A9",
+                    "data": "[[WP:CSD#A9|A9]]: No indication of importance (musical recordings)",
+                    "selected": false,
+                    "label": "A9 - No indication of importance (musical recordings)"
+                },
+                {
+                    "namespace": 0,
+                    "value": "A10",
+                    "data": "[[WP:CSD#A10|A10]]: Recently created article that duplicates an existing topic",
+                    "selected": false,
+                    "label": "A10 - Recently created article that duplicates an existing topic"
+                },
+                {
+                    "namespace": 0,
+                    "value": "A11",
+                    "data": "[[WP:CSD#A11|A11]]: Obviously invented",
+                    "selected": false,
+                    "label": "A11 - Obviously invented"
                 }
             ]
         },
@@ -20,9 +70,79 @@
                 {
                     "namespace": 6,
                     "value": "F1",
-                    "data": "[[WP:CSD#F1|CSD:F1]]: Test file",
+                    "data": "[[WP:CSD#F1|F1]]: Redundant",
                     "selected": false,
-                    "label": "F1 - File uploaded for test"
+                    "label": "F1 - Redundant"
+                },
+                {
+                    "namespace": 6,
+                    "value": "F2",
+                    "data": "[[WP:CSD#F2|F2]]: Corrupt, missing or empty file",
+                    "selected": false,
+                    "label": "F2 - Corrupt, missing or empty file"
+                },
+                {
+                    "namespace": 6,
+                    "value": "F3",
+                    "data": "[[WP:CSD#F3|File 3]]: Improper license",
+                    "selected": false,
+                    "label": "F3 - Improper license"
+                },
+                {
+                    "namespace": 6,
+                    "value": "F4",
+                    "data": "[[WP:CSD#F4|File 4]]: Lack of licensing information",
+                    "selected": false,
+                    "label": "F4 - Lack of licensing information"
+                },
+                {
+                    "namespace": 6,
+                    "value": "F5",
+                    "data": "[[WP:CSD#F5|File 5]]: Orphaned non-free use images",
+                    "selected": false,
+                    "label": "F5 - Orphaned non-free use images"
+                },
+                {
+                    "namespace": 6,
+                    "value": "F6",
+                    "data": "[[WP:CSD#F6|File 6]]: Missing non-free use rationale",
+                    "selected": false,
+                    "label": "F6 - Missing non-free use rationale"
+                },
+                {
+                    "namespace": 6,
+                    "value": "F7",
+                    "data": "[[WP:CSD#F7|File 7]]: Invalid fair-use claim",
+                    "selected": false,
+                    "label": "F7 - Invalid fair-use claim"
+                },
+                {
+                    "namespace": 6,
+                    "value": "F8",
+                    "data": "[[WP:CSD#F8|File 8]]: Images available as identical copies on Wikimedia Commons",
+                    "selected": false,
+                    "label": "F8 - Images available as identical copies on Wikimedia Commons"
+                },
+                {
+                    "namespace": 6,
+                    "value": "F9",
+                    "data": "[[WP:CSD#F9|File 9]]: Unambiguous copyright infringement",
+                    "selected": false,
+                    "label": "F9 - Unambiguous copyright infringement"
+                },
+                {
+                    "namespace": 6,
+                    "value": "F10",
+                    "data": "[[WP:CSD#F10|File 10]]: Useless non-media files",
+                    "selected": false,
+                    "label": "F10 - Useless non-media files"
+                },
+                {
+                    "namespace": 6,
+                    "value": "F11",
+                    "data": "[[WP:CSD#F11|File 11]]: No evidence of permission",
+                    "selected": false,
+                    "label": "F11 - No evidence of permission"
                 }
             ]
         },
@@ -31,11 +151,25 @@
             "namespace": 14,
             "reasons": [
                 {
-                    "data": "[[WP:CSD#C1|CSD:C1]]: Test category",
+                    "namespace": 14,
                     "value": "C1",
+                    "data": "[[WP:CSD#C1|C1]]: Empty category",
                     "selected": false,
-                    "label": "C1 - Category created for test",
-                    "namespace": 14
+                    "label": "C1 - Empty category"
+                },
+                {
+                    "namespace": 14,
+                    "value": "C2",
+                    "data": "[[WP:CSD#C2|C2]]: Speedy renaming",
+                    "selected": false,
+                    "label": "C2 - Speedy renaming"
+                },
+                {
+                    "namespace": 14,
+                    "value": "G8",
+                    "data": "[[WP:CSD#G8|G8]]: Populated by deleted or retargeted template",
+                    "selected": false,
+                    "label": "G8 - Populated by deleted or retargeted template"
                 }
             ]
         },
@@ -44,11 +178,32 @@
             "namespace": 2,
             "reasons": [
                 {
-                    "data": "[[WP:CSD#U1|CSD:U1]]: Test user page",
+                    "namespace": 2,
                     "value": "U1",
+                    "data": "[[WP:CSD#U1|U1]]: User request to delete page in own userspace",
                     "selected": false,
-                    "label": "U1 - User page created for test",
-                    "namespace": 2
+                    "label": "U1 - User request to delete page in own userspace"
+                },
+                {
+                    "namespace": 2,
+                    "value": "U2",
+                    "data": "[[WP:CSD#U2|U2]]: Userpage or subpage of a nonexistent user",
+                    "selected": false,
+                    "label": "U2 - Userpage or subpage of a nonexistent user"
+                },
+                {
+                    "namespace": 2,
+                    "value": "U3",
+                    "data": "[[WP:CSD#U3|U3]]: [[WP:NFC|Non-free]] [[Help:Gallery|gallery]]",
+                    "selected": false,
+                    "label": "U3 - Non-free gallery"
+                },
+                {
+                    "namespace": 2,
+                    "value": "U5",
+                    "data": "[[WP:CSD#U5|U5]]: [[WP:NOTWEBHOST|Misuse of Wikipedia as a web host]]",
+                    "selected": false,
+                    "label": "U5 - Misuse of Wikipedia as a web host"
                 }
             ]
         },
@@ -57,11 +212,32 @@
             "namespace": 10,
             "reasons": [
                 {
-                    "data": "[[WP:CSD#T1|CSD:T1]]: Test template",
+                    "namespace": 10,
                     "value": "T1",
+                    "data": "[[WP:CSD#T1|Template 1]]: Divisive and inflammatory templates",
                     "selected": false,
-                    "label": "T1 - Template created for test",
-                    "namespace": 10
+                    "label": "T1 - Divisive and inflammatory templates"
+                },
+                {
+                    "namespace": 10,
+                    "value": "T2",
+                    "data": "[[WP:CSD#T2|Template 2]]: Misrepresentation of policy",
+                    "selected": false,
+                    "label": "T2 - Misrepresentation of policy"
+                },
+                {
+                    "namespace": 10,
+                    "value": "T3",
+                    "data": "[[WP:CSD#T3|Template 3]]: Duplication and hardcoded instances",
+                    "selected": false,
+                    "label": "T3 - Duplication and hardcoded instances"
+                },
+                {
+                    "namespace": 10,
+                    "value": "T4",
+                    "data": "[[WP:CSD#T4|Template 4]]: Subpages of non-existent pages",
+                    "selected": false,
+                    "label": "T4 - Subpages of non-existent pages"
                 }
             ]
         },
@@ -70,11 +246,18 @@
             "namespace": 100,
             "reasons": [
                 {
-                    "data": "[[WP:CSD#T1|CSD:P1]]: Test portal",
+                    "namespace": 100,
                     "value": "P1",
+                    "data": "[[WP:CSD#P1|P1]]: Any portal that would be subject to speedy deletion as an article",
                     "selected": false,
-                    "label": "P1 - Portal created for test",
-                    "namespace": 100
+                    "label": "P1 - Portal page that does not meet the article criteria"
+                },
+                {
+                    "namespace": 100,
+                    "value": "P2",
+                    "data": "[[WP:CSD#P2|P2]]: Underpopulated [[WP:P|portal]]",
+                    "selected": false,
+                    "label": "P2 - Underpopulated portal"
                 }
             ]
         },
@@ -83,37 +266,94 @@
             "namespace": "general",
             "reasons": [
                 {
-                    "data": "[[WP:CSD#G1|CSD:G1]]: A test page",
+                    "data": "[[WP:CSD#G1|G1]]: [[WP:PN|Patent nonsense]], meaningless, or incomprehensible",
                     "value": "G1",
                     "selected": false,
-                    "label": "G1 - A test page",
-                    "namespace": "general"
-                }
-            ]
-        },
-        {
-            "name": "Redirects",
-            "namespace": "redirect",
-            "reasons": [
+                    "label": "G1 - Patent nonsense"
+                },
                 {
-                    "data": "[[WP:CSD#R1|CSD:R1]]: A test redirect",
-                    "value": "R1",
+                    "data": "[[WP:CSD#G2|G2]]: Test page",
+                    "value": "G2",
                     "selected": false,
-                    "label": "R1 - A test redirect",
-                    "namespace": "redirect"
-                }
-            ]
-        },
-        {
-            "name": "Other",
-            "namespace": "other",
-            "reasons": [
+                    "label": "G2 - Test page"
+                },
                 {
-                    "data": "[[Other|other]]: reason",
-                    "value": "01",
+                    "data": "[[WP:CSD#G3|G3]]: [[WP:Vandalism|Vandalism]]",
+                    "value": "G3",
                     "selected": false,
-                    "label": "Other reason",
-                    "namespace": "other"
+                    "label": "G3 - Pure vandalism"
+                },
+                {
+                    "data": "[[WP:CSD#G3|G3]]: Blatant [[WP:Do not create hoaxes|hoax]]",
+                    "value": "G3",
+                    "selected": false,
+                    "label": "G3 - Blatant hoax"
+                },
+                {
+                    "data": "[[WP:CSD#G4|G4]]: Recreation of a page that was [[WP:DEL|deleted]] per a [[WP:XFD|deletion discussion]]",
+                    "value": "G4",
+                    "selected": false,
+                    "label": "G4 - Recreation of material deleted via a deletion discussion"
+                },
+                {
+                    "data": "[[WP:CSD#G5|G5]]: Creation by a [[WP:BLOCK|blocked]] or [[WP:BAN|banned]] user in violation of block or ban",
+                    "value": "G5",
+                    "selected": false,
+                    "label": "G5 - Created by a banned or blocked user"
+                },
+                {
+                    "data": "[[WP:CSD#G6|G6]]: Housekeeping and routine (non-controversial) cleanup",
+                    "value": "G6",
+                    "selected": false,
+                    "label": "G6 - Cleanup"
+                },
+                {
+                    "data": "[[WP:CSD#G7|G7]]: One author who has requested deletion",
+                    "value": "G7",
+                    "selected": false,
+                    "label": "G7 - Author requests deletion, or author blanked"
+                },
+                {
+                    "data": "[[WP:CSD#G8|G8]]: Page dependent on a deleted or nonexistent page",
+                    "value": "G8",
+                    "selected": false,
+                    "label": "G8 - Pages dependent on a non-existent or deleted page"
+                },
+                {
+                    "data": "[[WP:CSD#G10|G10]]: [[WP:ATP|Attack page]] or negative unsourced [[WP:BLP|BLP]]",
+                    "value": "attack",
+                    "selected": false,
+                    "label": "G10 - Attack page"
+                },
+                {
+                    "data": "[[WP:CSD#G10|G10]]: [[WP:ATP|Attack page]] or negative unsourced [[WP:BLP|BLP]]",
+                    "value": "negublp",
+                    "selected": false,
+                    "label": "G10 - Wholly negative, unsourced BLP"
+                },
+                {
+                    "data": "[[WP:CSD#G11|G11]]: Unambiguous [[WP:NOTADVERTISING|advertising]] or promotion",
+                    "value": "G11",
+                    "selected": false,
+                    "label": "G11 - Unambiguous advertising or promotion"
+                },
+                {
+                    "data": "[[WP:CSD#G12|G12]]: Unambiguous [[WP:CV|copyright infringement]]",
+                    "value": "G12",
+                    "selected": false,
+                    "label": "G12 - Unambiguous copyright infringement"
+                },
+                {
+                    "data": "COV",
+                    "value": "G13",
+                    "selected": false,
+                    "label": "G13 - Abandoned draft"
+                },
+                {
+                    "data": "[[WP:CSD#G14|G14]]: Unnecessary disambiguation page",
+                    "value": "G14",
+                    "selected": false,
+                    "label": "G14 - Unnecessary disambiguation page"
                 }
             ]
         }
