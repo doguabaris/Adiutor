@@ -4,8 +4,8 @@
             "label": "Cleanup and maintenance tags",
             "tags": [
                 {
-                    "tag": "Edit",
-                    "description": "Article needs editing",
+                    "tag": "Cleanup ",
+                    "description": "Article needs cleanup",
                     "items": [
                         {
                             "name": "cleanup",
@@ -17,19 +17,15 @@
                     ]
                 },
                 {
-                    "tag": "Rewrite",
+                    "tag": "Cleanup rewrite",
                     "description": "Article needs to be rewritten to comply with Wikipedia's style guidelines"
                 },
                 {
-                    "tag": "External link",
+                    "tag": "External links",
                     "description": "Some external links used in the article do not comply with policies"
                 },
                 {
-                    "tag": "Red link cleanup",
-                    "description": "Red links used in the article do not comply with Wikipedia guidelines"
-                },
-                {
-                    "tag": "Copy-paste",
+                    "tag": "Copypaste",
                     "description": "Article may have been copied from another source that potentially violates copyright policy",
                     "items": [
                         {
@@ -37,18 +33,6 @@
                             "parameter": "url",
                             "type": "input",
                             "label": "Source URL:"
-                        }
-                    ]
-                },
-                {
-                    "tag": "Cleanup-spam",
-                    "description": "Article contains promotional materials and other advertising links",
-                    "items": [
-                        {
-                            "type": "hidden",
-                            "name": "cleanupspam1",
-                            "parameter": "1",
-                            "value": "Article"
                         }
                     ]
                 }
@@ -121,32 +105,32 @@
                     ]
                 },
                 {
-                    "tag": "Excessive quotes",
-                    "description": "Article contains too many or overly long quotes for encyclopedic content"
+                    "tag": "Advert",
+                    "description": "Article written like an advertisement"
                 },
                 {
-                    "tag": "Too many images",
-                    "description": "Article contains an excessive number of visuals or files and needs cleanup"
+                    "tag": "Cleanup tense",
+                    "description": "Article does not follow guidelines on use of different tenses."
                 },
                 {
                     "tag": "Essay-like",
                     "description": "Article is written like a personal opinion or essay"
                 },
                 {
-                    "tag": "Prose",
-                    "description": "Article is in list format, but readability may improve with prose"
+                    "tag": "Fanpov",
+                    "description": "Article is written from a fan's point of view"
                 },
                 {
                     "tag": "Guide-like",
                     "description": "Article is written like a handbook or guidebook"
                 },
                 {
-                    "tag": "Metric",
-                    "description": "Article uses non-SI units that most readers may not understand"
+                    "tag": "Inappropriate person",
+                    "description": "uses first-person or second-person inappropiately"
                 },
                 {
-                    "tag": "Advert",
-                    "description": "Article is written like an advertisement"
+                    "tag": "Manual",
+                    "description": "Article is written like a manual or guidebook"
                 },
                 {
                     "tag": "Technical",
@@ -157,8 +141,8 @@
                     "description": "Article's tone does not adhere to the formal and serious tone expected in an encyclopedia"
                 },
                 {
-                    "tag": "Spelling",
-                    "description": "Article contains spelling and punctuation errors or language issues"
+                    "tag": "Context",
+                    "description": "Article insufficient context for those unfamiliar with the subject"
                 },
                 {
                     "tag": "Confusing",
@@ -169,7 +153,7 @@
                     "description": "Article's style and content do not clearly distinguish between fact and fiction"
                 },
                 {
-                    "tag": "Incomplete",
+                    "tag": "Cleanup-PR",
                     "description": "Article is incomplete in a specific area",
                     "items": [
                         {
