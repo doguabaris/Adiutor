@@ -9,10 +9,9 @@ var wikiId = mw.config.get('wgWikiID');
 var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-' + wikiId));
 var casdReason, csdSummary, notificationMessage, articleAuthor;
 var csdOptions = [];
-var casdReasons = [];
+var csdReasons = [];
 var saltCsdSummary = '';
 var pageTitle = mw.config.get("wgPageName").replace(/_/g, " ");
-
 function fetchApiData(callback) {
 	api.get({
 		action: "query",
@@ -44,7 +43,7 @@ function fetchApiData(callback) {
 fetchApiData(function(jsonData) {
 	if(!jsonData) {
 		// Handle a case where jsonData is empty or undefined
-		mw.notify('MediaWiki:Gadget-Adiutor-UBM.json data is empty or undefined.', {
+		mw.notify('MediaWiki:Gadget-Adiutor-CSD.json data is empty or undefined.', {
 			title: mw.msg('operation-failed'),
 			type: 'error'
 		});
@@ -78,15 +77,15 @@ fetchApiData(function(jsonData) {
 		var singleReasonSummary = jsonData.singleReasonSummary;
 		var multipleReasonSummary = jsonData.multipleReasonSummary;
 
-		function ProcessDialog(config) {
-			ProcessDialog.super.call(this, config);
+		function SpeedyDeletionRequestDialog(config) {
+			SpeedyDeletionRequestDialog.super.call(this, config);
 		}
-		OO.inheritClass(ProcessDialog, OO.ui.ProcessDialog);
+		OO.inheritClass(SpeedyDeletionRequestDialog, OO.ui.ProcessDialog);
 		// Specify a name for .addWindows()
-		ProcessDialog.static.name = 'myDialog';
+		SpeedyDeletionRequestDialog.static.name = 'myDialog';
 		// Specify a title and an action set that uses modes ('edit' and 'help' mode, in this example).
-		ProcessDialog.static.title = new OO.ui.deferMsg('csd-module-title');
-		ProcessDialog.static.actions = [{
+		SpeedyDeletionRequestDialog.static.title = new OO.ui.deferMsg('csd-module-title');
+		SpeedyDeletionRequestDialog.static.actions = [{
 			action: 'continue',
 			modes: 'edit',
 			label: new OO.ui.deferMsg('tag-page'),
@@ -109,8 +108,8 @@ fetchApiData(function(jsonData) {
 		// Customize the initialize() method to add content and set up event handlers. 
 		// This example uses a stack layout with two panels: one displayed for 
 		// edit mode and one for help mode.
-		ProcessDialog.prototype.initialize = function() {
-			ProcessDialog.super.prototype.initialize.apply(this, arguments);
+		SpeedyDeletionRequestDialog.prototype.initialize = function() {
+			SpeedyDeletionRequestDialog.super.prototype.initialize.apply(this, arguments);
 			var i, reason, checkboxWidget, fieldLayout;
 			var selectedNamespace = null;
 			if(mw.config.get('wgIsRedirect')) {
@@ -349,13 +348,13 @@ fetchApiData(function(jsonData) {
 			this.$body.append(this.stackLayout.$element);
 		};
 		// Set up the initial mode of the window ('edit', in this example.)  
-		ProcessDialog.prototype.getSetupProcess = function(data) {
-			return ProcessDialog.super.prototype.getSetupProcess.call(this, data).next(function() {
+		SpeedyDeletionRequestDialog.prototype.getSetupProcess = function(data) {
+			return SpeedyDeletionRequestDialog.super.prototype.getSetupProcess.call(this, data).next(function() {
 				this.actions.setMode('edit');
 			}, this);
 		};
 		// Use the getActionProcess() method to set the modes and displayed item.
-		ProcessDialog.prototype.getActionProcess = function(action) {
+		SpeedyDeletionRequestDialog.prototype.getActionProcess = function(action) {
 			if(action === 'policy') {
 				window.open('/wiki/' + speedyDeletionPolicyLink + '', '_blank');
 			} else if(action === 'back') {
@@ -368,7 +367,7 @@ fetchApiData(function(jsonData) {
 				return new OO.ui.Process(function() {
 					nameSpaceDeletionReasons.items.forEach(function(Reason) {
 						if(Reason.fieldWidget.selected) {
-							casdReasons.push({
+							csdReasons.push({
 								value: Reason.fieldWidget.value,
 								data: Reason.fieldWidget.data,
 								selected: Reason.fieldWidget.selected
@@ -377,39 +376,39 @@ fetchApiData(function(jsonData) {
 					});
 					generalReasons.items.forEach(function(Reason) {
 						if(Reason.fieldWidget.selected) {
-							casdReasons.push({
+							csdReasons.push({
 								value: Reason.fieldWidget.value,
 								data: Reason.fieldWidget.data,
 								selected: Reason.fieldWidget.selected
 							});
 						}
 					});
-					if(casdReasons.length > 0) {
+					if(csdReasons.length > 0) {
+						var saltCSDSummary = '';
 						if(copyVioInput.value != "") {
-							CopVioURL = '|url=' + copyVioInput.value;
+							copyVioURL = '|url=' + copyVioInput.value;
 						} else {
-							CopVioURL = "";
+							copyVioURL = "";
 						}
-						if(casdReasons.length > 1) {
-							var SaltCSDReason = csdTemplateStart;
+						if(csdReasons.length > 1) {
+							var saltCSDReason = csdTemplateStart;
 							var i = 0;
-							var keys = Object.keys(casdReasons);
+							var keys = Object.keys(csdReasons);
 							for(i = 0; i < keys.length; i++) {
-								if(i > 0) SaltCSDReason += (i < keys.length - 1) ? ', ' : ' ' + reasonAndSeperator + ' ';
-								SaltCSDReason += '[[' + speedyDeletionPolicyPageShorcut + '#' + casdReasons[keys[i]].value + ']]';
+								if(i > 0) saltCSDReason += (i < keys.length - 1) ? ', ' : ' ' + reasonAndSeperator + ' ';
+								saltCSDReason += '[[' + speedyDeletionPolicyPageShorcut + '#' + csdReasons[keys[i]].value + ']]';
 							}
 							for(i = 0; i < keys.length; i++) {
-								if(i > 0) saltCsdSummary += (i < keys.length - 1) ? ', ' : ' ' + reasonAndSeperator + ' ';
-								saltCsdSummary += '[[' + speedyDeletionPolicyPageShorcut + '#' + casdReasons[keys[i]].value + ']]';
+								if(i > 0) saltCSDSummary += (i < keys.length - 1) ? ', ' : ' ' + reasonAndSeperator + ' ';
+								saltCSDSummary += '[[' + speedyDeletionPolicyPageShorcut + '#' + csdReasons[keys[i]].value + ']]';
 							}
-							casdReason = SaltCSDReason + CopVioURL + csdTemplateEnd;
-							csdSummary = replaceParameter(multipleReasonSummary, '2', saltCsdSummary);
+							csdReason = saltCSDReason + copyVioURL + csdTemplateEnd;
+							csdSummary = replaceParameter(multipleReasonSummary, '2', saltCSDSummary);
 						} else {
-							casdReason = csdTemplateStart + casdReasons[0].data + CopVioURL + csdTemplateEnd;
-							csdSummary = replaceParameter(singleReasonSummary, '2', casdReasons[0].data);
-							saltCsdSummary = replaceParameter(singleReasonSummary, '2', casdReasons[0].data);
+							csdReason = csdTemplateStart + csdReasons[0].data + copyVioURL + csdTemplateEnd;
+							csdSummary = replaceParameter(singleReasonSummary, '2', csdReasons[0].data);
+							saltCSDSummary = replaceParameter(singleReasonSummary, '2', csdReasons[0].data);
 						}
-						//Şablon ekleme fonksyionu çağır
 						deletionOptions.items.forEach(function(Option) {
 							if(Option.fieldWidget.selected) {
 								csdOptions.push({
@@ -420,35 +419,35 @@ fetchApiData(function(jsonData) {
 						});
 						csdOptions.forEach(function(Option) {
 							if(Option.value === "recreationProrection") {
-								casdReason = casdReason + "\n" + '{{Salt}}';
+								csdReason = csdReason + "\n" + '{{Salt}}';
 							}
 							if(Option.value === "informCreator") {
 								getCreator().then(function(data) {
-									articleAuthor = data.query.pages[mw.config.get('wgArticleId')].revisions[0].user;
+									var articleAuthor = data.query.pages[mw.config.get('wgArticleId')].revisions[0].user;
 									if(!mw.util.isIPAddress(articleAuthor)) {
 										var placeholders = {
 											$1: pageTitle,
-											$2: saltCsdSummary,
+											$2: saltCSDSummary,
 										};
-										notificationMessage = replacePlaceholders(csdNotificationTemplate, placeholders);
-										sendMessageToAuthor(articleAuthor, notificationMessage);
+										var message = replacePlaceholders(csdNotificationTemplate, placeholders);
+										sendMessageToAuthor(articleAuthor, message);
 									}
 								});
 							}
 						});
-						putCSDTemplate();
-						logCsdRequest();
+						putCSDTemplate(csdReason, csdSummary);
+						logCsdRequest(saltCSDSummary, adiutorUserOptions);
 						showProgress();
 						dialog.close();
 					} else {
-						mw.notify(mw.notificationMessage('select-speedy-deletion-reason').text(), {
+						mw.notify(mw.message('select-speedy-deletion-reason').text(), {
 							title: mw.msg('warning'),
 							type: 'error'
 						});
 					}
 				});
 			}
-			return ProcessDialog.super.prototype.getActionProcess.call(this, action);
+			return SpeedyDeletionRequestDialog.super.prototype.getActionProcess.call(this, action);
 		};
 		// Create and append the window manager.
 		var windowManager = new OO.ui.WindowManager({
@@ -456,14 +455,14 @@ fetchApiData(function(jsonData) {
 		});
 		$(document.body).append(windowManager.$element);
 		// Create a new dialog window.
-		var processDialog = new ProcessDialog({
+		var speedyDeletionRequestDialog = new SpeedyDeletionRequestDialog({
 			size: 'larger',
 			classes: ['adiutor-csd-modal-dialog-container']
 		});
 		// Add windows to window manager using the addWindows() method.
-		windowManager.addWindows([processDialog]);
+		windowManager.addWindows([speedyDeletionRequestDialog]);
 		// Open the window.
-		windowManager.openWindow(processDialog);
+		windowManager.openWindow(speedyDeletionRequestDialog);
 		// Define functions below as needed
 		function putCSDTemplate(casdReason, csdSummary) {
 			api.postWithToken('csrf', {
