@@ -11,7 +11,7 @@ function updateOptions(options) {
 	api.postWithEditToken({
 		action: 'globalpreferences',
 		format: 'json',
-		optionname: 'userjs-adiutor-' + wikiId,
+		optionname: wikiOptions,
 		optionvalue: JSON.stringify(options),
 		formatversion: 2,
 	}, function() {});
