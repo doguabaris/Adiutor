@@ -450,12 +450,12 @@ fetchApiData(function(jsonData) {
 								getCreator().then(function(data) {
 									var articleAuthor = data.query.pages[mw.config.get('wgArticleId')].revisions[0].user;
 									if(!mw.util.isIPAddress(articleAuthor)) {
-										var placeholders = {
+										var placeholdersForNotification = {
 											$1: pageTitle,
 											$2: saltCSDSummary,
 											$3: csdReason,
 										};
-										var message = replacePlaceholders(csdNotificationTemplate, placeholders);
+										var message = replacePlaceholders(placeholdersForNotification, placeholders);
 										sendMessageToAuthor(articleAuthor, message);
 									}
 								});
