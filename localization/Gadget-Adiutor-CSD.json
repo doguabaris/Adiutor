@@ -136,7 +136,9 @@
             ]
         }
     ],
-    "csdTemplateStart": "{{Db-$3",
+    "csdTemplateStartSingleReason": "{{Db-$3",
+    "csdTemplateStartMultipleReason": "{{Db-multiple",
+    "useVerticalVarForSeparatingMultipleReasons": true,
     "csdTemplatePostfixReasonData": false,
     "csdTemplatePostfixReasonValue": true,
     "reasonAndSeperator": "and",

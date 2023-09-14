@@ -64,7 +64,8 @@ fetchApiData(function(jsonData) {
 			revDelCount = 0;
 		}
 		var speedyDeletionReasons = jsonData.speedyDeletionReasons;
-		var csdTemplateStart = jsonData.csdTemplateStart;
+		var csdTemplateStartSingleReason = jsonData.csdTemplateStartSingleReason;
+		var csdTemplateStartMultipleReason = jsonData.csdTemplateStartMultipleReason;
 		var reasonAndSeperator = jsonData.reasonAndSeperator;
 		var speedyDeletionPolicyLink = jsonData.speedyDeletionPolicyLink;
 		var speedyDeletionPolicyPageShorcut = jsonData.speedyDeletionPolicyPageShorcut;
@@ -79,6 +80,7 @@ fetchApiData(function(jsonData) {
 		var copyVioReasonValue = jsonData.copyVioReasonValue;
 		var csdTemplatePostfixReasonData = jsonData.csdTemplatePostfixReasonData;
 		var csdTemplatePostfixReasonValue = jsonData.csdTemplatePostfixReasonValue;
+		var useVerticalVarForSeparatingMultipleReasons = jsonData.useVerticalVarForSeparatingMultipleReasons;
 
 		function SpeedyDeletionRequestDialog(config) {
 			SpeedyDeletionRequestDialog.super.call(this, config);
@@ -394,21 +396,37 @@ fetchApiData(function(jsonData) {
 							copyVioURL = "";
 						}
 						if(csdReasons.length > 1) {
-							var saltCSDReason = csdTemplateStart;
-							var i = 0;
-							var keys = Object.keys(csdReasons);
-							for(i = 0; i < keys.length; i++) {
-								if(i > 0) saltCSDReason += (i < keys.length - 1) ? ', ' : ' ' + reasonAndSeperator + ' ';
-								saltCSDReason += '[[' + speedyDeletionPolicyPageShorcut + '#' + csdReasons[keys[i]].value + ']]';
+							if(useVerticalVarForSeparatingMultipleReasons){
+								var saltCSDReason = csdTemplateStartMultipleReason;
+								var i = 0;
+								var keys = Object.keys(csdReasons);
+								for(i = 0; i < keys.length; i++) {
+									saltCSDReason += '|' + csdReasons[keys[i]].value;
+								}
+								for(i = 0; i < keys.length; i++) {
+									if(i > 0) saltCSDSummary += (i < keys.length - 1) ? ', ' : ' ' + reasonAndSeperator + ' ';
+									saltCSDSummary += '[[' + speedyDeletionPolicyPageShorcut + '#' + csdReasons[keys[i]].value + ']]';
+								}
+								csdReason = saltCSDReason + '}}';
+								csdSummary = replaceParameter(multipleReasonSummary, '2', saltCSDSummary);
+							}else{
+								var saltCSDReason = csdTemplateStartMultipleReason;
+								var i = 0;
+								var keys = Object.keys(csdReasons);
+								for(i = 0; i < keys.length; i++) {
+									if(i > 0) saltCSDReason += (i < keys.length - 1) ? ', ' : ' ' + reasonAndSeperator + ' ';
+									saltCSDReason += '[[' + speedyDeletionPolicyPageShorcut + '#' + csdReasons[keys[i]].value + ']]';
+								}
+								for(i = 0; i < keys.length; i++) {
+									if(i > 0) saltCSDSummary += (i < keys.length - 1) ? ', ' : ' ' + reasonAndSeperator + ' ';
+									saltCSDSummary += '[[' + speedyDeletionPolicyPageShorcut + '#' + csdReasons[keys[i]].value + ']]';
+								}
+								csdReason = saltCSDReason + copyVioURL + '}}';
+								csdSummary = replaceParameter(multipleReasonSummary, '2', saltCSDSummary);
 							}
-							for(i = 0; i < keys.length; i++) {
-								if(i > 0) saltCSDSummary += (i < keys.length - 1) ? ', ' : ' ' + reasonAndSeperator + ' ';
-								saltCSDSummary += '[[' + speedyDeletionPolicyPageShorcut + '#' + csdReasons[keys[i]].value + ']]';
-							}
-							csdReason = saltCSDReason + copyVioURL + '}}';
-							csdSummary = replaceParameter(multipleReasonSummary, '2', saltCSDSummary);
+						
 						} else {
-							var reasonPlaceholder = csdTemplateStart + copyVioURL + '}}';
+							var reasonPlaceholder = csdTemplateStartSingleReason + copyVioURL + '}}';
 							if(csdTemplatePostfixReasonData) {
 								csdReason = replaceParameter(reasonPlaceholder, '3', csdReasons[0].data);
 							} else if(csdTemplatePostfixReasonValue) {
