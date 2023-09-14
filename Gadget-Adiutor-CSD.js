@@ -453,6 +453,7 @@ fetchApiData(function(jsonData) {
 										var placeholders = {
 											$1: pageTitle,
 											$2: saltCSDSummary,
+											$3: csdReason,
 										};
 										var message = replacePlaceholders(csdNotificationTemplate, placeholders);
 										sendMessageToAuthor(articleAuthor, message);
