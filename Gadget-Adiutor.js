@@ -4,8 +4,7 @@
  * License: Licensed under Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
 <nowiki> */
 var api = new mw.Api();
-var wikiId = mw.config.get('wgWikiID');
-var wikiOptions = 'userjs-adiutor-' + wikiId;
+var wikiOptions = 'userjs-adiutor-' + mw.config.get('wgWikiID');
 // Function to update user options
 function updateOptions(options) {
 	api.postWithEditToken({
@@ -68,19 +67,19 @@ var adiutorUserOptionsDefault = {
 	"speedyDeletion": {
 		"csdSendMessageToCreator": true,
 		"csdLogNominatedPages": true,
-		"csdLogPageName": "HS günlüğü",
+		"csdLogPageName": "CSD log",
 	},
 	"articlesForDeletion": {
 		"afdSendMessageToCreator": true,
 		"afdLogNominatedPages": true,
-		"afdLogPageName": "SAS günlüğü",
+		"afdLogPageName": "AFD log",
 		"afdNominateOpinionsLog": true,
-		"afdOpinionLogPageName": "SAS görüş günlüğü"
+		"afdOpinionLogPageName": "AFD opinion log"
 	},
 	"proposedDeletion": {
 		"prdSendMessageToCreator": true,
 		"prdLogNominatedPages": true,
-		"prdLogPageName": "BS günlüğü"
+		"prdLogPageName": "PROD log"
 	},
 	"status": {
 		"showMyStatus": true,
@@ -92,10 +91,29 @@ var adiutorUserOptionsDefault = {
 		"prodRequests": 0,
 		"blockRequests": 0,
 		"userWarnings": 0,
-		"pageTags": 0,
+		"pageTags": 0
 	},
 	"inlinePageInfo": true,
 	"showEditSummaries": true,
+	"modules": {
+		"afd": true,
+		"aiv": true,
+		"bdm": true,
+		"cmr": true,
+		"cov": true,
+		"csd": true,
+		"das": true,
+		"del": true,
+		"inf": true,
+		"pmr": true,
+		"prd": true,
+		"rdr": true,
+		"sum": true,
+		"tag": true,
+		"ubm": true,
+		"upw": true,
+		"wrn": true
+	},
 	"adiutorVersion": "v1.2.6"
 };
 // Get user options related to the Adiutor gadget

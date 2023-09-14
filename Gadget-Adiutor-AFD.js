@@ -32,7 +32,7 @@ function fetchApiData(callback) {
 }
 fetchApiData(function(jsonData) {
 	if(!jsonData) {
-		mw.notify('MediaWiki:Adiutor-UBM.json data is empty or undefined.', {
+		mw.notify('MediaWiki:Adiutor-AFD.json data is empty or undefined.', {
 			title: mw.msg('operation-failed'),
 			type: 'error'
 		});
