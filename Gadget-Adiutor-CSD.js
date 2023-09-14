@@ -396,7 +396,7 @@ fetchApiData(function(jsonData) {
 							copyVioURL = "";
 						}
 						if(csdReasons.length > 1) {
-							if(useVerticalVarForSeparatingMultipleReasons){
+							if(useVerticalVarForSeparatingMultipleReasons) {
 								var saltCSDReason = csdTemplateStartMultipleReason;
 								var i = 0;
 								var keys = Object.keys(csdReasons);
@@ -409,7 +409,7 @@ fetchApiData(function(jsonData) {
 								}
 								csdReason = saltCSDReason + '}}';
 								csdSummary = replaceParameter(multipleReasonSummary, '2', saltCSDSummary);
-							}else{
+							} else {
 								var saltCSDReason = csdTemplateStartMultipleReason;
 								var i = 0;
 								var keys = Object.keys(csdReasons);
@@ -424,7 +424,6 @@ fetchApiData(function(jsonData) {
 								csdReason = saltCSDReason + copyVioURL + '}}';
 								csdSummary = replaceParameter(multipleReasonSummary, '2', saltCSDSummary);
 							}
-						
 						} else {
 							var reasonPlaceholder = csdTemplateStartSingleReason + copyVioURL + '}}';
 							if(csdTemplatePostfixReasonData) {
