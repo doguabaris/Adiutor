@@ -10,7 +10,8 @@
                     "value": "A1",
                     "data": "[[WP:CSD#A1|CSD:A1]]: Test article",
                     "selected": false,
-                    "label": "A1 - Article created for test"
+                    "label": "A1 - Article created for test",
+                    "help": "This is a help text about the criteria"
                 }
             ]
         },
@@ -23,7 +24,8 @@
                     "value": "F1",
                     "data": "[[WP:CSD#F1|CSD:F1]]: Test file",
                     "selected": false,
-                    "label": "F1 - File uploaded for test"
+                    "label": "F1 - File uploaded for test",
+                    "help": "This is a help text about the criteria"
                 }
             ]
         },
@@ -36,7 +38,8 @@
                     "value": "C1",
                     "selected": false,
                     "label": "C1 - Category created for test",
-                    "namespace": 14
+                    "namespace": 14,
+                    "help": "This is a help text about the criteria"
                 }
             ]
         },
@@ -49,7 +52,8 @@
                     "value": "U1",
                     "selected": false,
                     "label": "U1 - User page created for test",
-                    "namespace": 2
+                    "namespace": 2,
+                    "help": "This is a help text about the criteria"
                 }
             ]
         },
@@ -62,7 +66,8 @@
                     "value": "T1",
                     "selected": false,
                     "label": "T1 - Template created for test",
-                    "namespace": 10
+                    "namespace": 10,
+                    "help": "This is a help text about the criteria"
                 }
             ]
         },
@@ -75,7 +80,8 @@
                     "value": "P1",
                     "selected": false,
                     "label": "P1 - Portal created for test",
-                    "namespace": 100
+                    "namespace": 100,
+                    "help": "This is a help text about the criteria"
                 }
             ]
         },
@@ -88,14 +94,16 @@
                     "value": "G1",
                     "selected": false,
                     "label": "G1 - A test page",
-                    "namespace": "general"
+                    "namespace": "general",
+                    "help": "This is a help text about the criteria"
                 },
                 {
                     "data": "[[WP:CSD#G2|CSD:G2]]: Copyright violation",
                     "value": "G2",
                     "selected": false,
                     "label": "G2 - Copyright violation",
-                    "namespace": "general"
+                    "namespace": "general",
+                    "help": "This is a help text about the criteria"
                 }
             ]
         },
@@ -108,7 +116,8 @@
                     "value": "R1",
                     "selected": false,
                     "label": "R1 - A test redirect",
-                    "namespace": "redirect"
+                    "namespace": "redirect",
+                    "help": "This is a help text about the criteria"
                 }
             ]
         },
@@ -121,7 +130,8 @@
                     "value": "01",
                     "selected": false,
                     "label": "Other reason",
-                    "namespace": "other"
+                    "namespace": "other",
+                    "help": "This is a help text about the criteria"
                 }
             ]
         }
