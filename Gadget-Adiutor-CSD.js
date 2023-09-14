@@ -12,6 +12,7 @@ var csdOptions = [];
 var csdReasons = [];
 var saltCsdSummary = '';
 var pageTitle = mw.config.get("wgPageName").replace(/_/g, " ");
+
 function fetchApiData(callback) {
 	api.get({
 		action: "query",
@@ -64,7 +65,6 @@ fetchApiData(function(jsonData) {
 		}
 		var speedyDeletionReasons = jsonData.speedyDeletionReasons;
 		var csdTemplateStart = jsonData.csdTemplateStart;
-		var csdTemplateEnd = jsonData.csdTemplateEnd;
 		var reasonAndSeperator = jsonData.reasonAndSeperator;
 		var speedyDeletionPolicyLink = jsonData.speedyDeletionPolicyLink;
 		var speedyDeletionPolicyPageShorcut = jsonData.speedyDeletionPolicyPageShorcut;
@@ -77,6 +77,8 @@ fetchApiData(function(jsonData) {
 		var singleReasonSummary = jsonData.singleReasonSummary;
 		var multipleReasonSummary = jsonData.multipleReasonSummary;
 		var copyVioReasonValue = jsonData.copyVioReasonValue;
+		var csdTemplatePostfixReasonData = jsonData.csdTemplatePostfixReasonData;
+		var csdTemplatePostfixReasonValue = jsonData.csdTemplatePostfixReasonValue;
 
 		function SpeedyDeletionRequestDialog(config) {
 			SpeedyDeletionRequestDialog.super.call(this, config);
@@ -403,10 +405,15 @@ fetchApiData(function(jsonData) {
 								if(i > 0) saltCSDSummary += (i < keys.length - 1) ? ', ' : ' ' + reasonAndSeperator + ' ';
 								saltCSDSummary += '[[' + speedyDeletionPolicyPageShorcut + '#' + csdReasons[keys[i]].value + ']]';
 							}
-							csdReason = saltCSDReason + copyVioURL + csdTemplateEnd;
+							csdReason = saltCSDReason + copyVioURL + '}}';
 							csdSummary = replaceParameter(multipleReasonSummary, '2', saltCSDSummary);
 						} else {
-							csdReason = csdTemplateStart + csdReasons[0].data + copyVioURL + csdTemplateEnd;
+							var reasonPlaceholder = csdTemplateStart + copyVioURL + '}}';
+							if(csdTemplatePostfixReasonData) {
+								csdReason = replaceParameter(reasonPlaceholder, '3', csdReasons[0].data);
+							} else if(csdTemplatePostfixReasonValue) {
+								csdReason = replaceParameter(reasonPlaceholder, '3', csdReasons[0].value);
+							}
 							csdSummary = replaceParameter(singleReasonSummary, '2', csdReasons[0].data);
 							saltCSDSummary = replaceParameter(singleReasonSummary, '2', csdReasons[0].data);
 						}

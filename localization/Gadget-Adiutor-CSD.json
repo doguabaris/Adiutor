@@ -1,5 +1,5 @@
 {
-    "//": "You can utilize the parameters within this file, which include: $1 page name, and $2 reason.",
+    "//": "You can utilize the parameters within this file, which include: $1 page name, $2 reason data, and $3 reason value",
     "speedyDeletionReasons": [
         {
             "name": "Articles",
@@ -136,8 +136,9 @@
             ]
         }
     ],
-    "csdTemplateStart": "{{Delete|",
-    "csdTemplateEnd": "}}",
+    "csdTemplateStart": "{{Db-$3",
+    "csdTemplatePostfixReasonData": false,
+    "csdTemplatePostfixReasonValue": true,
     "reasonAndSeperator": "and",
     "speedyDeletionPolicyLink": "Wikipedia:Criteria_for_speedy_deletion",
     "speedyDeletionPolicyPageShorcut": "WP:CSD",
