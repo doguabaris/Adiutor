@@ -7,10 +7,9 @@
 // source: https://en.wikipedia.org/wiki/User:PleaseStand/userinfo.js
 <nowiki> */
 var api = new mw.Api();
-var mwConfig = mw.config.get(["wgNamespaceNumber", "wgTitle", "wgUserGroups"]);
+var mwConfig = mw.config.get(["wgNamespaceNumber", "wgPageName", "wgUserName", "wgTitle", "wgUserGroups"]);
 var wikiId = mw.config.get('wgWikiID');
-var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-'+wikiId));
-
+var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-' + wikiId));
 if((mw.config.get("wgNamespaceNumber") === 2 || mw.config.get("wgNamespaceNumber") === 3) && !(/\//.test(mw.config.get("wgTitle")))) {
 	mw.loader.using(['mediawiki.util'], function() {
 		$(function() {
@@ -35,7 +34,7 @@ if((mw.config.get("wgNamespaceNumber") === 2 || mw.config.get("wgNamespaceNumber
 						lastEditedDate = new Date(queryResult.query.usercontribs[0].timestamp);
 					}
 					for(var i = 0; i < queryResult.query.allmessages.length; i++) {
-						groupPages[queryResult.query.allmessages[i].name.replace("grouppage-", "")] = queryResult.query.allmessages[i]["*"].replace("{{ns:project}}:", mw.config.get("wgSiteName")+":");
+						groupPages[queryResult.query.allmessages[i].name.replace("grouppage-", "")] = queryResult.query.allmessages[i]["*"].replace("{{ns:project}}:", mw.config.get("wgSiteName") + ":");
 					}
 				} catch(e) {
 					return;
@@ -139,7 +138,7 @@ if((mw.config.get("wgNamespaceNumber") === 2 || mw.config.get("wgNamespaceNumber
 					}
 					statusText += ", " + mw.msg('registration-info', formatRelativeDateDifference(registrationDate));
 				}
-				statusText = mw.msg('this')  + ' ' + statusText;
+				statusText = mw.msg('this') + ' ' + statusText;
 				// Show the correct gender symbol
 				var firstHeading = document.getElementById("firstHeading") || document.getElementById("section-0");
 				if(!firstHeading) {
@@ -194,12 +193,12 @@ if((mw.config.get("wgNamespaceNumber") === 2 || mw.config.get("wgNamespaceNumber
 					label: new OO.ui.HtmlSnippet('<strong>' + mw.msg('has-x-edit-count', formatQuantityWithCommas(editCount)) + '</strong><br>' + lastEditedText + '.'),
 					classes: ['adiutor-user-page-change-count']
 				});
-				var UnBlockButton = new OO.ui.ButtonWidget({
+				var unblockButton = new OO.ui.ButtonWidget({
 					icon: 'unBlock',
 					label: mw.msg('unblock-button-label'),
 					flags: ['destructive']
 				});
-				var BlockButton = new OO.ui.ButtonWidget({
+				var blockButton = new OO.ui.ButtonWidget({
 					icon: 'block',
 					label: mw.msg('block-button-label'),
 					flags: ['destructive']
@@ -218,22 +217,29 @@ if((mw.config.get("wgNamespaceNumber") === 2 || mw.config.get("wgNamespaceNumber
 				userContributions.on('click', function() {
 					window.location.href = '/wiki/Special:Contributions/' + mw.util.rawurlencode(user.name);
 				});
-				UnBlockButton.on('click', function() {
+				unblockButton.on('click', function() {
 					window.location.href = '/wiki/Special:Unblock/' + mw.util.rawurlencode(user.name);
 				});
-				var userPageActionButtons = new OO.ui.ButtonGroupWidget({
-					items: [warnUserButton, userContributions],
-					classes: ['adiutor-user-page-button-group']
-				});
-				if(mwConfig.wgUserGroups.includes('sysop')) {
-					if(isBlocked) {
-						userPageActionButtons.addItems([UnBlockButton]);
-					} else {
-						userPageActionButtons.addItems([BlockButton]);
-					}
-					BlockButton.on('click', function() {
-						loadAdiutorScript('UBM');
+				if(mwConfig.wgPageName.includes(mwConfig.wgUserName)) {
+					var userPageActionButtons = new OO.ui.ButtonGroupWidget({
+						items: [userContributions],
+						classes: ['adiutor-user-page-button-group']
 					});
+				} else {
+					var userPageActionButtons = new OO.ui.ButtonGroupWidget({
+						items: [warnUserButton, userContributions],
+						classes: ['adiutor-user-page-button-group']
+					});
+					if(mwConfig.wgUserGroups.includes('sysop')) {
+						if(isBlocked) {
+							userPageActionButtons.addItems([unblockButton]);
+						} else {
+							userPageActionButtons.addItems([blockButton]);
+						}
+						blockButton.on('click', function() {
+							loadAdiutorScript('UBM');
+						});
+					}
 				}
 				var userPageUserDetailStack = new OO.ui.StackLayout({
 					items: [userPageUsernameDetails, userPageChangeCount, userPageActionButtons],
