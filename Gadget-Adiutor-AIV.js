@@ -2,78 +2,49 @@
  * Author: Vikipolimer
  * Learn more at: https://meta.wikimedia.org/wiki/Adiutor
  * License: Licensed under Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
+ * Module: Administrator intervention against vandalism
 <nowiki> */
-var api = new mw.Api();
-var mwConfig = mw.config.get(["skin", "wgAction", "wgArticleId", "wgPageName", "wgNamespaceNumber", "wgTitle", "wgUserGroups", "wgUserName", "wgUserEditCount", "wgUserRegistration", "wgCanonicalNamespace"]);
-var wikiId = mw.config.get("wgWikiID");
-var adiutorUserOptions = JSON.parse(mw.user.options.get("userjs-adiutor-" + wikiId));
-var rationaleInput, vandalizedPageInput, reportType, sockPuppetsList, sockpuppetryType, revId;
-var vandalizedPage = {};
-vandalizedPage.value = null;
-var revisionID = {};
-revisionID.value = null;
-var sockpuppeteerInput;
-var placeholders = {};
-
-function fetchApiData(callback) {
-	api.get({
-		action: "query",
-		prop: "revisions",
-		titles: "MediaWiki:Gadget-Adiutor-AIV.json",
-		rvprop: "content",
-		formatversion: 2
-	}).done(function(data) {
-		var content = data.query.pages[0].revisions[0].content;
-		try {
-			var jsonData = JSON.parse(content);
-			callback(jsonData);
-		} catch(error) {
-			// Handle JSON parsing error
-			mw.notify('Failed to parse JSON data from API.', {
-				title: mw.msg('operation-failed'),
-				type: 'error'
-			});
-		}
-	}).fail(function() {
-		// Handle API request failure
-		mw.notify('Failed to fetch data from the API.', {
+function callBack() {
+	var api = new mw.Api();
+	var wikiId = mw.config.get("wgWikiID");
+	var adiutorUserOptions = JSON.parse(mw.user.options.get("userjs-adiutor-" + wikiId));
+	var mwConfig = mw.config.get(["wgPageName", ]);
+	var aivConfiguration = require('./Adiutor-AIV.json');
+	if(!aivConfiguration) {
+		mw.notify('MediaWiki:Gadget-Adiutor-AIV.json data is empty or undefined.', {
 			title: mw.msg('operation-failed'),
 			type: 'error'
 		});
-		// You may choose to stop code execution here
-	});
-}
-fetchApiData(function(jsonData) {
-	if(!jsonData) {
-		// Handle a case where jsonData is empty or undefined
-		mw.notify('MediaWiki:Gadget-Adiutor-WRN.json data is empty or undefined.', {
-			title: mw.msg('operation-failed'),
-			type: 'error'
-		});
-		// You may choose to stop code execution here
 		return;
 	}
-	var reportRationales = jsonData.reportRationales;
-	var noticeBoardTitle = jsonData.noticeBoardTitle;
+	var rationaleInput, reportType, sockPuppetsList, sockpuppetryType, revId;
+	var vandalizedPage = {};
+	vandalizedPage.value = null;
+	var revisionID = {};
+	revisionID.value = null;
+	var sockpuppeteerInput;
+	var placeholders = {};
+	var reportRationales = aivConfiguration.reportRationales;
+	var noticeBoardTitle = aivConfiguration.noticeBoardTitle;
 	var noticeBoardLink = noticeBoardTitle.replace(/ /g, '_');
-	var addNewSection = jsonData.addNewSection;
-	var sectionTitle = jsonData.sectionTitle;
-	var apiPostSummary = jsonData.apiPostSummary;
-	var sectionId = jsonData.sectionId;
-	var appendText = jsonData.appendText;
-	var prependText = jsonData.prependText;
-	var spiNoticeBoard = jsonData.spiNoticeBoard;
-	var spiNoticeBoardCase = jsonData.spiNoticeBoardCase;
-	var spiApiPostSummary = jsonData.spiApiPostSummary;
-	var spiApiPostCaseSummary = jsonData.spiApiPostCaseSummary;
-	var contentPattern = jsonData.contentPattern;
-	var userPagePrefix = jsonData.userPagePrefix;
-	var userTalkPagePrefix = jsonData.userTalkPagePrefix;
-	var specialContibutions = jsonData.specialContibutions;
-	var rationaleText = jsonData.rationaleText;
-	var sockpuppetTemplate = jsonData.sockpuppetTemplate;
-	var sockpuppeteerContentPattern = jsonData.sockpuppeteerContentPattern;
-	var sockpuppetContentPattern = jsonData.sockpuppetContentPattern;
+	var addNewSection = aivConfiguration.addNewSection;
+	var sectionTitle = aivConfiguration.sectionTitle;
+	var apiPostSummary = aivConfiguration.apiPostSummary;
+	var sectionId = aivConfiguration.sectionId;
+	var appendText = aivConfiguration.appendText;
+	var prependText = aivConfiguration.prependText;
+	var spiNoticeBoard = aivConfiguration.spiNoticeBoard;
+	var spiNoticeBoardCase = aivConfiguration.spiNoticeBoardCase;
+	var spiApiPostSummary = aivConfiguration.spiApiPostSummary;
+	var spiApiPostCaseSummary = aivConfiguration.spiApiPostCaseSummary;
+	var contentPattern = aivConfiguration.contentPattern;
+	var userPagePrefix = aivConfiguration.userPagePrefix;
+	var userTalkPagePrefix = aivConfiguration.userTalkPagePrefix;
+	var specialContibutions = aivConfiguration.specialContibutions;
+	var rationaleText = aivConfiguration.rationaleText;
+	var sockpuppetTemplate = aivConfiguration.sockpuppetTemplate;
+	var sockpuppeteerContentPattern = aivConfiguration.sockpuppeteerContentPattern;
+	var sockpuppetContentPattern = aivConfiguration.sockpuppetContentPattern;
 	var userReported = getFormattedPageName();
 
 	function aivDialog(config) {
@@ -291,7 +262,7 @@ fetchApiData(function(jsonData) {
 					break;
 				case "regularReport":
 					if(requestRationale) {
-						var rationaleInput = findSelectedRationale();
+						rationaleInput = findSelectedRationale();
 						if(rationaleInput) {
 							placeholders = {
 								$1: userReported,
@@ -392,5 +363,8 @@ fetchApiData(function(jsonData) {
 	var dialog = new aivDialog();
 	windowManager.addWindows([dialog]);
 	windowManager.openWindow(dialog);
-});
+}
+module.exports = {
+	callBack: callBack
+};
 /* </nowiki> */

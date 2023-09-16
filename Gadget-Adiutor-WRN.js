@@ -3,57 +3,26 @@
  * Learn more at: https://meta.wikimedia.org/wiki/Adiutor
  * License: Licensed under Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
 <nowiki> */
-var api = new mw.Api();
-var mwConfig = mw.config.get(["wgPageName", "wgNamespaceNumber"]);
-var wikiId = mw.config.get('wgWikiID');
-var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-' + wikiId));
-var requestRationale, warningData;
-
-function fetchApiData(callback) {
+function callBack() {
 	var api = new mw.Api();
-	api.get({
-		action: "query",
-		prop: "revisions",
-		titles: "MediaWiki:Gadget-Adiutor-WRN.json",
-		rvprop: "content",
-		formatversion: 2
-	}).done(function(data) {
-		var content = data.query.pages[0].revisions[0].content;
-		try {
-			var jsonData = JSON.parse(content);
-			callback(jsonData);
-		} catch(error) {
-			// Handle JSON parsing error
-			mw.notify('Failed to parse JSON data from API.', {
-				title: mw.msg('operation-failed'),
-				type: 'error'
-			});
-		}
-	}).fail(function() {
-		// Handle API request failure
-		mw.notify('Failed to fetch data from the API.', {
-			title: mw.msg('operation-failed'),
-			type: 'error'
-		});
-		// You may choose to stop code execution here
-	});
-}
-fetchApiData(function(jsonData) {
-	if(!jsonData) {
-		// Handle a case where jsonData is empty or undefined
+	var mwConfig = mw.config.get(["wgPageName", "wgNamespaceNumber"]);
+	var wikiId = mw.config.get('wgWikiID');
+	var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-' + wikiId));
+	var wrnConfiguration = require('./Adiutor-WRN.json');
+	var requestRationale, warningData;
+	if(!wrnConfiguration) {
 		mw.notify('MediaWiki:Gadget-Adiutor-WRN.json data is empty or undefined.', {
 			title: mw.msg('operation-failed'),
 			type: 'error'
 		});
-		// You may choose to stop code execution here
 		return;
 	}
-	var userWarnings = jsonData.userWarnings;
-	var apiPostSummary = jsonData.apiPostSummary;
-	var warningMessageTitle = jsonData.warningMessageTitle;
-	var userPagePrefix = jsonData.userPagePrefix;
-	var userTalkPagePrefix = jsonData.userTalkPagePrefix;
-	var specialContibutions = jsonData.specialContibutions;
+	var userWarnings = wrnConfiguration.userWarnings;
+	var apiPostSummary = wrnConfiguration.apiPostSummary;
+	var warningMessageTitle = wrnConfiguration.warningMessageTitle;
+	var userPagePrefix = wrnConfiguration.userPagePrefix;
+	var userTalkPagePrefix = wrnConfiguration.userTalkPagePrefix;
+	var specialContibutions = wrnConfiguration.specialContibutions;
 	var userWarned = userTalkPagePrefix + mwConfig.wgPageName.replace(/_/g, " ").replace(userPagePrefix, '').replace(specialContibutions, '').replace(userTalkPagePrefix, '');
 
 	function userWarningDialog(config) {
@@ -190,5 +159,8 @@ fetchApiData(function(jsonData) {
 			return input;
 		}
 	}
-});
+}
+module.exports = {
+	callBack: callBack
+};
 /* </nowiki> */

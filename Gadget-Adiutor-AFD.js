@@ -1,68 +1,49 @@
-var api = new mw.Api();
-var wikiId = mw.config.get('wgWikiID');
-var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-' + wikiId));
-var mwConfig = mw.config.get(["wgArticleId", "wgPageName", "wgUserName"]);
-var nominatedPreviously;
-var nextNominationNumber = 0;
-
-function fetchApiData(callback) {
-	api.get({
-		action: "query",
-		prop: "revisions",
-		titles: "MediaWiki:Gadget-Adiutor-AFD.json",
-		rvprop: "content",
-		formatversion: 2
-	}).done(function(data) {
-		var content = data.query.pages[0].revisions[0].content;
-		try {
-			var jsonData = JSON.parse(content);
-			callback(jsonData);
-		} catch(error) {
-			mw.notify('Failed to parse JSON data from API.', {
-				title: mw.msg('operation-failed'),
-				type: 'error'
-			});
-		}
-	}).fail(function() {
-		mw.notify('Failed to fetch data from the API.', {
-			title: mw.msg('operation-failed'),
-			type: 'error'
-		});
-	});
-}
-fetchApiData(function(jsonData) {
-	if(!jsonData) {
-		mw.notify('MediaWiki:Adiutor-AFD.json data is empty or undefined.', {
+/* Adiutor: Enhancing Wikipedia Editing Through a Comprehensive Set of Versatile Tools and Modules.
+ * Author: Vikipolimer
+ * Learn more at: https://meta.wikimedia.org/wiki/Adiutor
+ * License: Licensed under Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
+ * Module: Article For Deletion
+<nowiki> */
+function callBack() {
+	var api = new mw.Api();
+	var wikiId = mw.config.get('wgWikiID');
+	var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-' + wikiId));
+	var mwConfig = mw.config.get(["wgArticleId", "wgPageName", "wgUserName"]);
+	var afdConfiguration = require('./Adiutor-AFD.json');
+	if(!afdConfiguration) {
+		mw.notify('MediaWiki:Gadget-Adiutor-AFD.json data is empty or undefined.', {
 			title: mw.msg('operation-failed'),
 			type: 'error'
 		});
 		return;
 	}
-	var afdTemplate = jsonData.afdTemplate;
-	var afdPageTitleForMultipleNomination = jsonData.afdPageTitleForMultipleNomination;
-	var apiPostSummary = jsonData.apiPostSummary;
-	var apiPostSummaryforCreator = jsonData.apiPostSummaryforCreator;
-	var apiPostSummaryforUserLog = jsonData.apiPostSummaryforUserLog;
-	var apiPostSummaryforAfdPage = jsonData.apiPostSummaryforAfdPage;
-	var apiPostSummaryforAfdLog = jsonData.apiPostSummaryforAfdLog;
-	var addNominationToNoticeboard = jsonData.addNominationToNoticeboard;
-	var contentPattern = jsonData.contentPattern;
-	var noticeBoardTitle = jsonData.noticeBoardTitle;
+	var nominatedPreviously;
+	var nextNominationNumber = 0;
+	var afdTemplate = afdConfiguration.afdTemplate;
+	var afdPageTitleForMultipleNomination = afdConfiguration.afdPageTitleForMultipleNomination;
+	var apiPostSummary = afdConfiguration.apiPostSummary;
+	var apiPostSummaryforCreator = afdConfiguration.apiPostSummaryforCreator;
+	var apiPostSummaryforUserLog = afdConfiguration.apiPostSummaryforUserLog;
+	var apiPostSummaryforAfdPage = afdConfiguration.apiPostSummaryforAfdPage;
+	var apiPostSummaryforAfdLog = afdConfiguration.apiPostSummaryforAfdLog;
+	var addNominationToNoticeboard = afdConfiguration.addNominationToNoticeboard;
+	var contentPattern = afdConfiguration.contentPattern;
+	var noticeBoardTitle = afdConfiguration.noticeBoardTitle;
 	var noticeBoardLink = noticeBoardTitle.replace(/ /g, '_');
-	var logNominations = jsonData.logNominations;
-	var afdLogPage = jsonData.afdLogPage;
-	var afdNotificationTemplate = jsonData.afdNotificationTemplate;
-	var userLogText = jsonData.userLogText;
-	var userPagePrefix = jsonData.userPagePrefix;
-	var userTalkPagePrefix = jsonData.userTalkPagePrefix;
-	var specialContibutions = jsonData.specialContibutions;
-	var localMonthsNames = jsonData.localMonthsNames;
-	var addNominationToNoticeboardByFindLast = jsonData.addNominationToNoticeboardByFindLast;
-	var addNewSection = jsonData.addNewSection;
-	var sectionTitle = jsonData.sectionTitle;
-	var appendText = jsonData.appendText;
-	var prependText = jsonData.prependText;
-	var sectionId = jsonData.sectionId;
+	var logNominations = afdConfiguration.logNominations;
+	var afdLogPage = afdConfiguration.afdLogPage;
+	var afdNotificationTemplate = afdConfiguration.afdNotificationTemplate;
+	var userLogText = afdConfiguration.userLogText;
+	var userPagePrefix = afdConfiguration.userPagePrefix;
+	var userTalkPagePrefix = afdConfiguration.userTalkPagePrefix;
+	var specialContibutions = afdConfiguration.specialContibutions;
+	var localMonthsNames = afdConfiguration.localMonthsNames;
+	var addNominationToNoticeboardByFindLast = afdConfiguration.addNominationToNoticeboardByFindLast;
+	var addNewSection = afdConfiguration.addNewSection;
+	var sectionTitle = afdConfiguration.sectionTitle;
+	var appendText = afdConfiguration.appendText;
+	var prependText = afdConfiguration.prependText;
+	var sectionId = afdConfiguration.sectionId;
 	var pageTitle = mw.config.get("wgPageName").replace(/_/g, " ");
 
 	function articleForDeletionDialog(config) {
@@ -221,15 +202,14 @@ fetchApiData(function(jsonData) {
 	}
 
 	function putAfDTemplate(afdTempalte, nextNominationNumber) {
-		var nominatedPageTitle;
 		if(nextNominationNumber > 1) {
 			var placeholders = {
 				$1: pageTitle,
 				$2: nextNominationNumber,
 			};
-			var nominatedPageTitle = replacePlaceholders(afdPageTitleForMultipleNomination, placeholders);
+			pageTitle = replacePlaceholders(afdPageTitleForMultipleNomination, placeholders);
 		} else {
-			nominatedPageTitle = mwConfig.wgPageName;
+			pageTitle = mwConfig.wgPageName;
 		}
 		api.postWithToken('csrf', {
 			action: 'edit',
@@ -239,8 +219,8 @@ fetchApiData(function(jsonData) {
 			tags: 'Adiutor',
 			format: 'json'
 		}).done(function() {
-			createNominationPage(nominatedPageTitle);
-			logNomination(nominatedPageTitle, adiutorUserOptions);
+			createNominationPage(pageTitle);
+			logNomination(pageTitle, adiutorUserOptions);
 		});
 	}
 
@@ -255,7 +235,7 @@ fetchApiData(function(jsonData) {
 		});
 	}
 
-	function createNominationPage(nominatedPageTitle) {
+	function createNominationPage(pageTitle) {
 		var placeholders = {
 			$1: pageTitle,
 			$2: nomCount,
@@ -264,13 +244,13 @@ fetchApiData(function(jsonData) {
 		var preparedContent = replacePlaceholders(contentPattern, placeholders);
 		api.postWithToken('csrf', {
 			action: 'edit',
-			title: noticeBoardTitle + nominatedPageTitle,
+			title: noticeBoardTitle + pageTitle,
 			appendtext: preparedContent,
 			summary: apiPostSummary,
 			tags: 'Adiutor',
 			format: 'json'
 		}).done(function() {
-			addNominationToAfdPage(nominatedPageTitle);
+			addNominationToAfdPage(pageTitle);
 		});
 	}
 	if(addNominationToNoticeboard) {
@@ -310,18 +290,18 @@ fetchApiData(function(jsonData) {
 			format: "json"
 		}).done(function(data) {
 			pageContent = data.parse.wikitext['*'];
-			var NominatedBefore = pageContent.includes("{{" + noticeBoardTitle + "/" + nominatedPageTitle.replace(/_/g, " ") + "}}");
+			var NominatedBefore = pageContent.includes("{{" + noticeBoardTitle + "/" + pageTitle.replace(/_/g, " ") + "}}");
 			if(!NominatedBefore) {
 				api.postWithToken('csrf', {
 					action: 'edit',
 					title: noticeBoardTitle,
-					appendtext: "\n" + "{{" + noticeBoardTitle + "/" + nominatedPageTitle.replace(/_/g, " ") + "}}",
+					appendtext: "\n" + "{{" + noticeBoardTitle + "/" + pageTitle.replace(/_/g, " ") + "}}",
 					summary: apiPostSummaryforAfdPage,
 					tags: 'Adiutor',
 					format: 'json'
 				}).done(function() {
 					if(logNominations) {
-						addNominationToAfdLogPage(nominatedPageTitle);
+						addNominationToAfdLogPage(pageTitle);
 					}
 					adiutorUserOptions.stats.afdRequests++;
 					api.postWithEditToken({
@@ -336,11 +316,11 @@ fetchApiData(function(jsonData) {
 		});
 	} else {
 		if(logNominations) {
-			addNominationToAfdLogPage(nominatedPageTitle);
+			addNominationToAfdLogPage(pageTitle);
 		}
 	}
 
-	function addNominationToAfdLogPage(nominatedPageTitle) {
+	function addNominationToAfdLogPage(pageTitle) {
 		var date = new Date();
 		var date_year = date.getUTCFullYear();
 		var month_name = localMonthsNames[date.getUTCMonth()];
@@ -353,20 +333,20 @@ fetchApiData(function(jsonData) {
 			format: "json"
 		}).done(function(data) {
 			pageContent = data.parse.wikitext['*'];
-			var NominatedBefore = pageContent.includes("{{" + noticeBoardTitle + "/" + nominatedPageTitle.replace(/_/g, " ") + "}}");
+			var NominatedBefore = pageContent.includes("{{" + noticeBoardTitle + "/" + pageTitle.replace(/_/g, " ") + "}}");
 			if(!NominatedBefore) {
 				api.postWithToken('csrf', {
 					action: 'edit',
 					title: afdLogPage + date_year + "_" + month_name + "_" + day,
-					appendtext: "\n" + "{{" + noticeBoardTitle + "/" + nominatedPageTitle.replace(/_/g, " ") + "}}",
+					appendtext: "\n" + "{{" + noticeBoardTitle + "/" + pageTitle.replace(/_/g, " ") + "}}",
 					summary: apiPostSummaryforAfdLog,
 					tags: 'Adiutor',
 					format: 'json'
 				}).done(function() {
-					window.location = '/wiki/' + noticeBoardTitle + '/' + nominatedPageTitle.replace(/_/g, " ");
+					window.location = '/wiki/' + noticeBoardTitle + '/' + pageTitle.replace(/_/g, " ");
 				});
 			} else {
-				window.location = '/wiki/' + noticeBoardTitle + '/' + nominatedPageTitle.replace(/_/g, " ");
+				window.location = '/wiki/' + noticeBoardTitle + '/' + pageTitle.replace(/_/g, " ");
 			}
 		});
 	}
@@ -448,4 +428,7 @@ fetchApiData(function(jsonData) {
 			message: progressBar.$element
 		});
 	}
-});
+}
+module.exports = {
+	callBack: callBack
+};

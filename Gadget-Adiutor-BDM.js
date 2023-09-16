@@ -3,27 +3,22 @@
  * Learn more at: https://meta.wikimedia.org/wiki/Adiutor
  * License: Licensed under Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
 <nowiki> */
-var api = new mw.Api();
-var mwConfig = mw.config.get(["skin", "wgAction", "wgArticleId", "wgPageName", "wgNamespaceNumber", "wgTitle", "wgUserGroups", "wgUserName", "wgUserEditCount", "wgUserRegistration", "wgCanonicalNamespace"]);
-var wikiId = mw.config.get('wgWikiID');
-var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-' + wikiId));
-var batchDeletionList = [];
-var selectedOptions;
-var selectedReason;
-// Fetch JSON data containing speedy deletion reasons
-api.get({
-	action: 'query',
-	prop: 'revisions',
-	titles: 'MediaWiki:Gadget-Adiutor-CSD.json',
-	rvprop: 'content',
-	formatversion: 2
-}).done(function(data) {
-	// Extract speedy deletion reasons from the retrieved JSON data
-	var content = data.query.pages[0].revisions[0].content;
-	var jsonData = JSON.parse(content);
-	var speedyDeletionReasons = jsonData.speedyDeletionReasons;
-	var csdCategoryForBatchDeletion = jsonData.csdCategoryForBatchDeletion;
-	var apiPostSummaryforTalkPage = jsonData.apiPostSummaryforTalkPage;
+function callBack() {
+	var api = new mw.Api();
+	var csdConfiguration = require('./Adiutor-CSD.json');
+	if(!csdConfiguration) {
+		mw.notify('MediaWiki:Gadget-Adiutor-CSD.json data is empty or undefined.', {
+			title: mw.msg('operation-failed'),
+			type: 'error'
+		});
+		return;
+	}
+	var batchDeletionList = [];
+	var selectedOptions;
+	var selectedReason;
+	var speedyDeletionReasons = csdConfiguration.speedyDeletionReasons;
+	var csdCategoryForBatchDeletion = csdConfiguration.csdCategoryForBatchDeletion;
+	var apiPostSummaryforTalkPage = csdConfiguration.apiPostSummaryforTalkPage;
 	// Fetch list of pages to be considered for batch deletion from a specific category
 	api.get({
 		action: 'query',
@@ -231,5 +226,8 @@ api.get({
 		windowManager.addWindows([dialog]);
 		windowManager.openWindow(dialog);
 	});
-});
+}
+module.exports = {
+	callBack: callBack
+};
 /* </nowiki> */

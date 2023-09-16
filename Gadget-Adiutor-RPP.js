@@ -3,61 +3,29 @@
  * Learn more at: https://meta.wikimedia.org/wiki/Adiutor
  * License: Licensed under Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
 <nowiki> */
-var api = new mw.Api();
-var apiParams = {};
-var wikiId = mw.config.get('wgWikiID');
-var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-' + wikiId));
-var protectionType, protectionDuration;
-
-function fetchApiData(callback) {
-	api.get({
-		action: "query",
-		prop: "revisions",
-		titles: "MediaWiki:Gadget-Adiutor-RPP.json",
-		rvprop: "content",
-		formatversion: 2
-	}).done(function(data) {
-		var content = data.query.pages[0].revisions[0].content;
-		try {
-			var jsonData = JSON.parse(content);
-			callback(jsonData);
-		} catch(error) {
-			// Handle JSON parsing error
-			mw.notify('Failed to parse JSON data from API.', {
-				title: mw.msg('operation-failed'),
-				type: 'error'
-			});
-		}
-	}).fail(function() {
-		// Handle API request failure
-		mw.notify('Failed to fetch data from the API.', {
+function callBack() {
+	var api = new mw.Api();
+	var apiParams = {};
+	var rppConfiguration = require('./Adiutor-RPP.json');
+	var protectionType, protectionDuration;
+	if(!rppConfiguration) {
+		mw.notify('MediaWiki:Gadget-Adiutor-RPP.json data is empty or undefined.', {
 			title: mw.msg('operation-failed'),
 			type: 'error'
 		});
-		// You may choose to stop code execution here
-	});
-}
-fetchApiData(function(jsonData) {
-	if(!jsonData) {
-		// Handle a case where jsonData is empty or undefined
-		mw.notify('MediaWiki:Gadget-Adiutor-UBM.json data is empty or undefined.', {
-			title: mw.msg('operation-failed'),
-			type: 'error'
-		});
-		// You may choose to stop code execution here
 		return;
 	}
-	var noticeBoardTitle = jsonData.noticeBoardTitle;
+	var noticeBoardTitle = rppConfiguration.noticeBoardTitle;
 	var noticeBoardLink = noticeBoardTitle.replace(/ /g, '_');
-	var protectionDurations = jsonData.protectionDurations;
-	var protectionTypes = jsonData.protectionTypes;
-	var addNewSection = jsonData.addNewSection;
-	var appendText = jsonData.appendText;
-	var prependText = jsonData.prependText;
-	var sectionId = jsonData.sectionId;
-	var contentPattern = jsonData.contentPattern;
-	var apiPostSummary = jsonData.apiPostSummary;
-	var sectionTitle = jsonData.sectionTitle;
+	var protectionDurations = rppConfiguration.protectionDurations;
+	var protectionTypes = rppConfiguration.protectionTypes;
+	var addNewSection = rppConfiguration.addNewSection;
+	var appendText = rppConfiguration.appendText;
+	var prependText = rppConfiguration.prependText;
+	var sectionId = rppConfiguration.sectionId;
+	var contentPattern = rppConfiguration.contentPattern;
+	var apiPostSummary = rppConfiguration.apiPostSummary;
+	var sectionTitle = rppConfiguration.sectionTitle;
 	var pageTitle = mw.config.get("wgPageName").replace(/_/g, " ");
 
 	function pageProtectionDialog(config) {
@@ -234,5 +202,8 @@ fetchApiData(function(jsonData) {
 			return input;
 		}
 	}
-});
+}
+module.exports = {
+	callBack: callBack
+};
 /* </nowiki> */

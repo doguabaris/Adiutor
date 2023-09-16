@@ -3,58 +3,27 @@
  * Learn more at: https://meta.wikimedia.org/wiki/Adiutor
  * License: Licensed under Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
 <nowiki> */
-var api = new mw.Api();
-var mwConfig = mw.config.get(["wgArticleId", "wgPageName", "wgUserGroups", "wgUserName"]);
-var wikiId = mw.config.get('wgWikiID');
-var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-' + wikiId));
-
-function fetchApiData(callback) {
-	api.get({
-		action: "query",
-		prop: "revisions",
-		titles: "MediaWiki:Gadget-Adiutor-PRD.json",
-		rvprop: "content",
-		formatversion: 2
-	}).done(function(data) {
-		var content = data.query.pages[0].revisions[0].content;
-		try {
-			var jsonData = JSON.parse(content);
-			callback(jsonData);
-		} catch(error) {
-			// Handle JSON parsing error
-			mw.notify('Failed to parse JSON data from API.', {
-				title: mw.msg('operation-failed'),
-				type: 'error'
-			});
-		}
-	}).fail(function() {
-		// Handle API request failure
-		mw.notify('Failed to fetch data from the API.', {
+function callBack() {
+	var api = new mw.Api();
+	var mwConfig = mw.config.get(["wgArticleId", "wgPageName", "wgUserGroups", "wgUserName", "wgWikiID"]);
+	var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-' + mwConfig.wgWikiID));
+	var prdConfiguration = require('./Adiutor-PRD.json');
+	if(!prdConfiguration) {
+		mw.notify('MediaWiki:Gadget-Adiutor-PRD.json data is empty or undefined.', {
 			title: mw.msg('operation-failed'),
 			type: 'error'
 		});
-		// You may choose to stop code execution here
-	});
-}
-fetchApiData(function(jsonData) {
-	if(!jsonData) {
-		// Handle a case where jsonData is empty or undefined
-		mw.notify('MediaWiki:Gadget-Adiutor-UBM.json data is empty or undefined.', {
-			title: mw.msg('operation-failed'),
-			type: 'error'
-		});
-		// You may choose to stop code execution here
 		return;
 	}
-	var standardProposeTemplate = jsonData.standardProposeTemplate;
-	var livingPersonProposeTemplate = jsonData.livingPersonProposeTemplate;
-	var apiPostSummary = jsonData.apiPostSummary;
-	var apiPostSummaryforCreator = jsonData.apiPostSummaryforCreator;
-	var apiPostSummaryforLog = jsonData.apiPostSummaryforLog;
-	var localMonthsNames = jsonData.localMonthsNames;
-	var userPagePrefix = jsonData.userPagePrefix;
-	var userTalkPagePrefix = jsonData.userTalkPagePrefix;
-	var prodNotificationTemplate = jsonData.prodNotificationTemplate;
+	var standardProposeTemplate = prdConfiguration.standardProposeTemplate;
+	var livingPersonProposeTemplate = prdConfiguration.livingPersonProposeTemplate;
+	var apiPostSummary = prdConfiguration.apiPostSummary;
+	var apiPostSummaryforCreator = prdConfiguration.apiPostSummaryforCreator;
+	var apiPostSummaryforLog = prdConfiguration.apiPostSummaryforLog;
+	var localMonthsNames = prdConfiguration.localMonthsNames;
+	var userPagePrefix = prdConfiguration.userPagePrefix;
+	var userTalkPagePrefix = prdConfiguration.userTalkPagePrefix;
+	var prodNotificationTemplate = prdConfiguration.prodNotificationTemplate;
 	var pageTitle = mw.config.get("wgPageName").replace(/_/g, " ");
 
 	function proposedDeletionDialog(config) {
@@ -198,6 +167,7 @@ fetchApiData(function(jsonData) {
 	var dialog = new proposedDeletionDialog();
 	windowManager.addWindows([dialog]);
 	windowManager.openWindow(dialog);
+
 	function putPRDTemplate(PRDText) {
 		api.postWithToken('csrf', {
 			action: 'edit',
@@ -269,5 +239,8 @@ fetchApiData(function(jsonData) {
 			return input;
 		}
 	}
-});
+}
+module.exports = {
+	callBack: callBack
+};
 /* </nowiki> */

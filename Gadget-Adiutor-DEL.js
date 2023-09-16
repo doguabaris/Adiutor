@@ -3,58 +3,25 @@
  * Learn more at: https://meta.wikimedia.org/wiki/Adiutor
  * License: Licensed under Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
 <nowiki> */
-var api = new mw.Api();
-var mwConfig = mw.config.get(["wgPageName", "wgNamespaceNumber"]);
-var wikiId = mw.config.get('wgWikiID');
-var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-' + wikiId));
-var csdReason, csdSummary, notificationMessage, articleAuthor;
-var csdOptions = [];
-var csdReasons = [];
-var saltCsdSummary = '';
-var pageTitle = mw.config.get("wgPageName").replace(/_/g, " ");
-
-function fetchApiData(callback) {
-	api.get({
-		action: "query",
-		prop: "revisions",
-		titles: "MediaWiki:Gadget-Adiutor-CSD.json",
-		rvprop: "content",
-		formatversion: 2
-	}).done(function(data) {
-		var content = data.query.pages[0].revisions[0].content;
-		try {
-			var jsonData = JSON.parse(content);
-			callback(jsonData);
-		} catch(error) {
-			// Handle JSON parsing error
-			mw.notify('Failed to parse JSON data from API.', {
-				title: mw.msg('operation-failed'),
-				type: 'error'
-			});
-		}
-	}).fail(function() {
-		// Handle API request failure
-		mw.notify('Failed to fetch data from the API.', {
-			title: mw.msg('operation-failed'),
-			type: 'error'
-		});
-		// You may choose to stop code execution here
-	});
-}
-fetchApiData(function(jsonData) {
-	if(!jsonData) {
-		// Handle a case where jsonData is empty or undefined
+function callBack() {
+	var api = new mw.Api();
+	var mwConfig = mw.config.get(["wgPageName", "wgWikiID", "wgNamespaceNumber"]);
+	var csdConfiguration = require('./Adiutor-CSD.json');
+	if(!csdConfiguration) {
 		mw.notify('MediaWiki:Gadget-Adiutor-CSD.json data is empty or undefined.', {
 			title: mw.msg('operation-failed'),
 			type: 'error'
 		});
-		// You may choose to stop code execution here
 		return;
 	}
+	var csdSummary;
+	var csdReasons = [];
+	var saltCsdSummary = '';
+	var pageTitle = mw.config.get("wgPageName").replace(/_/g, " ");
 	api.get({
 		action: "query",
 		format: "json",
-		titles: mwConfig.wgPageName
+		titles: pageTitle
 	}).done(function(data) {
 		var pages = data.query.pages;
 		var pageId = Object.keys(pages)[0];
@@ -64,22 +31,22 @@ fetchApiData(function(jsonData) {
 				list: 'logevents',
 				leaction: 'delete/delete',
 				letprop: 'delete',
-				letitle: mwConfig.wgPageName
+				letitle: pageTitle
 			}).done(function(data) {
 				if(data.query.logevents) {
 					revDelCount = data.query.logevents.length;
 				} else {
 					revDelCount = 0;
 				}
-				var speedyDeletionReasons = jsonData.speedyDeletionReasons;
-				var talkPagePrefix = jsonData.talkPagePrefix;
-				var apiPostSummaryforTalkPage = jsonData.apiPostSummaryforTalkPage;
+				var speedyDeletionReasons = csdConfiguration.speedyDeletionReasons;
+				var talkPagePrefix = csdConfiguration.talkPagePrefix;
+				var apiPostSummaryforTalkPage = csdConfiguration.apiPostSummaryforTalkPage;
 
 				function csdAdminProcessDialog(config) {
 					csdAdminProcessDialog.super.call(this, config);
 				}
 				OO.inheritClass(csdAdminProcessDialog, OO.ui.ProcessDialog);
-				csdAdminProcessDialog.static.title = mwConfig.wgPageName;
+				csdAdminProcessDialog.static.title = pageTitle;
 				csdAdminProcessDialog.static.name = 'csdAdminProcessDialog';
 				// An action set that uses modes ('edit' and 'help' mode, in this example).
 				csdAdminProcessDialog.static.actions = [{
@@ -284,7 +251,7 @@ fetchApiData(function(jsonData) {
 					});
 					if(revDelCount >= "1") {
 						var deletionMessage = mw.msg('page-deletion-count-warning', revDelCount);
-						var deletionMessageWithLink = deletionMessage.replace(/\$2/g, '<a href="/wiki/Special:Log?type=delete&user=&page=' + mwConfig.wgPageName + '">' + mw.msg('log') + '</a>');
+						var deletionMessageWithLink = deletionMessage.replace(/\$2/g, '<a href="/wiki/Special:Log?type=delete&user=&page=' + pageTitle + '">' + mw.msg('log') + '</a>');
 						var headerBarRevDel = new OO.ui.MessageWidget({
 							type: 'warning',
 							label: new OO.ui.HtmlSnippet(deletionMessageWithLink)
@@ -349,14 +316,14 @@ fetchApiData(function(jsonData) {
 								csdSummary = saltCsdSummary;
 								api.postWithToken('csrf', {
 									action: 'delete',
-									title: mwConfig.wgPageName,
+									title: pageTitle,
 									reason: csdSummary,
 									tags: 'Adiutor',
 									format: 'json'
 								}).done(function() {
 									api.postWithToken('csrf', {
 										action: 'delete',
-										title: talkPagePrefix + mwConfig.wgPageName,
+										title: talkPagePrefix + pageTitle,
 										reason: apiPostSummaryforTalkPage,
 										tags: 'Adiutor',
 										format: 'json'
@@ -392,5 +359,8 @@ fetchApiData(function(jsonData) {
 	}).catch(error => {
 		console.error("API error:", error);
 	});
-});
+}
+module.exports = {
+	callBack: callBack
+};
 /* </nowiki> */

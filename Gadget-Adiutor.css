@@ -402,6 +402,7 @@ ul.cov-url-list {
 	border-top: none;
 	border-bottom: none;
 	border-right: none;
+	margin: 0 !important;
 }
 
 .adiutor-work-list-item:hover {

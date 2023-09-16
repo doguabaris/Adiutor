@@ -3,34 +3,30 @@
  * Learn more at: https://meta.wikimedia.org/wiki/Adiutor
  * License: Licensed under Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
 <nowiki> */
-var api = new mw.Api();
-var mwConfig = mw.config.get(["skin", "wgAction", "wgPageName", "wgTitle"]);
-var wikiId = mw.config.get('wgWikiID');
-var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-' + wikiId));
-var sectionLink, sectionPath, sectionNumber, mentorResponse;
-api.get({
-	action: "query",
-	prop: "revisions",
-	titles: "MediaWiki:Gadget-Adiutor-CMR.json",
-	rvprop: "content",
-	formatversion: 2
-}).done(function(data) {
-	var content = data.query.pages[0].revisions[0].content;
-	var jsonData = JSON.parse(content);
-	var predefinedResponses = jsonData.predefinedResponses;
-	var apiPostSummary = jsonData.apiPostSummary;
-	var userTalkPagePrefix = jsonData.userTalkPagePrefix;
+function callBack() {
+	var api = new mw.Api();
+	var cmrConfiguration = require('./Adiutor-CMR.json');
+	if(!cmrConfiguration) {
+		mw.notify('MediaWiki:Gadget-Adiutor-CMR.json data is empty or undefined.', {
+			title: mw.msg('operation-failed'),
+			type: 'error'
+		});
+		return;
+	}
+	var sectionLink, sectionPath, sectionNumber, mentorResponse;
+	var predefinedResponses = cmrConfiguration.predefinedResponses;
+	var apiPostSummary = cmrConfiguration.apiPostSummary;
 	console.log(predefinedResponses);
 	var crButton = new OO.ui.ButtonWidget({
 		framed: false,
-		label: '['+mw.msg('cmr-canned-response')+']',
+		label: '[' + mw.msg('cmr-canned-response') + ']',
 		classes: ['adiutor-canned-response-button']
 	});
 	$('.mw-editsection').append(crButton.$element);
 	$(".adiutor-canned-response-button").click(function() {
 		var buttonElement = $(this);
-		var sectionPath = buttonElement.parent().parent()[0];
-		var sectionLink = clearURLfromOrigin(sectionPath.querySelector(".mw-editsection a").getAttribute('href'));
+		sectionPath = buttonElement.parent().parent()[0];
+		sectionLink = clearURLfromOrigin(sectionPath.querySelector(".mw-editsection a").getAttribute('href'));
 		var match = sectionLink.match(/[?&]section=(\d+)/);
 		if(match) {
 			sectionNumber = match[1];
@@ -39,6 +35,7 @@ api.get({
 		}
 		openCmrDialog();
 	});
+
 	function openCmrDialog() {
 		function cannedResponseDialog(config) {
 			cannedResponseDialog.super.call(this, config);
@@ -78,18 +75,20 @@ api.get({
 				inline: true,
 				label: new OO.ui.HtmlSnippet('<strong>' + mw.msg('cmr-header-title') + '</strong><br><small>' + mw.msg('cmr-header-description') + '</small>')
 			});
-			headerMessage.$element.css({'margin-top': '20px','margin-bottom': '20px'});
+			headerMessage.$element.css({
+				'margin-top': '20px',
+				'margin-bottom': '20px'
+			});
 			this.content = new OO.ui.PanelLayout({
 				padded: true,
 				expanded: false
 			});
-		
-			var previewArea = new OO.ui.Element( {
+			var previewArea = new OO.ui.Element({
 				text: '',
-				classes: [ 'adiutor-mentor-response-preview-area' ]
-			} );
+				classes: ['adiutor-mentor-response-preview-area']
+			});
 			previewArea.$element.css('display', 'none');
-			this.content.$element.append(headerMessage.$element,dropdown.$element,previewArea.$element);
+			this.content.$element.append(headerMessage.$element, dropdown.$element, previewArea.$element);
 			this.$body.append(this.content.$element);
 			dropdown.getMenu().on('choose', function(menuOption) {
 				mentorResponse = menuOption.getData();
@@ -133,7 +132,7 @@ api.get({
 		function addResponse(sectionNumber) {
 			api.postWithToken('csrf', {
 				action: 'edit',
-				title: mwConfig.wgPageName,
+				title: mw.config.get('wgPageName'),
 				section: sectionNumber,
 				appendtext: "\n" + ":" + mentorResponse + ' ~~~~',
 				summary: apiPostSummary,
@@ -144,9 +143,12 @@ api.get({
 			});
 		}
 	}
-});
 
-function clearURLfromOrigin(sectionPart) {
-	return decodeURIComponent(sectionPart.replace('https//:' + mw.config.get("wgServerName") + '/w/index.php?title=', ''));
+	function clearURLfromOrigin(sectionPart) {
+		return decodeURIComponent(sectionPart.replace('https//:' + mw.config.get("wgServerName") + '/w/index.php?title=', ''));
+	}
 }
+module.exports = {
+	callBack: callBack
+};
 /* </nowiki> */

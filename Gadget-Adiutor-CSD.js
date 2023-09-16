@@ -3,54 +3,18 @@
  * Learn more at: https://meta.wikimedia.org/wiki/Adiutor
  * License: Licensed under Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
 <nowiki> */
-var api = new mw.Api();
-var mwConfig = mw.config.get(["wgArticleId", "wgPageName", "wgNamespaceNumber", "wgUserName"]);
-var wikiId = mw.config.get('wgWikiID');
-var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-' + wikiId));
-var csdReason, csdSummary, notificationMessage, articleAuthor;
-var csdOptions = [];
-var csdReasons = [];
-var saltCsdSummary = '';
-var pageTitle = mw.config.get("wgPageName").replace(/_/g, " ");
-
-function fetchApiData(callback) {
-	api.get({
-		action: "query",
-		prop: "revisions",
-		titles: "MediaWiki:Gadget-Adiutor-CSD.json",
-		rvprop: "content",
-		formatversion: 2
-	}).done(function(data) {
-		var content = data.query.pages[0].revisions[0].content;
-		try {
-			var jsonData = JSON.parse(content);
-			callback(jsonData);
-		} catch(error) {
-			// Handle JSON parsing error
-			mw.notify('Failed to parse JSON data from API.', {
-				title: mw.msg('operation-failed'),
-				type: 'error'
-			});
-		}
-	}).fail(function() {
-		// Handle API request failure
-		mw.notify('Failed to fetch data from the API.', {
-			title: mw.msg('operation-failed'),
-			type: 'error'
-		});
-		// You may choose to stop code execution here
-	});
-}
-fetchApiData(function(jsonData) {
-	if(!jsonData) {
-		// Handle a case where jsonData is empty or undefined
-		mw.notify('MediaWiki:Gadget-Adiutor-CSD.json data is empty or undefined.', {
-			title: mw.msg('operation-failed'),
-			type: 'error'
-		});
-		// You may choose to stop code execution here
-		return;
-	}
+function callBack() {
+	var api = new mw.Api();
+	var mwConfig = mw.config.get(["wgArticleId", "wgPageName", "wgNamespaceNumber", "wgUserName"]);
+	var wikiId = mw.config.get('wgWikiID');
+	var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-' + wikiId));
+	var csdReason, csdSummary, notificationMessage, articleAuthor;
+	var csdOptions = [];
+	var csdReasons = [];
+	var saltCsdSummary = '';
+	var pageTitle = mw.config.get("wgPageName").replace(/_/g, " ");
+	var jsonData = require('./Adiutor-CSD.json');
+	console.log(jsonData);
 	api.get({
 		action: 'query',
 		list: 'logevents',
@@ -614,5 +578,8 @@ fetchApiData(function(jsonData) {
 			}
 		}
 	});
-});
+}
+module.exports = {
+	callBack: callBack
+};
 /* </nowiki> */

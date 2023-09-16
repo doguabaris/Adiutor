@@ -3,19 +3,19 @@
  * Learn more at: https://meta.wikimedia.org/wiki/Adiutor
  * License: Licensed under Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
 <nowiki> */
-var api = new mw.Api();
-var wikiId = mw.config.get('wgWikiID');
-var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-' + wikiId));
-api.get({
-	action: "query",
-	prop: "revisions",
-	titles: "MediaWiki:Gadget-Adiutor-SUM.json",
-	rvprop: "content",
-	formatversion: 2
-}).done(function(data) {
-	var content = data.query.pages[0].revisions[0].content;
-	var jsonData = JSON.parse(content);
-	var summaryCategories = jsonData.summaryCategories;
+function callBack() {
+	var api = new mw.Api();
+	var wikiId = mw.config.get('wgWikiID');
+	var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-' + wikiId));
+	var sumConfiguration = require('./Adiutor-SUM.json');
+	if(!sumConfiguration) {
+		mw.notify('MediaWiki:Gadget-Adiutor-SUM.json data is empty or undefined.', {
+			title: mw.msg('operation-failed'),
+			type: 'error'
+		});
+		return;
+	}
+	var summaryCategories = sumConfiguration.summaryCategories;
 	// Select the summary box and summary textarea
 	var $summaryBox, $summaryTextarea = $('#wpSummary');
 	// Assuming adiutorUserOptions.myCustomSummaries is an array of custom summaries
@@ -92,5 +92,8 @@ api.get({
 		}
 		insertSummaryOptions($editCheckboxes, '50%');
 	});
-});
+}
+module.exports = {
+	callBack: callBack
+};
 /* </nowiki> */

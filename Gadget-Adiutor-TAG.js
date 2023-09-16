@@ -3,59 +3,28 @@
  * Learn more at: https://meta.wikimedia.org/wiki/Adiutor
  * License: Licensed under Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
 <nowiki> */
-var api = new mw.Api();
-var wikiId = mw.config.get('wgWikiID');
-var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-' + wikiId));
-var tagOptions = [];
-var selectedTags = [];
-var templateInfo = {};
-var preparedTemplates = [];
-var preparedTagsString;
-
-function fetchApiData(callback) {
-
-	api.get({
-		action: "query",
-		prop: "revisions",
-		titles: "MediaWiki:Gadget-Adiutor-TAG.json",
-		rvprop: "content",
-		formatversion: 2
-	}).done(function(data) {
-		var content = data.query.pages[0].revisions[0].content;
-		try {
-			var jsonData = JSON.parse(content);
-			callback(jsonData);
-		} catch(error) {
-			// Handle JSON parsing error
-			mw.notify('Failed to parse JSON data from API.', {
-				title: mw.msg('operation-failed'),
-				type: 'error'
-			});
-		}
-	}).fail(function() {
-		// Handle API request failure
-		mw.notify('Failed to fetch data from the API.', {
+function callBack() {
+	var api = new mw.Api();
+	var wikiId = mw.config.get('wgWikiID');
+	var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-' + wikiId));
+	var tagConfiguration = require('./Adiutor-TAG.json');
+	var tagOptions = [];
+	var selectedTags = [];
+	var templateInfo = {};
+	var preparedTemplates = [];
+	var preparedTagsString;
+	if(!tagConfiguration) {
+		mw.notify('MediaWiki:Gadget-Adiutor-TAG.json data is empty or undefined.', {
 			title: mw.msg('operation-failed'),
 			type: 'error'
 		});
-		// You may choose to stop code execution here
-	});
-}
-fetchApiData(function(jsonData) {
-	if(!jsonData) {
-		// Handle a case where jsonData is empty or undefined
-		mw.notify('MediaWiki:Gadget-Adiutor-UBM.json data is empty or undefined.', {
-			title: mw.msg('operation-failed'),
-			type: 'error'
-		});
-		// You may choose to stop code execution here
 		return;
 	}
-	var tagList = jsonData.tagList;
-	var useMultipleIssuesTemplate = jsonData.useMultipleIssuesTemplate;
-	var multipleIssuesTemplate = jsonData.multipleIssuesTemplate;
-	var uncategorizedTemplate = jsonData.uncategorizedTemplate;
-	var apiPostSummary = jsonData.apiPostSummary;
+	var tagList = tagConfiguration.tagList;
+	var useMultipleIssuesTemplate = tagConfiguration.useMultipleIssuesTemplate;
+	var multipleIssuesTemplate = tagConfiguration.multipleIssuesTemplate;
+	var uncategorizedTemplate = tagConfiguration.uncategorizedTemplate;
+	var apiPostSummary = tagConfiguration.apiPostSummary;
 
 	function PageTaggingDialog(config) {
 		PageTaggingDialog.super.call(this, config);
@@ -325,5 +294,8 @@ fetchApiData(function(jsonData) {
 			location.reload();
 		});
 	}
-});
+}
+module.exports = {
+	callBack: callBack
+};
 /* </nowiki> */

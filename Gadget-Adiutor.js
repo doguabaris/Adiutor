@@ -17,33 +17,17 @@ function updateOptions(options) {
 }
 // Function to update translations
 function updateTranslations() {
-	api.get({
-		action: 'query',
-		prop: 'revisions',
-		titles: 'MediaWiki:Gadget-Adiutor-i18.json',
-		rvprop: 'content',
-		formatversion: 2
-	}).done(function(data) {
-		var page = data.query.pages[0];
-		if(page && page.revisions && page.revisions[0]) {
-			var jsonData = JSON.parse(page.revisions[0].content);
-			// Check if jsonData is an object
-			if(typeof jsonData === 'object') {
-				for(var langCode in jsonData) {
-					if(jsonData.hasOwnProperty(langCode) && langCode !== '@metadata') {
-						// Pass necessary data as arguments to the function
-						processTranslation(langCode, jsonData[langCode]);
-					}
-				}
-			} else {
-				console.error('JSON content is not an object:', jsonData);
+	var jsonData = require('./Adiutor-i18.json');
+	if(typeof jsonData === 'object') {
+		for(var langCode in jsonData) {
+			if(jsonData.hasOwnProperty(langCode) && langCode !== '@metadata') {
+				// Pass necessary data as arguments to the function
+				processTranslation(langCode, jsonData[langCode]);
 			}
-		} else {
-			console.error('No valid revision data found in the response.');
 		}
-	}).fail(function(err) {
-		console.error('Failed to fetch translation data:', err);
-	});
+	} else {
+		console.error('JSON content is not an object:', jsonData);
+	}
 }
 
 function processTranslation(langCode, translationData) {
@@ -114,7 +98,7 @@ var adiutorUserOptionsDefault = {
 		"upw": true,
 		"wrn": true
 	},
-	"adiutorVersion": "v1.2.6"
+	"adiutorVersion": "v2.0.0"
 };
 // Get user options related to the Adiutor gadget
 var adiutorUserOptions = JSON.parse(mw.user.options.get(wikiOptions));
@@ -158,9 +142,8 @@ try {
 	// If so, work with the messages object.
 	mw.messages.set(messages);
 	// Load the Adiutor interface launcher
-	mw.loader.load(mw.util.getUrl('MediaWiki:Gadget-Adiutor-AIL.js', {
-		action: 'raw'
-	}) + '&ctype=text/javascript', 'text/javascript');
+	const AIL = require('./Adiutor-AIL.js');
+	AIL.callBack();
 } catch(error) {
 	console.error('Error fetching and processing translations:', error);
 }

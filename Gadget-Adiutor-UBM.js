@@ -3,64 +3,31 @@
  * Learn more at: https://meta.wikimedia.org/wiki/Adiutor
  * License: Licensed under Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
 <nowiki> */
-var api = new mw.Api();
-var mwConfig = mw.config.get(["wgAction", "wgPageName", "wgTitle", "wgUserName"]);
-var wikiId = mw.config.get('wgWikiID');
-var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-' + wikiId));
-var duration;
-var reason;
-var blockReason;
-var additionalReason = '';
-var preventAccountCreationValue;
-var preventEmailSendingValue;
-var preventEditOwnTalkPageValue;
-
-function fetchApiData(callback) {
-	
-	api.get({
-		action: "query",
-		prop: "revisions",
-		titles: "MediaWiki:Gadget-Adiutor-UBM.json",
-		rvprop: "content",
-		formatversion: 2
-	}).done(function(data) {
-		var content = data.query.pages[0].revisions[0].content;
-		try {
-			var jsonData = JSON.parse(content);
-			callback(jsonData);
-		} catch(error) {
-			// Handle JSON parsing error
-			mw.notify('Failed to parse JSON data from API.', {
-				title: mw.msg('operation-failed'),
-				type: 'error'
-			});
-		}
-	}).fail(function() {
-		// Handle API request failure
-		mw.notify('Failed to fetch data from the API.', {
-			title: mw.msg('operation-failed'),
-			type: 'error'
-		});
-		// You may choose to stop code execution here
-	});
-}
-fetchApiData(function(jsonData) {
-	if(!jsonData) {
-		// Handle a case where jsonData is empty or undefined
+function callBack() {
+	var api = new mw.Api();
+	var mwConfig = mw.config.get(["wgAction", "wgPageName", "wgTitle", "wgUserName"]);
+	var ubmConfiguration = require('./Adiutor-UBM.json');
+	var duration;
+	var reason;
+	var blockReason;
+	var additionalReason = '';
+	var preventAccountCreationValue;
+	var preventEmailSendingValue;
+	var preventEditOwnTalkPageValue;
+	if(!ubmConfiguration) {
 		mw.notify('MediaWiki:Gadget-Adiutor-UBM.json data is empty or undefined.', {
 			title: mw.msg('operation-failed'),
 			type: 'error'
 		});
-		// You may choose to stop code execution here
 		return;
 	}
-	var blockDurations = jsonData.blockDurations;
-	var blockReasons = jsonData.blockReasons;
-	var userPagePrefix = jsonData.userPagePrefix;
-	var userTalkPagePrefix = jsonData.userTalkPagePrefix;
-	var specialContibutions = jsonData.specialContibutions;
-	var noticeBoardTitle = jsonData.noticeBoardTitle;
-	var apiPostSummary = jsonData.apiPostSummary;
+	var blockDurations = ubmConfiguration.blockDurations;
+	var blockReasons = ubmConfiguration.blockReasons;
+	var userPagePrefix = ubmConfiguration.userPagePrefix;
+	var userTalkPagePrefix = ubmConfiguration.userTalkPagePrefix;
+	var specialContibutions = ubmConfiguration.specialContibutions;
+	var noticeBoardTitle = ubmConfiguration.noticeBoardTitle;
+	var apiPostSummary = ubmConfiguration.apiPostSummary;
 	var userToBlock = window.adiutorUserToBlock;
 	var headlineElement = window.headlineElement;
 	var sectionId = window.sectionId;
@@ -72,7 +39,7 @@ fetchApiData(function(jsonData) {
 		userBlockDialog.super.call(this, config);
 	}
 	OO.inheritClass(userBlockDialog, OO.ui.ProcessDialog);
-	userBlockDialog.static.title = mw.msg('user-blocking') + ' ' + '('+userToBlock+')',
+	userBlockDialog.static.title = mw.msg('user-blocking') + ' ' + '(' + userToBlock + ')',
 		userBlockDialog.static.name = 'userBlockDialog';
 	userBlockDialog.static.actions = [{
 		action: 'continue',
@@ -322,5 +289,8 @@ fetchApiData(function(jsonData) {
 		var cleanedPageName = mwConfig.wgPageName.replace(/_/g, " ").replace(userPagePrefix, '').replace(specialContibutions, '').replace(userTalkPagePrefix, '');
 		return cleanedPageName;
 	}
-});
+}
+module.exports = {
+	callBack: callBack
+};
 /* </nowiki> */
