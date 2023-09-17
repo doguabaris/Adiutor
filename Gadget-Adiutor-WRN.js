@@ -1,6 +1,7 @@
 /* Adiutor: Enhancing Wikipedia Editing Through a Comprehensive Set of Versatile Tools and Modules.
  * Author: Vikipolimer
  * Learn more at: https://meta.wikimedia.org/wiki/Adiutor
+ * Module: User Warning
  * License: Licensed under Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
 <nowiki> */
 function callBack() {

@@ -2,6 +2,7 @@
  * Author: Vikipolimer
  * Learn more at: https://meta.wikimedia.org/wiki/Adiutor
  * License: Licensed under Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
+ * Module: Userpage Widget
 // based on http://en.wikipedia.org/wiki/User:Fran Rogers/dimorphism.js
 // and on http://en.wikipedia.org/wiki/User:Splarka/sysopdectector.js
 // source: https://en.wikipedia.org/wiki/User:PleaseStand/userinfo.js

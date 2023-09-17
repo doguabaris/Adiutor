@@ -2,6 +2,7 @@
  * Author: Vikipolimer
  * Learn more at: https://meta.wikimedia.org/wiki/Adiutor
  * License: Licensed under Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
+ * Module: Copyright Violation Checker
  * Earwig's Copyvio Detector (https://copyvios.toolforge.org/) api used in MediaWiki:Gadget-Adiutor-COV.js
 <nowiki> */
 function callBack() {

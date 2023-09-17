@@ -2,6 +2,7 @@
  * Author: Vikipolimer
  * Learn more at: https://meta.wikimedia.org/wiki/Adiutor
  * License: Licensed under Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
+ * Module: Create Speedy Deletion
 <nowiki> */
 function callBack() {
 	var api = new mw.Api();
