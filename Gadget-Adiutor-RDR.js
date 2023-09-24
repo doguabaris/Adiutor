@@ -137,7 +137,7 @@ function callBack() {
 				};
 				if(addNewSection) {
 					apiParams.section = 'new';
-					apiParams.sectiontitle = replaceParameter(sectionTitle, '1', sectionTitle);
+					apiParams.sectiontitle = replaceParameter(sectionTitle, '1', pageTitle);
 					apiParams.text = preparedContent;
 				} else {
 					if(sectionId) {
