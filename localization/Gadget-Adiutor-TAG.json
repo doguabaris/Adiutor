@@ -35,6 +35,10 @@
                             "label": "Source URL:"
                         }
                     ]
+                },
+                {
+                    "tag": "Uncategorized",
+                    "description": "Article not added to any categories"
                 }
             ]
         },
