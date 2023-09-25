@@ -50,61 +50,54 @@
                     "description": "Subject of the article may not be notable",
                     "items": [
                         {
-                            "name": "notability",
-                            "parameter": "1",
-                            "type": "select",
-                            "items": [
-                                {
-                                    "label": "Notability: subject does not meet the following criteria",
-                                    "value": "none",
-                                    "type": "checkbox"
-                                },
-                                {
-                                    "label": "Notability|biography: notability for biography articles",
-                                    "value": "biography",
-                                    "type": "checkbox"
-                                },
-                                {
-                                    "label": "Notability|book: notability for book articles",
-                                    "value": "book",
-                                    "type": "checkbox"
-                                },
-                                {
-                                    "label": "Notability|company: notability for company articles",
-                                    "value": "company",
-                                    "type": "checkbox"
-                                },
-                                {
-                                    "label": "Notability|music: notability for music articles",
-                                    "value": "Music",
-                                    "type": "checkbox"
-                                },
-                                {
-                                    "label": "Notability|internet: notability for internet articles",
-                                    "value": "internet",
-                                    "type": "checkbox"
-                                },
-                                {
-                                    "label": "Notability|film: notability for film articles",
-                                    "value": "Movie",
-                                    "type": "checkbox"
-                                },
-                                {
-                                    "label": "Notability|theatre: notability for theatre articles",
-                                    "value": "theatre",
-                                    "type": "checkbox"
-                                },
-                                {
-                                    "label": "Notability|school: notability for school articles",
-                                    "value": "school",
-                                    "type": "checkbox"
-                                },
-                                {
-                                    "label": "Notability|television: notability for television articles",
-                                    "value": "television",
-                                    "type": "checkbox"
-                                }
-                            ]
+                            "label": "Notability: subject does not meet the following criteria",
+                            "value": "none",
+                            "type": "checkbox"
+                        },
+                        {
+                            "label": "Biography: notability for biography articles",
+                            "value": "biography",
+                            "type": "checkbox"
+                        },
+                        {
+                            "label": "Book: notability for book articles",
+                            "value": "book",
+                            "type": "checkbox"
+                        },
+                        {
+                            "label": "Company: notability for company articles",
+                            "value": "company",
+                            "type": "checkbox"
+                        },
+                        {
+                            "label": "Music: notability for music articles",
+                            "value": "Music",
+                            "type": "checkbox"
+                        },
+                        {
+                            "label": "Internet: notability for internet articles",
+                            "value": "internet",
+                            "type": "checkbox"
+                        },
+                        {
+                            "label": "Film: notability for film articles",
+                            "value": "Movie",
+                            "type": "checkbox"
+                        },
+                        {
+                            "label": "Theatre: notability for theatre articles",
+                            "value": "theatre",
+                            "type": "checkbox"
+                        },
+                        {
+                            "label": "Notability|school: notability for school articles",
+                            "value": "school",
+                            "type": "checkbox"
+                        },
+                        {
+                            "label": "Television: notability for television articles",
+                            "value": "television",
+                            "type": "checkbox"
                         }
                     ]
                 },
@@ -170,7 +163,7 @@
                     ]
                 },
                 {
-                    "tag": "Expert",
+                    "tag": "Expert needed",
                     "description": "Article requires input from experts to improve",
                     "items": [
                         {
@@ -245,7 +238,7 @@
                     "description": "Article is currently the subject of ongoing controversies"
                 },
                 {
-                    "tag": "Paid",
+                    "tag": "Paid contributions",
                     "description": "Article may have been created or edited for payment, such as conflicts of interest"
                 },
                 {
@@ -257,11 +250,11 @@
                     "description": "Article lacks reliable sources from reputable publications"
                 },
                 {
-                    "tag": "Additional sources",
+                    "tag": "More citations needed",
                     "description": "Article needs additional sources for verification"
                 },
                 {
-                    "tag": "Unsourced",
+                    "tag": "Unreferenced",
                     "description": "Article lacks any references or sources"
                 },
                 {
@@ -273,11 +266,11 @@
                     "description": "Article contains inappropriate references to self-published sources"
                 },
                 {
-                    "tag": "Single source",
+                    "tag": "One source",
                     "description": "Article relies entirely or predominantly on a single source"
                 },
                 {
-                    "tag": "Third-party sources",
+                    "tag": "Third-party",
                     "description": "Article relies too much on third-party sources closely associated with the subject"
                 }
             ]
@@ -310,8 +303,8 @@
                     ]
                 },
                 {
-                    "tag": "Work",
-                    "description": "There is ongoing work on this page"
+                    "tag": "Under construction",
+                    "description": "Article in the process of an expansion or major restructuring"
                 }
             ]
         }
