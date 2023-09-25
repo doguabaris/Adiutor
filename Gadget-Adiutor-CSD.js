@@ -33,7 +33,7 @@ function callBack() {
 		var csdTemplateStartMultipleReason = jsonData.csdTemplateStartMultipleReason;
 		var reasonAndSeperator = jsonData.reasonAndSeperator;
 		var speedyDeletionPolicyLink = jsonData.speedyDeletionPolicyLink;
-		var speedyDeletionPolicyPageShorcut = jsonData.speedyDeletionPolicyPageShorcut;
+		var speedyDeletionPolicyPageShortcut = jsonData.speedyDeletionPolicyPageShortcut;
 		var apiPostSummaryforLog = jsonData.apiPostSummaryforLog;
 		var apiPostSummary = jsonData.apiPostSummary;
 		var csdNotificationTemplate = jsonData.csdNotificationTemplate;
@@ -370,7 +370,7 @@ function callBack() {
 								}
 								for(i = 0; i < keys.length; i++) {
 									if(i > 0) saltCSDSummary += (i < keys.length - 1) ? ', ' : ' ' + reasonAndSeperator + ' ';
-									saltCSDSummary += '[[' + speedyDeletionPolicyPageShorcut + '#' + csdReasons[keys[i]].value + ']]';
+									saltCSDSummary += '[[' + speedyDeletionPolicyPageShortcut + '#' + csdReasons[keys[i]].value + ']]';
 								}
 								csdReason = saltCSDReason + '}}';
 								csdSummary = replaceParameter(multipleReasonSummary, '2', saltCSDSummary);
@@ -380,11 +380,11 @@ function callBack() {
 								var keys = Object.keys(csdReasons);
 								for(i = 0; i < keys.length; i++) {
 									if(i > 0) saltCSDReason += (i < keys.length - 1) ? ', ' : ' ' + reasonAndSeperator + ' ';
-									saltCSDReason += '[[' + speedyDeletionPolicyPageShorcut + '#' + csdReasons[keys[i]].value + ']]';
+									saltCSDReason += '[[' + speedyDeletionPolicyPageShortcut + '#' + csdReasons[keys[i]].value + ']]';
 								}
 								for(i = 0; i < keys.length; i++) {
 									if(i > 0) saltCSDSummary += (i < keys.length - 1) ? ', ' : ' ' + reasonAndSeperator + ' ';
-									saltCSDSummary += '[[' + speedyDeletionPolicyPageShorcut + '#' + csdReasons[keys[i]].value + ']]';
+									saltCSDSummary += '[[' + speedyDeletionPolicyPageShortcut + '#' + csdReasons[keys[i]].value + ']]';
 								}
 								csdReason = saltCSDReason + copyVioURL + '}}';
 								csdSummary = replaceParameter(multipleReasonSummary, '2', saltCSDSummary);
@@ -420,7 +420,7 @@ function callBack() {
 											$2: saltCSDSummary,
 											$3: csdReason,
 										};
-										var message = replacePlaceholders(placeholdersForNotification, placeholders);
+										var message = replacePlaceholders(csdNotificationTemplate, placeholdersForNotification);
 										sendMessageToAuthor(articleAuthor, message);
 									}
 								});

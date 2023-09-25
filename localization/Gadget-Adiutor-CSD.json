@@ -143,7 +143,7 @@
     "csdTemplatePostfixReasonValue": true,
     "reasonAndSeperator": "and",
     "speedyDeletionPolicyLink": "Wikipedia:Criteria_for_speedy_deletion",
-    "speedyDeletionPolicyPageShorcut": "WP:CSD",
+    "speedyDeletionPolicyPageShortcut": "WP:CSD",
     "apiPostSummaryforTalkPage": "[[WP:CSD#G1]]: Discussion page of the deleted article",
     "apiPostSummaryforLog": "Daily record of the fast deletion candidacy of page [[$1]] is being kept.",
     "apiPostSummary": "Fast deletion requested for page [[$1]].",
