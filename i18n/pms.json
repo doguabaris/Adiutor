@@ -91,5 +91,9 @@
 	"csd-module-title": "Adiutor - Arcesta dë scanceladura lesta",
 	"warning-type": "Sòrt d'avertiment",
 	"create-request": "Creé n'arcesta",
-	"protection-type": "Sòrt ëd protession"
+	"aticle-work-list-description": "Costa fonsionalità {{GENDER:|a-j}} përmët ëd listé j'artìcoj an sij quaj {{GENDER:|chiel|chila}} a travaja e d'acedje an pressa. {{GENDER:|A}} peul fé sòn con ël boton ‘Taché ai travaj' sota a n'artìcol.",
+	"protection-type": "Sòrt ëd protession",
+	"indefinite": "Indefinì",
+	"search-article": "Arsërché n'artìcol...",
+	"prd-deletion-rationale": "Rason ëd la propòsta dë scanceladura"
 }
