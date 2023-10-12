@@ -94,6 +94,12 @@
 	"aticle-work-list-description": "Costa fonsionalità {{GENDER:|a-j}} përmët ëd listé j'artìcoj an sij quaj {{GENDER:|chiel|chila}} a travaja e d'acedje an pressa. {{GENDER:|A}} peul fé sòn con ël boton ‘Taché ai travaj' sota a n'artìcol.",
 	"protection-type": "Sòrt ëd protession",
 	"indefinite": "Indefinì",
+	"temporary": "Temporari",
 	"search-article": "Arsërché n'artìcol...",
-	"prd-deletion-rationale": "Rason ëd la propòsta dë scanceladura"
+	"prd-deletion-rationale": "Rason ëd la propòsta dë scanceladura",
+	"duration": "Durà",
+	"prd-deletion-type": "Sòrt dë scanceladura proponùa",
+	"prd-deletion-type-1": "SCAP (Scanceladura proponùa)",
+	"prd-deletion-type-2": "BLP SPRO (Scanceladura proponùa ëd BLP sensa sorgiss)",
+	"prd-deletion-type-1-help": "Scanceladura proponùa për WP:PROD"
 }
