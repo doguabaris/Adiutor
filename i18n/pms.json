@@ -101,5 +101,15 @@
 	"prd-deletion-type": "Sòrt dë scanceladura proponùa",
 	"prd-deletion-type-1": "SCAP (Scanceladura proponùa)",
 	"prd-deletion-type-2": "BLP SPRO (Scanceladura proponùa ëd BLP sensa sorgiss)",
-	"prd-deletion-type-1-help": "Scanceladura proponùa për WP:PROD"
+	"prd-deletion-type-1-help": "Scanceladura proponùa për WP:PROD",
+	"prd-deletion-type-2-help": "Scanceladura proponùa ëd biografìe sensa sorgiss d'autut, conforma a le linie guida stabilì an [[WP:BLPPROD]].",
+	"select-protection-type": "Serne la sòrt ëd protession",
+	"rpp-header-title": "Arcesta ëd produssion ëd pàgina",
+	"prd-header-title": "Scanceladura proponùa",
+	"csd-header-title": "Rason dë scanceladura lesta",
+	"csd-header-description": "Për piasì, ch'a selession-a na bon-a rason për la scanceladura ëd costa pàgina da j'opsion sì-sota.",
+	"rpp-header-description": "St'utiss-sì a l'é dovrà për la protession completa e la semiprotession. Për piasì, ch'a lesa la pàgina Wikipedia:Régole ëd protession.",
+	"prd-header-description": "La propòsta a sugeriss che l'artìcol a podrìa esse dëscancelà sensa controversie, bele che a sodisfa nen ij criteri pi s-ciass necessari për la scanceladura lesta. Për piasì, ch'a consìdera la scanceladura dl'artìcol.",
+	"wrn-dialog-description": "{{GENDER:|A}} l'e an camin ch'a manda n'avis a cost utent; cost avis a comparirà ant la pàgina ëd ciaciarade dl'utent.",
+	"aiv-rationale-1": "Vandalism malgré vàire avertiment."
 }
