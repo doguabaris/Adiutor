@@ -337,10 +337,13 @@
 	"nominate-file-for-deletion": "Номинуј за брисање",
 	"report-suspected-sockpuppeteer": "Пријава потенцијалног луткара",
 	"sockpuppetry-warning-text": "Пријављујете овог корисника чекјузерима.",
+	"sockpuppets-input-placeholder": "Додајте корнсничка имена коришћењем enter-а без префикса Корисник:",
 	"evidence-input-placeholder": "Молимо наведите Ваше доказе.",
 	"evidence": "Доказ",
+	"report-suspected-sockpuppet": "Пријава потенцијалног луткара",
 	"sockpuppeteer": "Луткар",
 	"sockpuppet": "Лутак",
+	"sockpuppeteer-help-text": "Корисничко име луткара без префикса Корисник:",
 	"cmr-response": "Одговори",
 	"additional-rationale": "Додатно образложење",
 	"select-a-tag": "Молимо изаберите ознаку."
