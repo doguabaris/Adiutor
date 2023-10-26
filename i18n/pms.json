@@ -119,7 +119,14 @@
 	"aiv-rationale-6": "Stanòm ch'a sburdiss, ch'a confond o ch'a càusa dij problema.",
 	"aiv-rationale-7": "Stranòm ch'a conten na marca comersial.",
 	"aiv-rationale-8": "Nòm ëd na përson-a amportanta viventa o mòrta da pòch.",
+	"aiv-rationale-9": "Stranòm molest o difamatòri.",
 	"aiv-rationale-10": "Stranòm për rumenta o con dij but d'areclam.",
 	"pmr-new-page-name-description": "Ël neuv nòm al qual {{GENDER:|a}} veul tramudé la pàgina.",
-	"new-name": "Nòm neuv"
+	"new-name": "Nòm neuv",
+	"pmr-header-title": "Arcesta ëd tramud ëd pàgina",
+	"pmr-header-description": "Cost utiss a l'é dovrà për j'arceste ëd tramudé na pàgina a n'àutra pàgina. Ant le situassion normaj, ij tramud ëd pàgine a peulo esse fàit da j'utent àuto-confirmà an dovrand la tichëtta Tramudé disponìbil ant le pàgine.",
+	"aiv-header-title": "Arcesta ëd blocagi ëd n'utent",
+	"aiv-header-description": "Cost utiss a l'é dovrà për ciamé ël blocagi d'utent ch'a danegio Wikipedia. Prima ëd fé n'arcesta con cost utiss, a ventrìa anformé l'utent an sle régole ëd Wikipedia e ëd blocagi.",
+	"rdr-header-title": "Arcesta dë scanceladura ëd na revision",
+	"rdr-header-description": "Prima ëd dovré cost utiss për fé n'arcesta, l'utent a dovrìa esse anformà an sle régole ëd Wikipedia. Ant ij cas ch'a ìmplico dle modìfiche ofensive o dle mnasse, n'arcesa a peul esse fàita sensa la procedura ëd notìfica."
 }
