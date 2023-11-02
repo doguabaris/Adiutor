@@ -151,5 +151,15 @@
 	"nominate-article-for-deletion": "Propon-e tanme Aps",
 	"page-move-request": "Arcesta ëd tramud ëd pàgina",
 	"page-protection-request": "Arcesta ëd produssion ëd pàgina",
-	"recent-changes": "Ùltime modìfiche"
+	"recent-changes": "Ùltime modìfiche",
+	"tag-page": "Gionté na tichëtta a la pàgina",
+	"copyright-violation-check": "Verìfica dle violassion dij drit d'autor",
+	"adiutor-settings": "Opsion d'Adiutor",
+	"page-info-tip": "Creà da $2 ($3) ël $1, $4 {{PLURAL:$4|revision}}, $5 {{PLURAL:$5|contributor}}, $6 {{PLURAL:$6|pàgina visualisà|pàgine visualisà}} ($7 {{PLURAL:$7|di}})",
+	"page-more-info-tip-author-title": "Creator:",
+	"page-more-info-tip-author": "Cost artìcol a l'é stàit creà da $1",
+	"page-more-info-tip-date-title": "Dàita ëd creassion:",
+	"page-more-info-tip-date": "Cost artìcol a l'é stàit creà ël $1.",
+	"page-more-info-tip-keyword-title": "Nùmer ëd paròle:",
+	"page-more-info-tip-keyword": "Cost artìcol a conten $1 {{PLURAL:$1|paròla|paròle}}."
 }
