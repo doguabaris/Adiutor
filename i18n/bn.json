@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Borhan",
 			"Vikipolimer",
 			"Yahya",
 			"আফতাবুজ্জামান"
@@ -331,12 +332,20 @@
 	"warning": "সতর্কতা",
 	"this": "এই",
 	"rfd-header-title": "অপসারণের জন্য অনুরোধ",
-	"rfd-rationale-placeholder": "এই ফাইলটি কেন অপসারণ উচিত?",
+	"rfd-rationale-placeholder": "এই ফাইলটি কেন অপসারণ করা উচিত?",
 	"rfd-module-title": "অ্যাডুইটর - অপসারণের জন্য অনুরোধ",
 	"rfd-header-description": "The initiation of a discussion for the deletion of the file, even though it doesn't meet the stricter and more challenging criteria required for speedy deletion.",
 	"nominate-file-for-deletion": "অপসারণের জন্য মনোনীত করুন",
 	"report-suspected-sockpuppeteer": "সন্দেহজনক সকপাপেটিয়াকে নিয়ে অভিযোগ জানান",
+	"evidence-input-placeholder": "দয়া করে প্রমাণ দিন।",
 	"evidence": "প্রমাণ",
 	"report-suspected-sockpuppet": "সন্দেহজনক সকপাপেট নিয়ে অভিযোগ জানান",
+	"sockpuppeteer": "সকপাপেটার",
+	"sockpuppet": "সকপাপেট",
+	"cmr-response": "সাড়া দিন",
+	"related-page-required": "অনুগ্রহ করে সংশ্লিষ্ট পাতা প্রবেশ করান।",
+	"warning-required": "এগিয়ে যেতে দয়া করে একটি সতর্কতা নির্বাচন করুন।",
+	"additional-rationale": "অতিরিক্ত কারণ",
+	"blocked-user-removed-from-the-noticeboad": "অবরুদ্ধ ব্যবহারকারীকে নোটিশবোর্ড থেকে সরানো হয়েছে",
 	"select-a-tag": "অনুগ্রহপূর্বক একটি ট্যাগ নির্বাচন করুন।"
 }
