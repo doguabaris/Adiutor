@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Ajeje Brazorf",
 			"Vikipolimer"
 		]
 	},
@@ -55,7 +56,7 @@
 	"rdr-rationale-3": "This message will be displayed on the revision deletion request action window.",
 	"rdr-rationale-4": "This message will be displayed on the revision deletion request action window.",
 	"rdr-rationale-5": "This message will be displayed on the revision deletion request action window.",
-	"cancel": "This message will be displayed on the action window.",
+	"cancel": "This message will be displayed on the action window.\n\n{{Identical|Cancel}}",
 	"vandalism": "This message will be displayed on the action window.",
 	"protect-against-rebuilding": "This message will be displayed on the speedy deletion request action window.",
 	"protect-against-rebuilding-help": "This message will be displayed on the speedy deletion action window.",
