@@ -198,5 +198,19 @@
 	"inappropriate-sockpuppetry": "Buratiné inapropià",
 	"personal-attacks": "Atach përsonaj",
 	"incivility": "Maleducassion",
-	"additional-options": "Opsion adissionaj"
+	"persistent-non-free-content-abuse": "Abus continuà ëd contnù nen lìber",
+	"persistent-BLP-abuse": "Abus continuà ëd WP:BLP",
+	"additional-options": "Opsion adissionaj",
+	"prevent-account-creation": "Ampedì la creassion ëd cont",
+	"prevent-sending-email": "Ampedì ëd mandé ëd mëssagi an pòsta eletrònica",
+	"prevent-editing-own-talk-page": "Ampedì ëd modifiché soa pròpia pàgina ëd ciaciarade",
+	"block-duration": "Durà dël blocagi",
+	"block-reason": "Rason dël blocagi",
+	"other-reason": "Àutra rason",
+	"please-select-block-duration-reason": "Për piasì, ch'a selession-a la durà e la rason dël blocagi për andé anans con l'assion.",
+	"user-blocking": "Utent ch'a blòca",
+	"block": "Blocagi",
+	"you-can-not-block-yourself": "{{GENDER:|A}} peul pa blochesse {{GENDER:|daspërchiel|daspërchila}}",
+	"adiutor-dashboard-total-edit-title": "Modìfica total",
+	"adiutor-dashboard-total-edit": "{{GENDER:|A l'ha}} fàit un total ëd $1 {{PLURAL:$1|modìfica|modìfiche}} con Adiutor."
 }
