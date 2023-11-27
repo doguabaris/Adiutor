@@ -212,5 +212,10 @@
 	"block": "Blocagi",
 	"you-can-not-block-yourself": "{{GENDER:|A}} peul pa blochesse {{GENDER:|daspërchiel|daspërchila}}",
 	"adiutor-dashboard-total-edit-title": "Modìfica total",
-	"adiutor-dashboard-total-edit": "{{GENDER:|A l'ha}} fàit un total ëd $1 {{PLURAL:$1|modìfica|modìfiche}} con Adiutor."
+	"adiutor-dashboard-total-edit": "{{GENDER:|A l'ha}} fàit un total ëd $1 {{PLURAL:$1|modìfica|modìfiche}} con Adiutor.",
+	"adiutor-dashboard-csd-requests-title": "Scanceladura lesta",
+	"adiutor-dashboard-csd-requests": "{{GENDER:|A l'ha}} mandà $1 {{PLURAL:$1|arcesta|arceste}} dë scanceladura lesta con Adiutor.",
+	"adiutor-dashboard-user-warnings-title": "Avertiment a l'utent",
+	"adiutor-dashboard-user-warnings": "{{GENDER:|A l'ha}} avisà $1 {{PLURAL:$1|utent}} con Adiutor.",
+	"use-pre-defined-edit-summaries": "Dovré dij resumé ëd modìfica predefinì"
 }

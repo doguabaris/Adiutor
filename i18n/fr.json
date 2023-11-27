@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Adriendelucca",
 			"BlueCamille",
 			"Eihel",
 			"Gomoko",
@@ -196,7 +197,7 @@
 	"threatening-legal-action": "Threatening legal action",
 	"disclosure-of-personal-information": "Disclosure of personal information",
 	"copyright-violation": "Copyright violation",
-	"inappropriate-username": "Inappropriate username",
+	"inappropriate-username": "Nom d'utilisateur inapproprié",
 	"testing-community-patience": "Testing community patience",
 	"anonymous-proxy": "Anonymous proxy/open proxy",
 	"violating-pillar-content-policies": "Violating core content policies",
