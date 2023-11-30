@@ -217,5 +217,13 @@
 	"adiutor-dashboard-csd-requests": "{{GENDER:|A l'ha}} mandà $1 {{PLURAL:$1|arcesta|arceste}} dë scanceladura lesta con Adiutor.",
 	"adiutor-dashboard-user-warnings-title": "Avertiment a l'utent",
 	"adiutor-dashboard-user-warnings": "{{GENDER:|A l'ha}} avisà $1 {{PLURAL:$1|utent}} con Adiutor.",
-	"use-pre-defined-edit-summaries": "Dovré dij resumé ëd modìfica predefinì"
+	"use-pre-defined-edit-summaries": "Dovré dij resumé ëd modìfica predefinì",
+	"use-pre-defined-edit-summaries-help": "Cand costa fonsionalità a l'é abilità, {{GENDER:chiel|chila}} a peul dovré dij resumé predefinì ëd modìfica për ij cangiament a le pàgine.",
+	"frequently-used-edit-summaries": "Resumé ëd modìfica dovrà ëd frequent",
+	"frequently-used-edit-summaries-help": "{{GENDER:|A}} peul gionté dij resumé ëd modìfica dovrà ëd frequent an costa zòna. Ch'a separa {{GENDER:|ij sò}} resumé ëd modìfica andasend a cap.",
+	"frequently-used-edit-summaries-placeholder": "{{GENDER:|A}} peul gionté dij resumé ëd modìfica dovrà ëd frequent an costa zòna. Ch'a separa {{GENDER:|ij sò}} resumé ëd modìfica andasend a cap.",
+	"settings-has-been-updated": "{{GENDER:|Soe}} preferense d'Adiutor a son ëstàit agiornà për da bin.",
+	"copyvio-checking": "Verìfica...",
+	"copyvio-result": "Arzultà (%$1)",
+	"copyvio-potential-violation": "Violassion potensial: %$1"
 }
