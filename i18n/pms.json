@@ -225,5 +225,18 @@
 	"settings-has-been-updated": "{{GENDER:|Soe}} preferense d'Adiutor a son ëstàit agiornà për da bin.",
 	"copyvio-checking": "Verìfica...",
 	"copyvio-result": "Arzultà (%$1)",
-	"copyvio-potential-violation": "Violassion potensial: %$1"
+	"copyvio-potential-violation": "Violassion potensial: %$1",
+	"copyvio-potential-violation-low": "Violassion potensial: %$1 | Costa pàgina a conten na violassion potensial dij drit d'autor a brus d'un livel crìtih. {{GENDER:|Chiel|Chila}} a peul gavé ël contnù coatà dai drit d'autor.",
+	"high-violation-link": "Liura con na violassion greva",
+	"page-deletion-count-warning": "Costa pàgina a l'é già stàita dëscancelà $1 vire! ($2)",
+	"log": "Argistr",
+	"processing": "An tratament",
+	"full-protection": "Protession pien-a",
+	"semi-protection": "Semiprotession",
+	"namespace-edit-summaries": "Resumé për jë spassi nominaj ëd modìfica",
+	"common-edit-summaries": "Resumé për le modìfiche comun-e",
+	"common-discussion-edit-summaries": "Resumé për le pàgine ëd discussion comun-e",
+	"uncheck-selected": "Gavé la selession",
+	"select-all": "Selessioné tut",
+	"see": "Selessioné tut"
 }
