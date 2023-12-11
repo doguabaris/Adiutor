@@ -268,5 +268,16 @@
 	"friendly-group-names-user": "utent",
 	"friendly-group-names-autoconfirmed": "confirmà daspërchiel",
 	"friendly-group-names-sysop": "aministrator",
-	"friendly-group-names-accountcreator": "creator ëd cont"
+	"friendly-group-names-accountcreator": "creator ëd cont",
+	"friendly-group-names-import": "amportador",
+	"friendly-group-names-interface-editor": "modificator ëd l'antërfassa",
+	"friendly-group-names-interface-admin": "aministrator d'antërfassa",
+	"friendly-group-names-patroller": "patojator",
+	"friendly-group-names-autoreview": "àuto-revisor",
+	"friendly-group-names-bureaucrat": "mangiapapé",
+	"friendly-group-names-transwiki": "transwiki",
+	"friendly-group-names-ipblock-exempt": "esension ëd blocagi d'IP",
+	"friendly-group-names-checkuser": "verificator",
+	"friendly-group-names-suppress": "eliminé",
+	"friendly-group-names-confirmed": "utent confermà"
 }
