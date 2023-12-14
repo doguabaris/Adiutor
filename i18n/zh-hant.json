@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Cookai1205",
 			"Kly",
 			"Lionpancake",
 			"S8321414"
@@ -288,7 +289,7 @@
 	"friendly-group-names-epcampus": "教育計劃校區志工",
 	"friendly-group-names-eponline": "教育計劃線上志工",
 	"friendly-group-names-filemover": "檔案移動員",
-	"friendly-group-names-massmessage-sender": "大量訊息發送",
+	"friendly-group-names-massmessage-sender": "大量訊息傳送",
 	"friendly-group-names-templateeditor": "模板編輯者",
 	"user": "使用者",
 	"registered-user": "已註冊使用者",

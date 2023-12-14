@@ -279,5 +279,11 @@
 	"friendly-group-names-ipblock-exempt": "esension ëd blocagi d'IP",
 	"friendly-group-names-checkuser": "verificator",
 	"friendly-group-names-suppress": "eliminé",
-	"friendly-group-names-confirmed": "utent confermà"
+	"friendly-group-names-confirmed": "utent confermà",
+	"friendly-group-names-abusefilter": "filtr contra j'abus",
+	"friendly-group-names-autoreviewer": "àuto-revisor",
+	"friendly-group-names-epcoordinator": "Coordinator ëd programa d'educassion",
+	"friendly-group-names-epcampus": "Volontari ëd camp ëd programa d'educassion",
+	"friendly-group-names-eponline": "Volontari an linia ëd programa d'educassion",
+	"friendly-group-names-templateeditor": "modificator dë stamp"
 }
