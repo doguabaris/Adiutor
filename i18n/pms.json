@@ -341,5 +341,12 @@
 	"report-suspected-sockpuppet": "Signalé un buratin sospetà",
 	"sockpuppeteer": "Buratiné",
 	"sockpuppet": "Buratin",
-	"sockpuppeteer-help-text": "Lë stranòm dël buratiné sensa ël prefiss Utent:"
+	"sockpuppeteer-help-text": "Lë stranòm dël buratiné sensa ël prefiss Utent:",
+	"cmr-module-title": "Adiutor - Rispòsta dl'amprendiss",
+	"cmr-header-title": "Mòdol ëd rispòsta dl'amprendiss",
+	"cmr-header-description": "An costa zòna, a peul rësponde an pressa a sò amprendiss ch'a l'ha ciamaje na chestion an selessionand un-a dle rispòste già pronte.",
+	"cmr-choose-answer": "Serne la rispòsta",
+	"cmr-response": "Rësponde",
+	"cmr-canned-response": "Rispòsta bele pronta",
+	"related-page-required": "Për piasì, cha anserissa la pàgina corëspondenta."
 }
