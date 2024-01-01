@@ -348,5 +348,9 @@
 	"cmr-choose-answer": "Serne la rispòsta",
 	"cmr-response": "Rësponde",
 	"cmr-canned-response": "Rispòsta bele pronta",
-	"related-page-required": "Për piasì, cha anserissa la pàgina corëspondenta."
+	"related-page-required": "Për piasì, cha anserissa la pàgina corëspondenta.",
+	"warning-required": "Për piasì, ch'a selession-a n'avertiment për andé anans.",
+	"additional-rationale": "Rason adissional",
+	"blocked-user-removed-from-the-noticeboad": "L'utent blocà a l'é stàit gavà dal panel dj'avis",
+	"select-a-tag": "Për piasì, ch'a selession-a na tichëtta."
 }
