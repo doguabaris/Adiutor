@@ -4,7 +4,8 @@
 			"Cookai1205",
 			"Kly",
 			"Lionpancake",
-			"S8321414"
+			"S8321414",
+			"Winston Sung"
 		]
 	},
 	"create": "建立",
@@ -355,5 +356,5 @@
 	"warning-required": "請選擇警告來繼續。",
 	"additional-rationale": "額外理由",
 	"blocked-user-removed-from-the-noticeboad": "被封鎖的使用者已從公告欄上移除",
-	"select-a-tag": "請選擇一個標籤。"
+	"select-a-tag": "請選取標籤。"
 }
