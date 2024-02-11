@@ -47,7 +47,7 @@
 }
 
 .adiutor-user-dashboard-main-x {
-	height: -webkit-fill-available;
+	height: fill-available;
 }
 
 span.adiutor-user-dashboard-top-logo {
