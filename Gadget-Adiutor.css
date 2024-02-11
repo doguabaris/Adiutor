@@ -47,7 +47,11 @@
 }
 
 .adiutor-user-dashboard-main-x {
-	height: fill-available;
+	height: 100%;
+    	min-height: -moz-available;
+    	min-height: fill-available;
+    	height: max-content;
+    	display: contents;
 }
 
 span.adiutor-user-dashboard-top-logo {
