@@ -1,0 +1,9 @@
+{
+  "name" : "adiutor-gadget",
+  "title" : "Adiutor",
+  "description" : "Adiutor enables a versatile editing options and modules to assist a variety of user actions to enhance the Wikipedia editing experience.",
+  "url" : "http://meta.wikimedia.org/Adiutor",
+  "keywords" : "speedy, proposed, deletion, article, tag, report",
+  "author" : "Doğu Abaris",
+  "repository" : "https://github.com/wikimedia-gadgets/Adiutor.git"
+}

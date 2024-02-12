@@ -4,6 +4,24 @@ Adiutor is a tool developed to facilitate maintenance tasks on Wikipedia, making
 
 ![Alt text](https://upload.wikimedia.org/wikipedia/commons/3/36/Adiutor_promote_image.png)
 
+## Deployment
+
+You must have `interface-admin` rights to use the deploy script.
+Visit https://meta.wikimedia.org/wiki/Special:BotPasswords to obtain credentials,
+then `cp credentials.json.dist credentials.json` and change the details accordingly:
+
+```
+{
+   "username": "Exampleuser@somedescription",
+   "password": "mybotpassword1234567890123456789"
+}
+```
+
+To deploy, run `node bin/deploy.js "[edit summary]"`.
+The edit summary is transformed to include the version number and git SHA, e.g. "v5.5.5 at abcd1234: [edit summary]".
+
+Files in the dist/unversioned/ directory must be synced manually.
+
 # Features
 ## Common features for all users
 * Editors can see their stats on the dashboard.

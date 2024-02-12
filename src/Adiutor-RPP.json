@@ -1,0 +1,160 @@
+{
+	"//": "You can utilize the parameters within this file, which include: $1 page name, $2 protection duration, $3 protection type, and $4 protection rationale",
+	"protectionDurations": [
+		{
+			"value": "temporary",
+			"data": "Temporary",
+			"label": "Temporary"
+		},
+		{
+			"value": "indefinite",
+			"data": "Indefinite",
+			"label": "Indefinite"
+		}
+	],
+	"protectionTypes": [
+		{
+			"value": "semi-protection",
+			"data": "Semi-protection",
+			"label": "Semi-protection"
+		},
+		{
+			"value": "full-protection",
+			"data": "Full protection",
+			"label": "Full protection"
+		},
+		{
+			"value": "1",
+			"data": "Generic (full)",
+			"label": "Generic (full)"
+		},
+		{
+			"value": "2",
+			"data": "Content dispute/edit warring (full)",
+			"label": "Content dispute/edit warring (full)"
+		},
+		{
+			"value": "3",
+			"data": "Persistent vandalism (full)",
+			"label": "Persistent vandalism (full)"
+		},
+		{
+			"value": "4",
+			"data": "User talk of blocked user (full)",
+			"label": "User talk of blocked user (full)"
+		},
+		{
+			"value": "1",
+			"data": "Arbitration enforcement (ECP)",
+			"label": "Arbitration enforcement (ECP)"
+		},
+		{
+			"value": "2",
+			"data": "Persistent vandalism (ECP)",
+			"label": "Persistent vandalism (ECP)"
+		},
+		{
+			"value": "3",
+			"data": "Disruptive editing (ECP)",
+			"label": "Disruptive editing (ECP)"
+		},
+		{
+			"value": "4",
+			"data": "BLP policy violations (ECP)",
+			"label": "BLP policy violations (ECP)"
+		},
+		{
+			"value": "4",
+			"data": "Sockpuppetry (ECP)",
+			"label": "Sockpuppetry (ECP)"
+		},
+		{
+			"value": "1",
+			"data": "Generic (semi)",
+			"label": "Generic (semi)"
+		},
+		{
+			"value": "2",
+			"data": "Persistent vandalism (semi)",
+			"label": "Persistent vandalism (semi)"
+		},
+		{
+			"value": "3",
+			"data": "Disruptive editing (semi)",
+			"label": "Disruptive editing (semi)"
+		},
+		{
+			"value": "4",
+			"data": "Adding unsourced content (semi)",
+			"label": "Adding unsourced content (semi)"
+		},
+		{
+			"value": "4",
+			"data": "BLP policy violations (semi)",
+			"label": "BLP policy violations (semi)"
+		},
+		{
+			"value": "4",
+			"data": "Sockpuppetry (semi)",
+			"label": "Sockpuppetry (semi)"
+		},
+		{
+			"value": "4",
+			"data": "User talk of blocked user (semi)",
+			"label": "User talk of blocked user (semi)"
+		},
+		{
+			"value": "1",
+			"data": "Generic (PC)",
+			"label": "Generic (PC)"
+		},
+		{
+			"value": "2",
+			"data": "Persistent vandalism (PC)",
+			"label": "Persistent vandalism (PC)"
+		},
+		{
+			"value": "3",
+			"data": "Disruptive editing (PC)",
+			"label": "Disruptive editing (PC)"
+		},
+		{
+			"value": "4",
+			"data": "Adding unsourced content (PC)",
+			"label": "Adding unsourced content (PC)"
+		},
+		{
+			"value": "4",
+			"data": "BLP policy violations (PC)",
+			"label": "BLP policy violations (PC)"
+		},
+		{
+			"value": "1",
+			"data": "Generic (move)",
+			"label": "Generic (move)"
+		},
+		{
+			"value": "2",
+			"data": "Dispute/move warring (move)",
+			"label": "Dispute/move warring (move)"
+		},
+		{
+			"value": "3",
+			"data": "Page-move vandalism (move)",
+			"label": "Page-move vandalism (move)"
+		},
+		{
+			"value": "4",
+			"data": "Highly visible page (move)",
+			"label": "Highly visible page (move)"
+		}
+	],
+	"noticeBoardTitle": "Wikipedia:Requests for page protection",
+	"addNewSection": false,
+	"sectionTitle": "Protection request for [[$1|$1]] page",
+	"appendText": true,
+	"prependText": false,
+	"sectionId": 1,
+	"contentPattern": "Protection Type: $2 $3 Protection Rationale: $4 ~~~~ Comment: Decision:",
+	"apiPostSummary": "Protection requested for [[$1|$1]]"
+}

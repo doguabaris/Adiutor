@@ -1,0 +1,11 @@
+{
+	"//": "You can utilize the parameters within this file, which include: $1 revisionNumber, $2 rationale, and $3 comment.",
+	"noticeBoardTitle": "Wikipedia:Revision deletion/Noticeboard",
+	"addNewSection": true,
+	"sectionTitle": "Revision deletion request for [[$1]]",
+	"appendText": false,
+	"prependText": false,
+	"sectionId": false,
+	"contentPattern": "*'''Revision:''' [[Special:Diff/$1]]\n*'''Rationale:''' $2\n*'''Comment:''' $3 ~~~~\n*'''Outcome:'''",
+	"apiPostSummary": "Created a revision deletion request for [[$1]] page."
+}
