@@ -181,6 +181,7 @@ function callBack() {
                     icon: isAlreadyAdded ? 'flag' : 'unFlag', // Reverse the icon based on isAlreadyAdded
                     label: isAlreadyAdded ? mw.msg( 'pin-to-works' ) : mw.msg( 'unpin-from-works' ) // Reverse the label based on isAlreadyAdded
                 };
+                isAlreadyAdded = !isAlreadyAdded
                 aboutArticleActionButtons.items[ 0 ].setIcon( addButtonInfo.icon );
                 aboutArticleActionButtons.items[ 0 ].setLabel( addButtonInfo.label );
                 console.log( adiutorUserOptions );
