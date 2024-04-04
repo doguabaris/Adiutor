@@ -117,7 +117,7 @@
 	"aiv-rationale-8": "Name einer derzeit lebenden oder kürzlich verstorbenen bemerkenswerten Person.",
 	"aiv-rationale-9": "Belästigender oder verleumderischer Benutzername.",
 	"aiv-rationale-10": "Benutzername für Spam- oder Werbezwecke.",
-	"pmr-new-page-name-description": "Der neue Name, unter dem die Seite verschoben werden soll.",
+	"pmr-new-page-name-description": "Der neue Name, auf den {{GENDER:|du}} die Seite verschieben möchtest.",
 	"new-name": "Neuer Name",
 	"pmr-header-title": "Anfrage zur Seitenverschiebung",
 	"pmr-header-description": "Dieses Tool wird für Anfragen zum Verschieben von Seiten auf eine andere Seite verwendet. Normalerweise können Seitenverschiebungen von automatisch bestätigten Benutzern über die Registerkarte Verschieben auf den Seiten durchgeführt werden.",
@@ -128,6 +128,6 @@
 	"afd-header-title": "LK-Diskussion",
 	"afd-header-description": "Die Einleitung einer Diskussion über die Löschung der Seite, obwohl sie die strengeren und anspruchsvolleren Kriterien für eine Schnelllöschung nicht erfüllt.",
 	"tag-header-description": "{{GENDER:|Du}} bist gerade dabei, diese Seite zu taggen. {{GENDER:|Du}} kannst aus der Liste unten Warn-Tags auswählen, die {{GENDER:|du}} auf diese Seite anwenden möchtest.",
-	"csd-send-message-to-creator": "Informiere den Benutzer, der die Seite erstellt hat, während dem Schnelllöschantrag.",
+	"csd-send-message-to-creator": "Informiere den Benutzer, der die Seite erstellt hat, während des Schnelllöschantrags.",
 	"afd-send-message-to-creator": "Informiere den Benutzer, der die Seite erstellt hat, während der Nominierung zur Löschung."
 }
