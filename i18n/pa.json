@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Kuldeepburjbhalaike"
+			"Kuldeepburjbhalaike",
+			"ਗੁਰਪ੍ਰੀਤ ਹੁੰਦਲ"
 		]
 	},
 	"create": "ਬਣਾਓ",
@@ -46,6 +47,7 @@
 	"my-works": "{{GENDER:|ਮੇਰੇ}} ਕੰਮ",
 	"passive": "ਪੈਸਿਵ",
 	"cancel": "ਰੱਦ ਕਰੋ",
+	"username-violation": "ਵਰਤੋਂਕਾਰ ਨਾਮ ਦੀ ਉਲੰਘਣਾ",
 	"related-page": "ਸੰਬੰਧਿਤ ਪੰਨਾ",
 	"revision-id": "ਰਿਵੀਜਨ ਆਈਡੀ",
 	"warning-type": "ਚੇਤਾਵਨੀ ਦੀ ਕਿਸਮ",
