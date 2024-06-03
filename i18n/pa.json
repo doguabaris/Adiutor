@@ -21,7 +21,7 @@
 	"speedy-deletion-policy": "ਤੇਜ਼ ਮਿਟਾਉਣ ਦੀ ਨੀਤੀ",
 	"delete": "ਮਿਟਾਓ",
 	"other-options": "ਹੋਰ ਵਿਕਲਪ",
-	"administrator-tools": "ਪ੍ਰਬੰਧਕ ਟੂਲ",
+	"administrator-tools": "ਪ੍ਰਬੰਧਕ ਸੰਦ",
 	"next": "ਅਗਲਾ",
 	"warn": "ਚੇਤਾਵਨੀ",
 	"block-requests": "ਬਲਾਕ ਬੇਨਤੀ",
@@ -49,7 +49,7 @@
 	"passive": "ਪੈਸਿਵ",
 	"cancel": "ਰੱਦ ਕਰੋ",
 	"username-violation": "ਵਰਤੋਂਕਾਰ ਨਾਮ ਦੀ ਉਲੰਘਣਾ",
-	"related-page": "ਸੰਬੰਧਿਤ ਪੰਨਾ",
+	"related-page": "ਸਬੰਧਤ ਸਫ਼ਾ",
 	"revision-id": "ਰਿਵੀਜਨ ਆਈਡੀ",
 	"warning-type": "ਚੇਤਾਵਨੀ ਦੀ ਕਿਸਮ",
 	"create-request": "ਬੇਨਤੀ ਬਣਾਓ",
@@ -105,6 +105,6 @@
 	"relative-date-month-other": "{{PLURAL:$1|$1 ਮਹੀਨੇ}}",
 	"relative-date-year-one": "{{PLURAL:$1|$1 ਸਾਲ}}",
 	"relative-date-year-other": "{{PLURAL:$1|$1 ਸਾਲ}}",
-	"open-the-page": "ਪੰਨਾ ਖੋਲ੍ਹੋ",
+	"open-the-page": "ਸਫ਼ਾ ਖੋਲ੍ਹੋ",
 	"pages-for-csd": "ਤੇਜ਼ ਮਿਟਾਉਣ ਦੀ ਸੂਚੀ"
 }
