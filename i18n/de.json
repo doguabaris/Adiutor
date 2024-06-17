@@ -5,6 +5,7 @@
 			"Caro",
 			"Cupkake4Yoshi",
 			"DraconicDark",
+			"Sebastian Wallroth",
 			"SehrGuterCode",
 			"TomatoCake"
 		]
@@ -100,12 +101,21 @@
 	"protection-type": "Schutzart",
 	"indefinite": "Unbeschränkt",
 	"temporary": "Temporär",
+	"search-article": "Artikel suchen...",
+	"prd-deletion-rationale": "Vorgeschlagene Begründung für die Löschung",
 	"duration": "Dauer",
+	"prd-deletion-type": "Vorgeschlagener Löschtyp",
+	"prd-deletion-type-1": "PROD (Vorgeschlagene Löschung)",
+	"prd-deletion-type-2": "BLP PROD (Vorgeschlagene Löschung von BLPs ohne Quellenangabe)",
+	"prd-deletion-type-1-help": "Vorgeschlagene Löschung gemäß WP:PROD",
+	"prd-deletion-type-2-help": "Vorgeschlagene Löschung von Biografien lebender Personen ohne jegliche Quellenangabe gemäß den in [[WP:BLPPROD]] festgelegten Richtlinien.",
 	"select-protection-type": "Schutzart auswählen",
 	"rpp-header-title": "Seitenschutzanfrage",
+	"prd-header-title": "Vorgeschlagene Löschung",
 	"csd-header-title": "Begründung für Schnelllöschung",
 	"csd-header-description": "Bitte wähle den entsprechenden Grund für die Löschung dieser Seite aus den unten stehenden Optionen aus.",
 	"rpp-header-description": "Dieses Tool wird für den Vollschutz und den Halbschutz verwendet. Bitte lies die Seite Wikipedia:Geschützte Seiten.",
+	"prd-header-description": "Der Vorschlag legt nahe, dass der Artikel ohne Kontroverse gelöscht werden kann, auch wenn er die strengeren und anspruchsvolleren Kriterien für eine schnelle Löschung nicht erfüllt. Bitte ziehen Sie die Löschung des Artikels in Erwägung.",
 	"wrn-dialog-description": "{{GENDER:|Du}} sprichst gerade eine Warnung für diesen Benutzer aus; diese Warnung wird auf der Diskussionsseite des Benutzers angezeigt.",
 	"aiv-rationale-1": "Vandalismus trotz mehrfacher Warnung.",
 	"aiv-rationale-2": "Vandalismus begangen nach Ablauf der Sperre (innerhalb eines Tages).",
@@ -129,5 +139,9 @@
 	"afd-header-description": "Die Einleitung einer Diskussion über die Löschung der Seite, obwohl sie die strengeren und anspruchsvolleren Kriterien für eine Schnelllöschung nicht erfüllt.",
 	"tag-header-description": "{{GENDER:|Du}} bist gerade dabei, diese Seite zu taggen. {{GENDER:|Du}} kannst aus der Liste unten Warn-Tags auswählen, die {{GENDER:|du}} auf diese Seite anwenden möchtest.",
 	"csd-send-message-to-creator": "Informiere den Benutzer, der die Seite erstellt hat, während des Schnelllöschantrags.",
-	"afd-send-message-to-creator": "Informiere den Benutzer, der die Seite erstellt hat, während der Nominierung zur Löschung."
+	"afd-send-message-to-creator": "Informiere den Benutzer, der die Seite erstellt hat, während der Nominierung zur Löschung.",
+	"prd-send-message-to-creator": "Informiere während des Schnelllöschantrags den Benutzer, der die Seite erstellt hat.",
+	"csd-log-nominated-pages": "Führen Sie ein Protokoll über Anfragen zur Schnelllöschung.",
+	"csd-log-page-name": "CSD-Protokollname",
+	"afd-log-page-name": "AFD-Protokollname"
 }
