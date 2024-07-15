@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"Hedda",
+			"Rapsar",
 			"Vikipolimer"
 		]
 	},
@@ -139,11 +140,11 @@
 	"csd-log-nominated-pages": "Hızlı silme taleplerinin günlüğünü tut",
 	"csd-log-page-name": "HS Günlük Adı",
 	"afd-log-nominated-pages": "Silmeye aday gösterdiğim sayfaların günlüğünü tut",
-	"afd-log-page-name": "SAS Günlük Adı",
+	"afd-log-page-name": "Silinmeye aday gösterdiğim sayfa günlüğünün adı",
 	"prd-log-nominated-pages": "Bekletmeli silinmesini önerdiğim sayfaların günlüğünü tut",
 	"prd-log-page-name": "BS Günlük Adı",
 	"afd-nominate-opinions-log": "SAS görüşlerimin günlüğünü tut",
-	"afd-opinion-log-page-name": "SAS Görüş Günlük Adı",
+	"afd-opinion-log-page-name": "Silinmeye aday sayfa tartışma görüşlerimin günlüğünün adı",
 	"show-my-status": "Kullanıcılara etkinliğimi göster",
 	"show-status-description": "Bu seçenek aktif edildiğinde kullanıcı sayfalarında etkinlik durumlarını görebilirsiniz.",
 	"create-speedy-deletion-request": "Hızlı Silme Talebi",
@@ -155,7 +156,7 @@
 	"recent-changes": "Son Değişiklik",
 	"tag-page": "Sayfayı Etiketle",
 	"copyright-violation-check": "Telif Kontrolü",
-	"adiutor-settings": "Adiutor Ayarları",
+	"adiutor-settings": "Adiutor ayarları",
 	"page-info-tip": "$1 tarihinde $2 ($3) tarafından oluşturuldu; $4 revizyon, $5 {{PLURAL:$1|editör}}, $6 sayfa gösterimi ($7 gün)",
 	"page-more-info-tip-author-title": "Oluşturan:",
 	"page-more-info-tip-author": "Bu madde $1 tarafından oluşturulmuş.",

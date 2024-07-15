@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"Ajiniyaz Nurniyazov",
-			"Bekan88"
+			"Bekan88",
+			"Inabat Allanova"
 		]
 	},
 	"create": "Jaratıw",
@@ -162,7 +163,7 @@
 	"page-more-info-tip-date-title": "Jaratılǵan sánesi:",
 	"page-more-info-tip-date": "Bul maqala $1 sánesinde jaratılǵan.",
 	"page-more-info-tip-keyword-title": "Sózler sanı:",
-	"page-more-info-tip-keyword": "Bul maqala $1 {{PLURAL:$1|sózden|sózden}} ibarat.",
+	"page-more-info-tip-keyword": "Bul maqala $1 {{PLURAL:$1|sóz|sózden}} ibarat.",
 	"show-inline-page-info": "Ornatılǵan maqala informaciyasın kórsetiw",
 	"show-inline-page-info-description": "{{GENDER:|siz}} onı teksergende, ol maqalanıń joqarı tárepinde maqala tuwralı informaciyası bar vidjetti qosadı.",
 	"choose-duration": "Uzaqlıǵın tańlań",
