@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"Anterdc99",
+			"Huajing",
 			"LittlePaw365",
 			"U.T."
 		]
@@ -31,6 +32,7 @@
 	"welcome-date-change-message": "{{GENDER:|您}}自$1起对维基百科做出了$2次{{PLURAL:$2|更改}}。",
 	"propose": "提议",
 	"adiutor-dashboard-about-adiutor-title": "Adiutor是什么？",
+	"adiutor-dashboard-about-adiutor-description": "Adiutor是一款为提升维基百科维护任务的效率与易用性而开发的工具。Adiutor使用基于OOUI的MediaWiki JS与JavaScript构建，其设计使用户能轻松执行各种任务。所有建议和程序错误报告都将在讨论页上得到审核与讨论，以实现持续开发和对工具的改进。维基百科社区的积极参与和支持在使Adiutor成为更强大、更易用的工具的过程扮演了重要的角色。",
 	"adiutor-dashboard-main-page": "首页",
 	"my-talk-page": "{{GENDER:|我的}}的讨论页",
 	"update": "更新",
@@ -319,6 +321,7 @@
 	"rfd-header-title": "删除请求",
 	"rfd-rationale-placeholder": "为什么要删除这个文件？",
 	"rfd-module-title": "Adiutor - 删除请求",
+	"rfd-header-description": "发起删除该文件的讨论，即使该文件不符合快速删除所需的更严格、更具挑战性的标准。",
 	"nominate-file-for-deletion": "提名删除",
 	"report-suspected-sockpuppeteer": "举报操纵傀儡的可疑账号",
 	"sockpuppetry-warning-text": "您当前正在向用户查核者举报此用户。",
