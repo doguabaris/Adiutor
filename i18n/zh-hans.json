@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"Anterdc99",
+			"GuoPC",
 			"Huajing",
 			"LittlePaw365",
 			"U.T."
@@ -61,6 +62,7 @@
 	"cancel": "取消",
 	"vandalism": "破坏",
 	"protect-against-rebuilding": "白纸保护",
+	"protect-against-rebuilding-help": "选择后，快速删除标签中会添加一个{{salt}}标签，要求管理员应用白纸保护。仅当此页面被持续创建时才应选择。",
 	"username-violation": "违反用户名方针",
 	"related-page": "相关页面",
 	"wrn-related-page-help": "引起警告的页面",
@@ -93,6 +95,7 @@
 	"csd-module-title": "Adiutor - 快速删除请求",
 	"warning-type": "警告类型",
 	"create-request": "创建请求",
+	"aticle-work-list-description": "此功能允许{{GENDER:|您}}列出和快速访问{{GENDER:|您}}正在编写的条目。{{GENDER:|您}}可以使用条目下方的“固定到我的作品”按钮来使用此功能。",
 	"protection-type": "保护类型",
 	"indefinite": "无限期",
 	"temporary": "临时",
