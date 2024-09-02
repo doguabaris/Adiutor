@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"Beta16",
+			"Dream Indigo",
 			"LametinoWiki",
 			"Nelthal"
 		]
@@ -59,7 +60,7 @@
 	"wrn-related-page-help": "La pagina che ha causato l'avviso",
 	"wrn-user-mildly": "Questo stimola leggermente l'utente.",
 	"wrn-user-seriously": "Questo è un avvertimento serio per l'utente.",
-	"wrn-user-sternly": "Manda un avvertimento severo a questo utente.",
+	"wrn-user-sternly": "Manda un avvertimento severo a quest'utente.",
 	"report": "Segnala",
 	"report-type": "Tipo di segnalazione",
 	"rationale": "Motivo",
@@ -74,7 +75,7 @@
 	"rpp-module-title": "Adiutor - Richiesta di protezione della pagina",
 	"duration": "Durata",
 	"prd-deletion-type": "Tipo di eliminazione proposto",
-	"wrn-dialog-description": "Stai mandando un avvertimento a questo utente, che apparirà nella sua pagina di discussione.",
+	"wrn-dialog-description": "Stai mandando un avvertimento a quest'utente, che apparirà sulla sua pagina di discussione.",
 	"aiv-rationale-1": "Vandalismo nonostante ripetuti avvertimenti.",
 	"aiv-rationale-2": "Vandalismo effettuato dopo la scadenza del blocco (entro 1 giorno).",
 	"aiv-rationale-3": "Utenza esclusivamente a scopo vandalico.",
@@ -101,9 +102,9 @@
 	"you-can-not-block-yourself": "Non puoi bloccare {{GENDER:|te stesso}}",
 	"adiutor-dashboard-total-edit-title": "Contributi totali",
 	"user-blocked": "Utente bloccato.",
-	"user-blocked-message-title": "Questo utente è bloccato",
+	"user-blocked-message-title": "Quest'utente è bloccato/a",
 	"partially-blocked": "parzialmente bloccato",
-	"has-x-edit-count": "Questo utente ha $1 modifiche",
+	"has-x-edit-count": "Quest'utente ha $1 modifiche",
 	"relative-date-year-other": "{{PLURAL:$1|$1 anno|$1 anni}}",
 	"nominate-file-for-deletion": "Proponi la cancellazione",
 	"evidence-input-placeholder": "Fornisci delle prove.",
