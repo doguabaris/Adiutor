@@ -6,6 +6,7 @@
 			"HellojoeAoPS",
 			"Huajing",
 			"LittlePaw365",
+			"SunAfterRain",
 			"U.T."
 		]
 	},
@@ -21,7 +22,7 @@
 	"about": "关于",
 	"adiutor-contributor-dashboard": "Adiutor - 贡献者仪表板",
 	"confirm-action": "确认操作",
-	"speedy-deletion-policy": "快速删除政策",
+	"speedy-deletion-policy": "快速删除方针",
 	"delete": "删除",
 	"other-options": "其他选项",
 	"administrator-tools": "管理员工具",
@@ -96,7 +97,7 @@
 	"csd-module-title": "Adiutor - 快速删除请求",
 	"warning-type": "警告类型",
 	"create-request": "创建请求",
-	"aticle-work-list-description": "此功能允许{{GENDER:|您}}列出{{GENDER:|您}}正在编写的条目，并快速访问它们。 {{GENDER:|You}} 可以使用文章下方的“固定到作品”按钮执行此操作。",
+	"aticle-work-list-description": "此功能允许{{GENDER:|您}}列出和快速访问{{GENDER:|您}}正在编写的条目。{{GENDER:|您}}可以使用条目下方的“固定到我的作品”按钮来使用此功能。",
 	"protection-type": "保护类型",
 	"indefinite": "无限期",
 	"temporary": "临时",
