@@ -121,6 +121,8 @@
 	"relative-date-month-other": "{{PLURAL:$1|$1 aşmi}}",
 	"relative-date-year-one": "{{PLURAL:$1|$1 serre}}",
 	"relative-date-year-other": "{{PLURAL:$1|$1serri}}",
+	"list-pages-for-csd": "Pelanê namzedan liste ke",
+	"afd-requests": "Pelê ke esterıtışi rê namzedê",
 	"warning": "Teme",
 	"this": "No",
 	"evidence": "Delil",
