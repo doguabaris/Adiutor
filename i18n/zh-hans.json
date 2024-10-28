@@ -7,7 +7,8 @@
 			"Huajing",
 			"LittlePaw365",
 			"SunAfterRain",
-			"U.T."
+			"U.T.",
+			"沈澄心"
 		]
 	},
 	"create": "创建",
@@ -115,6 +116,7 @@
 	"csd-header-title": "快速删除理由",
 	"csd-header-description": "请从以下选项中选择删除此页面的合适原因。",
 	"rpp-header-description": "此工具用于全保护和半保护。请阅读“维基百科:保护方针”页面。",
+	"prd-header-description": "提案建议即使该条目不符合快速删除所需的更严格、更多要求的标准，仍可毫无争议地删除。请考虑删除该条目。",
 	"wrn-dialog-description": "{{GENDER:|您}}目前正对此用户发出警告，此警告将会出现在此用户的讨论页上。",
 	"aiv-rationale-1": "多次警告后仍继续破坏。",
 	"aiv-rationale-2": "封禁届满1天内进行破坏。",
@@ -129,9 +131,14 @@
 	"pmr-new-page-name-description": "{{GENDER:|您}}想要将页面移动到的新名称。",
 	"new-name": "新名称",
 	"pmr-header-title": "页面移动请求",
+	"pmr-header-description": "此工具用于将页面移动至另一页面的请求。通常情况下，自动确认用户可使用页面上的“移动”选项卡执行页面移动。",
 	"aiv-header-title": "用户封禁请求",
+	"aiv-header-description": "此工具用于请求封禁破坏维基百科的用户。在通过此工具发出请求之前，应告知用户维基百科规则和封禁政策。",
 	"rdr-header-title": "修订版本删除请求",
+	"rdr-header-description": "在使用此工具提出请求之前，应告知用户维基百科相关规则。如果涉及冒犯性编辑或威胁，则可以不遵循通知程序提出请求。",
 	"afd-header-title": "页面存废讨论",
+	"afd-header-description": "发起删除该页面的讨论，即使该页面不符合快速删除所需的更严格、更具挑战性的标准。",
+	"tag-header-description": "{{GENDER:|您}}目前正在标记此页面。{{GENDER:|您}}可以从下方列表中选择{{GENDER:|您}}想要应用于此页面的警告标签。",
 	"csd-send-message-to-creator": "在快速删除请求期间通知创建此页面的用户。",
 	"afd-send-message-to-creator": "在提名删除期间通知创建此页面的用户。",
 	"prd-send-message-to-creator": "在提删请求期间通知创建此页面的用户。",
