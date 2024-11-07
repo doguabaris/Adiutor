@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"Hedda",
+			"Jelican9",
 			"Rapsar",
 			"Vikipolimer"
 		]
@@ -41,8 +42,8 @@
 	"test-feature": "Bu özellik şu anda test aşamasındadır.",
 	"active": "Etkin",
 	"suggest-edit": "Düzenleme öner",
-	"unpin-from-works": "Çalışmalarımdan çıkar",
-	"pin-to-works": "Çalışmalarıma ekle",
+	"unpin-from-works": "{{GENDER:|Çalışmalarımdan}} çıkar",
+	"pin-to-works": "{{GENDER:|Çalışmalarıma}} ekle",
 	"clear": "Temizle",
 	"edit": "Düzenle",
 	"works": "Çalışmalar",
