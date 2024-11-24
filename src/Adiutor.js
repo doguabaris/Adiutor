@@ -18,7 +18,7 @@ function updateOptions(options) {
 		format: 'json',
 		optionname: wikiOptions,
 		optionvalue: JSON.stringify(options),
-		formatversion: 2,
+		formatversion: 2
 	}).fail((err) => {
 		mw.notify(`Failed to update Adiutor user options: ${err}`);
 	});
@@ -48,7 +48,7 @@ function processTranslation(langCode, translationData) {
 		format: 'json',
 		optionname: `userjs-adiutor-i18-${langCode}`,
 		optionvalue: optionValue,
-		formatversion: 2,
+		formatversion: 2
 	}).done((response) => {
 		if (response) {
 			mw.notify(`Failed to update translation for langCode: ${langCode} - ${response.warnings[0].message}`);
@@ -66,23 +66,23 @@ const adiutorUserOptionsDefault = {
 	speedyDeletion: {
 		csdSendMessageToCreator: true,
 		csdLogNominatedPages: true,
-		csdLogPageName: 'CSD log',
+		csdLogPageName: 'CSD log'
 	},
 	articlesForDeletion: {
 		afdSendMessageToCreator: true,
 		afdLogNominatedPages: true,
 		afdLogPageName: 'AFD log',
 		afdNominateOpinionsLog: true,
-		afdOpinionLogPageName: 'AFD opinion log',
+		afdOpinionLogPageName: 'AFD opinion log'
 	},
 	proposedDeletion: {
 		prdSendMessageToCreator: true,
 		prdLogNominatedPages: true,
-		prdLogPageName: 'PROD log',
+		prdLogPageName: 'PROD log'
 	},
 	status: {
 		showMyStatus: true,
-		myStatus: 'active',
+		myStatus: 'active'
 	},
 	stats: {
 		csdRequests: 0,
@@ -90,7 +90,7 @@ const adiutorUserOptionsDefault = {
 		prodRequests: 0,
 		blockRequests: 0,
 		userWarnings: 0,
-		pageTags: 0,
+		pageTags: 0
 	},
 	inlinePageInfo: true,
 	showEditSummaries: true,
@@ -111,9 +111,9 @@ const adiutorUserOptionsDefault = {
 		tag: true,
 		ubm: true,
 		upw: true,
-		wrn: true,
+		wrn: true
 	},
-	adiutorVersion: 'v2.0.0',
+	adiutorVersion: 'v2.0.0'
 };
 
 // Get the user's saved settings for the Adiutor gadget

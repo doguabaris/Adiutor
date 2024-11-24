@@ -5,8 +5,6 @@
 		"jquery": true
 	},
 	"extends": [
-		"airbnb-base",
-		"wikimedia/client-es6",
 		"wikimedia/mediawiki"
 	],
 	"globals": {
@@ -26,6 +24,7 @@
 	],
 	"ignorePatterns": ["scripts/", "tests/", "lib/"],
 	"rules": {
+		"max-len": "off",
 		"no-extra-parens": ["error", "all", { "nestedBinaryExpressions": false }],
 		"no-unreachable-loop": "error",
 		"block-scoped-var": "error",
@@ -68,17 +67,6 @@
 		"space-unary-ops": "error",
 		"spaced-comment": ["error", "always", { "line": { "exceptions": ["-"] }, "block": { "balanced": true } }],
 		"switch-colon-spacing": "error",
-		"no-nested-ternary": "error",
-		"no-restricted-syntax": [
-			"warn",
-			{
-				"message": "Using .done() is discouraged. See https://www.mediawiki.org/wiki/Manual:Coding_conventions/JavaScript#Asynchronous_code",
-				"selector": "MemberExpression > Identifier[name=\"done\"]"
-			},
-			{
-				"message": "Using .fail() is discouraged. See https://www.mediawiki.org/wiki/Manual:Coding_conventions/JavaScript#Asynchronous_code",
-				"selector": "MemberExpression > Identifier[name=\"fail\"]"
-			}
-		]
+		"no-nested-ternary": "error"
 	}
 }
