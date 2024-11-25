@@ -95,7 +95,7 @@ function callBack() {
 				help: new OO.ui.deferMsg('afd-inform-creator-help')
 			})
 		]);
-		rationaleInput.on('change', function () {
+		rationaleInput.on('change', () => {
 			if (rationaleInput.value !== '') {
 				InputFilled = false;
 			} else {
@@ -112,12 +112,12 @@ function callBack() {
 	proposedDeletionDialog.prototype.getActionProcess = function (action) {
 		const dialog = this;
 		if (action) {
-			return new OO.ui.Process(function () {
+			return new OO.ui.Process(() => {
 				const date = new Date();
 				const Months = localMonthsNames;
 				let PRDText;
 				const PRDoptions = [];
-				proposeOptions.items.forEach(function (Option) {
+				proposeOptions.items.forEach((Option) => {
 					if (Option.fieldWidget.selected) {
 						PRDoptions.push({
 							value: Option.fieldWidget.value,
@@ -131,7 +131,7 @@ function callBack() {
 						});
 					}
 				});
-				PRDoptions.forEach(function (Option) {
+				PRDoptions.forEach((Option) => {
 					if (Option.value === 'standardPropose') {
 						const placeholders = {
 							$1: pageTitle,
@@ -148,7 +148,7 @@ function callBack() {
 						PRDText = livingPersonProposeTemplate;
 					}
 					if (Option.data === 'informCreator') {
-						getCreator().then(function (data) {
+						getCreator().then((data) => {
 							const Author = data.query.pages[mw.config.get('wgArticleId')].revisions[0].user;
 							if (!mw.util.isIPAddress(Author)) {
 								const message = replaceParameter(prodNotificationTemplate, '1', pageTitle);
@@ -180,7 +180,7 @@ function callBack() {
 			summary: replaceParameter(apiPostSummary, '1', pageTitle),
 			tags: 'Adiutor',
 			format: 'json'
-		}).done(function () {
+		}).done(() => {
 			adiutorUserOptions.stats.prodRequests++;
 			api.postWithEditToken({
 				action: 'globalpreferences',
@@ -188,7 +188,7 @@ function callBack() {
 				optionname: 'userjs-adiutor-' + mw.config.get('wgWikiID'),
 				optionvalue: JSON.stringify(adiutorUserOptions),
 				formatversion: 2
-			}, function () {
+			}, () => {
 			});
 			location.reload();
 		});
@@ -203,7 +203,7 @@ function callBack() {
 				summary: replaceParameter(apiPostSummaryforLog, '1', pageTitle),
 				tags: 'Adiutor',
 				format: 'json'
-			}).done(function () {
+			}).done(() => {
 			});
 		}
 	}
@@ -231,7 +231,7 @@ function callBack() {
 	}
 
 	function replacePlaceholders(input, replacements) {
-		return input.replace(/\$(\d+)/g, function (match, group) {
+		return input.replace(/\$(\d+)/g, (match, group) => {
 			const replacement = replacements['$' + group];
 			return replacement !== undefined ? replacement : match;
 		});

@@ -56,16 +56,14 @@ function callBack() {
 		headerTitle.$element.css('margin-top', '20px');
 		const rationaleSelector = new OO.ui.DropdownWidget({
 			menu: {
-				items: userWarnings.map(function (warning) {
-					return new OO.ui.MenuOptionWidget({
+				items: userWarnings.map((warning) => new OO.ui.MenuOptionWidget({
 						data: warning,
 						label: warning.label
-					});
-				})
+					}))
 			},
 			label: new OO.ui.deferMsg('warning-type')
 		});
-		rationaleSelector.getMenu().on('choose', function (menuOption) {
+		rationaleSelector.getMenu().on('choose', (menuOption) => {
 			warningData = menuOption.getData();
 		});
 		rationaleSelector.$element.css('margin-top', '20px');
@@ -113,7 +111,7 @@ function callBack() {
 				}
 			} else {
 				// If the action is 'save', proceed to warn the user and close the dialog.
-				return new OO.ui.Process(function () {
+				return new OO.ui.Process(() => {
 					warnUser(warningData);
 					dialog.close({
 						action: action
@@ -140,7 +138,7 @@ function callBack() {
 			tags: 'Adiutor',
 			watchlist: 'unwatch',
 			format: 'json'
-		}).done(function () {
+		}).done(() => {
 			window.location = '/wiki/' + userTalkPagePrefix + mwConfig.wgPageName.replace(/_/g, ' ').replace(userPagePrefix, '').replace(specialContibutions, '').replace(userTalkPagePrefix, '');
 			adiutorUserOptions.stats.userWarnings++;
 			api.postWithEditToken({
@@ -149,7 +147,7 @@ function callBack() {
 				optionname: 'userjs-adiutor-' + mw.config.get('wgWikiID'),
 				optionvalue: JSON.stringify(adiutorUserOptions),
 				formatversion: 2
-			}, function () {
+			}, () => {
 			});
 		});
 	}

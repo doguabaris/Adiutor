@@ -89,7 +89,7 @@ function callBack() {
 					label: tag.description,
 					align: 'inline'
 				});
-				tagOption.on('change', function (selected) {
+				tagOption.on('change', (selected) => {
 					updateSelectedTags(selected, tag);
 				});
 				// Check if the tag has additional items
@@ -98,7 +98,7 @@ function callBack() {
 					const subItemsLayout = new OO.ui.HorizontalLayout();
 					subItemsLayout.$element.css('display', 'none');
 					// Iterate through the sub-items
-					tag.items.forEach(function (subItem) {
+					tag.items.forEach((subItem) => {
 						// Create sub-item widgets based on the sub-item properties
 						if (subItem.type === 'input') {
 							const subItemInput = new OO.ui.TextInputWidget({
@@ -114,7 +114,7 @@ function callBack() {
 								name: subItem.name,
 								label: subItem.label
 							});
-							subItemCheckbox.on('change', function (selected) {
+							subItemCheckbox.on('change', (selected) => {
 								updateSelectedTags(selected, tag);
 							});
 							subItemsLayout.addItems([ subItemCheckbox ]);
@@ -122,7 +122,7 @@ function callBack() {
 						// Check if there are items under the subItem
 						if (subItem.items) {
 							// Iterate through the subItem items
-							subItem.items.forEach(function (subItemItem) {
+							subItem.items.forEach((subItemItem) => {
 								// Create widgets for subItem items
 								if (subItemItem.type === 'input') {
 									const subItemItemInput = new OO.ui.TextInputWidget({
@@ -140,7 +140,7 @@ function callBack() {
 										label: subItemItem.label,
 										align: 'inline'
 									});
-									subItemItemCheckbox.on('change', function (selected) {
+									subItemItemCheckbox.on('change', (selected) => {
 										updateSelectedTags(selected, tag);
 									});
 									subItemItemCheckbox.$element.css('margin-left', '30px');
@@ -151,7 +151,7 @@ function callBack() {
 						}
 					});
 					// Add an event handler to show/hide sub-items when the parent checkbox is selected/unselected
-					tagOption.on('change', function (selected) {
+					tagOption.on('change', (selected) => {
 						if (selected) {
 							subItemsLayout.$element.show();
 						} else {
@@ -170,10 +170,10 @@ function callBack() {
 			}, this);
 		}, this);
 		// After populating the tagOptions array, add the following code within the tagList.forEach loop:
-		searchInput.on('input', function () {
+		searchInput.on('input', () => {
 			const searchText = searchInput.getValue().toLowerCase();
 			// Iterate through all tagOptions and check if the search text is present in label or data
-			tagOptions.forEach(function (tagOption) {
+			tagOptions.forEach((tagOption) => {
 				const label = tagOption.label.toLowerCase();
 				const data = tagOption.data ? tagOption.data.toLowerCase() : ''; // Ensure data exists and convert to lowercase
 				if (label.includes(searchText) || data.includes(searchText)) {
@@ -188,10 +188,10 @@ function callBack() {
 	PageTaggingDialog.prototype.getActionProcess = function (action) {
 		const dialog = this;
 		if (action) {
-			return new OO.ui.Process(function () {
-				selectedTags.forEach(function (tag) {
+			return new OO.ui.Process(() => {
+				selectedTags.forEach((tag) => {
 					if (tag.items && tag.items.length > 0) {
-						tag.items.forEach(function (subItem) {
+						tag.items.forEach((subItem) => {
 							let template = '{{' + tag.tag;
 							if (subItem.parameter) {
 								// If information for this template has not been provided before, get it from the user
@@ -260,9 +260,7 @@ function callBack() {
 		if (selected) {
 			selectedTags.push(tag);
 		} else {
-			selectedTags = selectedTags.filter(function (item) {
-				return item !== tag;
-			});
+			selectedTags = selectedTags.filter((item) => item !== tag);
 		}
 		console.log(selectedTags);
 	}
@@ -276,7 +274,7 @@ function callBack() {
 			format: 'json'
 		};
 		let removedContent = '';
-		const modifiedTags = preparedTagsString.replace('{{' + uncategorizedTemplate + '}}', function (match) {
+		const modifiedTags = preparedTagsString.replace('{{' + uncategorizedTemplate + '}}', (match) => {
 			removedContent = match;
 			return '';
 		});
@@ -286,7 +284,7 @@ function callBack() {
 		} else {
 			editParams.prependtext = modifiedTags.split(',').join('\n') + '\n';
 		}
-		api.postWithToken('csrf', editParams).done(function () {
+		api.postWithToken('csrf', editParams).done(() => {
 			adiutorUserOptions.stats.pageTags++;
 			api.postWithEditToken({
 				action: 'globalpreferences',
@@ -294,7 +292,7 @@ function callBack() {
 				optionname: 'userjs-adiutor-' + mw.config.get('wgWikiID'),
 				optionvalue: JSON.stringify(adiutorUserOptions),
 				formatversion: 2
-			}, function () {
+			}, () => {
 			});
 			location.reload();
 		});

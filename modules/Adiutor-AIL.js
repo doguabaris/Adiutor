@@ -45,7 +45,7 @@ function callBack() {
 					uiprop: 'rights',
 					format: 'json'
 				};
-				api.get(UserParams).then(function (data) {
+				api.get(UserParams).then((data) => {
 					checkMentor(data.query.userinfo.id);
 				});
 			}
@@ -114,7 +114,7 @@ function callBack() {
 										summary: mw.msg('blocked-user-removed-from-the-noticeboad'),
 										tags: 'Adiutor',
 										format: 'json'
-									}).done(function () {
+									}).done(() => {
 										headlineElement.css('text-decoration', 'line-through');
 									});
 								});
@@ -236,13 +236,13 @@ function callBack() {
 			// Define a variable to track if the menu is open
 			let isMenuOpen = false;
 			// Listen for mouseover event on the Adiutor menu button
-			adiutorMenu.$element.on('mouseover', function () {
+			adiutorMenu.$element.on('mouseover', () => {
 				// Open the menu programmatically
 				adiutorMenu.getMenu().toggle(true);
 				isMenuOpen = true;
 			});
 			// Listen for mouseout event on the Adiutor menu button
-			adiutorMenu.$element.on('mouseout', function (event) {
+			adiutorMenu.$element.on('mouseout', (event) => {
 				// Check if the mouse is leaving the menu area
 				if (!event.relatedTarget || !$(event.relatedTarget).closest('.adiutor-top-selector, .adiutor-top-menu').length) {
 					adiutorMenu.getMenu().toggle(false);
@@ -250,7 +250,7 @@ function callBack() {
 				}
 			});
 			// Listen for mouseout event on the entire document
-			$(document).on('mouseout', function (event) {
+			$(document).on('mouseout', (event) => {
 				// Check if the mouse is leaving the menu area
 				if (!event.relatedTarget || !$(event.relatedTarget).closest('.adiutor-top-selector, .adiutor-top-menu').length) {
 					adiutorMenu.getMenu().toggle(false);
@@ -259,26 +259,26 @@ function callBack() {
 			});
 			// Define a function to load Adiutor scripts
 			// Listen for menu option selection
-			adiutorMenu.getMenu().on('choose', function (menuOption) {
+			adiutorMenu.getMenu().on('choose', (menuOption) => {
 				// Map option values to corresponding Adiutor script names
 				const optionMapping = {
-					'1': 'CSD',
-					'2': 'PRD',
-					'3': 'AFD',
-					'4': 'diff',
-					'5': 'COV',
-					'6': 'OPT',
-					'7': 'INF',
-					'report': 'AIV',
-					'block': 'UBM',
-					'warn': 'WRN',
-					'rdr': 'RDR',
-					'pmr': 'PMR',
-					'rpp': 'RPP',
-					'tag': 'TAG',
-					'gan': 'GAN',
-					'fan': 'FAN',
-					'delete': 'DEL',
+					1: 'CSD',
+					2: 'PRD',
+					3: 'AFD',
+					4: 'diff',
+					5: 'COV',
+					6: 'OPT',
+					7: 'INF',
+					report: 'AIV',
+					block: 'UBM',
+					warn: 'WRN',
+					rdr: 'RDR',
+					pmr: 'PMR',
+					rpp: 'RPP',
+					tag: 'TAG',
+					gan: 'GAN',
+					fan: 'FAN',
+					delete: 'DEL',
 					'batch-delete': 'BDM'
 				};
 				// Get the selected option's corresponding script name
@@ -345,7 +345,7 @@ function callBack() {
 	const myWorks = new OO.ui.FieldsetLayout({});
 	const items = [];
 	if (adiutorUserOptions.myWorks.length > 0) {
-		adiutorUserOptions.myWorks.forEach(function (article) {
+		adiutorUserOptions.myWorks.forEach((article) => {
 			const articleTitle = article.name; // Get the name property from each article
 			const articleWidget = new OO.ui.MessageWidget({
 				type: 'article',
@@ -355,7 +355,7 @@ function callBack() {
 				classes: [ 'adiutor-work-list-item' ]
 			});
 			// Add a click event handler to open the link with the articleTitle
-			articleWidget.$element.on('click', function () {
+			articleWidget.$element.on('click', () => {
 				window.location.href = '/wiki/' + mw.util.rawurlencode(articleTitle);
 			});
 			items.push(articleWidget);
@@ -425,9 +425,9 @@ function callBack() {
 		}
 	});
 	// Listen to search input and show/hide articles
-	topSearch.on('change', function () {
+	topSearch.on('change', () => {
 		const query = topSearch.getValue().toLowerCase();
-		items.forEach(function (articleWidget) {
+		items.forEach((articleWidget) => {
 			const articleLabel = articleWidget.getLabel().toLowerCase();
 			if (articleLabel.includes(query)) {
 				articleWidget.toggle(true);
@@ -452,7 +452,7 @@ function callBack() {
 			page: 'MediaWiki:GrowthMentors.json',
 			prop: 'wikitext',
 			format: 'json'
-		}).done(function (data) {
+		}).done((data) => {
 			if (data.parse.wikitext['*'].includes(UserId) && mwConfig.wgPageName.includes(mwConfig.wgUserName)) {
 				// Load the Adiutor CMR script using the loadAdiutorModule function
 				loadAdiutorModule('CMR');

@@ -112,15 +112,13 @@ function callBack() {
 			classes: [ 'adiutor-report-window-rationale-window' ]
 		});
 		requestRationaleContainer.$element.css('margin-top', '20px');
-		rationaleSelector.getMenu().on('choose', function (menuOption) {
+		rationaleSelector.getMenu().on('choose', (menuOption) => {
 			switch (menuOption.getData()) {
 				case 1:
 					let requestRationale = new OO.ui.FieldsetLayout({
 						label: mw.msg('rationale')
 					});
-					const generalRationales = reportRationales.filter(function (item) {
-						return item.related === 'general';
-					});
+					const generalRationales = reportRationales.filter((item) => item.related === 'general');
 					requestRationale.addItems([
 						new OO.ui.FieldLayout(vandalizedPage = new OO.ui.TextInputWidget({
 							value: ''
@@ -135,7 +133,7 @@ function callBack() {
 							help: new OO.ui.deferMsg('revision-id-description')
 						})
 					]);
-					generalRationales.forEach(function (rationaleItem) {
+					generalRationales.forEach((rationaleItem) => {
 						requestRationale.addItems([
 							new OO.ui.FieldLayout(new OO.ui.CheckboxInputWidget({
 								selected: false,
@@ -152,10 +150,8 @@ function callBack() {
 					requestRationale = new OO.ui.FieldsetLayout({
 						label: mw.msg('rationale')
 					});
-					var usernameRationales = reportRationales.filter(function (item) {
-						return item.related === 'username';
-					});
-					usernameRationales.forEach(function (rationaleItem) {
+					var usernameRationales = reportRationales.filter((item) => item.related === 'username');
+					usernameRationales.forEach((rationaleItem) => {
 						requestRationale.addItems([
 							new OO.ui.FieldLayout(new OO.ui.CheckboxInputWidget({
 								selected: false,
@@ -236,11 +232,9 @@ function callBack() {
 			switch (reportType) {
 				case 'sockpuppetry':
 					if (sockpuppetryType === 'sockpuppeteer') {
-						var selectedValues = sockPuppetsList.getValue();
-						var sockpuppets = selectedValues.map(function (value) {
-							return '\n* {{' + sockpuppetTemplate + '|' + value + '}}';
-						});
-						var formattedSockpuppets = sockpuppets.join('');
+						const selectedValues = sockPuppetsList.getValue();
+						const sockpuppets = selectedValues.map((value) => '\n* {{' + sockpuppetTemplate + '|' + value + '}}');
+						const formattedSockpuppets = sockpuppets.join('');
 						placeholders = {
 							$1: userReported,
 							$3: formattedSockpuppets,
@@ -282,7 +276,7 @@ function callBack() {
 	};
 
 	function replacePlaceholders(input, replacements) {
-		return input.replace(/\$(\d+)/g, function (match, group) {
+		return input.replace(/\$(\d+)/g, (match, group) => {
 			const replacement = replacements['$' + group];
 			return replacement !== undefined ? replacement : match;
 		});
@@ -309,7 +303,7 @@ function callBack() {
 			summary: replaceParameter(spiApiPostSummary, '1', sockpuppeteer),
 			tags: 'Adiutor',
 			format: 'json'
-		}).done(function () {
+		}).done(() => {
 			api.postWithToken('csrf', {
 				action: 'edit',
 				title: spiNoticeBoard,
@@ -317,7 +311,7 @@ function callBack() {
 				summary: replaceParameter(spiApiPostCaseSummary, '1', spiNoticeBoardCase + '/' + sockpuppeteer),
 				tags: 'Adiutor',
 				format: 'json'
-			}).done(function () {
+			}).done(() => {
 				window.location = '/wiki/' + spiNoticeBoardCase + '/' + sockpuppeteer;
 			});
 		});
@@ -325,7 +319,7 @@ function callBack() {
 
 	function findSelectedRationale() {
 		let rationaleInput = null;
-		requestRationale.items.forEach(function (Rationale) {
+		requestRationale.items.forEach((Rationale) => {
 			if (Rationale.fieldWidget.selected) {
 				rationaleInput = Rationale.fieldWidget.data;
 			}
@@ -351,7 +345,7 @@ function callBack() {
 			}
 			apiParams[appendText ? 'appendtext' : prependText ? 'prependtext' : 'text'] = preparedContent + '\n';
 		}
-		api.postWithToken('csrf', apiParams).done(function () {
+		api.postWithToken('csrf', apiParams).done(() => {
 			window.location = '/wiki/' + noticeBoardLink;
 		});
 	}

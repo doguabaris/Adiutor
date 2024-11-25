@@ -25,7 +25,7 @@ function callBack() {
 		action: 'query',
 		format: 'json',
 		titles: pageTitle
-	}).done(function (data) {
+	}).done((data) => {
 		const pages = data.query.pages;
 		const pageId = Object.keys(pages)[0];
 		if (pageId !== '-1') {
@@ -35,7 +35,7 @@ function callBack() {
 				leaction: 'delete/delete',
 				letprop: 'delete',
 				letitle: pageTitle
-			}).done(function (data) {
+			}).done((data) => {
 				if (data.query.logevents) {
 					revDelCount = data.query.logevents.length;
 				} else {
@@ -228,7 +228,7 @@ function callBack() {
 						});
 						otherReasons.addItems([ fieldLayout ]);
 					}
-					generalReasons.$element.on('click', function (item) {
+					generalReasons.$element.on('click', (item) => {
 						if (item.target.value === 'G9') {
 							copyVioInput.$element.show();
 						}
@@ -287,8 +287,8 @@ function callBack() {
 						this.stackLayout.setItem(this.panel1);
 					} else if (action === 'continue') {
 						const dialog = this;
-						return new OO.ui.Process(function () {
-							nameSpaceDeletionReasons.items.forEach(function (Reason) {
+						return new OO.ui.Process(() => {
+							nameSpaceDeletionReasons.items.forEach((Reason) => {
 								if (Reason.fieldWidget.selected) {
 									csdReasons.push({
 										value: Reason.fieldWidget.value,
@@ -297,7 +297,7 @@ function callBack() {
 									});
 								}
 							});
-							generalReasons.items.forEach(function (Reason) {
+							generalReasons.items.forEach((Reason) => {
 								if (Reason.fieldWidget.selected) {
 									csdReasons.push({
 										value: Reason.fieldWidget.value,
@@ -309,9 +309,7 @@ function callBack() {
 							const copyVioURL = copyVioInput.value ? ' | ' + mw.msg('copyright-violation') + ':' + copyVioInput.value : '';
 							if (csdReasons.length > 0) {
 								if (csdReasons.length > 1) {
-									saltCsdSummary = csdReasons.map(function (reason) {
-										return '[[VP:HS#' + reason.value + ']]';
-									}).join(', ');
+									saltCsdSummary = csdReasons.map((reason) => '[[VP:HS#' + reason.value + ']]').join(', ');
 									saltCsdSummary = saltCsdSummary.replace(/,(?=[^,]*$)/, ' ve');
 								} else {
 									saltCsdSummary = csdSummary = csdReasons[0].data;
@@ -324,14 +322,14 @@ function callBack() {
 									reason: csdSummary,
 									tags: 'Adiutor',
 									format: 'json'
-								}).done(function () {
+								}).done(() => {
 									api.postWithToken('csrf', {
 										action: 'delete',
 										title: talkPagePrefix + pageTitle,
 										reason: apiPostSummaryforTalkPage,
 										tags: 'Adiutor',
 										format: 'json'
-									}).done(function () {
+									}).done(() => {
 									});
 									dialog.close();
 									location.reload();

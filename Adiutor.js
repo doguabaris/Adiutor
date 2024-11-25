@@ -166,7 +166,7 @@ try {
 	mw.messages.set(messages);
 
 	// Load the Adiutor-AIL.js module
-	const AIL = require('./Adiutor-AIL.js');
+	const AIL = require('./modules/Adiutor-AIL.js');
 	AIL.callBack();
 } catch (error) {
 	mw.notify(`Failed to load Adiutor: ${error}`);

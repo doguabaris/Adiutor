@@ -22,9 +22,7 @@ function callBack() {
 		method: 'GET',
 		dataType: 'json',
 		success: function (response) {
-			const isAlreadyAdded = adiutorUserOptions.myWorks.some(function (article) {
-				return article.id === newArticleToWorkOnIt.id;
-			});
+			const isAlreadyAdded = adiutorUserOptions.myWorks.some((article) => article.id === newArticleToWorkOnIt.id);
 			let authorEditcount = response.author_editcount;
 			if (authorEditcount === null) {
 				authorEditcount = 0;
@@ -44,7 +42,7 @@ function callBack() {
 				],
 				classes: [ 'adiutor-aricle-detail-box-button-group' ]
 			});
-			infoButton.on('click', function () {
+			infoButton.on('click', () => {
 				api.get({
 					action: 'query',
 					prop: 'revisions',
@@ -52,7 +50,7 @@ function callBack() {
 					rvprop: 'user|content|timestamp', // Fetch user, content, and timestamp from revision history
 					rvlimit: 1, // Only retrieve the latest revision
 					formatversion: 2
-				}).then(function (data) {
+				}).then((data) => {
 					// Extract relevant information from the API response
 					const revision = data.query.pages[0].revisions[0];
 					// Clean up the content by removing unnecessary elements
@@ -139,7 +137,7 @@ function callBack() {
 					ArticleInfoDialog.prototype.getActionProcess = function (action) {
 						if (action === 'continue') {
 							const dialog = this;
-							return new OO.ui.Process(function () {
+							return new OO.ui.Process(() => {
 								dialog.close();
 							});
 						}
@@ -166,11 +164,9 @@ function callBack() {
 				label: new OO.ui.HtmlSnippet(aboutArticleContent),
 				classes: [ 'adiutor-aricle-detail-box' ]
 			});
-			aboutArticleActionButtons.items[0].on('click', function () {
+			aboutArticleActionButtons.items[0].on('click', () => {
 				if (isAlreadyAdded) {
-					const indexToRemove = adiutorUserOptions.myWorks.findIndex(function (article) {
-						return article.id === newArticleToWorkOnIt.id;
-					});
+					const indexToRemove = adiutorUserOptions.myWorks.findIndex((article) => article.id === newArticleToWorkOnIt.id);
 					adiutorUserOptions.myWorks.splice(indexToRemove, 1);
 				} else {
 					adiutorUserOptions.myWorks.push(newArticleToWorkOnIt);
@@ -201,7 +197,7 @@ function callBack() {
 			optionname: 'userjs-adiutor-' + mw.config.get('wgWikiID'),
 			optionvalue: JSON.stringify(updatedOptions),
 			formatversion: 2
-		}, function () {
+		}, () => {
 		});
 	}
 }

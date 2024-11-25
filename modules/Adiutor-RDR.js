@@ -119,8 +119,8 @@ function callBack() {
 	RevisionDeletionRequest.prototype.getActionProcess = function (action) {
 		const dialog = this;
 		if (action) {
-			return new OO.ui.Process(function () {
-				requestRationale.items.forEach(function (Rationale) {
+			return new OO.ui.Process(() => {
+				requestRationale.items.forEach((Rationale) => {
 					if (Rationale.fieldWidget.selected) {
 						deletionRationale = Rationale.fieldWidget.data;
 					}
@@ -148,7 +148,7 @@ function callBack() {
 					}
 					apiParams[appendText ? 'appendtext' : prependText ? 'prependtext' : 'text'] = preparedContent + '\n';
 				}
-				api.postWithToken('csrf', apiParams).done(function () {
+				api.postWithToken('csrf', apiParams).done(() => {
 					window.location = '/wiki/' + noticeBoardLink;
 				});
 				dialog.close({
@@ -165,7 +165,7 @@ function callBack() {
 	windowManager.openWindow(dialog);
 
 	function replacePlaceholders(input, replacements) {
-		return input.replace(/\$(\d+)/g, function (match, group) {
+		return input.replace(/\$(\d+)/g, (match, group) => {
 			const replacement = replacements['$' + group];
 			return replacement !== undefined ? replacement : match;
 		});

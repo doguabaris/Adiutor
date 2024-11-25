@@ -67,23 +67,19 @@ function callBack() {
 		typeOfAction.addItems([
 			durationOfProtection = new OO.ui.DropdownWidget({
 				menu: {
-					items: protectionDurations.map(function (duration) {
-						return new OO.ui.MenuOptionWidget({
+					items: protectionDurations.map((duration) => new OO.ui.MenuOptionWidget({
 							data: duration.data,
 							label: duration.label
-						});
-					})
+						}))
 				},
 				label: mw.message('choose-duration').text()
 			}),
 			typeOfProtection = new OO.ui.DropdownWidget({
 				menu: {
-					items: protectionTypes.map(function (type) {
-						return new OO.ui.MenuOptionWidget({
+					items: protectionTypes.map((type) => new OO.ui.MenuOptionWidget({
 							data: type.data,
 							label: type.label
-						});
-					})
+						}))
 				},
 				label: new OO.ui.deferMsg('select-protection-type'),
 				classes: [ 'adiutor-rpp-botton-select' ]
@@ -97,17 +93,17 @@ function callBack() {
 				align: 'inline'
 			})
 		]);
-		rationaleInput.on('change', function () {
+		rationaleInput.on('change', () => {
 			if (rationaleInput.value !== '') {
 				InputFilled = false;
 			} else {
 				InputFilled = true;
 			}
 		});
-		typeOfProtection.getMenu().on('choose', function (menuOption) {
+		typeOfProtection.getMenu().on('choose', (menuOption) => {
 			protectionType = menuOption.getData();
 		});
-		durationOfProtection.getMenu().on('choose', function (duration) {
+		durationOfProtection.getMenu().on('choose', (duration) => {
 			protectionDuration = duration.getData();
 		});
 		this.content = new OO.ui.PanelLayout({
@@ -120,7 +116,7 @@ function callBack() {
 	PageProtectionDialog.prototype.getActionProcess = function (action) {
 		const dialog = this;
 		if (action) {
-			return new OO.ui.Process(function () {
+			return new OO.ui.Process(() => {
 				const placeholders = {
 					$1: pageTitle,
 					$2: protectionDuration,
@@ -139,7 +135,7 @@ function callBack() {
 						tags: 'Adiutor',
 						format: 'json'
 					};
-					api.postWithToken('csrf', apiParams).done(function () {
+					api.postWithToken('csrf', apiParams).done(() => {
 						window.location = '/wiki/' + noticeBoardLink;
 					});
 				} else {
@@ -157,7 +153,7 @@ function callBack() {
 						} else if (prependText) {
 							apiParams.prependtext = preparedContent + '\n';
 						}
-						api.postWithToken('csrf', apiParams).done(function () {
+						api.postWithToken('csrf', apiParams).done(() => {
 							window.location = '/wiki/' + noticeBoardLink;
 						});
 					} else {
@@ -173,7 +169,7 @@ function callBack() {
 						} else if (prependText) {
 							apiParams.prependtext = preparedContent + '\n';
 						}
-						api.postWithToken('csrf', apiParams).done(function () {
+						api.postWithToken('csrf', apiParams).done(() => {
 							window.location = '/wiki/' + noticeBoardLink;
 						});
 					}
@@ -192,7 +188,7 @@ function callBack() {
 	windowManager.openWindow(dialog);
 
 	function replacePlaceholders(input, replacements) {
-		return input.replace(/\$(\d+)/g, function (match, group) {
+		return input.replace(/\$(\d+)/g, (match, group) => {
 			const replacement = replacements['$' + group];
 			return replacement !== undefined ? replacement : match;
 		});

@@ -11,10 +11,10 @@ function callBack() {
 	const mwConfig = mw.config.get([ 'wgNamespaceNumber', 'wgPageName', 'wgUserName', 'wgTitle', 'wgUserGroups' ]);
 	const wikiId = mw.config.get('wgWikiID');
 	if ((mw.config.get('wgNamespaceNumber') === 2 || mw.config.get('wgNamespaceNumber') === 3) && !/\//.test(mw.config.get('wgTitle'))) {
-		mw.loader.using([ 'mediawiki.util' ], function () {
-			$(function () {
+		mw.loader.using([ 'mediawiki.util' ], () => {
+			$(() => {
 				const encodedTitle = mw.util.rawurlencode(mw.config.get('wgTitle'));
-				$.getJSON(mw.config.get('wgScriptPath') + '/api.php?format=json&action=query&list=blocks|users|usercontribs&usprop=blockinfo|editcount|gender|registration|groups&uclimit=1&ucprop=timestamp&ususers=' + encodedTitle + '&ucuser=' + encodedTitle + '&bkusers' + encodedTitle + '&meta=allmessages&amfilter=grouppage').done(function (queryResult) {
+				$.getJSON(mw.config.get('wgScriptPath') + '/api.php?format=json&action=query&list=blocks|users|usercontribs&usprop=blockinfo|editcount|gender|registration|groups&uclimit=1&ucprop=timestamp&ususers=' + encodedTitle + '&ucuser=' + encodedTitle + '&bkusers' + encodedTitle + '&meta=allmessages&amfilter=grouppage').done((queryResult) => {
 					if (!queryResult.query) {
 						return;
 					}
@@ -69,29 +69,29 @@ function callBack() {
 					} else {
 						const friendlyGroupNames = {
 							'*': false,
-							'user': false,
-							'autoconfirmed': false,
-							'sysop': mw.msg('friendly-group-names-sysop'),
-							'accountcreator': mw.msg('friendly-group-names-accountcreator'),
-							'import': mw.msg('friendly-group-names.import'),
+							user: false,
+							autoconfirmed: false,
+							sysop: mw.msg('friendly-group-names-sysop'),
+							accountcreator: mw.msg('friendly-group-names-accountcreator'),
+							import: mw.msg('friendly-group-names.import'),
 							'interface-editor': mw.msg('friendly-group-names-interface-editor'),
 							'interface-admin': mw.msg('friendly-group-names-interface-admin'),
-							'patroller': mw.msg('friendly-group-names-patroller'),
-							'autoreview': mw.msg('friendly-group-names-autoreview'),
-							'bureaucrat': mw.msg('friendly-group-names-bureaucrat'),
-							'transwiki': mw.msg('friendly-group-names-transwiki'),
+							patroller: mw.msg('friendly-group-names-patroller'),
+							autoreview: mw.msg('friendly-group-names-autoreview'),
+							bureaucrat: mw.msg('friendly-group-names-bureaucrat'),
+							transwiki: mw.msg('friendly-group-names-transwiki'),
 							'ipblock-exempt': mw.msg('friendly-group-names-ipblock-exempt'),
-							'checkuser': mw.msg('friendly-group-names-checkuser'),
-							'suppress': mw.msg('friendly-group-names-suppress'),
-							'confirmed': mw.msg('friendly-group-names-confirmed'),
-							'abusefilter': mw.msg('friendly-group-names-abusefilter'),
-							'autoreviewer': mw.msg('friendly-group-names-autoreviewer'),
-							'epcoordinator': mw.msg('friendly-group-names-epcoordinator'),
-							'epcampus': mw.msg('friendly-group-names-epcampus'),
-							'eponline': mw.msg('friendly-group-names-eponline'),
-							'filemover': mw.msg('friendly-group-names-filemover'),
+							checkuser: mw.msg('friendly-group-names-checkuser'),
+							suppress: mw.msg('friendly-group-names-suppress'),
+							confirmed: mw.msg('friendly-group-names-confirmed'),
+							abusefilter: mw.msg('friendly-group-names-abusefilter'),
+							autoreviewer: mw.msg('friendly-group-names-autoreviewer'),
+							epcoordinator: mw.msg('friendly-group-names-epcoordinator'),
+							epcampus: mw.msg('friendly-group-names-epcampus'),
+							eponline: mw.msg('friendly-group-names-eponline'),
+							filemover: mw.msg('friendly-group-names-filemover'),
 							'massmessage-sender': mw.msg('friendly-group-names-massmessage-sender'),
-							'templateeditor': mw.msg('friendly-group-names-templateeditor')
+							templateeditor: mw.msg('friendly-group-names-templateeditor')
 						};
 						const friendlyGroups = [];
 						for (let i = 0; i < userGroups.length; i++) {
@@ -157,9 +157,7 @@ function callBack() {
 					} else {
 						newClasses.push('ps-registered');
 					}
-					firstHeading.className += (firstHeading.className.length ? ' ' : '') + userGroups.map(function (group) {
-						return 'ps-group-' + group;
-					}).concat(newClasses).join(' ');
+					firstHeading.className += (firstHeading.className.length ? ' ' : '') + userGroups.map((group) => 'ps-group-' + group).concat(newClasses).join(' ');
 					const genderSpan = document.createElement('span');
 					genderSpan.id = 'ps-gender-' + (gender || 'unknown');
 					genderSpan.style.paddingLeft = '0.25em';
@@ -212,13 +210,13 @@ function callBack() {
 						icon: 'edit',
 						label: mw.msg('contributions-button-label')
 					});
-					warnUserButton.on('click', function () {
+					warnUserButton.on('click', () => {
 						loadAdiutorModule('WRN');
 					});
-					userContributions.on('click', function () {
+					userContributions.on('click', () => {
 						window.location.href = '/wiki/Special:Contributions/' + mw.util.rawurlencode(user.name);
 					});
-					unblockButton.on('click', function () {
+					unblockButton.on('click', () => {
 						window.location.href = '/wiki/Special:Unblock/' + mw.util.rawurlencode(user.name);
 					});
 					if (mwConfig.wgPageName.includes(mwConfig.wgUserName)) {
@@ -237,7 +235,7 @@ function callBack() {
 							} else {
 								userPageActionButtons.addItems([ blockButton ]);
 							}
-							blockButton.on('click', function () {
+							blockButton.on('click', () => {
 								loadAdiutorModule('UBM');
 							});
 						}

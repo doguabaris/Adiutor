@@ -33,7 +33,7 @@ function callBack() {
 		use_engine: '1',
 		use_links: '1',
 		turnitin: '0'
-	}, function (data) {
+	}, (data) => {
 		messageDialog.close();
 
 		function CopyVioDialog(config) {
@@ -111,10 +111,8 @@ function callBack() {
 		}
 		CopyVioDialog.prototype.initialize = function () {
 			CopyVioDialog.super.prototype.initialize.apply(this, arguments);
-			const cvRelSource = data.sources.filter(function (source) {
-				return !source.excluded;
-			});
-			const CopyVioLinks = cvRelSource.map(function (source) {
+			const cvRelSource = data.sources.filter((source) => !source.excluded);
+			const CopyVioLinks = cvRelSource.map((source) => {
 				const messageWidgetConfig = {
 					icon: 'link',
 					label: new OO.ui.HtmlSnippet('<a target="_blank" href="' + source.url + '">' + source.url + '</a>')
@@ -145,7 +143,7 @@ function callBack() {
 		CopyVioDialog.prototype.getActionProcess = function (action) {
 			const dialog = this;
 			if (action === 'continue') {
-				return new OO.ui.Process(function () {
+				return new OO.ui.Process(() => {
 					dialog.close();
 					mw.loader.load(mw.util.getUrl('MediaWiki:Gadget-Adiutor-CSD.js', {
 						action: 'raw'

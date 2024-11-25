@@ -72,16 +72,14 @@ function callBack() {
 		});
 		const durationDropdown = new OO.ui.DropdownWidget({
 			menu: {
-				items: blockDurations.map(function (duration) {
-					return new OO.ui.MenuOptionWidget({
+				items: blockDurations.map((duration) => new OO.ui.MenuOptionWidget({
 						data: duration.data,
 						label: duration.label
-					});
-				})
+					}))
 			},
 			label: mw.message('choose-duration').text()
 		});
-		durationDropdown.on('change', function (value) {
+		durationDropdown.on('change', (value) => {
 			console.log('Dropdown changed:', value);
 			duration = value;
 		});
@@ -91,22 +89,20 @@ function callBack() {
 		});
 		const reasonDropdown = new OO.ui.DropdownWidget({
 			menu: {
-				items: blockReasons.map(function (reason) {
-					return new OO.ui.MenuOptionWidget({
+				items: blockReasons.map((reason) => new OO.ui.MenuOptionWidget({
 						data: reason.data,
 						label: reason.label
-					});
-				})
+					}))
 			},
 			label: mw.message('choose-reason').text()
 		});
-		durationDropdown.getMenu().on('choose', function (menuOption) {
+		durationDropdown.getMenu().on('choose', (menuOption) => {
 			duration = menuOption.data;
 		});
-		reasonDropdown.getMenu().on('choose', function (menuOption) {
+		reasonDropdown.getMenu().on('choose', (menuOption) => {
 			blockReason = menuOption.data;
 		});
-		reasonInput.on('change', function () {
+		reasonInput.on('change', () => {
 			additionalReason = ' | ' + mw.msg('additional-rationale') + ': ' + reasonInput.value;
 		});
 		// Create a fieldset to group the widgets
@@ -144,13 +140,13 @@ function callBack() {
 				align: 'inline'
 			})
 		]);
-		preventAccountCreationCheckbox.on('change', function (selected) {
+		preventAccountCreationCheckbox.on('change', (selected) => {
 			preventAccountCreationValue = selected;
 		});
-		preventEmailSendingCheckbox.on('change', function (selected) {
+		preventEmailSendingCheckbox.on('change', (selected) => {
 			preventEmailSendingValue = selected;
 		});
-		preventEditOwnTalkPageCheckbox.on('change', function (selected) {
+		preventEditOwnTalkPageCheckbox.on('change', (selected) => {
 			preventEditOwnTalkPageValue = selected;
 		});
 		// Add additional options fieldset to the main fieldset
@@ -187,7 +183,7 @@ function callBack() {
 			window.open('https://meta.wikimedia.org/wiki/Adiutor', '_blank');
 		} else if (action === 'continue') {
 			const BlockingDialog = this;
-			return new OO.ui.Process(function () {
+			return new OO.ui.Process(() => {
 				function CheckDurationAndRationaleMessageDialog(config) {
 					CheckDurationAndRationaleMessageDialog.super.call(this, config);
 				}
@@ -245,7 +241,7 @@ function callBack() {
 							tags: 'Adiutor'
 						};
 						// Send API request
-						api.postWithToken('csrf', params).done(function (result) {
+						api.postWithToken('csrf', params).done((result) => {
 							mw.notify(mw.msg('user-blocked'), {
 								title: mw.msg('operation-completed'),
 								type: 'success'
@@ -259,13 +255,13 @@ function callBack() {
 									summary: apiPostSummary,
 									tags: 'Adiutor',
 									format: 'json'
-								}).done(function () {
+								}).done(() => {
 									if (headlineElement) {
 										headlineElement.css('text-decoration', 'line-through');
 									}
 								});
 							}
-						}).fail(function (error) {
+						}).fail((error) => {
 							mw.notify(error, {
 								title: mw.msg('operation-failed'),
 								type: 'error'

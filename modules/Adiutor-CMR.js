@@ -25,7 +25,7 @@ function callBack() {
 		classes: [ 'adiutor-canned-response-button' ]
 	});
 	$('.mw-editsection').append(crButton.$element);
-	$('.adiutor-canned-response-button').click(function () {
+	$('.adiutor-canned-response-button').on('click', function () {
 		const buttonElement = $(this);
 		sectionPath = buttonElement.parent().parent()[0];
 		sectionLink = clearURLfromOrigin(sectionPath.querySelector('.mw-editsection a').getAttribute('href'));
@@ -56,13 +56,11 @@ function callBack() {
 		} ];
 		CannedResponseDialog.prototype.initialize = function () {
 			CannedResponseDialog.super.prototype.initialize.apply(this, arguments);
-			const menuItems = [].concat.apply([], predefinedResponses.map(function (group) {
-				const groupItems = group.options.map(function (option) {
-					return new OO.ui.MenuOptionWidget({
+			const menuItems = [].concat.apply([], predefinedResponses.map((group) => {
+				const groupItems = group.options.map((option) => new OO.ui.MenuOptionWidget({
 						data: option.data,
 						label: option.label
-					});
-				});
+					}));
 				return [ new OO.ui.MenuSectionOptionWidget({
 					label: group.label
 				}) ].concat(groupItems);
@@ -93,7 +91,7 @@ function callBack() {
 			previewArea.$element.css('display', 'none');
 			this.content.$element.append(headerMessage.$element, dropdown.$element, previewArea.$element);
 			this.$body.append(this.content.$element);
-			dropdown.getMenu().on('choose', function (menuOption) {
+			dropdown.getMenu().on('choose', (menuOption) => {
 				mentorResponse = menuOption.getData();
 				api.get({
 					action: 'parse',
@@ -104,7 +102,7 @@ function callBack() {
 					contentformat: 'text/x-wiki',
 					prop: 'text',
 					format: 'json'
-				}).done(function (data) {
+				}).done((data) => {
 					previewArea.$element.css('display', 'block');
 					previewArea.$element.html(data.parse.text['*']);
 					windowManager.onWindowResize();
@@ -114,7 +112,7 @@ function callBack() {
 		CannedResponseDialog.prototype.getActionProcess = function (action) {
 			const dialog = this;
 			if (action) {
-				return new OO.ui.Process(function () {
+				return new OO.ui.Process(() => {
 					addResponse(sectionNumber);
 					dialog.close({
 						action: action
@@ -141,7 +139,7 @@ function callBack() {
 				summary: apiPostSummary,
 				tags: 'Adiutor',
 				format: 'json'
-			}).done(function () {
+			}).done(() => {
 				location.reload();
 			});
 		}

@@ -24,7 +24,7 @@ function callBack() {
 		leaction: 'delete/delete',
 		letprop: 'delete',
 		letitle: pageTitle
-	}).done(function (data) {
+	}).done((data) => {
 		if (data.query.logevents) {
 			revDelCount = data.query.logevents.length;
 		} else {
@@ -242,7 +242,7 @@ function callBack() {
 				});
 				otherReasons.addItems([ fieldLayout ]);
 			}
-			generalReasons.$element.on('click', function (item) {
+			generalReasons.$element.on('click', (item) => {
 				if (item.target.value === copyVioReasonValue) {
 					copyVioInput.$element.show();
 				}
@@ -337,8 +337,8 @@ function callBack() {
 				this.stackLayout.setItem(this.panel1);
 			} else if (action === 'continue') {
 				const dialog = this;
-				return new OO.ui.Process(function () {
-					nameSpaceDeletionReasons.items.forEach(function (Reason) {
+				return new OO.ui.Process(() => {
+					nameSpaceDeletionReasons.items.forEach((Reason) => {
 						if (Reason.fieldWidget.selected) {
 							csdReasons.push({
 								value: Reason.fieldWidget.value,
@@ -347,7 +347,7 @@ function callBack() {
 							});
 						}
 					});
-					generalReasons.items.forEach(function (Reason) {
+					generalReasons.items.forEach((Reason) => {
 						if (Reason.fieldWidget.selected) {
 							csdReasons.push({
 								value: Reason.fieldWidget.value,
@@ -406,7 +406,7 @@ function callBack() {
 							csdSummary = replaceParameter(singleReasonSummary, '2', csdReasons[0].data);
 							saltCSDSummary = replaceParameter(singleReasonSummary, '2', csdReasons[0].data);
 						}
-						deletionOptions.items.forEach(function (Option) {
+						deletionOptions.items.forEach((Option) => {
 							if (Option.fieldWidget.selected) {
 								csdOptions.push({
 									value: Option.fieldWidget.value,
@@ -414,12 +414,12 @@ function callBack() {
 								});
 							}
 						});
-						csdOptions.forEach(function (Option) {
+						csdOptions.forEach((Option) => {
 							if (Option.value === 'recreationProrection') {
 								csdReason = csdReason + '\n' + '{{Salt}}';
 							}
 							if (Option.value === 'informCreator') {
-								getCreator().then(function (data) {
+								getCreator().then((data) => {
 									const articleAuthor = data.query.pages[mw.config.get('wgArticleId')].revisions[0].user;
 									if (!mw.util.isIPAddress(articleAuthor)) {
 										const placeholdersForNotification = {
@@ -471,7 +471,7 @@ function callBack() {
 				summary: csdSummary,
 				tags: 'Adiutor',
 				format: 'json'
-			}).done(function () {
+			}).done(() => {
 				adiutorUserOptions.stats.csdRequests++;
 				api.postWithEditToken({
 					action: 'globalpreferences',
@@ -479,7 +479,7 @@ function callBack() {
 					optionname: 'userjs-adiutor-' + mw.config.get('wgWikiID'),
 					optionvalue: JSON.stringify(adiutorUserOptions),
 					formatversion: 2
-				}, function () {
+				}, () => {
 				});
 				location.reload();
 			});
@@ -502,7 +502,7 @@ function callBack() {
 					page: userPagePrefix.concat(mwConfig.wgUserName, String('/' + adiutorUserOptions.speedyDeletion.csdLogPageName)).split(' ').join('_'),
 					format: 'json',
 					prop: 'wikitext'
-				}).then(function (data) {
+				}).then((data) => {
 					const pageContent = data.parse.wikitext['*'];
 					// Check if the section title exists in the page content
 					if (pageContent.includes(sectionTitle)) {
@@ -521,7 +521,7 @@ function callBack() {
 						tags: 'Adiutor',
 						format: 'json'
 					});
-				}).catch(function (error) {
+				}).catch((error) => {
 					// Handle the error here
 					console.error('Error:', error);
 					// If you want to retry the edit in the catch block, you can do so
@@ -533,7 +533,7 @@ function callBack() {
 						text: "# '''[[:" + pageTitle + "]]''' " + csdSummary + ' ~~~~~',
 						summary: replaceParameter(apiPostSummaryforLog, '1', pageTitle),
 						format: 'json'
-					}).done(function () {
+					}).done(() => {
 					});
 				});
 			}
@@ -558,7 +558,7 @@ function callBack() {
 				summary: replaceParameter(apiPostSummary, '1', pageTitle),
 				tags: 'Adiutor',
 				format: 'json'
-			}).done(function () {
+			}).done(() => {
 			});
 		}
 
@@ -575,7 +575,7 @@ function callBack() {
 		}
 
 		function replacePlaceholders(input, replacements) {
-			return input.replace(/\$(\d+)/g, function (match, group) {
+			return input.replace(/\$(\d+)/g, (match, group) => {
 				const replacement = replacements['$' + group];
 				return replacement !== undefined ? replacement : match;
 			});

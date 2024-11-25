@@ -150,7 +150,7 @@ function callBack() {
 	AdiutorOptionsDialog.prototype.getActionProcess = function (action) {
 		const dialog = this;
 		if (action) {
-			return new OO.ui.Process(function () {
+			return new OO.ui.Process(() => {
 				UpdatedOptions = {
 					myWorks: adiutorUserOptions.myWorks,
 					myCustomSummaries: myCustomSummaries.fieldWidget.getValue().split('\n'),
@@ -210,7 +210,7 @@ function callBack() {
 			optionname: wikiOptions,
 			optionvalue: JSON.stringify(updatedOptions),
 			formatversion: 2
-		}).done(function () {
+		}).done(() => {
 			mw.notify(mw.msg('settings-has-been-updated'), {
 				title: mw.msg('operation-completed'),
 				type: 'success'

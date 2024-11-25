@@ -30,13 +30,11 @@ function callBack() {
 		cmsort: 'timestamp',
 		cmdir: 'desc',
 		format: 'json'
-	}).done(function (data) {
+	}).done((data) => {
 		// Process the retrieved pages and create CheckboxMultioptionWidgets for each
 		const members = data.query.categorymembers;
-		members.sort(function (a, b) {
-			return a.title.localeCompare(b.title);
-		});
-		members.forEach(function (page) {
+		members.sort((a, b) => a.title.localeCompare(b.title));
+		members.forEach((page) => {
 			batchDeletionList.push(new OO.ui.CheckboxMultioptionWidget({
 				data: page.title,
 				selected: false,
@@ -60,33 +58,29 @@ function callBack() {
 			label: mw.msg('uncheck-selected')
 		});
 		// Event handler for the "Select All" button
-		selectAllButton.on('click', function () {
-			batchDeletionList.forEach(function (option) {
+		selectAllButton.on('click', () => {
+			batchDeletionList.forEach((option) => {
 				option.setSelected(true);
 			});
 			printSelectedOptions();
 		});
 		// Event handler for the "Clear Selection" button
-		clearSelectionButton.on('click', function () {
-			batchDeletionList.forEach(function (option) {
+		clearSelectionButton.on('click', () => {
+			batchDeletionList.forEach((option) => {
 				option.setSelected(false);
 			});
 			printSelectedOptions();
 		});
 		// Event handler for checkbox changes
-		batchDeletionList.forEach(function (option) {
-			option.on('change', function () {
+		batchDeletionList.forEach((option) => {
+			option.on('change', () => {
 				printSelectedOptions();
 			});
 		});
 
 		// Function to update the selectedOptions array and clear console
 		function printSelectedOptions() {
-			selectedOptions = batchDeletionList.filter(function (option) {
-				return option.isSelected();
-			}).map(function (option) {
-				return option.data;
-			});
+			selectedOptions = batchDeletionList.filter((option) => option.isSelected()).map((option) => option.data);
 			console.clear();
 		}
 
@@ -124,11 +118,11 @@ function callBack() {
 			});
 			// Construct options for the speedy deletion reasons dropdown
 			const dropdownOptions = [];
-			speedyDeletionReasons.forEach(function (reasonGroup) {
+			speedyDeletionReasons.forEach((reasonGroup) => {
 				dropdownOptions.push({
 					optgroup: reasonGroup.name
 				});
-				reasonGroup.reasons.forEach(function (reason) {
+				reasonGroup.reasons.forEach((reason) => {
 					dropdownOptions.push({
 						data: reason.data,
 						label: reason.label
@@ -141,7 +135,7 @@ function callBack() {
 				icon: 'dropdown',
 				value: null // Set the initial selected value to null
 			});
-			reasonDropdown.on('change', function (value) {
+			reasonDropdown.on('change', (value) => {
 				selectedReason = value;
 			});
 			reasonDropdown.$element.css({
@@ -182,7 +176,7 @@ function callBack() {
 		BatchDeletionDialog.prototype.getActionProcess = function (action) {
 			const dialog = this;
 			if (action) {
-				return new OO.ui.Process(function () {
+				return new OO.ui.Process(() => {
 					let deletionSummary = '';
 					if (selectedReason) {
 						deletionSummary = selectedReason;
@@ -193,7 +187,7 @@ function callBack() {
 					if (otherRationaleInput.value) {
 						deletionSummary += otherRationaleInput.value;
 					}
-					selectedOptions.forEach(function (pageTitle) {
+					selectedOptions.forEach((pageTitle) => {
 						// Perform batch deletion for selected pages
 						api.postWithToken('csrf', {
 							action: 'delete',
@@ -201,7 +195,7 @@ function callBack() {
 							reason: deletionSummary,
 							tags: 'Adiutor',
 							format: 'json'
-						}).done(function () {
+						}).done(() => {
 							// Delete corresponding talk pages
 							api.postWithToken('csrf', {
 								action: 'delete',
@@ -209,7 +203,7 @@ function callBack() {
 								reason: apiPostSummaryforTalkPage,
 								tags: 'Adiutor',
 								format: 'json'
-							}).done(function () {
+							}).done(() => {
 							});
 							// Close the dialog and display success notification
 							dialog.close({

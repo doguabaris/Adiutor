@@ -26,7 +26,7 @@ function callBack() {
 
 	// Function to add options to a dropdown menu
 	function addOptionsToDropdown(dropdown, optionTexts) {
-		optionTexts.forEach(function (optionText) {
+		optionTexts.forEach((optionText) => {
 			dropdown.menu.addItems([ new OO.ui.MenuOptionWidget({
 				label: optionText
 			}) ]);
@@ -77,7 +77,7 @@ function callBack() {
 	}
 
 	// Hook into the save dialog state change event
-	mw.hook('ve.saveDialog.stateChanged').add(function () {
+	mw.hook('ve.saveDialog.stateChanged').add(() => {
 		let target, $saveOptions;
 		if ($('body').data('wppresent')) {
 			return;
@@ -92,7 +92,7 @@ function callBack() {
 		insertSummaryOptions($saveOptions);
 	});
 	// Wait for necessary libraries to load before adding options
-	$.when(mw.loader.using('oojs-ui-core'), $.ready).then(function () {
+	$.when(mw.loader.using('oojs-ui-core'), $.ready).then(() => {
 		const $editCheckboxes = $('.editCheckboxes');
 		if (!$editCheckboxes.length) {
 			return;

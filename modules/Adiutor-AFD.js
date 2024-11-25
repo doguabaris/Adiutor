@@ -107,10 +107,10 @@ function callBack() {
 	ArticleForDeletionDialog.prototype.getActionProcess = function (action) {
 		const dialog = this;
 		if (action) {
-			return new OO.ui.Process(function () {
+			return new OO.ui.Process(() => {
 				let afdTempalte;
 				const ActionOptions = [];
-				afdOptions.items.forEach(function (Option) {
+				afdOptions.items.forEach((Option) => {
 					const fieldWidget = Option.getField();
 					if (fieldWidget.selected) {
 						ActionOptions.push({
@@ -125,9 +125,9 @@ function callBack() {
 						});
 					}
 				});
-				ActionOptions.forEach(function (Option) {
+				ActionOptions.forEach((Option) => {
 					if (Option.data === 'informCreator') {
-						getCreator().then(function (data) {
+						getCreator().then((data) => {
 							const Author = data.query.pages[mw.config.get('wgArticleId')].revisions[0].user;
 							if (!mw.util.isIPAddress(Author)) {
 								const message = replaceParameter(afdNotificationTemplate, '1', pageTitle);
@@ -136,7 +136,7 @@ function callBack() {
 						});
 					}
 				});
-				checkPreviousNominations(noticeBoardTitle + '/' + mwConfig.wgPageName).then(function (data) {
+				checkPreviousNominations(noticeBoardTitle + '/' + mwConfig.wgPageName).then((data) => {
 					if (data.query.pages['-1']) {
 						const nomCount = 0;
 						const nominatedPreviously = false;
@@ -152,7 +152,7 @@ function callBack() {
 						$2: nomCount
 					};
 					const newNominationTitle = replacePlaceholders(afdPageTitleForMultipleNomination, placeholders);
-					checkPreviousNominations(noticeBoardTitle + '/' + newNominationTitle).then(function (data) {
+					checkPreviousNominations(noticeBoardTitle + '/' + newNominationTitle).then((data) => {
 						if (!data.query.pages['-1']) {
 							Rec(nomCount + 1);
 						} else {
@@ -186,7 +186,7 @@ function callBack() {
 	windowManager.openWindow(dialog);
 
 	function replacePlaceholders(input, replacements) {
-		return input.replace(/\$(\d+)/g, function (match, group) {
+		return input.replace(/\$(\d+)/g, (match, group) => {
 			const replacement = replacements['$' + group];
 			return replacement !== undefined ? replacement : match;
 		});
@@ -218,7 +218,7 @@ function callBack() {
 			summary: apiPostSummary,
 			tags: 'Adiutor',
 			format: 'json'
-		}).done(function () {
+		}).done(() => {
 			createNominationPage(pageTitle);
 			logNomination(pageTitle, adiutorUserOptions);
 		});
@@ -249,7 +249,7 @@ function callBack() {
 			summary: apiPostSummary,
 			tags: 'Adiutor',
 			format: 'json'
-		}).done(function () {
+		}).done(() => {
 			addNominationToAfdPage(pageTitle);
 		});
 	}
@@ -287,7 +287,7 @@ function callBack() {
 
 			apiParams[propertyName] = preparedContent + '\n';
 		}
-		api.postWithToken('csrf', apiParams).done(function () {
+		api.postWithToken('csrf', apiParams).done(() => {
 			window.location = '/wiki/' + noticeBoardLink;
 		});
 	}
@@ -298,7 +298,7 @@ function callBack() {
 			page: noticeBoardTitle,
 			prop: 'wikitext',
 			format: 'json'
-		}).done(function (data) {
+		}).done((data) => {
 			pageContent = data.parse.wikitext['*'];
 			const NominatedBefore = pageContent.includes('{{' + noticeBoardTitle + '/' + pageTitle.replace(/_/g, ' ') + '}}');
 			if (!NominatedBefore) {
@@ -309,7 +309,7 @@ function callBack() {
 					summary: apiPostSummaryforAfdPage,
 					tags: 'Adiutor',
 					format: 'json'
-				}).done(function () {
+				}).done(() => {
 					if (logNominations) {
 						addNominationToAfdLogPage(pageTitle);
 					}
@@ -320,7 +320,7 @@ function callBack() {
 						optionname: 'userjs-adiutor-' + mw.config.get('wgWikiID'),
 						optionvalue: JSON.stringify(adiutorUserOptions),
 						formatversion: 2
-					}, function () {
+					}, () => {
 					});
 				});
 			}
@@ -342,7 +342,7 @@ function callBack() {
 			page: afdLogPage + date_year + '_' + month_name + '_' + day,
 			prop: 'wikitext',
 			format: 'json'
-		}).done(function (data) {
+		}).done((data) => {
 			pageContent = data.parse.wikitext['*'];
 			const NominatedBefore = pageContent.includes('{{' + noticeBoardTitle + '/' + pageTitle.replace(/_/g, ' ') + '}}');
 			if (!NominatedBefore) {
@@ -353,7 +353,7 @@ function callBack() {
 					summary: apiPostSummaryforAfdLog,
 					tags: 'Adiutor',
 					format: 'json'
-				}).done(function () {
+				}).done(() => {
 					window.location = '/wiki/' + noticeBoardTitle + '/' + pageTitle.replace(/_/g, ' ');
 				});
 			} else {
@@ -376,7 +376,7 @@ function callBack() {
 				page: userPagePrefix.concat(mwConfig.wgUserName, String('/' + adiutorUserOptions.speedyDeletion.afdLogPageName)).split(' ').join('_'),
 				format: 'json',
 				prop: 'wikitext'
-			}).then(function (data) {
+			}).then((data) => {
 				const pageContent = data.parse.wikitext['*'];
 				if (pageContent.includes(sectionTitle)) {
 					newContent = pageContent.replace(sectionTitle, sectionTitle + '\n' + replaceParameter(userLogText, '1', pageTitle));
@@ -391,7 +391,7 @@ function callBack() {
 					tags: 'Adiutor',
 					format: 'json'
 				});
-			}).catch(function (error) {
+			}).catch((error) => {
 				api.postWithToken('csrf', {
 					action: 'edit',
 					title: userPagePrefix.concat(mwConfig.wgUserName, String('/' + adiutorUserOptions.speedyDeletion.afdLogPageName)).split(' ').join('_'),
@@ -400,7 +400,7 @@ function callBack() {
 					text: replaceParameter(userLogText, '1', pageTitle),
 					summary: replaceParameter(apiPostSummaryforUserLog, '1', pageTitle),
 					format: 'json'
-				}).done(function () {
+				}).done(() => {
 				});
 			});
 		}
@@ -425,7 +425,7 @@ function callBack() {
 			summary: replaceParameter(apiPostSummaryforCreator, '1', pageTitle),
 			tags: 'Adiutor',
 			format: 'json'
-		}).done(function () {
+		}).done(() => {
 		});
 	}
 
