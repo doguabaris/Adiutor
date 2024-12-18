@@ -1,37 +1,34 @@
-/*
- * Description: Adiutor enables users to perform various tasks on Wikimedia wikis more efficiently.
- * Author: Doğu Abaris
+/* Adiutor: Enhancing Wikipedia Editing Through a Comprehensive Set of Versatile Tools and Modules.
+ * Author: Vikipolimer
  * Learn more at: https://meta.wikimedia.org/wiki/Adiutor
  * License: Licensed under Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
- */
-
-/* <nowiki> */
+ * Module: Adiutor Options
+<nowiki> */
 function callBack() {
-	const api = new mw.Api();
-	const wikiId = mw.config.get('wgWikiID');
-	const adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-' + wikiId));
-	const wikiOptions = 'userjs-adiutor-' + wikiId;
-	if (!adiutorUserOptions.hasOwnProperty('myCustomSummaries')) {
+	var api = new mw.Api();
+	var wikiId = mw.config.get('wgWikiID');
+	var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-' + wikiId));
+	var wikiOptions = 'userjs-adiutor-' + wikiId;
+	if(!adiutorUserOptions.hasOwnProperty('myCustomSummaries')) {
 		adiutorUserOptions.myCustomSummaries = [];
 	}
 
-	function AdiutorOptionsDialog(config) {
-		AdiutorOptionsDialog.super.call(this, config);
+	function adiutorOptionsDialog(config) {
+		adiutorOptionsDialog.super.call(this, config);
 	}
-
-	OO.inheritClass(AdiutorOptionsDialog, OO.ui.ProcessDialog);
-	AdiutorOptionsDialog.static.name = 'AdiutorOptionsDialog';
-	AdiutorOptionsDialog.static.title = new OO.ui.deferMsg('opt-module-title');
-	AdiutorOptionsDialog.static.actions = [ {
+	OO.inheritClass(adiutorOptionsDialog, OO.ui.ProcessDialog);
+	adiutorOptionsDialog.static.name = 'adiutorOptionsDialog';
+	adiutorOptionsDialog.static.title = new OO.ui.deferMsg('opt-module-title');
+	adiutorOptionsDialog.static.actions = [{
 		action: 'save',
 		label: new OO.ui.deferMsg('update'),
-		flags: [ 'primary', 'progressive' ]
+		flags: ['primary', 'progressive']
 	}, {
 		label: new OO.ui.deferMsg('cancel'),
 		flags: 'safe'
-	} ];
-	AdiutorOptionsDialog.prototype.initialize = function () {
-		AdiutorOptionsDialog.super.prototype.initialize.apply(this, arguments);
+	}];
+	adiutorOptionsDialog.prototype.initialize = function() {
+		adiutorOptionsDialog.super.prototype.initialize.apply(this, arguments);
 		this.content = new OO.ui.PanelLayout({
 			padded: true,
 			expanded: false
@@ -132,60 +129,60 @@ function callBack() {
 			}), {
 				align: 'inline',
 				label: new OO.ui.deferMsg('use-pre-defined-edit-summaries'),
-				help: new OO.ui.deferMsg('use-pre-defined-edit-summaries-help')
+				help: new OO.ui.deferMsg('use-pre-defined-edit-summaries-help'),
 			}),
 			myCustomSummaries = new OO.ui.FieldLayout(new OO.ui.MultilineTextInputWidget({
 				value: adiutorUserOptions.myCustomSummaries.join('\n'),
 				rows: 5, // Set the number of rows as needed
-				placeholder: new OO.ui.deferMsg('frequently-used-edit-summaries-placeholder')
+				placeholder: new OO.ui.deferMsg('frequently-used-edit-summaries-placeholder'),
 			}), {
 				align: 'inline',
 				label: new OO.ui.deferMsg('frequently-used-edit-summaries'),
-				help: new OO.ui.deferMsg('frequently-used-edit-summaries-help')
-			})
+				help: new OO.ui.deferMsg('frequently-used-edit-summaries-help'),
+			}),
 		]);
 		this.content.$element.append(AdiutorSettings.$element);
 		this.$body.append(this.content.$element);
 	};
-	AdiutorOptionsDialog.prototype.getActionProcess = function (action) {
-		const dialog = this;
-		if (action) {
-			return new OO.ui.Process(() => {
+	adiutorOptionsDialog.prototype.getActionProcess = function(action) {
+		var dialog = this;
+		if(action) {
+			return new OO.ui.Process(function() {
 				UpdatedOptions = {
-					myWorks: adiutorUserOptions.myWorks,
-					myCustomSummaries: myCustomSummaries.fieldWidget.getValue().split('\n'),
-					speedyDeletion: {
-						csdSendMessageToCreator: csdSendMessageToCreator.fieldWidget.selected,
-						csdLogNominatedPages: csdLogNominatedPages.fieldWidget.selected,
-						csdLogPageName: csdLogPageName.fieldWidget.value
+					"myWorks": adiutorUserOptions.myWorks,
+					"myCustomSummaries": myCustomSummaries.fieldWidget.getValue().split('\n'),
+					"speedyDeletion": {
+						"csdSendMessageToCreator": csdSendMessageToCreator.fieldWidget.selected,
+						"csdLogNominatedPages": csdLogNominatedPages.fieldWidget.selected,
+						"csdLogPageName": csdLogPageName.fieldWidget.value
 					},
-					articlesForDeletion: {
-						afdSendMessageToCreator: afdSendMessageToCreator.fieldWidget.selected,
-						afdLogNominatedPages: afdLogNominatedPages.fieldWidget.selected,
-						afdLogPageName: afdLogPageName.fieldWidget.value,
-						afdNominateOpinionsLog: afdNominateOpinionsLog.fieldWidget.selected,
-						afdOpinionLogPageName: afdOpinionLogPageName.fieldWidget.value
+					"articlesForDeletion": {
+						"afdSendMessageToCreator": afdSendMessageToCreator.fieldWidget.selected,
+						"afdLogNominatedPages": afdLogNominatedPages.fieldWidget.selected,
+						"afdLogPageName": afdLogPageName.fieldWidget.value,
+						"afdNominateOpinionsLog": afdNominateOpinionsLog.fieldWidget.selected,
+						"afdOpinionLogPageName": afdOpinionLogPageName.fieldWidget.value
 					},
-					proposedDeletion: {
-						prdSendMessageToCreator: prdSendMessageToCreator.fieldWidget.selected,
-						prdLogNominatedPages: prdLogNominatedPages.fieldWidget.selected,
-						prdLogPageName: prdLogPageName.fieldWidget.value
+					"proposedDeletion": {
+						"prdSendMessageToCreator": prdSendMessageToCreator.fieldWidget.selected,
+						"prdLogNominatedPages": prdLogNominatedPages.fieldWidget.selected,
+						"prdLogPageName": prdLogPageName.fieldWidget.value
 					},
-					status: {
-						showMyStatus: showMyStatus.fieldWidget.selected,
-						myStatus: 'active'
+					"status": {
+						"showMyStatus": showMyStatus.fieldWidget.selected,
+						"myStatus": "active"
 					},
-					stats: {
-						csdRequests: adiutorUserOptions.stats.csdRequests,
-						afdRequests: adiutorUserOptions.stats.afdRequests,
-						prodRequests: adiutorUserOptions.stats.prodRequests,
-						blockRequests: adiutorUserOptions.stats.blockRequests,
-						userWarnings: adiutorUserOptions.stats.userWarnings,
-						pageTags: adiutorUserOptions.stats.pageTags
+					"stats": {
+						"csdRequests": adiutorUserOptions.stats.csdRequests,
+						"afdRequests": adiutorUserOptions.stats.afdRequests,
+						"prodRequests": adiutorUserOptions.stats.prodRequests,
+						"blockRequests": adiutorUserOptions.stats.blockRequests,
+						"userWarnings": adiutorUserOptions.stats.userWarnings,
+						"pageTags": adiutorUserOptions.stats.pageTags,
 					},
-					inlinePageInfo: inlinePageInfo.fieldWidget.selected,
-					showEditSummaries: showEditSummaries.fieldWidget.selected,
-					adiutorVersion: adiutorUserOptions.adiutorVersion
+					"inlinePageInfo": inlinePageInfo.fieldWidget.selected,
+					"showEditSummaries": showEditSummaries.fieldWidget.selected,
+					"adiutorVersion": adiutorUserOptions.adiutorVersion,
 				};
 				updateOptions(UpdatedOptions);
 				console.log(UpdatedOptions);
@@ -194,14 +191,13 @@ function callBack() {
 				});
 			});
 		}
-		return AdiutorOptionsDialog.super.prototype.getActionProcess.call(this, action);
+		return adiutorOptionsDialog.super.prototype.getActionProcess.call(this, action);
 	};
-	const windowManager = new OO.ui.WindowManager();
+	var windowManager = new OO.ui.WindowManager();
 	$(document.body).append(windowManager.$element);
-	const dialog = new AdiutorOptionsDialog();
-	windowManager.addWindows([ dialog ]);
+	var dialog = new adiutorOptionsDialog();
+	windowManager.addWindows([dialog]);
 	windowManager.openWindow(dialog);
-
 	// Define functions below as needed
 	function updateOptions(updatedOptions) {
 		api.postWithEditToken({
@@ -209,8 +205,8 @@ function callBack() {
 			format: 'json',
 			optionname: wikiOptions,
 			optionvalue: JSON.stringify(updatedOptions),
-			formatversion: 2
-		}).done(() => {
+			formatversion: 2,
+		}).done(function() {
 			mw.notify(mw.msg('settings-has-been-updated'), {
 				title: mw.msg('operation-completed'),
 				type: 'success'
@@ -218,7 +214,6 @@ function callBack() {
 		});
 	}
 }
-
 module.exports = {
 	callBack: callBack
 };

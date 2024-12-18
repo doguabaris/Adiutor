@@ -1,24 +1,23 @@
-/*
- * Description: Adiutor enables users to perform various tasks on Wikimedia wikis more efficiently.
- * Author: Doğu Abaris
+/* Adiutor: Enhancing Wikipedia Editing Through a Comprehensive Set of Versatile Tools and Modules.
+ * Author: Vikipolimer
  * Learn more at: https://meta.wikimedia.org/wiki/Adiutor
  * License: Licensed under Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
- */
-
-/* <nowiki> */
+ * Module: Adiutor Interface Launcher
+<nowiki> */
 function callBack() {
-	const api = new mw.Api();
-	const mwConfig = mw.config.get([ 'skin', 'wgPageName', 'wgNamespaceNumber', 'wgUserName', 'wgUserGroups', 'wgCanonicalSpecialPageName' ]);
-	const wikiId = mw.config.get('wgWikiID');
-	const adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-' + wikiId));
-	const defaultMenuItems = [];
-	const miscellaneousConfigurations = {
-		csdCategory: 'Candidates_for_speedy_deletion_as_spam',
-		userBlockRequestNoticeBoard: 'Administrator_intervention_against_vandalism',
-		afdNoticeBoard: 'Articles_for_deletion',
-		mainPage: 'Main_Page'
+	var api = new mw.Api();
+	var mwConfig = mw.config.get(["skin", "wgPageName", "wgNamespaceNumber", "wgUserName", "wgUserGroups", "wgCanonicalSpecialPageName"]);
+	var wikiId = mw.config.get('wgWikiID');
+	var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-' + wikiId));
+	var defaultMenuItems = [];
+	var loadedModules = [];
+	var miscellaneousConfigurations = {
+		csdCategory: "Candidates_for_speedy_deletion_as_spam",
+		userBlockRequestNoticeBoard: "Administrator_intervention_against_vandalism",
+		afdNoticeBoard: "Articles_for_deletion",
+		mainPage: "Main_Page"
 	};
-	switch (mwConfig.wgNamespaceNumber) {
+	switch(mwConfig.wgNamespaceNumber) {
 		case -1:
 		case 0:
 		case 1:
@@ -38,52 +37,50 @@ function callBack() {
 		case 828:
 		case 829:
 			// LOAD MODULES
-			if (mwConfig.wgNamespaceNumber === 3) {
-				const UserParams = {
+			if(mwConfig.wgNamespaceNumber === 3) {
+				var UserParams = {
 					action: 'query',
 					meta: 'userinfo',
 					uiprop: 'rights',
 					format: 'json'
 				};
-				api.get(UserParams).then((data) => {
+				api.get(UserParams).then(function(data) {
 					checkMentor(data.query.userinfo.id);
 				});
 			}
-			if (mwConfig.wgUserGroups.includes('sysop')) {
-				if (!mwConfig.wgCanonicalSpecialPageName) {
+			if(mwConfig.wgUserGroups.includes('sysop')) {
+				if(!mwConfig.wgCanonicalSpecialPageName) {
 					defaultMenuItems.push(new OO.ui.MenuOptionWidget({
 						icon: 'trash',
 						data: 'delete',
 						label: new OO.ui.deferMsg('delete'),
-						flags: [ 'destructive' ],
-						classes: [ 'adiutor-top-user-menu-end' ]
+						flags: ['destructive'],
+						classes: ['adiutor-top-user-menu-end'],
 					}));
-					if (mwConfig.wgNamespaceNumber !== 0) {
-						if (mwConfig.wgPageName.includes(miscellaneousConfigurations.csdCategory)) {
+					if(mwConfig.wgNamespaceNumber != 0) {
+						if(mwConfig.wgPageName.includes(miscellaneousConfigurations.csdCategory)) {
 							defaultMenuItems.push(new OO.ui.MenuOptionWidget({
 								icon: 'trash',
 								data: 'batch-delete',
 								label: new OO.ui.deferMsg('batch-delete'),
-								flags: [ 'destructive' ],
-								classes: [ 'adiutor-top-user-menu-end' ]
+								flags: ['destructive'],
+								classes: ['adiutor-top-user-menu-end'],
 							}));
 						}
-						if (mwConfig.wgPageName.includes(miscellaneousConfigurations.userBlockRequestNoticeBoard)) {
-							$('.mw-editsection-like').each(function () {
-								let blockedAlready;
-								let blockThisUser;
-								const blockButtonGroup = new OO.ui.ButtonGroupWidget({
+						if(mwConfig.wgPageName.includes(miscellaneousConfigurations.userBlockRequestNoticeBoard)) {
+							$('.mw-editsection-like').each(function() {
+								blockButtonGroup = new OO.ui.ButtonGroupWidget({
 									items: [
 										blockedAlready = new OO.ui.ButtonWidget({
 											framed: false,
 											icon: 'tray',
-											label: mw.msg('blocked')
+											label: mw.msg('blocked'),
 										}),
 										blockThisUser = new OO.ui.ButtonWidget({
 											framed: false,
-											flags: [ 'destructive' ],
+											flags: ['destructive'],
 											icon: 'block',
-											label: mw.msg('block-button-label')
+											label: mw.msg('block-button-label'),
 										})
 									]
 								});
@@ -92,19 +89,20 @@ function callBack() {
 								});
 								$(this).append(blockButtonGroup.$element);
 								blockThisUser.on('click', () => {
-									const sectionElement = $(this).closest('.ext-discussiontools-init-section');
-									const headlineElement = sectionElement.find('.mw-headline');
-									const headlineText = headlineElement.text();
-									const dateRegex = /\d{2}-\d{2}-\d{4}/;
+									var sectionElement = $(this).closest('.ext-discussiontools-init-section');
+									var headlineElement = sectionElement.find('.mw-headline');
+									var headlineText = headlineElement.text();
+									var dateRegex = /\d{2}-\d{2}-\d{4}/;
 									window.adiutorUserToBlock = headlineText.replace(dateRegex, '').trim();
-									window.sectionId = new URL(sectionElement.find('.mw-editsection a').attr('href')).searchParams.get('section');
+									var sectionId = new URL(sectionElement.find('.mw-editsection a').attr('href')).searchParams.get('section');
+									window.sectionId = sectionId;
 									window.headlineElement = headlineElement;
 									loadAdiutorModule('UBM');
 								});
 								blockedAlready.on('click', () => {
-									const sectionElement = $(this).closest('.ext-discussiontools-init-section');
-									const headlineElement = sectionElement.find('.mw-headline');
-									const sectionId = new URL(sectionElement.find('.mw-editsection a').attr('href')).searchParams.get('section');
+									var sectionElement = $(this).closest('.ext-discussiontools-init-section');
+									var headlineElement = sectionElement.find('.mw-headline');
+									var sectionId = new URL(sectionElement.find('.mw-editsection a').attr('href')).searchParams.get('section');
 									window.sectionId = sectionId;
 									api.postWithToken('csrf', {
 										action: 'edit',
@@ -114,7 +112,7 @@ function callBack() {
 										summary: mw.msg('blocked-user-removed-from-the-noticeboad'),
 										tags: 'Adiutor',
 										format: 'json'
-									}).done(() => {
+									}).done(function() {
 										headlineElement.css('text-decoration', 'line-through');
 									});
 								});
@@ -122,146 +120,135 @@ function callBack() {
 						}
 					}
 				}
-				if (
-					mwConfig.wgCanonicalSpecialPageName === 'Contributions' ||
-					mwConfig.wgNamespaceNumber === 2 ||
-					(mwConfig.wgNamespaceNumber === 3 && !mwConfig.wgPageName.includes(mwConfig.wgUserName))
-				) {
-					if (mwConfig.wgUserGroups.includes('sysop')) {
+				if(mwConfig.wgCanonicalSpecialPageName === 'Contributions' || mwConfig.wgNamespaceNumber === 2 || mwConfig.wgNamespaceNumber === 3 && !mwConfig.wgPageName.includes(mwConfig.wgUserName)) {
+					if(mwConfig.wgUserGroups.includes('sysop')) {
 						defaultMenuItems.push(new OO.ui.MenuOptionWidget({
 							icon: 'block',
 							data: 'block',
 							label: new OO.ui.deferMsg('block'),
-							classes: [ 'adiutor-top-user-menu-end' ]
+							classes: ['adiutor-top-user-menu-end'],
 						}));
 					}
 				}
 			}
-			if (mwConfig.wgUserGroups.includes('sysop')) {
-				if (/[?&](?:action|diff|oldid)=/.test(window.location.href)) {
+			if(mwConfig.wgUserGroups.includes('sysop')) {
+				if(/(?:\?|&)(?:action|diff|oldid)=/.test(window.location.href)) {
 					defaultMenuItems.push(new OO.ui.MenuOptionWidget({
 						icon: 'cancel',
 						data: 'rdr',
 						label: new OO.ui.deferMsg('create-revision-deletion-request'),
-						classes: [ 'adiutor-top-rrd-menu' ]
+						classes: ['adiutor-top-rrd-menu'],
 					}));
 				}
 			}
-			if (
-				mwConfig.wgCanonicalSpecialPageName === 'Contributions' ||
-				mwConfig.wgNamespaceNumber === 2 ||
-				(mwConfig.wgNamespaceNumber === 3 && !mwConfig.wgPageName.includes(mwConfig.wgUserName))
-			) {
+			if(mwConfig.wgCanonicalSpecialPageName === 'Contributions' || mwConfig.wgNamespaceNumber === 2 || mwConfig.wgNamespaceNumber === 3 && !mwConfig.wgPageName.includes(mwConfig.wgUserName)) {
 				// Add common buttons
-				defaultMenuItems.push(
-					new OO.ui.MenuOptionWidget({
-						icon: 'cancel',
-						data: 'report',
-						label: new OO.ui.deferMsg('report'),
-						classes: [ 'adiutor-top-user-menu-end' ]
-					}),
-					new OO.ui.MenuOptionWidget({
-						icon: 'hand',
-						data: 'warn',
-						label: new OO.ui.deferMsg('warn'),
-						classes: [ 'adiutor-top-user-menu-end' ]
-					})
-				);
+				defaultMenuItems.push(new OO.ui.MenuOptionWidget({
+					icon: 'cancel',
+					data: 'report',
+					label: new OO.ui.deferMsg('report'),
+					classes: ['adiutor-top-user-menu-end'],
+				}), new OO.ui.MenuOptionWidget({
+					icon: 'hand',
+					data: 'warn',
+					label: new OO.ui.deferMsg('warn'),
+					classes: ['adiutor-top-user-menu-end'],
+				}));
 			}
-			if (!mwConfig.wgCanonicalSpecialPageName) {
+			if(!mwConfig.wgCanonicalSpecialPageName) {
 				defaultMenuItems.push(new OO.ui.MenuOptionWidget({
 					icon: 'add',
 					data: 1,
-					label: mw.msg('create-speedy-deletion-request')
+					label: mw.msg('create-speedy-deletion-request'),
 				}), new OO.ui.MenuOptionWidget({
 					icon: 'add',
 					data: 2,
-					label: mw.msg('proposed-deletion-nomination')
+					label: mw.msg('proposed-deletion-nomination'),
 				}), new OO.ui.MenuOptionWidget({
 					icon: 'add',
 					data: 3,
-					label: mw.msg('nominate-article-for-deletion')
+					label: mw.msg('nominate-article-for-deletion'),
 				}), new OO.ui.MenuOptionWidget({
 					icon: 'arrowNext',
 					data: 'pmr',
-					label: mw.msg('page-move-request')
+					label: mw.msg('page-move-request'),
 				}), new OO.ui.MenuOptionWidget({
 					icon: 'lock',
 					data: 'rpp',
-					label: mw.msg('page-protection-request')
+					label: mw.msg('page-protection-request'),
 				}), new OO.ui.MenuOptionWidget({
 					icon: 'history',
 					data: 4,
-					label: mw.msg('recent-changes')
+					label: mw.msg('recent-changes'),
 				}), new OO.ui.MenuOptionWidget({
 					icon: 'templateAdd',
 					data: 'tag',
-					label: mw.msg('tag-page')
+					label: mw.msg('tag-page'),
 				}), new OO.ui.MenuOptionWidget({
 					icon: 'checkAll',
 					data: 5,
-					label: mw.msg('copyright-violation-check')
+					label: mw.msg('copyright-violation-check'),
 				}), new OO.ui.MenuOptionWidget({
 					icon: 'info',
 					data: 7,
-					label: mw.msg('article-info')
+					label: mw.msg('article-info'),
 				}), new OO.ui.MenuOptionWidget({
 					icon: 'settings',
 					data: 6,
 					label: mw.msg('adiutor-settings'),
-					classes: [ 'adiutor-top-settings-menu' ]
+					classes: ['adiutor-top-settings-menu'],
 				}));
 			}
-			if (mwConfig.wgCanonicalSpecialPageName) {
+			if(mwConfig.wgCanonicalSpecialPageName) {
 				defaultMenuItems.push(new OO.ui.MenuOptionWidget({
 					icon: 'settings',
 					data: 6,
 					label: mw.msg('adiutor-settings'),
-					classes: [ 'adiutor-top-settings-menu' ]
+					classes: ['adiutor-top-settings-menu'],
 				}));
 			}
-			const adiutorMenu = new OO.ui.ButtonMenuSelectWidget({
+			var adiutorMenu = new OO.ui.ButtonMenuSelectWidget({
 				icon: 'ellipsis',
 				invisibleLabel: true,
 				framed: false,
 				title: 'More options',
 				align: 'force-right',
-				classes: [ 'adiutor-top-selector', 'mw-indicator' ],
+				classes: ['adiutor-top-selector', 'mw-indicator'],
 				menu: {
 					horizontalPosition: 'end',
 					items: defaultMenuItems,
-					classes: [ 'adiutor-top-menu' ]
+					classes: ['adiutor-top-menu'],
 				}
 			});
 			// Define a variable to track if the menu is open
-			let isMenuOpen = false;
+			var isMenuOpen = false;
 			// Listen for mouseover event on the Adiutor menu button
-			adiutorMenu.$element.on('mouseover', () => {
+			adiutorMenu.$element.on('mouseover', function() {
 				// Open the menu programmatically
 				adiutorMenu.getMenu().toggle(true);
 				isMenuOpen = true;
 			});
 			// Listen for mouseout event on the Adiutor menu button
-			adiutorMenu.$element.on('mouseout', (event) => {
+			adiutorMenu.$element.on('mouseout', function(event) {
 				// Check if the mouse is leaving the menu area
-				if (!event.relatedTarget || !$(event.relatedTarget).closest('.adiutor-top-selector, .adiutor-top-menu').length) {
+				if(!event.relatedTarget || !$(event.relatedTarget).closest('.adiutor-top-selector, .adiutor-top-menu').length) {
 					adiutorMenu.getMenu().toggle(false);
 					isMenuOpen = false;
 				}
 			});
 			// Listen for mouseout event on the entire document
-			$(document).on('mouseout', (event) => {
+			$(document).on('mouseout', function(event) {
 				// Check if the mouse is leaving the menu area
-				if (!event.relatedTarget || !$(event.relatedTarget).closest('.adiutor-top-selector, .adiutor-top-menu').length) {
+				if(!event.relatedTarget || !$(event.relatedTarget).closest('.adiutor-top-selector, .adiutor-top-menu').length) {
 					adiutorMenu.getMenu().toggle(false);
 					isMenuOpen = false;
 				}
 			});
 			// Define a function to load Adiutor scripts
 			// Listen for menu option selection
-			adiutorMenu.getMenu().on('choose', (menuOption) => {
+			adiutorMenu.getMenu().on('choose', function(menuOption) {
 				// Map option values to corresponding Adiutor script names
-				const optionMapping = {
+				var optionMapping = {
 					1: 'CSD',
 					2: 'PRD',
 					3: 'AFD',
@@ -269,25 +256,25 @@ function callBack() {
 					5: 'COV',
 					6: 'OPT',
 					7: 'INF',
-					report: 'AIV',
-					block: 'UBM',
-					warn: 'WRN',
-					rdr: 'RDR',
-					pmr: 'PMR',
-					rpp: 'RPP',
-					tag: 'TAG',
-					gan: 'GAN',
-					fan: 'FAN',
-					delete: 'DEL',
+					'report': 'AIV',
+					'block': 'UBM',
+					'warn': 'WRN',
+					'rdr': 'RDR',
+					'pmr': 'PMR',
+					'rpp': 'RPP',
+					'tag': 'TAG',
+					'gan': 'GAN',
+					'fan': 'FAN',
+					'delete': 'DEL',
 					'batch-delete': 'BDM'
 				};
 				// Get the selected option's corresponding script name
-				const selectedOption = optionMapping[menuOption.getData()];
+				var selectedOption = optionMapping[menuOption.getData()];
 				// Handle different actions based on the selected option
-				if (selectedOption === 'diff') {
+				if(selectedOption === 'diff') {
 					// Redirect to a specific page with parameters
-					window.location = '/w/index.php?title=' + mwConfig.wgPageName + '&diff=cur&oldid=prev&diffmode=source';
-				} else if (selectedOption === 'welcome') {
+					window.location = '/w/index.php?title=' + mwConfig.wgPageName + "&diff=cur&oldid=prev&diffmode=source";
+				} else if(selectedOption === 'welcome') {
 					// Show an alert for the 'welcome' option
 					mw.notify('Coming soon :)'.text(), {
 						title: mw.msg('warning'),
@@ -298,23 +285,23 @@ function callBack() {
 					loadAdiutorModule(selectedOption);
 				}
 			});
-			if (!mwConfig.wgPageName.includes(miscellaneousConfigurations.mainPage)) {
-				// Call the packages to be pre-loaded here
-				if (mwConfig.wgNamespaceNumber === 2) {
+			if(!mwConfig.wgPageName.includes(miscellaneousConfigurations.mainPage)) {
+				//Call the packages to be pre-loaded here
+				if(mwConfig.wgNamespaceNumber === 2) {
 					loadAdiutorModule('UPW');
 				}
-				if (mwConfig.wgNamespaceNumber === 0 && window.location.href.indexOf('action=') === -1) {
-					if (adiutorUserOptions.inlinePageInfo === true) {
+				if(mwConfig.wgNamespaceNumber === 0 && window.location.href.indexOf("action=") === -1) {
+					if(adiutorUserOptions.inlinePageInfo === true) {
 						loadAdiutorModule('INF');
 					}
 				}
-				if (mwConfig.wgNamespaceNumber === 4) {
-					if (mwConfig.wgPageName.includes(miscellaneousConfigurations.afdNoticeBoard)) {
-						// This module is currently being made localizable.
-						// loadAdiutorModule('AFD-Helper');
+				if(mwConfig.wgNamespaceNumber === 4) {
+					if(mwConfig.wgPageName.includes(miscellaneousConfigurations.afdNoticeBoard)) {
+						//This module is currently being made localizable.
+						//loadAdiutorModule('AFD-Helper');
 					}
 				}
-				switch (mwConfig.skin) {
+				switch(mwConfig.skin) {
 					case 'vector':
 						$('.mw-portlet-cactions').parent().append(adiutorMenu.$element);
 						break;
@@ -330,88 +317,80 @@ function callBack() {
 					case 'minerva':
 						$('.page-actions-menu__list').append(adiutorMenu.$element);
 						break;
-					default:
-						console.warn(`Unhandled skin type: ${mwConfig.skin}`);
-						break;
 				}
 				break;
 			}
-			break;
-		default:
-			// Handle unexpected namespace numbers
-			console.warn(`Unhandled namespace: ${mwConfig.wgNamespaceNumber}`);
-			break;
 	}
-	const myWorks = new OO.ui.FieldsetLayout({});
-	const items = [];
-	if (adiutorUserOptions.myWorks.length > 0) {
-		adiutorUserOptions.myWorks.forEach((article) => {
-			const articleTitle = article.name; // Get the name property from each article
-			const articleWidget = new OO.ui.MessageWidget({
+	var myWorks = new OO.ui.FieldsetLayout({});
+	var items = [];
+	if(adiutorUserOptions.myWorks.length > 0) {
+		adiutorUserOptions.myWorks.forEach(function(article) {
+			var articleTitle = article.name; // Get the name property from each article
+			var articleWidget = new OO.ui.MessageWidget({
 				type: 'article',
 				icon: 'article',
 				label: articleTitle,
 				showClose: true,
-				classes: [ 'adiutor-work-list-item' ]
+				classes: ['adiutor-work-list-item'],
 			});
 			// Add a click event handler to open the link with the articleTitle
-			articleWidget.$element.on('click', () => {
+			articleWidget.$element.on('click', function() {
 				window.location.href = '/wiki/' + mw.util.rawurlencode(articleTitle);
 			});
 			items.push(articleWidget);
 		});
 	} else {
-		const imageWidget = new OO.ui.MessageWidget({
+		var imageWidget = new OO.ui.MessageWidget({
 			type: 'notice',
 			icon: 'none',
 			inline: true,
 			label: new OO.ui.HtmlSnippet('<img width="70px" src="https://upload.wikimedia.org/wikipedia/commons/1/19/Under_construction_blue.svg" alt="">'),
-			classes: [ 'articles-worked-on-popup-search-box-enmpy-image' ]
+			classes: ['articles-worked-on-popup-search-box-enmpy-image'],
 		});
-		const textWidget = new OO.ui.LabelWidget({
+		var textWidget = new OO.ui.LabelWidget({
 			label: mw.msg('aticle-work-list-description')
 		});
-		const horizontalLayout = new OO.ui.HorizontalLayout({
-			items: [ imageWidget, textWidget ],
-			classes: [ 'articles-worked-on-popup-search-box-enmpy' ]
+		var horizontalLayout = new OO.ui.HorizontalLayout({
+			items: [imageWidget, textWidget],
+			classes: ['articles-worked-on-popup-search-box-enmpy'],
 		});
 		items.push(horizontalLayout);
 	}
 	// Add the items to the myWorks fieldset
 	myWorks.addItems(items);
-	const topSearch = new OO.ui.TextInputWidget({
+	var topSearch = new OO.ui.TextInputWidget({
 		placeholder: mw.msg('search-article'), // Add placeholder text
-		classes: [ 'articles-worked-on-popup-search-box' ]
+		classes: ['articles-worked-on-popup-search-box'],
 	});
-	if (adiutorUserOptions.myWorks.length) {
+	if(adiutorUserOptions.myWorks.length) {
 		myWorks.addItems(topSearch);
 	}
 	myWorks.addItems(items);
-	const footerButtonsGroup = new OO.ui.ButtonGroupWidget({
+	var footerButtonsGroup = new OO.ui.ButtonGroupWidget({
 		items: [
 			new OO.ui.ButtonWidget({
 				label: mw.msg('clear'),
 				framed: true,
 				href: '/wiki/',
 				icon: 'clear',
-				classes: [ 'articles-worked-on-popup-footer-button' ]
+				classes: ['articles-worked-on-popup-footer-button']
 			}),
 			new OO.ui.ButtonWidget({
 				label: mw.msg('edit'),
 				framed: true,
 				href: '/wiki/',
 				icon: 'edit',
-				classes: [ 'articles-worked-on-popup-footer-button' ]
-			})
+				classes: ['articles-worked-on-popup-footer-button']
+			}),
 		],
-		classes: [ 'articles-worked-on-popup-footer-buttons' ]
+		classes: ['articles-worked-on-popup-footer-buttons']
 	});
-	const workListButton = new OO.ui.PopupButtonWidget({
+	var workListButton = new OO.ui.PopupButtonWidget({
 		icon: 'flag',
 		framed: false,
 		label: mw.msg('works'),
 		invisibleLabel: true,
-		classes: [ 'articles-worked-on-button' ],
+		classes: ['articles-worked-on-button'],
 		popup: {
 			head: true,
 			label: mw.msg('my-works'),
@@ -420,16 +399,16 @@ function callBack() {
 			padded: false,
 			align: 'center',
 			autoFlip: true,
-			$footer: footerButtonsGroup.$element,
-			classes: [ 'articles-worked-on-popup' ]
+			$footer: (footerButtonsGroup.$element),
+			classes: ['articles-worked-on-popup'],
 		}
 	});
 	// Listen to search input and show/hide articles
-	topSearch.on('change', () => {
-		const query = topSearch.getValue().toLowerCase();
-		items.forEach((articleWidget) => {
-			const articleLabel = articleWidget.getLabel().toLowerCase();
-			if (articleLabel.includes(query)) {
+	topSearch.on('change', function() {
+		var query = topSearch.getValue().toLowerCase();
+		items.forEach(function(articleWidget) {
+			var articleLabel = articleWidget.getLabel().toLowerCase();
+			if(articleLabel.includes(query)) {
 				articleWidget.toggle(true);
 			} else {
 				articleWidget.toggle(false);
@@ -437,7 +416,7 @@ function callBack() {
 		});
 	});
 	$('#pt-watchlist-2').after($('<li>').append(workListButton.$element));
-	if (adiutorUserOptions.showEditSummaries === true) {
+	if(adiutorUserOptions.showEditSummaries === true) {
 		loadAdiutorModule('SUM');
 	}
 
@@ -449,18 +428,17 @@ function callBack() {
 	function checkMentor(UserId) {
 		api.get({
 			action: 'parse',
-			page: 'MediaWiki:GrowthMentors.json',
+			page: "MediaWiki:GrowthMentors.json",
 			prop: 'wikitext',
-			format: 'json'
-		}).done((data) => {
-			if (data.parse.wikitext['*'].includes(UserId) && mwConfig.wgPageName.includes(mwConfig.wgUserName)) {
+			format: "json"
+		}).done(function(data) {
+			if(data.parse.wikitext['*'].includes(UserId) && mwConfig.wgPageName.includes(mwConfig.wgUserName)) {
 				// Load the Adiutor CMR script using the loadAdiutorModule function
 				loadAdiutorModule('CMR');
 			}
 		});
 	}
 }
-
 module.exports = {
 	callBack: callBack
 };

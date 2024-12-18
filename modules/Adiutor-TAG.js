@@ -1,158 +1,155 @@
-/*
- * Description: Adiutor enables users to perform various tasks on Wikimedia wikis more efficiently.
- * Author: Doğu Abaris
+/* Adiutor: Enhancing Wikipedia Editing Through a Comprehensive Set of Versatile Tools and Modules.
+ * Author: Vikipolimer
  * Learn more at: https://meta.wikimedia.org/wiki/Adiutor
  * License: Licensed under Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
- */
-
-/* <nowiki> */
+ * Module: Article/Page Tagging
+<nowiki> */
 function callBack() {
-	const api = new mw.Api();
-	const wikiId = mw.config.get('wgWikiID');
-	const adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-' + wikiId));
-	const tagConfiguration = require('./Adiutor-TAG.json');
-	const tagOptions = [];
-	let selectedTags = [];
-	const templateInfo = {};
-	const preparedTemplates = [];
-	let preparedTagsString;
-	if (!tagConfiguration) {
+	var api = new mw.Api();
+	var wikiId = mw.config.get('wgWikiID');
+	var adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-' + wikiId));
+	var tagConfiguration = require('./Adiutor-TAG.json');
+	var tagOptions = [];
+	var selectedTags = [];
+	var templateInfo = {};
+	var preparedTemplates = [];
+	var preparedTagsString;
+	if(!tagConfiguration) {
 		mw.notify('MediaWiki:Gadget-Adiutor-TAG.json data is empty or undefined.', {
 			title: mw.msg('operation-failed'),
 			type: 'error'
 		});
 		return;
 	}
-	const tagList = tagConfiguration.tagList;
-	const useMultipleIssuesTemplate = tagConfiguration.useMultipleIssuesTemplate;
-	const multipleIssuesTemplate = tagConfiguration.multipleIssuesTemplate;
-	const uncategorizedTemplate = tagConfiguration.uncategorizedTemplate;
-	const apiPostSummary = tagConfiguration.apiPostSummary;
+	var tagList = tagConfiguration.tagList;
+	var useMultipleIssuesTemplate = tagConfiguration.useMultipleIssuesTemplate;
+	var multipleIssuesTemplate = tagConfiguration.multipleIssuesTemplate;
+	var uncategorizedTemplate = tagConfiguration.uncategorizedTemplate;
+	var apiPostSummary = tagConfiguration.apiPostSummary;
 
 	function PageTaggingDialog(config) {
 		PageTaggingDialog.super.call(this, config);
 	}
-
 	OO.inheritClass(PageTaggingDialog, OO.ui.ProcessDialog);
 	PageTaggingDialog.static.name = 'PageTaggingDialog';
 	PageTaggingDialog.static.title = new OO.ui.deferMsg('tag-module-title');
-	PageTaggingDialog.static.actions = [ {
+	PageTaggingDialog.static.actions = [{
 		action: 'save',
 		label: new OO.ui.deferMsg('add-tag'),
-		flags: [ 'primary', 'progressive' ]
+		flags: ['primary', 'progressive']
 	}, {
 		label: new OO.ui.deferMsg('cancel'),
 		flags: 'safe'
-	} ];
-	PageTaggingDialog.prototype.initialize = function () {
+	}];
+	PageTaggingDialog.prototype.initialize = function() {
 		PageTaggingDialog.super.prototype.initialize.apply(this, arguments);
-		const headerTitle = new OO.ui.MessageWidget({
+		var headerTitle = new OO.ui.MessageWidget({
 			type: 'notice',
 			inline: true,
 			label: new OO.ui.deferMsg('tag-header-description')
 		});
 		// Create a search input field
-		const searchInput = new OO.ui.TextInputWidget({
+		var searchInput = new OO.ui.TextInputWidget({
 			placeholder: mw.msg('search-tag')
 		});
 		searchInput.$element.css({
 			'margin-top': '10px',
-			'margin-bottom': '15px'
+			'margin-bottom': '15px',
 		});
 		this.content = new OO.ui.PanelLayout({
 			padded: true,
-			expanded: false
+			expanded: false,
 		});
 		// Now you can safely add the searchInput to the content container
 		this.content.$element.append(headerTitle.$element, searchInput.$element);
 		// Iterate through the tagList
-		tagList.forEach(function (tagGroup) {
+		tagList.forEach(function(tagGroup) {
 			// Create a div element for the label
-			const labelElement = new OO.ui.LabelWidget({
-				label: tagGroup.label
+			var labelElement = new OO.ui.LabelWidget({
+				label: tagGroup.label,
 			});
 			labelElement.$element.css({
 				'margin-top': '10px',
 				'margin-bottom': '15px',
-				'font-weight': '900'
+				'font-weight': '900',
 			});
 			// Append the labelElement to the content container
 			this.content.$element.append(labelElement.$element);
 			// Create an array to hold tag options
-			const tagOptions = [];
+			var tagOptions = [];
 			// Iterate through the tags in the current tagGroup
-			tagGroup.tags.forEach(function (tag) {
+			tagGroup.tags.forEach(function(tag) {
 				// Create a CheckboxMultioptionWidget for the tag
-				const tagOption = new OO.ui.CheckboxMultioptionWidget({
+				var tagOption = new OO.ui.CheckboxMultioptionWidget({
 					data: tag.tag,
 					name: tag.name,
 					label: tag.description,
 					align: 'inline'
 				});
-				tagOption.on('change', (selected) => {
+				tagOption.on('change', function(selected) {
 					updateSelectedTags(selected, tag);
 				});
 				// Check if the tag has additional items
-				if (tag.items) {
+				if(tag.items) {
 					// Create a fieldset to contain the sub-items
-					const subItemsLayout = new OO.ui.HorizontalLayout();
+					var subItemsLayout = new OO.ui.HorizontalLayout();
 					subItemsLayout.$element.css('display', 'none');
 					// Iterate through the sub-items
-					tag.items.forEach((subItem) => {
+					tag.items.forEach(function(subItem) {
 						// Create sub-item widgets based on the sub-item properties
-						if (subItem.type === 'input') {
-							const subItemInput = new OO.ui.TextInputWidget({
+						if(subItem.type === 'input') {
+							var subItemInput = new OO.ui.TextInputWidget({
 								label: subItem.label,
 								name: subItem.name,
-								required: subItem.required || false
+								required: subItem.required || false,
 							});
-							subItemsLayout.addItems([ subItemInput ]);
+							subItemsLayout.addItems([subItemInput]);
 						}
-						if (subItem.type === 'checkbox') {
-							const subItemCheckbox = new OO.ui.CheckboxMultioptionWidget({
+						if(subItem.type === 'checkbox') {
+							var subItemCheckbox = new OO.ui.CheckboxMultioptionWidget({
 								data: subItem.value,
 								name: subItem.name,
-								label: subItem.label
+								label: subItem.label,
 							});
-							subItemCheckbox.on('change', (selected) => {
+							subItemCheckbox.on('change', function(selected) {
 								updateSelectedTags(selected, tag);
 							});
-							subItemsLayout.addItems([ subItemCheckbox ]);
+							subItemsLayout.addItems([subItemCheckbox]);
 						}
 						// Check if there are items under the subItem
-						if (subItem.items) {
+						if(subItem.items) {
 							// Iterate through the subItem items
-							subItem.items.forEach((subItemItem) => {
+							subItem.items.forEach(function(subItemItem) {
 								// Create widgets for subItem items
-								if (subItemItem.type === 'input') {
-									const subItemItemInput = new OO.ui.TextInputWidget({
+								if(subItemItem.type === 'input') {
+									var subItemItemInput = new OO.ui.TextInputWidget({
 										label: subItemItem.label,
 										name: subItemItem.name,
 										required: subItemItem.required || false,
-										align: 'inline'
+										align: 'inline',
 									});
-									subItemsLayout.addItems([ subItemItemInput ]);
+									subItemsLayout.addItems([subItemItemInput]);
 								}
-								if (subItemItem.type === 'checkbox') {
-									const subItemItemCheckbox = new OO.ui.CheckboxMultioptionWidget({
+								if(subItemItem.type === 'checkbox') {
+									var subItemItemCheckbox = new OO.ui.CheckboxMultioptionWidget({
 										data: subItemItem.value,
 										name: subItemItem.name,
 										label: subItemItem.label,
-										align: 'inline'
+										align: 'inline',
 									});
-									subItemItemCheckbox.on('change', (selected) => {
+									subItemItemCheckbox.on('change', function(selected) {
 										updateSelectedTags(selected, tag);
 									});
 									subItemItemCheckbox.$element.css('margin-left', '30px');
-									subItemsLayout.addItems([ subItemItemCheckbox ]);
+									subItemsLayout.addItems([subItemItemCheckbox]);
 								}
 								// Add other sub-item item types as needed
 							});
 						}
 					});
 					// Add an event handler to show/hide sub-items when the parent checkbox is selected/unselected
-					tagOption.on('change', (selected) => {
-						if (selected) {
+					tagOption.on('change', function(selected) {
+						if(selected) {
 							subItemsLayout.$element.show();
 						} else {
 							subItemsLayout.$element.hide();
@@ -170,13 +167,13 @@ function callBack() {
 			}, this);
 		}, this);
 		// After populating the tagOptions array, add the following code within the tagList.forEach loop:
-		searchInput.on('input', () => {
-			const searchText = searchInput.getValue().toLowerCase();
+		searchInput.on('input', function() {
+			var searchText = searchInput.getValue().toLowerCase();
 			// Iterate through all tagOptions and check if the search text is present in label or data
-			tagOptions.forEach((tagOption) => {
-				const label = tagOption.label.toLowerCase();
-				const data = tagOption.data ? tagOption.data.toLowerCase() : ''; // Ensure data exists and convert to lowercase
-				if (label.includes(searchText) || data.includes(searchText)) {
+			tagOptions.forEach(function(tagOption) {
+				var label = tagOption.label.toLowerCase();
+				var data = tagOption.data ? tagOption.data.toLowerCase() : ''; // Ensure data exists and convert to lowercase
+				if(label.includes(searchText) || data.includes(searchText)) {
 					tagOption.$element.show();
 				} else {
 					tagOption.$element.hide();
@@ -185,43 +182,43 @@ function callBack() {
 		});
 		this.$body.append(this.content.$element);
 	};
-	PageTaggingDialog.prototype.getActionProcess = function (action) {
-		const dialog = this;
-		if (action) {
-			return new OO.ui.Process(() => {
-				selectedTags.forEach((tag) => {
-					if (tag.items && tag.items.length > 0) {
-						tag.items.forEach((subItem) => {
-							let template = '{{' + tag.tag;
-							if (subItem.parameter) {
+	PageTaggingDialog.prototype.getActionProcess = function(action) {
+		var dialog = this;
+		if(action) {
+			return new OO.ui.Process(function() {
+				selectedTags.forEach(function(tag) {
+					if(tag.items && tag.items.length > 0) {
+						tag.items.forEach(function(subItem) {
+							var template = "{{" + tag.tag;
+							if(subItem.parameter) {
 								// If information for this template has not been provided before, get it from the user
-								if (!templateInfo[tag.tag]) {
+								if(!templateInfo[tag.tag]) {
 									templateInfo[tag.tag] = {};
 								}
-								if (!templateInfo[tag.tag][subItem.parameter]) {
-									const inputValue = getInputValue(subItem.name); // Get information from the user
+								if(!templateInfo[tag.tag][subItem.parameter]) {
+									var inputValue = getInputValue(subItem.name); // Get information from the user
 									templateInfo[tag.tag][subItem.parameter] = inputValue;
 								}
 								// Create the template using the previously entered information
-								template += '|' + subItem.parameter + '=' + templateInfo[tag.tag][subItem.parameter];
+								template += "|" + subItem.parameter + "=" + templateInfo[tag.tag][subItem.parameter];
 							}
-							template += '}}';
+							template += "}}";
 							preparedTemplates.push(template);
 						});
 					} else {
 						// If there are no tag.items, just add {{Template}}
-						preparedTemplates.push('{{' + tag.tag + '}}');
+						preparedTemplates.push("{{" + tag.tag + "}}");
 					}
 				});
 				console.log(preparedTemplates);
-				if (useMultipleIssuesTemplate && preparedTemplates.length > 1) {
+				if(useMultipleIssuesTemplate && preparedTemplates.length > 1) {
 					// Join the formatted tags with newline characters and wrap in {{Multiple issues|...}}
-					preparedTagsString = '{{' + multipleIssuesTemplate + '|\n' + preparedTemplates.join('\n') + '\n}}';
+					preparedTagsString = "{{" + multipleIssuesTemplate + "|\n" + preparedTemplates.join("\n") + "\n}}";
 				} else {
 					// If there's only one tag or useMultipleIssuesTemplate is false, just use it as-is
-					preparedTagsString = preparedTemplates.join('\n');
+					preparedTagsString = preparedTemplates.join("\n");
 				}
-				if (selectedTags.length > 0) {
+				if(selectedTags.length > 0) {
 					tagPage();
 					dialog.close({
 						action: action
@@ -236,69 +233,69 @@ function callBack() {
 		}
 		return PageTaggingDialog.super.prototype.getActionProcess.call(this, action);
 	};
-	const windowManager = new OO.ui.WindowManager();
+	var windowManager = new OO.ui.WindowManager();
 	$(document.body).append(windowManager.$element);
-	const dialog = new PageTaggingDialog({
-		size: 'large'
+	var dialog = new PageTaggingDialog({
+		size: 'large',
 	});
-	windowManager.addWindows([ dialog ]);
+	windowManager.addWindows([dialog]);
 	windowManager.openWindow(dialog);
 
 	function getInputValue(inputName) {
 		// Find the input element that matches inputName
-		const inputElement = document.querySelector('input[name="' + inputName + '"]');
-		if (inputElement) {
+		var inputElement = document.querySelector('input[name="' + inputName + '"]');
+		if(inputElement) {
 			// If the input element is found, get its value
 			return inputElement.value;
+		} else {
+			// If the input element is not found, return a default value or handle the error
+			return ""; // You can return a default value or perform other actions
 		}
-		// If the input element is not found, return a default value or handle the error
-		return ''; // You can return a default value or perform other actions
-
 	}
 
 	function updateSelectedTags(selected, tag) {
-		if (selected) {
+		if(selected) {
 			selectedTags.push(tag);
 		} else {
-			selectedTags = selectedTags.filter((item) => item !== tag);
+			selectedTags = selectedTags.filter(function(item) {
+				return item !== tag;
+			});
 		}
 		console.log(selectedTags);
 	}
 
 	function tagPage() {
-		const editParams = {
+		var editParams = {
 			action: 'edit',
-			title: mw.config.get('wgPageName'),
+			title: mw.config.get("wgPageName"),
 			summary: apiPostSummary,
 			tags: 'Adiutor',
 			format: 'json'
 		};
-		let removedContent = '';
-		const modifiedTags = preparedTagsString.replace('{{' + uncategorizedTemplate + '}}', (match) => {
+		var removedContent = "";
+		var modifiedTags = preparedTagsString.replace('{{' + uncategorizedTemplate + '}}', function(match) {
 			removedContent = match;
-			return '';
+			return "";
 		});
-		if (removedContent) {
+		if(removedContent) {
 			editParams.prependtext = modifiedTags.split(',').join('\n') + '\n';
 			editParams.appendtext = '\n' + removedContent;
 		} else {
 			editParams.prependtext = modifiedTags.split(',').join('\n') + '\n';
 		}
-		api.postWithToken('csrf', editParams).done(() => {
+		api.postWithToken('csrf', editParams).done(function() {
 			adiutorUserOptions.stats.pageTags++;
 			api.postWithEditToken({
 				action: 'globalpreferences',
 				format: 'json',
 				optionname: 'userjs-adiutor-' + mw.config.get('wgWikiID'),
 				optionvalue: JSON.stringify(adiutorUserOptions),
-				formatversion: 2
-			}, () => {
-			});
+				formatversion: 2,
+			}, function() {});
 			location.reload();
 		});
 	}
 }
-
 module.exports = {
 	callBack: callBack
 };

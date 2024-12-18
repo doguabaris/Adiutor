@@ -1,8 +1,14 @@
-.adiutor-user-dashboard-container {
+/* Adiutor: Enhancing Wikipedia Editing Through a Comprehensive Set of Versatile Tools and Modules.
+ * Author: Vikipolimer
+ * Learn more at: https://meta.wikimedia.org/wiki/Adiutor
+ * License: Licensed under Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
+<nowiki> */
+
+ .adiutor-user-dashboard-container {
 	padding: 65px;
-	background-image: url( https://upload.wikimedia.org/wikipedia/commons/a/ac/Illustration_of_Reading_Wikipedia_in_the_Classroom_%28blue%29_03.png );
+	background-image: url(https://upload.wikimedia.org/wikipedia/commons/a/ac/Illustration_of_Reading_Wikipedia_in_the_Classroom_%28blue%29_03.png);
 	background-repeat: no-repeat;
-	background-position: calc( 100% - 10% ) 30%;
+	background-position: calc(100% - 10%) 30%;
 	background-size: 35%;
 }
 
@@ -21,28 +27,27 @@
 }
 
 .adiutor-user-dashboard-adiutor-total-stats .oo-ui-iconElement-icon {
-	filter: invert( 2 );
+	filter: invert(2);
 }
 
 .adiutor-user-dashboard-adiutor-csd-stats {
 	float: left;
 	width: inherit;
-	margin: 0 !important;
+	margin: 0px !important;
 	border: none !important;
+	;
 }
 
 .adiutor-user-dashboard-adiutor-afd-stats {
 	float: right;
-	margin: 0 !important;
+	margin: 0px !important;
 	width: inherit;
 	border: none !important;
+	;
 }
 
 .adiutor-user-dashboard-main-x {
-	min-height: -moz-available;
-	min-height: fill-available;
-	height: max-content;
-	display: contents;
+	height: -webkit-fill-available;
 }
 
 span.adiutor-user-dashboard-top-logo {
@@ -73,8 +78,8 @@ label.adiutor-user-dashboard-welcome-text {
 
 label.adiutor-user-dashboard-welcome-username {
 	font-size: 34px;
-	font-weight: bold;
-	color: #36c;
+	font-weight: 700;
+	color: #3366cc;
 }
 
 .adiutor-user-dashboard-adiutor-description {
@@ -89,7 +94,7 @@ label.adiutor-user-dashboard-welcome-username {
 }
 
 label.adiutor-user-dashboard-logo {
-	background-image: url( https://upload.wikimedia.org/wikipedia/commons/1/1a/Adiutor_logo.svg );
+	background-image: url('https://upload.wikimedia.org/wikipedia/commons/1/1a/Adiutor_logo.svg');
 	width: 200px;
 	height: 100px;
 	background-size: 133px;
@@ -114,7 +119,7 @@ label.adiutor-user-dashboard-logo {
 .adiutor-administrator-helper-csd--toolbar {
 	height: 33px;
 	padding: 10px;
-	background: #fff;
+	background: #ffffff;
 	border-bottom: 1px solid #c8ccd0;
 	position: fixed;
 	width: 100%;
@@ -210,7 +215,7 @@ label.adiutor-user-dashboard-logo {
 
 .cov-url-list-item {
 	padding: 10px;
-	background: #fff;
+	background: #ffffff;
 	list-style: none;
 	margin-bottom: 5px;
 	border: 1px solid #dadada;
@@ -251,7 +256,7 @@ ul.cov-url-list {
 	color: #04af89;
 	font-family: system-ui;
 	text-align: right;
-	font-weight: bold;
+	font-weight: 700;
 }
 
 .adiutor-user-status-active {
@@ -262,17 +267,17 @@ ul.cov-url-list {
 	color: #04af89;
 	font-family: system-ui;
 	text-align: right;
-	font-weight: bold;
+	font-weight: 700;
 }
 
-.adiutor-user-status-active::before {
+.adiutor-user-status-active:before {
 	content: '';
 	width: 26px;
 	height: 24px;
 	position: absolute;
 	top: 9px;
 	left: 6px;
-	background-image: url( https://upload.wikimedia.org/wikipedia/commons/a/aa/OOjs_UI_icon_userTalk-ltr-constructive.svg );
+	background-image: url(https://upload.wikimedia.org/wikipedia/commons/a/aa/OOjs_UI_icon_userTalk-ltr-constructive.svg);
 	background-repeat: no-repeat;
 	background-size: 18px;
 }
@@ -285,17 +290,17 @@ ul.cov-url-list {
 	color: #04af89;
 	font-family: system-ui;
 	text-align: right;
-	font-weight: bold;
+	font-weight: 700;
 }
 
-.adiutor-user-status-passive::before {
+.adiutor-user-status-passive:before {
 	content: '';
 	width: 26px;
 	height: 24px;
 	position: absolute;
 	top: 9px;
 	left: 6px;
-	background-image: url( https://upload.wikimedia.org/wikipedia/commons/b/b6/OOjs_UI_icon_userTalk-ltr.svg );
+	background-image: url(https://upload.wikimedia.org/wikipedia/commons/b/b6/OOjs_UI_icon_userTalk-ltr.svg);
 	background-repeat: no-repeat;
 	background-size: 18px;
 }
@@ -308,17 +313,17 @@ ul.cov-url-list {
 	color: #d9ab21;
 	font-family: system-ui;
 	text-align: right;
-	font-weight: bold;
+	font-weight: 700;
 }
 
-.adiutor-user-status-away::before {
+.adiutor-user-status-away:before {
 	content: '';
 	width: 26px;
 	height: 24px;
 	position: absolute;
 	top: 9px;
 	left: 6px;
-	background-image: url( https://upload.wikimedia.org/wikipedia/commons/b/b6/OOjs_UI_icon_userTalk-ltr.svg );
+	background-image: url(https://upload.wikimedia.org/wikipedia/commons/b/b6/OOjs_UI_icon_userTalk-ltr.svg);
 	background-repeat: no-repeat;
 	background-size: 18px;
 }
@@ -370,7 +375,7 @@ ul.cov-url-list {
 	line-height: 2.5595238em;
 }
 
-.articles-worked-on-popup > .oo-ui-popupWidget-popup > .oo-ui-popupWidget-footer {
+.articles-worked-on-popup>.oo-ui-popupWidget-popup>.oo-ui-popupWidget-footer {
 	width: 100%;
 	margin: 0;
 	border-top: 1px solid #c8ccd1;
@@ -405,7 +410,7 @@ ul.cov-url-list {
 }
 
 .adiutor-work-list-item {
-	margin: 0 !important;
+	margin: 0px !important;
 	cursor: pointer;
 	padding-left: 10px !important;
 	border: none !important;
@@ -479,7 +484,7 @@ span.adiutor-aricle-detail-box-button-group {
 }
 
 .adiutor-user-page-box-container {
-	width: 99.8%;
+	width: 99.80%;
 	display: flex !important;
 	margin: 0;
 	background: #f8f9fa;
@@ -498,23 +503,24 @@ span.adiutor-aricle-detail-box-button-group {
 }
 
 .adiutor-user-page-username-details .oo-ui-iconElement-icon {
-	filter: invert( 2 );
+	filter: invert(2);
 }
 
 .adiutor-user-page-change-count {
 	float: left;
 	width: inherit;
-	margin: 0 !important;
+	margin: 0px !important;
 	border: none !important;
-	background-color: #fff0 !important;
+	background-color: #ffffff00 !important;
 	border-left: 1px solid #d1d1d1 !important;
 }
 
 .adiutor-user-page-miscellaneous {
 	float: right;
-	margin: 0 !important;
+	margin: 0px !important;
 	width: inherit;
 	border: none !important;
+	;
 }
 
 span.adiutor-user-page-button-group {
@@ -525,7 +531,7 @@ span.adiutor-user-page-button-group {
 }
 
 .adiutor-user-page-username-details .oo-ui-iconElement-icon {
-	background-image: url( https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/OOjs_UI_icon_userAvatarOutline-progressive.svg/1920px-OOjs_UI_icon_userAvatarOutline-progressive.svg.png );
+	background-image: url(https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/OOjs_UI_icon_userAvatarOutline-progressive.svg/1920px-OOjs_UI_icon_userAvatarOutline-progressive.svg.png);
 	background-position: center !important;
 	width: 50px;
 	height: 50px;
@@ -552,17 +558,17 @@ span.adiutor-aricle-show-video-button {
 
 .adiutor-dashboard-administrator-tools-welcome {
 	display: flex;
-	justify-content: space-around;
-	align-items: center;
-	flex-direction: column;
-	padding: 50px;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    padding: 50px;
 }
 
 .adiutor-dashboard-administrator-tools-fd-welcome-messsage {
 	margin: 0;
-	width: 55%;
-	display: revert;
-	text-align: center;
+    width: 55%;
+    display: revert;
+    text-align: center;
 }
 
 .adiutor-dashboard-administrator-tools-fd-welcome-messsage .oo-ui-labelElement-label {
@@ -574,11 +580,10 @@ span.adiutor-aricle-show-video-button {
 }
 
 .adiutor-dashboard-administrator-tools-welcome-img span {
-	display: none;
-	margin: 0 !important;
-	width: 100%;
+    display: none;
+    margin: 0 !important;
+    width: 100%;
 }
-
-.adiutor-dashboard-administrator-tools-welcome-top {
+.adiutor-dashboard-administrator-tools-welcome-top{
 	display: contents !important;
 }
