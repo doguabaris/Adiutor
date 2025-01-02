@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"Dirruw'o",
+			"Mitte27",
 			"Okras",
 			"Rich Flight22"
 		]
@@ -74,6 +75,8 @@
 	"report": "Отчёт",
 	"report-type": "Тип отчёта",
 	"rationale": "Обоснование",
+	"afd-rationale-placeholder": "Почему {{GENDER:|вы}} предлагаете удалить эту страницу?",
+	"select-rationale": "Пожалуйста, выберите обоснование!",
 	"warning-type": "Тип Предупреждения",
 	"create-request": "Запросить",
 	"protection-type": "Тип защиты",
@@ -84,9 +87,12 @@
 	"select-protection-type": "Выберите тип защиты",
 	"rpp-header-title": "Запрос на защиту страницы",
 	"prd-header-title": "Номинация на удаление",
+	"csd-header-title": "Причины быстрого удаления",
+	"aiv-rationale-3": "Аккаунт, созданный исключительно с целью вандализма.",
 	"new-name": "Новое название",
 	"pmr-header-title": "Запрос на переименование страницы",
 	"aiv-header-title": "Запрос на блокировку пользователя",
+	"proposed-deletion-nomination": "Предложить удаление",
 	"page-move-request": "Запрос на переименование страницы",
 	"page-protection-request": "Запрос на защиту страницы",
 	"recent-changes": "Последние изменения",
@@ -119,6 +125,7 @@
 	"other-reason": "Другая причина",
 	"user-blocking": "Блокировка участника",
 	"block": "Заблокировать",
+	"adiutor-dashboard-total-edit-title": "Всего правок",
 	"adiutor-dashboard-csd-requests-title": "Быстрое удаление",
 	"adiutor-dashboard-user-warnings-title": "Предупреждение участника",
 	"copyvio-checking": "Проверка…",
