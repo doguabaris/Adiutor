@@ -10,6 +10,7 @@
 			"TFX202X",
 			"U.T.",
 			"WiiUf",
+			"七八年再来一次",
 			"沈澄心"
 		]
 	},
@@ -171,7 +172,7 @@
 	"page-more-info-tip-date": "此条目创建于$1。",
 	"page-more-info-tip-keyword-title": "字数：",
 	"page-more-info-tip-keyword": "此条目包含$1个{{PLURAL:$1|字}}。",
-	"show-inline-page-info": "显示内嵌文章信息",
+	"show-inline-page-info": "显示内联条目信息",
 	"show-inline-page-info-description": "当{{GENDER:|您}}勾选时，会在条目顶部添加一个小部件，其中包含有关此条目的信息。",
 	"choose-duration": "选择持续时间",
 	"infinity": "永久",
@@ -347,7 +348,7 @@
 	"sockpuppets-input-placeholder": "使用Enter添加不带“User:”前缀的用户名。",
 	"evidence-input-placeholder": "请提供您的证据。",
 	"evidence": "证据",
-	"report-suspected-sockpuppet": "举报傀儡账号",
+	"report-suspected-sockpuppet": "举报可疑的傀儡账号",
 	"sockpuppeteer": "傀儡操纵者",
 	"sockpuppet": "傀儡",
 	"sockpuppeteer-help-text": "不带“User:”前缀的傀儡操纵者的用户名",
