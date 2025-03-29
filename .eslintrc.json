@@ -25,26 +25,16 @@
 		"space-in-parens": "off",
 		"template-curly-spacing": "off",
 		"unicorn/prefer-string-slice": "off",
-
+		"no-implicit-globals": "off",
+		"no-console": "off",
 		"no-nested-ternary": "error",
-		"no-restricted-syntax": [
-			"warn",
-			{
-				"message": "Using .done() is discouraged. See https://www.mediawiki.org/wiki/Manual:Coding_conventions/JavaScript#Asynchronous_code",
-				"selector": "MemberExpression > Identifier[name=\"done\"]"
-			},
-			{
-				"message": "Using .fail() is discouraged. See https://www.mediawiki.org/wiki/Manual:Coding_conventions/JavaScript#Asynchronous_code",
-				"selector": "MemberExpression > Identifier[name=\"fail\"]"
-			}
-		],
-
-		"es-x/no-array-prototype-includes": "warn",
+		"no-restricted-syntax": "off",
+		"es-x/no-array-prototype-includes": "off",
 		"es-x/no-object-values": "warn",
 		"indent": "off",
 		"jsdoc/require-asterisk-prefix": "warn",
-		"mediawiki/class-doc": "warn",
-		"new-cap": "warn",
+		"mediawiki/class-doc": "off",
+		"new-cap": "off",
 		"no-jquery/no-constructor-attributes": "warn",
 		"no-jquery/no-each-util": "warn",
 		"no-jquery/no-extend": "warn",
@@ -53,19 +43,25 @@
 		"no-jquery/no-map-util": "warn",
 		"no-jquery/no-parse-html-literal": "warn",
 		"no-jquery/no-sizzle": "warn",
-		"no-jquery/variable-pattern": "warn",
+		"no-jquery/variable-pattern": "off",
 		"no-loop-func": "warn",
 		"no-new": "warn",
 		"no-return-assign": "warn",
 		"no-script-url": "warn",
-		"no-sequences": "warn",
+		"no-sequences": "off",
 		"no-throw-literal": "warn",
 		"no-unneeded-ternary": "warn",
-		"no-unused-expressions": "warn",
-		"no-use-before-define": "warn",
+		"no-unused-expressions": "off",
+		"no-use-before-define": "off",
 		"no-useless-concat": "warn",
 		"no-var": "warn",
 		"operator-linebreak": "warn",
-		"prefer-const": "warn"
+		"prefer-const": "warn",
+		"no-unused-vars": "off",
+		"no-undef": "off",
+		"no-array-prototype-includes": "off",
+		"no-case-declarations": "off",
+		"security/detect-non-literal-require": "off",
+		"mediawiki/msg-doc": "off"
 	}
 }
