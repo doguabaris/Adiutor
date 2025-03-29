@@ -1,11 +1,11 @@
 {
-    "//": "You can utilize the parameters within this file, which include: $1 page name, $2 new page name, and $3 rationale.",
-    "noticeBoardTitle": "Wikipedia:Page move requests",
-    "addNewSection": true,
-    "sectionTitle": "Page move request for [[$1]]",
-    "appendText": true,
-    "prependText": false,
-    "sectionId": false,
-    "contentPattern": "Move [[$1]] to [[$2]]\n\nRationale: $3 ~~~~",
-    "apiPostSummary": "Page move request created for [[$1|$1]]."
+	"//": "You can utilize the parameters within this file, which include: $1 page name, $2 new page name, and $3 rationale.",
+	"noticeBoardTitle": "Wikipedia:Page move requests",
+	"addNewSection": true,
+	"sectionTitle": "Page move request for [[$1]]",
+	"appendText": true,
+	"prependText": false,
+	"sectionId": false,
+	"contentPattern": "Move [[$1]] to [[$2]]\n\nRationale: $3 ~~~~",
+	"apiPostSummary": "Page move request created for [[$1|$1]]."
 }

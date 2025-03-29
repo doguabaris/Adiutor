@@ -5,229 +5,228 @@
  * Module: Batch Deletion
 <nowiki> */
 function callBack() {
-	var api = new mw.Api();
-	var csdConfiguration = require('./Adiutor-CSD.json');
-	if(!csdConfiguration) {
-		mw.notify('MediaWiki:Gadget-Adiutor-CSD.json data is empty or undefined.', {
-			title: mw.msg('operation-failed'),
+	const api = new mw.Api();
+	const csdConfiguration = require( './Adiutor-CSD.json' );
+	if (!csdConfiguration) {
+		mw.notify( 'MediaWiki:Gadget-Adiutor-CSD.json data is empty or undefined.', {
+			title: mw.msg( 'operation-failed' ),
 			type: 'error'
-		});
+		} );
 		return;
 	}
-	var batchDeletionList = [];
-	var selectedOptions;
-	var selectedReason;
-	var speedyDeletionReasons = csdConfiguration.speedyDeletionReasons;
-	var csdCategoryForBatchDeletion = csdConfiguration.csdCategoryForBatchDeletion;
-	var apiPostSummaryforTalkPage = csdConfiguration.apiPostSummaryforTalkPage;
+	const batchDeletionList = [];
+	let selectedOptions;
+	let selectedReason;
+	const speedyDeletionReasons = csdConfiguration.speedyDeletionReasons;
+	const csdCategoryForBatchDeletion = csdConfiguration.csdCategoryForBatchDeletion;
+	const apiPostSummaryforTalkPage = csdConfiguration.apiPostSummaryforTalkPage;
 	// Fetch list of pages to be considered for batch deletion from a specific category
-	api.get({
+	api.get( {
 		action: 'query',
 		list: 'categorymembers',
 		cmtitle: csdCategoryForBatchDeletion,
 		cmsort: 'timestamp',
 		cmdir: 'desc',
 		format: 'json'
-	}).done(function(data) {
+	} ).done( ( data ) => {
 		// Process the retrieved pages and create CheckboxMultioptionWidgets for each
-		var members = data.query.categorymembers;
-		members.sort(function(a, b) {
-			return a.title.localeCompare(b.title);
-		});
-		members.forEach(function(page) {
-			batchDeletionList.push(new OO.ui.CheckboxMultioptionWidget({
+		const members = data.query.categorymembers;
+		members.sort( ( a, b ) => a.title.localeCompare( b.title ) );
+		members.forEach( ( page ) => {
+			batchDeletionList.push( new OO.ui.CheckboxMultioptionWidget( {
 				data: page.title,
 				selected: false,
-				label: new OO.ui.HtmlSnippet(page.title + '<a style="margin-left:10px" target="_blank" href="' + page.title + '">→ ' + mw.msg('see') + '</a>')
-			}));
-		});
+				label: new OO.ui.HtmlSnippet( page.title + '<a style="margin-left:10px" target="_blank" href="' + page.title + '">→ ' + mw.msg( 'see' ) + '</a>' )
+			} ) );
+		} );
 		// Create a CheckboxMultiselectWidget to display the list of pages
-		var multiselectInput = new OO.ui.CheckboxMultiselectWidget({
-			items: batchDeletionList,
-		});
-		multiselectInput.$element.css({
+		const multiselectInput = new OO.ui.CheckboxMultiselectWidget( {
+			items: batchDeletionList
+		} );
+		multiselectInput.$element.css( {
 			'margin-top': '10px'
-		});
+		} );
 		// Create a "Select All" button to select all checkboxes at once
-		var selectAllButton = new OO.ui.ButtonWidget({
-			label: mw.msg('select-all'),
-			flags: ['progressive']
-		});
+		const selectAllButton = new OO.ui.ButtonWidget( {
+			label: mw.msg( 'select-all' ),
+			flags: [ 'progressive' ]
+		} );
 		// Create a "Clear Selection" button to clear all checkboxes at once
-		var clearSelectionButton = new OO.ui.ButtonWidget({
-			label: mw.msg('uncheck-selected')
-		});
+		const clearSelectionButton = new OO.ui.ButtonWidget( {
+			label: mw.msg( 'uncheck-selected' )
+		} );
 		// Event handler for the "Select All" button
-		selectAllButton.on('click', function() {
-			batchDeletionList.forEach(function(option) {
-				option.setSelected(true);
-			});
+		selectAllButton.on( 'click', () => {
+			batchDeletionList.forEach( ( option ) => {
+				option.setSelected( true );
+			} );
 			printSelectedOptions();
-		});
+		} );
 		// Event handler for the "Clear Selection" button
-		clearSelectionButton.on('click', function() {
-			batchDeletionList.forEach(function(option) {
-				option.setSelected(false);
-			});
+		clearSelectionButton.on( 'click', () => {
+			batchDeletionList.forEach( ( option ) => {
+				option.setSelected( false );
+			} );
 			printSelectedOptions();
-		});
+		} );
 		// Event handler for checkbox changes
-		batchDeletionList.forEach(function(option) {
-			option.on('change', function() {
+		batchDeletionList.forEach( ( option ) => {
+			option.on( 'change', () => {
 				printSelectedOptions();
-			});
-		});
+			} );
+		} );
+
 		// Function to update the selectedOptions array and clear console
 		function printSelectedOptions() {
-			selectedOptions = batchDeletionList.filter(function(option) {
-				return option.isSelected();
-			}).map(function(option) {
-				return option.data;
-			});
+			selectedOptions = batchDeletionList.filter( ( option ) => option.isSelected() ).map( ( option ) => option.data );
 			console.clear();
 		}
+
 		// Define a class for the Batch Deletion Dialog
-		function batchDeletionDialog(config) {
-			batchDeletionDialog.super.call(this, config);
+		function BatchDeletionDialog( config ) {
+			BatchDeletionDialog.Super.call( this, config );
 		}
+
 		// Inherit from the ProcessDialog class
-		OO.inheritClass(batchDeletionDialog, OO.ui.ProcessDialog);
+		OO.inheritClass( BatchDeletionDialog, OO.ui.ProcessDialog );
 		// Set the dialog's name and title
-		batchDeletionDialog.static.name = 'batchDeletionDialog';
-		batchDeletionDialog.static.title = mw.msg('batch-deletion');
+		BatchDeletionDialog.static.name = 'BatchDeletionDialog';
+		BatchDeletionDialog.static.title = mw.msg( 'batch-deletion' );
 		// Define the dialog's actions (Save and Cancel)
-		batchDeletionDialog.static.actions = [{
+		BatchDeletionDialog.static.actions = [ {
 			action: 'save',
-			label: new OO.ui.deferMsg('confirm-action'),
-			flags: ['primary', 'destructive']
+			label: new OO.ui.deferMsg( 'confirm-action' ),
+			flags: [ 'primary', 'destructive' ]
 		}, {
-			label: new OO.ui.deferMsg('cancel'),
+			label: new OO.ui.deferMsg( 'cancel' ),
 			flags: 'safe'
-		}];
+		} ];
 		// Initialize the dialog
-		batchDeletionDialog.prototype.initialize = function() {
-			batchDeletionDialog.super.prototype.initialize.apply(this, arguments);
+		BatchDeletionDialog.prototype.initialize = function () {
+			BatchDeletionDialog.Super.prototype.initialize.apply( this, arguments );
 			// Create a notice message for header
-			var headerTitle = new OO.ui.MessageWidget({
+			const headerTitle = new OO.ui.MessageWidget( {
 				type: 'notice',
 				inline: true,
-				label: mw.msg('batch-deletion-warning')
-			});
-			headerTitle.$element.css({
+				label: mw.msg( 'batch-deletion-warning' )
+			} );
+			headerTitle.$element.css( {
 				'margin-bottom': '20px',
 				'font-weight': '300'
-			});
+			} );
 			// Construct options for the speedy deletion reasons dropdown
-			var dropdownOptions = [];
-			speedyDeletionReasons.forEach(function(reasonGroup) {
-				dropdownOptions.push({
-					"optgroup": reasonGroup.name
-				});
-				reasonGroup.reasons.forEach(function(reason) {
-					dropdownOptions.push({
-						"data": reason.data,
-						"label": reason.label
-					});
-				});
-			});
+			const dropdownOptions = [];
+			speedyDeletionReasons.forEach( ( reasonGroup ) => {
+				dropdownOptions.push( {
+					optgroup: reasonGroup.name
+				} );
+				reasonGroup.reasons.forEach( ( reason ) => {
+					dropdownOptions.push( {
+						data: reason.data,
+						label: reason.label
+					} );
+				} );
+			} );
 			// Create a dropdown input for selecting deletion reasons
-			var reasonDropdown = new OO.ui.DropdownInputWidget({
+			const reasonDropdown = new OO.ui.DropdownInputWidget( {
 				options: dropdownOptions,
 				icon: 'dropdown',
 				value: null // Set the initial selected value to null
-			});
-			reasonDropdown.on('change', function(value) {
+			} );
+			reasonDropdown.on( 'change', ( value ) => {
 				selectedReason = value;
-			});
-			reasonDropdown.$element.css({
+			} );
+			reasonDropdown.$element.css( {
 				'margin-top': '20px',
 				'margin-bottom': '10px'
-			});
+			} );
 			// Create an input field for additional rationale
-			otherRationaleInput = new OO.ui.TextInputWidget({
-				placeholder: mw.msg('other-reason'),
-				value: '',
-			});
-			otherRationaleInput.$element.css({
-				'margin-bottom': '20px',
-			});
+			otherRationaleInput = new OO.ui.TextInputWidget( {
+				placeholder: mw.msg( 'other-reason' ),
+				value: ''
+			} );
+			otherRationaleInput.$element.css( {
+				'margin-bottom': '20px'
+			} );
 			// Create a layout for the "Select All" and "Clear Selection" buttons
-			var buttonsLayout = new OO.ui.HorizontalLayout({
-				items: [selectAllButton, clearSelectionButton]
-			});
-			var secondHeader = new OO.ui.FieldsetLayout({
-				label: mw.msg('pages-to-be-deleted'),
-				items: [buttonsLayout]
-			});
-			buttonsLayout.$element.css({
-				'display': 'contents',
-			});
-			secondHeader.$element.css({
-				'margin-bottom': '10px',
-			});
+			const buttonsLayout = new OO.ui.HorizontalLayout( {
+				items: [ selectAllButton, clearSelectionButton ]
+			} );
+			const secondHeader = new OO.ui.FieldsetLayout( {
+				label: mw.msg( 'pages-to-be-deleted' ),
+				items: [ buttonsLayout ]
+			} );
+			buttonsLayout.$element.css( {
+				display: 'contents'
+			} );
+			secondHeader.$element.css( {
+				'margin-bottom': '10px'
+			} );
 			// Create the content layout for the dialog
-			this.content = new OO.ui.PanelLayout({
+			this.content = new OO.ui.PanelLayout( {
 				padded: true,
 				expanded: false
-			});
-			this.content.$element.append(headerTitle.$element, reasonDropdown.$element, otherRationaleInput.$element, secondHeader.$element, multiselectInput.$element);
-			this.$body.append(this.content.$element);
+			} );
+			this.content.$element.append( headerTitle.$element, reasonDropdown.$element, otherRationaleInput.$element, secondHeader.$element, multiselectInput.$element );
+			this.$body.append( this.content.$element );
 		};
 		// Define the action process for the dialog
-		batchDeletionDialog.prototype.getActionProcess = function(action) {
-			var dialog = this;
-			if(action) {
-				return new OO.ui.Process(function() {
-					var deletionSummary = '';
-					if(selectedReason) {
+		BatchDeletionDialog.prototype.getActionProcess = function ( action ) {
+			const dialog = this;
+			if (action) {
+				return new OO.ui.Process( () => {
+					let deletionSummary = '';
+					if (selectedReason) {
 						deletionSummary = selectedReason;
-						if(otherRationaleInput.value) {
+						if (otherRationaleInput.value) {
 							deletionSummary += ' | ';
 						}
 					}
-					if(otherRationaleInput.value) {
+					if (otherRationaleInput.value) {
 						deletionSummary += otherRationaleInput.value;
 					}
-					selectedOptions.forEach(function(pageTitle) {
+					selectedOptions.forEach( ( pageTitle ) => {
 						// Perform batch deletion for selected pages
-						api.postWithToken('csrf', {
+						api.postWithToken( 'csrf', {
 							action: 'delete',
 							title: pageTitle,
 							reason: deletionSummary,
 							tags: 'Adiutor',
 							format: 'json'
-						}).done(function() {
+						} ).done( () => {
 							// Delete corresponding talk pages
-							api.postWithToken('csrf', {
+							api.postWithToken( 'csrf', {
 								action: 'delete',
-								title: "Tartışma:" + pageTitle,
+								title: 'Tartışma:' + pageTitle,
 								reason: apiPostSummaryforTalkPage,
 								tags: 'Adiutor',
 								format: 'json'
-							}).done(function() {});
+							} ).done( () => {
+							} );
 							// Close the dialog and display success notification
-							dialog.close({
+							dialog.close( {
 								action: action
-							});
-							mw.notify(mw.msg('batch-deletion-success'), {
-								title: mw.msg('operation-completed'),
+							} );
+							mw.notify( mw.msg( 'batch-deletion-success' ), {
+								title: mw.msg( 'operation-completed' ),
 								type: 'success'
-							});
-						});
-					});
-				});
+							} );
+						} );
+					} );
+				} );
 			}
-			return batchDeletionDialog.super.prototype.getActionProcess.call(this, action);
+			return BatchDeletionDialog.Super.prototype.getActionProcess.call( this, action );
 		};
 		// Create an instance of WindowManager to manage dialog windows
-		var windowManager = new OO.ui.WindowManager();
-		$(document.body).append(windowManager.$element);
+		const windowManager = new OO.ui.WindowManager();
+		$( document.body ).append( windowManager.$element );
 		// Create and open the Batch Deletion Dialog
-		var dialog = new batchDeletionDialog();
-		windowManager.addWindows([dialog]);
-		windowManager.openWindow(dialog);
-	});
+		const dialog = new BatchDeletionDialog();
+		windowManager.addWindows( [ dialog ] );
+		windowManager.openWindow( dialog );
+	} );
 }
+
 module.exports = {
 	callBack: callBack
 };
