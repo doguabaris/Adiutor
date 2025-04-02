@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Adriendelucca"
+			"Adriendelucca",
+			"Huñvreüs"
 		]
 	},
 	"create": "Krouiñ",
@@ -139,7 +140,7 @@
 	"registration-info": "bet enrollet $1 zo.",
 	"last-edited-default": "An titouroù diwar-benn ar c'hemm diwezhañ n'int ket da gaout",
 	"last-edited": "Kemm diwezhañ degaset $1 zo",
-	"has-x-edit-count": "An {{GENDER:|implijer|implijerez}}-mañ {{GENDER:|en deus|he deus}} graet 1$ {{PLURAL:$1|degasadenn|zegasadenn|degasadenn}}",
+	"has-x-edit-count": "An {{GENDER:|implijer|implijerez}}-mañ {{GENDER:|en|he}} deus graet $1 {{PLURAL:$1|degasadenn}}",
 	"unblock-button-label": "Distankañ",
 	"block-button-label": "Stankañ",
 	"warn-button-label": "Kas ur c'hemenn diwall",

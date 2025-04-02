@@ -2,9 +2,11 @@
 	"@metadata": {
 		"authors": [
 			"Borhan",
+			"Nahian",
 			"Vikipolimer",
 			"Yahya",
-			"আফতাবুজ্জামান"
+			"আফতাবুজ্জামান",
+			"খাত্তাব হাসান"
 		]
 	},
 	"create": "তৈরি করুন",
@@ -337,11 +339,17 @@
 	"rfd-header-description": "The initiation of a discussion for the deletion of the file, even though it doesn't meet the stricter and more challenging criteria required for speedy deletion.",
 	"nominate-file-for-deletion": "অপসারণের জন্য মনোনীত করুন",
 	"report-suspected-sockpuppeteer": "সন্দেহজনক সকপাপেটিয়াকে নিয়ে অভিযোগ জানান",
+	"sockpuppetry-warning-text": "আপনি বর্তমানে ব্যবহারকারী পরীক্ষকদের কাছে এই ব্যবহারকারীর রিপোর্ট করছেন৷",
+	"sockpuppets-input-placeholder": "ব্যবহারকারী: উপসর্গ ছাড়াই ব্যবহারকারী নামগুলি যোগ করুন, প্রতি সারিতে একটি করে।",
 	"evidence-input-placeholder": "দয়া করে প্রমাণ দিন।",
 	"evidence": "প্রমাণ",
 	"report-suspected-sockpuppet": "সন্দেহজনক সকপাপেট নিয়ে অভিযোগ জানান",
 	"sockpuppeteer": "সকপাপেটার",
 	"sockpuppet": "সকপাপেট",
+	"sockpuppeteer-help-text": "ব্যবহারকারী: উপসর্গ ছাড়া সকপাপেটার ব্যবহারকারীর নাম",
+	"cmr-module-title": "সাহায্যকারী - পরামর্শগ্রহীতা প্রতিক্রিয়া",
+	"cmr-header-title": "পরামর্শগ্রহীতা প্রতিক্রিয়া মডিউল",
+	"cmr-header-description": "এই ক্ষেত্রটি ব্যবহার করে প্রস্তুত প্রতিক্রিয়াগুলির মধ্যে একটি নির্বাচন করে আপনি আপনার পরামর্শগ্রহীতাকে দ্রুত উত্তর দিতে পারেন যিনি আপনাকে একটি প্রশ্ন জিজ্ঞাসা করেছেন ।",
 	"cmr-choose-answer": "প্রতিক্রিয়া বাছাই করুন",
 	"cmr-response": "সাড়া দিন",
 	"related-page-required": "অনুগ্রহ করে সংশ্লিষ্ট পাতা প্রবেশ করান।",

@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"NMW03",
+			"Nemoralis",
 			"ToprakM",
 			"Vikipolimer"
 		]
@@ -353,5 +354,6 @@
 	"related-page-required": "Əlaqəli səhifəni daxil et",
 	"warning-required": "Davam etmək üçün xəbərdarlıq seçin.",
 	"additional-rationale": "Əlavə seçimlər",
+	"blocked-user-removed-from-the-noticeboad": "Bloklanmış istifadəçi bildiriş lövhəsindən silindi",
 	"select-a-tag": "Etiket seçin."
 }
