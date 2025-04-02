@@ -1,0 +1,35 @@
+{
+	"title": "Adiutor",
+	"name": "adiutor-gadget",
+	"version": "0.1.0",
+	"description": "Adiutor is a gadget that gives Wikipedia's a quick way of performing common maintenance tasks.",
+	"private": true,
+	"repository": "git+https://github.com/doguabaris/Adiutor.git",
+	"keywords": [
+		"Wikimedia",
+		"Wikipedia",
+		"Adiutor"
+	],
+	"homepage": "https://meta.wikimedia.org/wiki/Adiutor",
+	"authors": [
+		{
+			"name": "Doğu Abaris",
+			"email": "abaris@null.net"
+		}
+	],
+	"license": "CC BY-SA 3.0",
+	"support": {
+		"issues": "https://phabricator.wikimedia.org/tag/adiutor/"
+	},
+	"scripts": {
+		"lint:fix": "eslint . --fix",
+		"lint": "eslint ."
+	},
+	"devDependencies": {
+		"eslint-config-wikimedia": "^0.28.2",
+		"jest": "^29.7.0",
+		"jest-environment-jsdom": "^29.7.0",
+		"mock-mediawiki": "^1.4.0",
+		"mwn": "^1.11.5"
+	}
+}

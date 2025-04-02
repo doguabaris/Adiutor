@@ -1,0 +1,24 @@
+{
+    "predefinedResponses": [
+        {
+            "label": "How to...?",
+            "options": [
+                {
+                    "data": "Hello, articles on [[Wikipedia]] are accepted in accordance with our [[WP:Policies and guidelines|policies and guidelines]]. Before creating a new article, please review our [[WP:Notability|notability]] policy. You can create your article using the [[WP:Article wizard|article wizard]] or by typing the name of the article you want to create in the search box above and clicking the red link that appears. Please ensure that the content of your article does not constitute [[WP:Original research|original research]], and make sure that it is not directly copied from another website or source, as this would be considered a violation of Wikipedia's [[WP:Copyrights|copyright policy]] and your article may be subject to [[WP:Deletion policy|deletion]].",
+                    "label": "New Article (General)"
+                }
+            ]
+        },
+        {
+            "label": "Why...?",
+            "options": [
+                {
+                    "data": "Hello, articles on [[Wikipedia]] are accepted in accordance with our [[WP:Policies and guidelines|policies and guidelines]]. You can find the explanation for why your article was deleted on the [[WP:History|history]] page of the article. Before creating a new article, please review our [[WP:Notability|notability]] policy. Additionally, if you persistently continue to create the article, it may be subject to article creation protection under our [[WP:Protection policy|protection policy]]. Please ensure that the content of your article does not constitute [[WP:Original research|original research]], and make sure that it is not directly copied from another website or source, as this would be considered a violation of Wikipedia's [[WP:Copyrights|copyright policy]] and your article may be subject to [[WP:Deletion policy|deletion]].",
+                    "label": "My Article Was Deleted (General)"
+                }
+
+            ]
+        }
+    ],
+    "apiPostSummary": "Response provided to the mentee."
+}

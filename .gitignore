@@ -1,2 +1,45 @@
-
+# macOS generated files
 .DS_Store
+
+# Windows generated files
+Thumbs.db
+
+# PHPStorm / IntelliJ IDEA project files
+.idea/
+
+# Composer dependencies
+/vendor/
+/composer.lock
+
+# PHPUnit result cache
+.phpunit.result.cache
+
+# MAMP specific directories
+logs/
+tmp/
+
+# Node modules (if any frontend work is being done)
+node_modules/
+
+# Local environment files
+.env
+.env.local
+.env.*.local
+
+# Ignored generated files
+*.log
+*.cache
+
+# Backup and temporary files
+*.bak
+*.swp
+*.swo
+
+# Archive files
+*.zip
+*.tar.gz
+*.tgz
+*.gzip
+
+# Ignoring Codex compiled files
+/build/
