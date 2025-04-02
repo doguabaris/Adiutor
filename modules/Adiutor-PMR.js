@@ -29,13 +29,13 @@ function callBack() {
 	const sectionTitle = pmrConfiguration.sectionTitle;
 	const pageTitle = mw.config.get('wgPageName').replace(/_/g, ' ');
 
-	function pageMoveRequestDialog(config) {
-		pageMoveRequestDialog.super.call(this, config);
+	function PageMoveRequestDialog(config) {
+		PageMoveRequestDialog.super.call(this, config);
 	}
-	OO.inheritClass(pageMoveRequestDialog, OO.ui.ProcessDialog);
-	pageMoveRequestDialog.static.name = 'pageMoveRequestDialog';
-	pageMoveRequestDialog.static.title = new OO.ui.deferMsg('pmr-module-title');
-	pageMoveRequestDialog.static.actions = [{
+	OO.inheritClass(PageMoveRequestDialog, OO.ui.ProcessDialog);
+	PageMoveRequestDialog.static.name = 'PageMoveRequestDialog';
+	PageMoveRequestDialog.static.title = new OO.ui.deferMsg('pmr-module-title');
+	PageMoveRequestDialog.static.actions = [{
 		action: 'save',
 		label: new OO.ui.deferMsg('create'),
 		flags: ['primary', 'progressive']
@@ -43,8 +43,8 @@ function callBack() {
 		label: new OO.ui.deferMsg('cancel'),
 		flags: 'safe'
 	}];
-	pageMoveRequestDialog.prototype.initialize = function() {
-		pageMoveRequestDialog.super.prototype.initialize.apply(this, arguments);
+	PageMoveRequestDialog.prototype.initialize = function() {
+		PageMoveRequestDialog.super.prototype.initialize.apply(this, arguments);
 		const headerTitle = new OO.ui.MessageWidget({
 			type: 'notice',
 			inline: true,
@@ -83,7 +83,7 @@ function callBack() {
 		this.content.$element.append(headerTitle.$element, headerTitleDescription.$element, requestRationale.$element, rationaleInput.$element);
 		this.$body.append(this.content.$element);
 	};
-	pageMoveRequestDialog.prototype.getActionProcess = function(action) {
+	PageMoveRequestDialog.prototype.getActionProcess = function(action) {
 		const dialog = this;
 		if (action) {
 			return new OO.ui.Process(() => {
@@ -118,11 +118,11 @@ function callBack() {
 				});
 			});
 		}
-		return pageMoveRequestDialog.super.prototype.getActionProcess.call(this, action);
+		return PageMoveRequestDialog.super.prototype.getActionProcess.call(this, action);
 	};
 	const windowManager = new OO.ui.WindowManager();
 	$(document.body).append(windowManager.$element);
-	const dialog = new pageMoveRequestDialog();
+	const dialog = new PageMoveRequestDialog();
 	windowManager.addWindows([dialog]);
 	windowManager.openWindow(dialog);
 

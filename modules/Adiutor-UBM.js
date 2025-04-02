@@ -40,13 +40,13 @@ function callBack() {
 		userToBlock = getFormattedPageName();
 	}
 
-	function userBlockDialog(config) {
-		userBlockDialog.super.call(this, config);
+	function UserBlockDialog(config) {
+		UserBlockDialog.super.call(this, config);
 	}
-	OO.inheritClass(userBlockDialog, OO.ui.ProcessDialog);
-	userBlockDialog.static.title = `${mw.msg('user-blocking')} (${userToBlock})`,
-		userBlockDialog.static.name = 'userBlockDialog';
-	userBlockDialog.static.actions = [{
+	OO.inheritClass(UserBlockDialog, OO.ui.ProcessDialog);
+	UserBlockDialog.static.title = `${mw.msg('user-blocking')} (${userToBlock})`,
+		UserBlockDialog.static.name = 'UserBlockDialog';
+	UserBlockDialog.static.actions = [{
 		action: 'continue',
 		modes: 'edit',
 		label: new OO.ui.deferMsg('block'),
@@ -65,8 +65,8 @@ function callBack() {
 		label: new OO.ui.deferMsg('back'),
 		flags: 'safe'
 	}];
-	userBlockDialog.prototype.initialize = function() {
-		userBlockDialog.super.prototype.initialize.apply(this, arguments);
+	UserBlockDialog.prototype.initialize = function() {
+		UserBlockDialog.super.prototype.initialize.apply(this, arguments);
 		this.userBlockPanel = new OO.ui.PanelLayout({
 			padded: true,
 			expanded: false
@@ -174,12 +174,12 @@ function callBack() {
 		preventEditOwnTalkPageValue = preventEditOwnTalkPageCheckbox.isSelected();
 		this.$body.append(this.userBlockStackLayout.$element);
 	};
-	userBlockDialog.prototype.getSetupProcess = function(data) {
-		return userBlockDialog.super.prototype.getSetupProcess.call(this, data).next(function() {
+	UserBlockDialog.prototype.getSetupProcess = function(data) {
+		return UserBlockDialog.super.prototype.getSetupProcess.call(this, data).next(function() {
 			this.actions.setMode('edit');
 		}, this);
 	};
-	userBlockDialog.prototype.getActionProcess = function(action) {
+	UserBlockDialog.prototype.getActionProcess = function(action) {
 		if (action === 'about') {
 			window.open('https://meta.wikimedia.org/wiki/Adiutor', '_blank');
 		} else if (action === 'continue') {
@@ -273,14 +273,14 @@ function callBack() {
 				}
 			});
 		}
-		return userBlockDialog.super.prototype.getActionProcess.call(this, action);
+		return UserBlockDialog.super.prototype.getActionProcess.call(this, action);
 	};
-	userBlockDialog.prototype.getBodyHeight = function() {
+	UserBlockDialog.prototype.getBodyHeight = function() {
 		return this.userBlockPanel.$element.outerHeight(true);
 	};
 	const windowManager = new OO.ui.WindowManager();
 	$(document.body).append(windowManager.$element);
-	const BlockingDialog = new userBlockDialog({
+	const BlockingDialog = new UserBlockDialog({
 		size: 'medium'
 	});
 	windowManager.addWindows([BlockingDialog]);

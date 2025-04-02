@@ -30,13 +30,13 @@ function callBack() {
 	const sectionTitle = rdrConfiguration.sectionTitle;
 	const pageTitle = mw.config.get('wgPageName').replace(/_/g, ' ');
 
-	function revisionDeletionRequest(config) {
-		revisionDeletionRequest.super.call(this, config);
+	function RevisionDeletionRequest(config) {
+		RevisionDeletionRequest.super.call(this, config);
 	}
-	OO.inheritClass(revisionDeletionRequest, OO.ui.ProcessDialog);
-	revisionDeletionRequest.static.name = 'revisionDeletionRequest';
-	revisionDeletionRequest.static.title = new OO.ui.deferMsg('rdr-module-title');
-	revisionDeletionRequest.static.actions = [{
+	OO.inheritClass(RevisionDeletionRequest, OO.ui.ProcessDialog);
+	RevisionDeletionRequest.static.name = 'RevisionDeletionRequest';
+	RevisionDeletionRequest.static.title = new OO.ui.deferMsg('rdr-module-title');
+	RevisionDeletionRequest.static.actions = [{
 		action: 'save',
 		label: new OO.ui.deferMsg('create'),
 		flags: ['primary', 'progressive']
@@ -44,8 +44,8 @@ function callBack() {
 		label: new OO.ui.deferMsg('cancel'),
 		flags: 'safe'
 	}];
-	revisionDeletionRequest.prototype.initialize = function() {
-		revisionDeletionRequest.super.prototype.initialize.apply(this, arguments);
+	RevisionDeletionRequest.prototype.initialize = function() {
+		RevisionDeletionRequest.super.prototype.initialize.apply(this, arguments);
 		const headerTitle = new OO.ui.MessageWidget({
 			type: 'notice',
 			inline: true,
@@ -117,7 +117,7 @@ function callBack() {
 		this.content.$element.append(headerTitle.$element, headerTitleDescription.$element, requestRationale.$element, commentInput.$element, revisionField.$element);
 		this.$body.append(this.content.$element);
 	};
-	revisionDeletionRequest.prototype.getActionProcess = function(action) {
+	RevisionDeletionRequest.prototype.getActionProcess = function(action) {
 		const dialog = this;
 		if (action) {
 			return new OO.ui.Process(() => {
@@ -157,11 +157,11 @@ function callBack() {
 				});
 			});
 		}
-		return revisionDeletionRequest.super.prototype.getActionProcess.call(this, action);
+		return RevisionDeletionRequest.super.prototype.getActionProcess.call(this, action);
 	};
 	const windowManager = new OO.ui.WindowManager();
 	$(document.body).append(windowManager.$element);
-	const dialog = new revisionDeletionRequest();
+	const dialog = new RevisionDeletionRequest();
 	windowManager.addWindows([dialog]);
 	windowManager.openWindow(dialog);
 

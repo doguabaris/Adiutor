@@ -33,13 +33,13 @@ function callBack() {
 	const sectionTitle = rppConfiguration.sectionTitle;
 	const pageTitle = mw.config.get('wgPageName').replace(/_/g, ' ');
 
-	function pageProtectionDialog(config) {
-		pageProtectionDialog.super.call(this, config);
+	function PageProtectionDialog(config) {
+		PageProtectionDialog.super.call(this, config);
 	}
-	OO.inheritClass(pageProtectionDialog, OO.ui.ProcessDialog);
-	pageProtectionDialog.static.name = 'pageProtectionDialog';
-	pageProtectionDialog.static.title = new OO.ui.deferMsg('rpp-module-title');
-	pageProtectionDialog.static.actions = [{
+	OO.inheritClass(PageProtectionDialog, OO.ui.ProcessDialog);
+	PageProtectionDialog.static.name = 'PageProtectionDialog';
+	PageProtectionDialog.static.title = new OO.ui.deferMsg('rpp-module-title');
+	PageProtectionDialog.static.actions = [{
 		action: 'save',
 		label: new OO.ui.deferMsg('create-request'),
 		flags: ['primary', 'progressive']
@@ -47,8 +47,8 @@ function callBack() {
 		label: new OO.ui.deferMsg('cancel'),
 		flags: 'safe'
 	}];
-	pageProtectionDialog.prototype.initialize = function() {
-		pageProtectionDialog.super.prototype.initialize.apply(this, arguments);
+	PageProtectionDialog.prototype.initialize = function() {
+		PageProtectionDialog.super.prototype.initialize.apply(this, arguments);
 		const headerTitle = new OO.ui.MessageWidget({
 			type: 'notice',
 			inline: true,
@@ -110,7 +110,7 @@ function callBack() {
 		this.content.$element.append(headerTitle.$element, headerTitleDescription.$element, typeOfAction.$element);
 		this.$body.append(this.content.$element);
 	};
-	pageProtectionDialog.prototype.getActionProcess = function(action) {
+	PageProtectionDialog.prototype.getActionProcess = function(action) {
 		const dialog = this;
 		if (action) {
 			return new OO.ui.Process(() => {
@@ -176,11 +176,11 @@ function callBack() {
 				});
 			});
 		}
-		return pageProtectionDialog.super.prototype.getActionProcess.call(this, action);
+		return PageProtectionDialog.super.prototype.getActionProcess.call(this, action);
 	};
 	const windowManager = new OO.ui.WindowManager();
 	$(document.body).append(windowManager.$element);
-	const dialog = new pageProtectionDialog();
+	const dialog = new PageProtectionDialog();
 	windowManager.addWindows([dialog]);
 	windowManager.openWindow(dialog);
 

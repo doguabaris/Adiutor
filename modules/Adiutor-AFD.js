@@ -50,13 +50,13 @@ function callBack() {
 	const sectionId = afdConfiguration.sectionId;
 	let pageTitle = mw.config.get('wgPageName').replace(/_/g, ' ');
 
-	function articleForDeletionDialog(config) {
-		articleForDeletionDialog.super.call(this, config);
+	function ArticleForDeletionDialog(config) {
+		ArticleForDeletionDialog.super.call(this, config);
 	}
-	OO.inheritClass(articleForDeletionDialog, OO.ui.ProcessDialog);
-	articleForDeletionDialog.static.name = 'articleForDeletionDialog';
-	articleForDeletionDialog.static.title = new OO.ui.deferMsg('afd-module-title');
-	articleForDeletionDialog.static.actions = [{
+	OO.inheritClass(ArticleForDeletionDialog, OO.ui.ProcessDialog);
+	ArticleForDeletionDialog.static.name = 'ArticleForDeletionDialog';
+	ArticleForDeletionDialog.static.title = new OO.ui.deferMsg('afd-module-title');
+	ArticleForDeletionDialog.static.actions = [{
 		action: 'save',
 		label: new OO.ui.deferMsg('continue'),
 		flags: ['primary', 'progressive']
@@ -64,8 +64,8 @@ function callBack() {
 		label: new OO.ui.deferMsg('cancel'),
 		flags: 'safe'
 	}];
-	articleForDeletionDialog.prototype.initialize = function() {
-		articleForDeletionDialog.super.prototype.initialize.apply(this, arguments);
+	ArticleForDeletionDialog.prototype.initialize = function() {
+		ArticleForDeletionDialog.super.prototype.initialize.apply(this, arguments);
 		const headerTitle = new OO.ui.MessageWidget({
 			type: 'notice',
 			inline: true,
@@ -106,7 +106,7 @@ function callBack() {
 		this.content.$element.append(headerTitle.$element, headerTitleDescription.$element, afdOptions.$element);
 		this.$body.append(this.content.$element);
 	};
-	articleForDeletionDialog.prototype.getActionProcess = function(action) {
+	ArticleForDeletionDialog.prototype.getActionProcess = function(action) {
 		const dialog = this;
 		if (action) {
 			return new OO.ui.Process(() => {
@@ -177,11 +177,11 @@ function callBack() {
 				showProgress();
 			});
 		}
-		return articleForDeletionDialog.super.prototype.getActionProcess.call(this, action);
+		return ArticleForDeletionDialog.super.prototype.getActionProcess.call(this, action);
 	};
 	const windowManager = new OO.ui.WindowManager();
 	$(document.body).append(windowManager.$element);
-	const dialog = new articleForDeletionDialog({
+	const dialog = new ArticleForDeletionDialog({
 		size: 'large',
 		classes: ['afd-helper-window'],
 		isDraggable: true

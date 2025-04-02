@@ -51,13 +51,13 @@ function callBack() {
 	const sockpuppetContentPattern = aivConfiguration.sockpuppetContentPattern;
 	const userReported = getFormattedPageName();
 
-	function aivDialog(config) {
-		aivDialog.super.call(this, config);
+	function AivDialog(config) {
+		AivDialog.super.call(this, config);
 	}
-	OO.inheritClass(aivDialog, OO.ui.ProcessDialog);
-	aivDialog.static.name = 'aivDialog';
-	aivDialog.static.title = new OO.ui.deferMsg('aiv-module-title');
-	aivDialog.static.actions = [{
+	OO.inheritClass(AivDialog, OO.ui.ProcessDialog);
+	AivDialog.static.name = 'AivDialog';
+	AivDialog.static.title = new OO.ui.deferMsg('aiv-module-title');
+	AivDialog.static.actions = [{
 		action: 'save',
 		label: new OO.ui.deferMsg('report'),
 		flags: ['primary', 'progressive']
@@ -65,8 +65,8 @@ function callBack() {
 		label: new OO.ui.deferMsg('cancel'),
 		flags: 'safe'
 	}];
-	aivDialog.prototype.initialize = function() {
-		aivDialog.super.prototype.initialize.apply(this, arguments);
+	AivDialog.prototype.initialize = function() {
+		AivDialog.super.prototype.initialize.apply(this, arguments);
 		const headerTitle = new OO.ui.MessageWidget({
 			type: 'notice',
 			inline: true,
@@ -230,7 +230,7 @@ function callBack() {
 		this.content.$element.append(headerTitle.$element, headerTitleDescription.$element, rationaleSelector.$element, requestRationaleContainer.$element);
 		this.$body.append(this.content.$element);
 	};
-	aivDialog.prototype.getActionProcess = function(action) {
+	AivDialog.prototype.getActionProcess = function(action) {
 		if (action) {
 			switch (reportType) {
 				case 'sockpuppetry':
@@ -278,7 +278,7 @@ function callBack() {
 					break;
 			}
 		}
-		return aivDialog.super.prototype.getActionProcess.call(this, action);
+		return AivDialog.super.prototype.getActionProcess.call(this, action);
 	};
 
 	function replacePlaceholders(input, replacements) {
@@ -358,7 +358,7 @@ function callBack() {
 	}
 	var windowManager = new OO.ui.WindowManager();
 	$(document.body).append(windowManager.$element);
-	const dialog = new aivDialog();
+	const dialog = new AivDialog();
 	windowManager.addWindows([dialog]);
 	windowManager.openWindow(dialog);
 }

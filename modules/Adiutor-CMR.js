@@ -42,13 +42,13 @@ function callBack() {
 	});
 
 	function openCmrDialog() {
-		function cannedResponseDialog(config) {
-			cannedResponseDialog.super.call(this, config);
+		function CannedResponseDialog(config) {
+			CannedResponseDialog.super.call(this, config);
 		}
-		OO.inheritClass(cannedResponseDialog, OO.ui.ProcessDialog);
-		cannedResponseDialog.static.name = 'cannedResponseDialog';
-		cannedResponseDialog.static.title = mw.msg('cmr-module-title');
-		cannedResponseDialog.static.actions = [{
+		OO.inheritClass(CannedResponseDialog, OO.ui.ProcessDialog);
+		CannedResponseDialog.static.name = 'CannedResponseDialog';
+		CannedResponseDialog.static.title = mw.msg('cmr-module-title');
+		CannedResponseDialog.static.actions = [{
 			action: 'save',
 			label: mw.msg('cmr-response'),
 			flags: 'primary'
@@ -56,8 +56,8 @@ function callBack() {
 			label: mw.msg('cancel'),
 			flags: 'safe'
 		}];
-		cannedResponseDialog.prototype.initialize = function() {
-			cannedResponseDialog.super.prototype.initialize.apply(this, arguments);
+		CannedResponseDialog.prototype.initialize = function() {
+			CannedResponseDialog.super.prototype.initialize.apply(this, arguments);
 			const menuItems = [].concat.apply([], predefinedResponses.map((group) => {
 				const groupItems = group.options.map((option) => new OO.ui.MenuOptionWidget({
 						data: option.data,
@@ -111,7 +111,7 @@ function callBack() {
 				});
 			});
 		};
-		cannedResponseDialog.prototype.getActionProcess = function(action) {
+		CannedResponseDialog.prototype.getActionProcess = function(action) {
 			const dialog = this;
 			if (action) {
 				return new OO.ui.Process(() => {
@@ -121,14 +121,14 @@ function callBack() {
 					});
 				});
 			}
-			return cannedResponseDialog.super.prototype.getActionProcess.call(this, action);
+			return CannedResponseDialog.super.prototype.getActionProcess.call(this, action);
 		};
-		cannedResponseDialog.prototype.getBodyHeight = function() {
+		CannedResponseDialog.prototype.getBodyHeight = function() {
 			return Math.max(this.content.$element.outerHeight(true), 400);
 		};
 		var windowManager = new OO.ui.WindowManager();
 		$(document.body).append(windowManager.$element);
-		const dialog = new cannedResponseDialog();
+		const dialog = new CannedResponseDialog();
 		windowManager.addWindows([dialog]);
 		windowManager.openWindow(dialog);
 

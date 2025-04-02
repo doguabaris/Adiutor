@@ -85,16 +85,16 @@ function callBack() {
 			console.clear();
 		}
 		// Define a class for the Batch Deletion Dialog
-		function batchDeletionDialog(config) {
-			batchDeletionDialog.super.call(this, config);
+		function BatchDeletionDialog(config) {
+			BatchDeletionDialog.super.call(this, config);
 		}
 		// Inherit from the ProcessDialog class
-		OO.inheritClass(batchDeletionDialog, OO.ui.ProcessDialog);
+		OO.inheritClass(BatchDeletionDialog, OO.ui.ProcessDialog);
 		// Set the dialog's name and title
-		batchDeletionDialog.static.name = 'batchDeletionDialog';
-		batchDeletionDialog.static.title = mw.msg('batch-deletion');
+		BatchDeletionDialog.static.name = 'BatchDeletionDialog';
+		BatchDeletionDialog.static.title = mw.msg('batch-deletion');
 		// Define the dialog's actions (Save and Cancel)
-		batchDeletionDialog.static.actions = [{
+		BatchDeletionDialog.static.actions = [{
 			action: 'save',
 			label: new OO.ui.deferMsg('confirm-action'),
 			flags: ['primary', 'destructive']
@@ -103,8 +103,8 @@ function callBack() {
 			flags: 'safe'
 		}];
 		// Initialize the dialog
-		batchDeletionDialog.prototype.initialize = function() {
-			batchDeletionDialog.super.prototype.initialize.apply(this, arguments);
+		BatchDeletionDialog.prototype.initialize = function() {
+			BatchDeletionDialog.super.prototype.initialize.apply(this, arguments);
 			// Create a notice message for header
 			const headerTitle = new OO.ui.MessageWidget({
 				type: 'notice',
@@ -172,7 +172,7 @@ function callBack() {
 			this.$body.append(this.content.$element);
 		};
 		// Define the action process for the dialog
-		batchDeletionDialog.prototype.getActionProcess = function(action) {
+		BatchDeletionDialog.prototype.getActionProcess = function(action) {
 			const dialog = this;
 			if (action) {
 				return new OO.ui.Process(() => {
@@ -215,13 +215,13 @@ function callBack() {
 					});
 				});
 			}
-			return batchDeletionDialog.super.prototype.getActionProcess.call(this, action);
+			return BatchDeletionDialog.super.prototype.getActionProcess.call(this, action);
 		};
 		// Create an instance of WindowManager to manage dialog windows
 		const windowManager = new OO.ui.WindowManager();
 		$(document.body).append(windowManager.$element);
 		// Create and open the Batch Deletion Dialog
-		const dialog = new batchDeletionDialog();
+		const dialog = new BatchDeletionDialog();
 		windowManager.addWindows([dialog]);
 		windowManager.openWindow(dialog);
 	});

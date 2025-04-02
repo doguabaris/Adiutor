@@ -17,13 +17,13 @@ function callBack() {
 		adiutorUserOptions.myCustomSummaries = [];
 	}
 
-	function adiutorOptionsDialog(config) {
-		adiutorOptionsDialog.super.call(this, config);
+	function AdiutorOptionsDialog(config) {
+		AdiutorOptionsDialog.super.call(this, config);
 	}
-	OO.inheritClass(adiutorOptionsDialog, OO.ui.ProcessDialog);
-	adiutorOptionsDialog.static.name = 'adiutorOptionsDialog';
-	adiutorOptionsDialog.static.title = new OO.ui.deferMsg('opt-module-title');
-	adiutorOptionsDialog.static.actions = [{
+	OO.inheritClass(AdiutorOptionsDialog, OO.ui.ProcessDialog);
+	AdiutorOptionsDialog.static.name = 'AdiutorOptionsDialog';
+	AdiutorOptionsDialog.static.title = new OO.ui.deferMsg('opt-module-title');
+	AdiutorOptionsDialog.static.actions = [{
 		action: 'save',
 		label: new OO.ui.deferMsg('update'),
 		flags: ['primary', 'progressive']
@@ -31,8 +31,8 @@ function callBack() {
 		label: new OO.ui.deferMsg('cancel'),
 		flags: 'safe'
 	}];
-	adiutorOptionsDialog.prototype.initialize = function() {
-		adiutorOptionsDialog.super.prototype.initialize.apply(this, arguments);
+	AdiutorOptionsDialog.prototype.initialize = function() {
+		AdiutorOptionsDialog.super.prototype.initialize.apply(this, arguments);
 		this.content = new OO.ui.PanelLayout({
 			padded: true,
 			expanded: false
@@ -148,7 +148,7 @@ function callBack() {
 		this.content.$element.append(AdiutorSettings.$element);
 		this.$body.append(this.content.$element);
 	};
-	adiutorOptionsDialog.prototype.getActionProcess = function(action) {
+	AdiutorOptionsDialog.prototype.getActionProcess = function(action) {
 		const dialog = this;
 		if (action) {
 			return new OO.ui.Process(() => {
@@ -195,11 +195,11 @@ function callBack() {
 				});
 			});
 		}
-		return adiutorOptionsDialog.super.prototype.getActionProcess.call(this, action);
+		return AdiutorOptionsDialog.super.prototype.getActionProcess.call(this, action);
 	};
 	const windowManager = new OO.ui.WindowManager();
 	$(document.body).append(windowManager.$element);
-	const dialog = new adiutorOptionsDialog();
+	const dialog = new AdiutorOptionsDialog();
 	windowManager.addWindows([dialog]);
 	windowManager.openWindow(dialog);
 	// Define functions below as needed

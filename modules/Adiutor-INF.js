@@ -69,16 +69,16 @@ function callBack() {
 					text = text.replace(/{\|[^}]+}\|/g, '');
 					const words = text.match(/\b\w+\b/g);
 					const wordCount = words ? words.length : 0;
-					// Define the articleInfoDialog class
-					function articleInfoDialog(config) {
-						articleInfoDialog.super.call(this, config);
+					// Define the ArticleInfoDialog class
+					function ArticleInfoDialog(config) {
+						ArticleInfoDialog.super.call(this, config);
 					}
-					// Inherit articleInfoDialog from OO.ui.ProcessDialog
-					OO.inheritClass(articleInfoDialog, OO.ui.ProcessDialog);
-					articleInfoDialog.static.title = mw.config.get('wgPageName');
-					articleInfoDialog.static.name = 'articleInfoDialog';
+					// Inherit ArticleInfoDialog from OO.ui.ProcessDialog
+					OO.inheritClass(ArticleInfoDialog, OO.ui.ProcessDialog);
+					ArticleInfoDialog.static.title = mw.config.get('wgPageName');
+					ArticleInfoDialog.static.name = 'ArticleInfoDialog';
 					// Define the actions for the dialog
-					articleInfoDialog.static.actions = [{
+					ArticleInfoDialog.static.actions = [{
 						action: 'continue',
 						modes: 'edit',
 						label: new OO.ui.deferMsg('okay'),
@@ -99,8 +99,8 @@ function callBack() {
 						flags: ['safe', 'back']
 					}];
 					// Initialize the dialog with its elements
-					articleInfoDialog.prototype.initialize = function() {
-						articleInfoDialog.super.prototype.initialize.apply(this, arguments);
+					ArticleInfoDialog.prototype.initialize = function() {
+						ArticleInfoDialog.super.prototype.initialize.apply(this, arguments);
 						// Create elements to display information
 						const authorMessage = mw.msg('page-more-info-tip-author');
 						const authorMessageWithStrong = authorMessage.replace(/\$1/g, '<strong><a href="/wiki/User:' + response.author + '">' + response.author + '</a></strong>');
@@ -128,25 +128,25 @@ function callBack() {
 						this.$body.append(articleCreator.$element, articleDate.$element, wordCountLabel.$element);
 					};
 					// Set up the dialog's initial state
-					articleInfoDialog.prototype.getSetupProcess = function(data) {
-						return articleInfoDialog.super.prototype.getSetupProcess.call(this, data).next(function() {
+					ArticleInfoDialog.prototype.getSetupProcess = function(data) {
+						return ArticleInfoDialog.super.prototype.getSetupProcess.call(this, data).next(function() {
 							this.actions.setMode('edit');
 						}, this);
 					};
 					// Handle actions performed in the dialog
-					articleInfoDialog.prototype.getActionProcess = function(action) {
+					ArticleInfoDialog.prototype.getActionProcess = function(action) {
 						if (action === 'continue') {
 							const dialog = this;
 							return new OO.ui.Process(() => {
 								dialog.close();
 							});
 						}
-						return articleInfoDialog.super.prototype.getActionProcess.call(this, action);
+						return ArticleInfoDialog.super.prototype.getActionProcess.call(this, action);
 					};
 					// Create a window manager and open the dialog
 					const windowManager = new OO.ui.WindowManager();
 					$(document.body).append(windowManager.$element);
-					const dialog = new articleInfoDialog({
+					const dialog = new ArticleInfoDialog({
 						size: 'medium'
 					});
 					windowManager.addWindows([dialog]);

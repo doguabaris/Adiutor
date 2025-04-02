@@ -39,13 +39,13 @@ function callBack() {
 	}, (data) => {
 		messageDialog.close();
 
-		function copyVioDialog(config) {
-			copyVioDialog.super.call(this, config);
+		function CopyVioDialog(config) {
+			CopyVioDialog.super.call(this, config);
 		}
-		OO.inheritClass(copyVioDialog, OO.ui.ProcessDialog);
+		OO.inheritClass(CopyVioDialog, OO.ui.ProcessDialog);
 		const copVioRatio = (data.best.confidence * 100).toFixed(2);
-		copyVioDialog.static.title = mw.msg('copyvio-result', copVioRatio),
-			copyVioDialog.static.name = 'copyVioDialog';
+		CopyVioDialog.static.title = mw.msg('copyvio-result', copVioRatio),
+			CopyVioDialog.static.name = 'CopyVioDialog';
 		let headerTitle;
 		if (copVioRatio > 45) {
 			headerTitle = new OO.ui.MessageWidget({
@@ -53,7 +53,7 @@ function callBack() {
 				inline: true,
 				label: mw.msg('copyvio-potential-violation', copVioRatio)
 			});
-			copyVioDialog.static.actions = [{
+			CopyVioDialog.static.actions = [{
 				action: 'continue',
 				modes: 'edit',
 				label: mw.msg('create-speedy-deletion-request'),
@@ -74,7 +74,7 @@ function callBack() {
 				inline: true,
 				label: mw.msg('copyvio-potential-violation', copVioRatio)
 			});
-			copyVioDialog.static.actions = [{
+			CopyVioDialog.static.actions = [{
 				action: 'close',
 				modes: 'edit',
 				label: mw.msg('okay'),
@@ -95,7 +95,7 @@ function callBack() {
 				inline: true,
 				label: mw.msg('copyvio-potential-violation-low', copVioRatio)
 			});
-			copyVioDialog.static.actions = [{
+			CopyVioDialog.static.actions = [{
 				action: 'close',
 				modes: 'edit',
 				label: mw.msg('okay'),
@@ -111,8 +111,8 @@ function callBack() {
 				framed: false
 			}];
 		}
-		copyVioDialog.prototype.initialize = function() {
-			copyVioDialog.super.prototype.initialize.apply(this, arguments);
+		CopyVioDialog.prototype.initialize = function() {
+			CopyVioDialog.super.prototype.initialize.apply(this, arguments);
 			const cvRelSource = data.sources.filter((source) => !source.excluded);
 			const CopyVioLinks = cvRelSource.map((source) => {
 				const messageWidgetConfig = {
@@ -137,12 +137,12 @@ function callBack() {
 			}, this);
 			this.$body.append(this.panel1.$element);
 		};
-		copyVioDialog.prototype.getSetupProcess = function(data) {
-			return copyVioDialog.super.prototype.getSetupProcess.call(this, data).next(function() {
+		CopyVioDialog.prototype.getSetupProcess = function(data) {
+			return CopyVioDialog.super.prototype.getSetupProcess.call(this, data).next(function() {
 				this.actions.setMode('edit');
 			}, this);
 		};
-		copyVioDialog.prototype.getActionProcess = function(action) {
+		CopyVioDialog.prototype.getActionProcess = function(action) {
 			const dialog = this;
 			if (action === 'continue') {
 				return new OO.ui.Process(() => {
@@ -157,11 +157,11 @@ function callBack() {
 			} else if (action === 'close') {
 				dialog.close();
 			}
-			return copyVioDialog.super.prototype.getActionProcess.call(this, action);
+			return CopyVioDialog.super.prototype.getActionProcess.call(this, action);
 		};
 		const windowManager = new OO.ui.WindowManager();
 		$(document.body).append(windowManager.$element);
-		const dialog = new copyVioDialog({
+		const dialog = new CopyVioDialog({
 			size: 'larger'
 		});
 		windowManager.addWindows([dialog]);

@@ -30,13 +30,13 @@ function callBack() {
 	const specialContibutions = wrnConfiguration.specialContibutions;
 	const userWarned = userTalkPagePrefix + mwConfig.wgPageName.replace(/_/g, ' ').replace(userPagePrefix, '').replace(specialContibutions, '').replace(userTalkPagePrefix, '');
 
-	function userWarningDialog(config) {
-		userWarningDialog.super.call(this, config);
+	function UserWarningDialog(config) {
+		UserWarningDialog.super.call(this, config);
 	}
-	OO.inheritClass(userWarningDialog, OO.ui.ProcessDialog);
-	userWarningDialog.static.name = 'userWarningDialog';
-	userWarningDialog.static.title = new OO.ui.deferMsg('wrn-module-title');
-	userWarningDialog.static.actions = [{
+	OO.inheritClass(UserWarningDialog, OO.ui.ProcessDialog);
+	UserWarningDialog.static.name = 'UserWarningDialog';
+	UserWarningDialog.static.title = new OO.ui.deferMsg('wrn-module-title');
+	UserWarningDialog.static.actions = [{
 		action: 'save',
 		label: new OO.ui.deferMsg('warn'),
 		flags: ['primary', 'progressive'],
@@ -45,8 +45,8 @@ function callBack() {
 		label: new OO.ui.deferMsg('cancel'),
 		flags: 'safe'
 	}];
-	userWarningDialog.prototype.initialize = function() {
-		userWarningDialog.super.prototype.initialize.apply(this, arguments);
+	UserWarningDialog.prototype.initialize = function() {
+		UserWarningDialog.super.prototype.initialize.apply(this, arguments);
 		const headerTitle = new OO.ui.MessageWidget({
 			type: 'notice',
 			inline: true,
@@ -97,7 +97,7 @@ function callBack() {
 		this.content.$element.append(headerTitle.$element, rationaleSelector.$element, relatedPageField.$element, warningLevel.$element);
 		this.$body.append(this.content.$element);
 	};
-	userWarningDialog.prototype.getActionProcess = function(action) {
+	UserWarningDialog.prototype.getActionProcess = function(action) {
 		if (action === 'save') {
 			if (relatedPage.value === '' || !warningData) {
 				// If the related page is empty or warning data is missing, show an error notification.
@@ -122,11 +122,11 @@ function callBack() {
 				});
 			}
 		}
-		return userWarningDialog.super.prototype.getActionProcess.call(this, action);
+		return UserWarningDialog.super.prototype.getActionProcess.call(this, action);
 	};
 	const windowManager = new OO.ui.WindowManager();
 	$(document.body).append(windowManager.$element);
-	var dialog = new userWarningDialog();
+	var dialog = new UserWarningDialog();
 	windowManager.addWindows([dialog]);
 	windowManager.openWindow(dialog);
 

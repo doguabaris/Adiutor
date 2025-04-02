@@ -32,13 +32,13 @@ function callBack() {
 	const prodNotificationTemplate = prdConfiguration.prodNotificationTemplate;
 	const pageTitle = mw.config.get('wgPageName').replace(/_/g, ' ');
 
-	function proposedDeletionDialog(config) {
-		proposedDeletionDialog.super.call(this, config);
+	function ProposedDeletionDialog(config) {
+		ProposedDeletionDialog.super.call(this, config);
 	}
-	OO.inheritClass(proposedDeletionDialog, OO.ui.ProcessDialog);
-	proposedDeletionDialog.static.name = 'proposedDeletionDialog';
-	proposedDeletionDialog.static.title = new OO.ui.deferMsg('rpp-module-title');
-	proposedDeletionDialog.static.actions = [{
+	OO.inheritClass(ProposedDeletionDialog, OO.ui.ProcessDialog);
+	ProposedDeletionDialog.static.name = 'ProposedDeletionDialog';
+	ProposedDeletionDialog.static.title = new OO.ui.deferMsg('rpp-module-title');
+	ProposedDeletionDialog.static.actions = [{
 		action: 'save',
 		label: new OO.ui.deferMsg('propose'),
 		flags: ['primary', 'progressive']
@@ -46,8 +46,8 @@ function callBack() {
 		label: new OO.ui.deferMsg('cancel'),
 		flags: 'safe'
 	}];
-	proposedDeletionDialog.prototype.initialize = function() {
-		proposedDeletionDialog.super.prototype.initialize.apply(this, arguments);
+	ProposedDeletionDialog.prototype.initialize = function() {
+		ProposedDeletionDialog.super.prototype.initialize.apply(this, arguments);
 		const headerTitle = new OO.ui.MessageWidget({
 			type: 'notice',
 			inline: true,
@@ -107,7 +107,7 @@ function callBack() {
 		this.content.$element.append(headerTitle.$element, headerTitleDescription.$element, proposeOptions.$element);
 		this.$body.append(this.content.$element);
 	};
-	proposedDeletionDialog.prototype.getActionProcess = function(action) {
+	ProposedDeletionDialog.prototype.getActionProcess = function(action) {
 		const dialog = this;
 		if (action) {
 			return new OO.ui.Process(() => {
@@ -162,11 +162,11 @@ function callBack() {
 				});
 			});
 		}
-		return proposedDeletionDialog.super.prototype.getActionProcess.call(this, action);
+		return ProposedDeletionDialog.super.prototype.getActionProcess.call(this, action);
 	};
 	const windowManager = new OO.ui.WindowManager();
 	$(document.body).append(windowManager.$element);
-	const dialog = new proposedDeletionDialog();
+	const dialog = new ProposedDeletionDialog();
 	windowManager.addWindows([dialog]);
 	windowManager.openWindow(dialog);
 

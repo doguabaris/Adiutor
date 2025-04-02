@@ -47,14 +47,14 @@ function callBack() {
 				const talkPagePrefix = csdConfiguration.talkPagePrefix;
 				const apiPostSummaryforTalkPage = csdConfiguration.apiPostSummaryforTalkPage;
 
-				function csdAdminProcessDialog(config) {
-					csdAdminProcessDialog.super.call(this, config);
+				function CsdAdminProcessDialog(config) {
+					CsdAdminProcessDialog.super.call(this, config);
 				}
-				OO.inheritClass(csdAdminProcessDialog, OO.ui.ProcessDialog);
-				csdAdminProcessDialog.static.title = pageTitle;
-				csdAdminProcessDialog.static.name = 'csdAdminProcessDialog';
+				OO.inheritClass(CsdAdminProcessDialog, OO.ui.ProcessDialog);
+				CsdAdminProcessDialog.static.title = pageTitle;
+				CsdAdminProcessDialog.static.name = 'CsdAdminProcessDialog';
 				// An action set that uses modes ('edit' and 'help' mode, in this example).
-				csdAdminProcessDialog.static.actions = [{
+				CsdAdminProcessDialog.static.actions = [{
 					action: 'continue',
 					modes: 'edit',
 					label: mw.msg('confirm-action'),
@@ -68,8 +68,8 @@ function callBack() {
 					label: mw.msg('cancel'),
 					flags: 'safe'
 				}];
-				csdAdminProcessDialog.prototype.initialize = function() {
-					csdAdminProcessDialog.super.prototype.initialize.apply(this, arguments);
+				CsdAdminProcessDialog.prototype.initialize = function() {
+					CsdAdminProcessDialog.super.prototype.initialize.apply(this, arguments);
 					let i, reason, checkboxWidget, fieldLayout;
 					let selectedNamespace = null;
 					if (mw.config.get('wgIsRedirect')) {
@@ -274,12 +274,12 @@ function callBack() {
 					});
 					this.$body.append(this.stackLayout.$element);
 				};
-				csdAdminProcessDialog.prototype.getSetupProcess = function(data) {
-					return csdAdminProcessDialog.super.prototype.getSetupProcess.call(this, data).next(function() {
+				CsdAdminProcessDialog.prototype.getSetupProcess = function(data) {
+					return CsdAdminProcessDialog.super.prototype.getSetupProcess.call(this, data).next(function() {
 						this.actions.setMode('edit');
 					}, this);
 				};
-				csdAdminProcessDialog.prototype.getActionProcess = function(action) {
+				CsdAdminProcessDialog.prototype.getActionProcess = function(action) {
 					if (action === 'help') {
 						this.actions.setMode('help');
 						window.open('https://meta.wikimedia.org/wiki/Adiutor', '_blank');
@@ -342,11 +342,11 @@ function callBack() {
 							}
 						});
 					}
-					return csdAdminProcessDialog.super.prototype.getActionProcess.call(this, action);
+					return CsdAdminProcessDialog.super.prototype.getActionProcess.call(this, action);
 				};
 				const CsdWindowManager = new OO.ui.WindowManager();
 				$(document.body).append(CsdWindowManager.$element);
-				const dialog = new csdAdminProcessDialog({
+				const dialog = new CsdAdminProcessDialog({
 					size: 'larger',
 					classes: 'adiutor-user-dashboard-admin-csd-reason-dialog'
 				});
