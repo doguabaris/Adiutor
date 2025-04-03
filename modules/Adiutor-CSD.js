@@ -461,7 +461,7 @@ function callBack() {
 						if (csdReasons.length > 1) {
 							if (useVerticalVarForSeparatingMultipleReasons) {
 								saltCSDReason = csdTemplateStartMultipleReason;
-								let i = 0;
+								let i;
 								const keys = Object.keys(csdReasons);
 								for (i = 0; i < keys.length; i++) {
 									saltCSDReason += '|' + csdReasons[keys[i]].value;

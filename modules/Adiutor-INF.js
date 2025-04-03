@@ -58,10 +58,6 @@ function callBack() {
 		dataType: 'json',
 		success: function (response) {
 			const isAlreadyAdded = adiutorUserOptions.myWorks.some((article) => article.id === newArticleToWorkOnIt.id);
-			let authorEditcount = response.author_editcount;
-			if (authorEditcount === null) {
-				authorEditcount = 0;
-			}
 			// Define details to buttons
 			const addButtonInfo = {
 				icon: isAlreadyAdded ? 'unFlag' : 'flag',

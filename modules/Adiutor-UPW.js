@@ -13,13 +13,6 @@
 
 function callBack() {
 	/**
-	 * A reference to MediaWiki’s core API.
-	 *
-	 * @type {mw.Api}
-	 */
-	const api = new mw.Api();
-
-	/**
 	 * MediaWiki config variables.
 	 *
 	 * @typedef {Object} MwConfig
@@ -49,7 +42,7 @@ function callBack() {
 					}
 					const groupPages = {};
 					let user, invalidUser, missingUser, userGroups;
-					editCount, registrationDate, isBlocked, isPartialBlocked, gender, lastEditedDate;
+					let editCount, registrationDate, isBlocked, isPartialBlocked, gender, lastEditedDate;
 					try {
 						user = queryResult.query.users[0];
 						invalidUser = typeof user.invalid !== 'undefined';

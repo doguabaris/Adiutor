@@ -10,13 +10,6 @@
 
 function callBack() {
 	/**
-	 * A reference to MediaWiki’s core API.
-	 *
-	 * @type {mw.Api}
-	 */
-	const api = new mw.Api();
-
-	/**
 	 * The wiki ID (e.g., "enwiki") as used for user preferences.
 	 *
 	 * @type {string}
@@ -49,9 +42,6 @@ function callBack() {
 	}
 
 	const summaryCategories = sumConfiguration.summaryCategories;
-	// Select the summary box and summary textarea
-	let $summaryBox, $summaryTextarea = $('#wpSummary');
-	// Assuming adiutorUserOptions.myCustomSummaries is an array of custom summaries
 	summaryCategories.general = summaryCategories.general.concat(adiutorUserOptions.myCustomSummaries);
 
 	// Function to add options to a dropdown menu

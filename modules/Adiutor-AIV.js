@@ -17,22 +17,6 @@ function callBack() {
 	const api = new mw.Api();
 
 	/**
-	 * The wiki ID (e.g., "enwiki") as used for user preferences.
-	 *
-	 * @type {string}
-	 */
-	const wikiId = /** @type {string} */ (mw.config.get('wgWikiID'));
-
-	/**
-	 * Adiutor user options. These are read from the user’s preferences (global or local).
-	 *
-	 * @type {Object}
-	 */
-	const adiutorUserOptions = JSON.parse(
-		mw.user.options.get('userjs-adiutor-' + wikiId) || '{}'
-	);
-
-	/**
 	 * MediaWiki config variables.
 	 *
 	 * @typedef {Object} MwConfig
@@ -79,7 +63,7 @@ function callBack() {
 		return;
 	}
 
-	let rationaleInput, reportType, sockPuppetsList, sockpuppetryType, revId;
+	let rationaleInput, reportType, sockPuppetsList, sockpuppetryType;
 	let vandalizedPage = {};
 	vandalizedPage.value = null;
 	let revisionID = {};
@@ -369,8 +353,7 @@ function callBack() {
 	}
 
 	function getFormattedPageName() {
-		const cleanedPageName = mwConfig.wgPageName.replace(/_/g, ' ').replace(userPagePrefix, '').replace(specialContibutions, '').replace(userTalkPagePrefix, '');
-		return cleanedPageName;
+		return mwConfig.wgPageName.replace(/_/g, ' ').replace(userPagePrefix, '').replace(specialContibutions, '').replace(userTalkPagePrefix, '');
 	}
 
 	function postSockpuppetRequest(sockpuppeteer) {

@@ -280,8 +280,7 @@ function callBack() {
 									templateInfo[tag.tag] = {};
 								}
 								if (!templateInfo[tag.tag][subItem.parameter]) {
-									const inputValue = getInputValue(subItem.name); // Get information from the user
-									templateInfo[tag.tag][subItem.parameter] = inputValue;
+									templateInfo[tag.tag][subItem.parameter] = getInputValue(subItem.name);
 								}
 								// Create the template using the previously entered information
 								template += '|' + subItem.parameter + '=' + templateInfo[tag.tag][subItem.parameter];

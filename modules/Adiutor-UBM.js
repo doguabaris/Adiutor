@@ -56,7 +56,6 @@ function callBack() {
 		return;
 	}
 	let duration;
-	let reason;
 	let blockReason;
 	let additionalReason = '';
 	let preventAccountCreationValue;
