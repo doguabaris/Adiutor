@@ -9,11 +9,76 @@
  */
 
 function callBack() {
+
+	/**
+	 * A reference to MediaWiki’s core API.
+	 *
+	 * @type {mw.Api}
+	 */
 	const api = new mw.Api();
-	const wikiId = mw.config.get('wgWikiID');
-	const adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-' + wikiId));
-	const mwConfig = mw.config.get(['wgArticleId', 'wgPageName', 'wgUserName']);
+
+	/**
+	 * The wiki ID (e.g., "enwiki") as used for user preferences.
+	 *
+	 * @type {string}
+	 */
+	const wikiId = /** @type {string} */ (mw.config.get('wgWikiID'));
+
+	/**
+	 * Adiutor user options. These are read from the user’s preferences (global or local).
+	 *
+	 * @type {Object}
+	 */
+	const adiutorUserOptions = JSON.parse(
+		mw.user.options.get('userjs-adiutor-' + wikiId) || '{}'
+	);
+
+	/**
+	 * MediaWiki config variables.
+	 *
+	 * @typedef {Object} MwConfig
+	 * @property {number} wgArticleId
+	 * @property {string} wgPageName
+	 * @property {string|null} wgUserName
+	 *
+	 * @type {MwConfig}
+	 */
+	const mwConfig = {
+		wgArticleId: /** @type {number} */ (mw.config.get('wgArticleId')),
+		wgPageName: /** @type {string} */ (mw.config.get('wgPageName')),
+		wgUserName: /** @type {string|null} */ (mw.config.get('wgUserName'))
+	};
+
+	/**
+	 * @typedef {Object} AfdConfiguration
+	 * @property {string} afdTemplate
+	 * @property {string} afdPageTitleForMultipleNomination
+	 * @property {string} apiPostSummary
+	 * @property {string} apiPostSummaryforCreator
+	 * @property {string} apiPostSummaryforUserLog
+	 * @property {string} apiPostSummaryforAfdPage
+	 * @property {string} apiPostSummaryforAfdLog
+	 * @property {boolean} addNominationToNoticeboard
+	 * @property {string} contentPattern
+	 * @property {string} noticeBoardTitle
+	 * @property {boolean} logNominations
+	 * @property {string} afdLogPage
+	 * @property {string} afdNotificationTemplate
+	 * @property {string} userLogText
+	 * @property {string} userPagePrefix
+	 * @property {string} userTalkPagePrefix
+	 * @property {string[]} localMonthsNames
+	 * @property {boolean} addNominationToNoticeboardByFindLast
+	 * @property {boolean} addNewSection
+	 * @property {string} sectionTitle
+	 * @property {boolean} appendText
+	 * @property {boolean} prependText
+	 * @property {string|undefined} sectionId
+	 */
+
+	/** @type {AfdConfiguration} */
 	const afdConfiguration = require('./Adiutor-AFD.json');
+
 	if (!afdConfiguration) {
 		mw.notify('MediaWiki:Gadget-Adiutor-AFD.json data is empty or undefined.', {
 			title: mw.msg('operation-failed'),
@@ -21,6 +86,10 @@ function callBack() {
 		});
 		return;
 	}
+
+	let afdOptions;
+	let rationaleField;
+	let rationaleInput;
 	let nominatedPreviously;
 	let nextNominationNumber = 0;
 	const afdTemplate = afdConfiguration.afdTemplate;
@@ -40,7 +109,6 @@ function callBack() {
 	const userLogText = afdConfiguration.userLogText;
 	const userPagePrefix = afdConfiguration.userPagePrefix;
 	const userTalkPagePrefix = afdConfiguration.userTalkPagePrefix;
-	const specialContibutions = afdConfiguration.specialContibutions;
 	const localMonthsNames = afdConfiguration.localMonthsNames;
 	const addNominationToNoticeboardByFindLast = afdConfiguration.addNominationToNoticeboardByFindLast;
 	const addNewSection = afdConfiguration.addNewSection;
@@ -50,9 +118,22 @@ function callBack() {
 	const sectionId = afdConfiguration.sectionId;
 	let pageTitle = mw.config.get('wgPageName').replace(/_/g, ' ');
 
+	/**
+	 * The main OOUI dialog for the AFD process.
+	 * Inherits from `OO.ui.ProcessDialog`.
+	 *
+	 * @constructor
+	 * @extends OO.ui.ProcessDialog
+	 * @param {Object} config - The configuration object for the dialog.
+	 * @param {string} config.size - The dialog size (e.g., “large”).
+	 * @param {string[]} config.classes - Additional CSS classes for the dialog.
+	 * @param {boolean} config.isDraggable - Whether the dialog is draggable.
+	 * @return {void}
+	 */
 	function ArticleForDeletionDialog(config) {
 		ArticleForDeletionDialog.super.call(this, config);
 	}
+
 	OO.inheritClass(ArticleForDeletionDialog, OO.ui.ProcessDialog);
 	ArticleForDeletionDialog.static.name = 'ArticleForDeletionDialog';
 	ArticleForDeletionDialog.static.title = new OO.ui.deferMsg('afd-module-title');
@@ -64,7 +145,7 @@ function callBack() {
 		label: new OO.ui.deferMsg('cancel'),
 		flags: 'safe'
 	}];
-	ArticleForDeletionDialog.prototype.initialize = function() {
+	ArticleForDeletionDialog.prototype.initialize = function () {
 		ArticleForDeletionDialog.super.prototype.initialize.apply(this, arguments);
 		const headerTitle = new OO.ui.MessageWidget({
 			type: 'notice',
@@ -106,7 +187,7 @@ function callBack() {
 		this.content.$element.append(headerTitle.$element, headerTitleDescription.$element, afdOptions.$element);
 		this.$body.append(this.content.$element);
 	};
-	ArticleForDeletionDialog.prototype.getActionProcess = function(action) {
+	ArticleForDeletionDialog.prototype.getActionProcess = function (action) {
 		const dialog = this;
 		if (action) {
 			return new OO.ui.Process(() => {
@@ -171,6 +252,7 @@ function callBack() {
 						}
 					});
 				}
+
 				dialog.close({
 					action: action
 				});
@@ -257,6 +339,7 @@ function callBack() {
 			addNominationToAfdPage(pageTitle);
 		});
 	}
+
 	if (addNominationToNoticeboard) {
 		const placeholders = {
 			$1: pageTitle,
@@ -314,7 +397,8 @@ function callBack() {
 						optionname: 'userjs-adiutor-' + mw.config.get('wgWikiID'),
 						optionvalue: JSON.stringify(adiutorUserOptions),
 						formatversion: 2
-					}, () => {});
+					}, () => {
+					});
 				});
 			}
 		});
@@ -394,7 +478,8 @@ function callBack() {
 					text: replaceParameter(userLogText, '1', pageTitle),
 					summary: replaceParameter(apiPostSummaryforUserLog, '1', pageTitle),
 					format: 'json'
-				}).done(() => {});
+				}).done(() => {
+				});
 			});
 		}
 	}
@@ -418,7 +503,8 @@ function callBack() {
 			summary: replaceParameter(apiPostSummaryforCreator, '1', pageTitle),
 			tags: 'Adiutor',
 			format: 'json'
-		}).done(() => {});
+		}).done(() => {
+		});
 	}
 
 	function showProgress() {
@@ -433,6 +519,7 @@ function callBack() {
 		});
 	}
 }
+
 module.exports = {
 	callBack: callBack
 };

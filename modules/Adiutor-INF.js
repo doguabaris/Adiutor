@@ -9,10 +9,43 @@
  */
 
 function callBack() {
+	/**
+	 * A reference to MediaWiki’s core API.
+	 *
+	 * @type {mw.Api}
+	 */
 	const api = new mw.Api();
-	const mwConfig = mw.config.get(['wgArticleId', 'wgPageName']);
-	const wikiId = mw.config.get('wgWikiID');
-	const adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-' + wikiId));
+
+	/**
+	 * The wiki ID (e.g., "enwiki") as used for user preferences.
+	 *
+	 * @type {string}
+	 */
+	const wikiId = /** @type {string} */ (mw.config.get('wgWikiID'));
+
+	/**
+	 * Adiutor user options. These are read from the user’s preferences (global or local).
+	 *
+	 * @type {Object}
+	 */
+	const adiutorUserOptions = JSON.parse(
+		mw.user.options.get('userjs-adiutor-' + wikiId) || '{}'
+	);
+
+	/**
+	 * MediaWiki config variables.
+	 *
+	 * @typedef {Object} MwConfig
+	 * @property {number} wgArticleId
+	 * @property {string} wgPageName
+	 *
+	 * @type {MwConfig}
+	 */
+	const mwConfig = {
+		wgArticleId: /** @type {number} */ (mw.config.get('wgArticleId')),
+		wgPageName: /** @type {string} */ (mw.config.get('wgPageName'))
+	};
+
 	const newArticleToWorkOnIt = {
 		id: mwConfig.wgArticleId,
 		name: mwConfig.wgPageName
@@ -23,7 +56,7 @@ function callBack() {
 		url: apiUrl,
 		method: 'GET',
 		dataType: 'json',
-		success: function(response) {
+		success: function (response) {
 			const isAlreadyAdded = adiutorUserOptions.myWorks.some((article) => article.id === newArticleToWorkOnIt.id);
 			let authorEditcount = response.author_editcount;
 			if (authorEditcount === null) {
@@ -69,10 +102,23 @@ function callBack() {
 					text = text.replace(/{\|[^}]+}\|/g, '');
 					const words = text.match(/\b\w+\b/g);
 					const wordCount = words ? words.length : 0;
-					// Define the ArticleInfoDialog class
+
+					/**
+					 * The main OOUI dialog for the article info process.
+					 * Inherits from `OO.ui.ProcessDialog`.
+					 *
+					 * @constructor
+					 * @extends OO.ui.ProcessDialog
+					 * @param {Object} config - The configuration object for the dialog.
+					 * @param {string} config.size - The dialog size (e.g., “large”).
+					 * @param {string[]} config.classes - Additional CSS classes for the dialog.
+					 * @param {boolean} config.isDraggable - Whether the dialog is draggable.
+					 * @return {void}
+					 */
 					function ArticleInfoDialog(config) {
 						ArticleInfoDialog.super.call(this, config);
 					}
+
 					// Inherit ArticleInfoDialog from OO.ui.ProcessDialog
 					OO.inheritClass(ArticleInfoDialog, OO.ui.ProcessDialog);
 					ArticleInfoDialog.static.title = mw.config.get('wgPageName');
@@ -99,7 +145,7 @@ function callBack() {
 						flags: ['safe', 'back']
 					}];
 					// Initialize the dialog with its elements
-					ArticleInfoDialog.prototype.initialize = function() {
+					ArticleInfoDialog.prototype.initialize = function () {
 						ArticleInfoDialog.super.prototype.initialize.apply(this, arguments);
 						// Create elements to display information
 						const authorMessage = mw.msg('page-more-info-tip-author');
@@ -128,13 +174,13 @@ function callBack() {
 						this.$body.append(articleCreator.$element, articleDate.$element, wordCountLabel.$element);
 					};
 					// Set up the dialog's initial state
-					ArticleInfoDialog.prototype.getSetupProcess = function(data) {
-						return ArticleInfoDialog.super.prototype.getSetupProcess.call(this, data).next(function() {
+					ArticleInfoDialog.prototype.getSetupProcess = function (data) {
+						return ArticleInfoDialog.super.prototype.getSetupProcess.call(this, data).next(function () {
 							this.actions.setMode('edit');
 						}, this);
 					};
 					// Handle actions performed in the dialog
-					ArticleInfoDialog.prototype.getActionProcess = function(action) {
+					ArticleInfoDialog.prototype.getActionProcess = function (action) {
 						if (action === 'continue') {
 							const dialog = this;
 							return new OO.ui.Process(() => {
@@ -184,7 +230,7 @@ function callBack() {
 			});
 			$('.vector-body-before-content').prepend(aboutArticle.$element);
 		},
-		error: function(xhr, status, error) {
+		error: function (xhr, status, error) {
 			console.error('AJAX error:', error);
 		}
 	});
@@ -196,9 +242,11 @@ function callBack() {
 			optionname: 'userjs-adiutor-' + mw.config.get('wgWikiID'),
 			optionvalue: JSON.stringify(updatedOptions),
 			formatversion: 2
-		}, () => {});
+		}, () => {
+		});
 	}
 }
+
 module.exports = {
 	callBack: callBack
 };

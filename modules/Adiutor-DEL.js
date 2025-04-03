@@ -9,9 +9,48 @@
  */
 
 function callBack() {
+	/**
+	 * A reference to MediaWiki’s core API.
+	 *
+	 * @type {mw.Api}
+	 */
 	const api = new mw.Api();
-	const mwConfig = mw.config.get(['wgPageName', 'wgWikiID', 'wgNamespaceNumber']);
+
+	/**
+	 * MediaWiki config variables.
+	 *
+	 * @typedef {Object} MwConfig
+	 * @property {string} wgPageName
+	 * @property {string} wgWikiID
+	 * @property {number} wgNamespaceNumber
+	 *
+	 * @type {MwConfig}
+	 */
+	const mwConfig = {
+		wgPageName: /** @type {string} */ (mw.config.get('wgPageName')),
+		wgWikiID: /** @type {string} */ (mw.config.get('wgWikiID')),
+		wgNamespaceNumber: /** @type {number} */ (mw.config.get('wgNamespaceNumber'))
+	};
+
+	/**
+	 * @typedef {Object} CsdConfiguration
+	 * @property {Array<{
+	 *   name: string,
+	 *   namespace: string|number,
+	 *   reasons: Array<{
+	 *     value: string,
+	 *     data: string,
+	 *     label: string,
+	 *     help?: string
+	 *   }>
+	 * }>} speedyDeletionReasons
+	 * @property {string} talkPagePrefix
+	 * @property {string} apiPostSummaryforTalkPage
+	 */
+
+	/** @type {CsdConfiguration} */
 	const csdConfiguration = require('./Adiutor-CSD.json');
+
 	if (!csdConfiguration) {
 		mw.notify('MediaWiki:Gadget-Adiutor-CSD.json data is empty or undefined.', {
 			title: mw.msg('operation-failed'),
@@ -19,7 +58,14 @@ function callBack() {
 		});
 		return;
 	}
-	let csdSummary;
+
+	let csdSummary,
+		revDelCount,
+		nameSpaceDeletionReasons,
+		selectedNamespaceForGeneral,
+		selectedNamespaceForOthers,
+		generalReasons,
+		isCopyVio, otherReasons, copyVioInput;
 	const csdReasons = [];
 	let saltCsdSummary = '';
 	const pageTitle = mw.config.get('wgPageName').replace(/_/g, ' ');
@@ -47,9 +93,22 @@ function callBack() {
 				const talkPagePrefix = csdConfiguration.talkPagePrefix;
 				const apiPostSummaryforTalkPage = csdConfiguration.apiPostSummaryforTalkPage;
 
+				/**
+				 * The main OOUI dialog for the CSD admin process.
+				 * Inherits from `OO.ui.ProcessDialog`.
+				 *
+				 * @constructor
+				 * @extends OO.ui.ProcessDialog
+				 * @param {Object} config - The configuration object for the dialog.
+				 * @param {string} config.size - The dialog size (e.g., “large”).
+				 * @param {string[]} config.classes - Additional CSS classes for the dialog.
+				 * @param {boolean} config.isDraggable - Whether the dialog is draggable.
+				 * @return {void}
+				 */
 				function CsdAdminProcessDialog(config) {
 					CsdAdminProcessDialog.super.call(this, config);
 				}
+
 				OO.inheritClass(CsdAdminProcessDialog, OO.ui.ProcessDialog);
 				CsdAdminProcessDialog.static.title = pageTitle;
 				CsdAdminProcessDialog.static.name = 'CsdAdminProcessDialog';
@@ -68,7 +127,7 @@ function callBack() {
 					label: mw.msg('cancel'),
 					flags: 'safe'
 				}];
-				CsdAdminProcessDialog.prototype.initialize = function() {
+				CsdAdminProcessDialog.prototype.initialize = function () {
 					CsdAdminProcessDialog.super.prototype.initialize.apply(this, arguments);
 					let i, reason, checkboxWidget, fieldLayout;
 					let selectedNamespace = null;
@@ -274,12 +333,12 @@ function callBack() {
 					});
 					this.$body.append(this.stackLayout.$element);
 				};
-				CsdAdminProcessDialog.prototype.getSetupProcess = function(data) {
-					return CsdAdminProcessDialog.super.prototype.getSetupProcess.call(this, data).next(function() {
+				CsdAdminProcessDialog.prototype.getSetupProcess = function (data) {
+					return CsdAdminProcessDialog.super.prototype.getSetupProcess.call(this, data).next(function () {
 						this.actions.setMode('edit');
 					}, this);
 				};
-				CsdAdminProcessDialog.prototype.getActionProcess = function(action) {
+				CsdAdminProcessDialog.prototype.getActionProcess = function (action) {
 					if (action === 'help') {
 						this.actions.setMode('help');
 						window.open('https://meta.wikimedia.org/wiki/Adiutor', '_blank');
@@ -330,7 +389,8 @@ function callBack() {
 										reason: apiPostSummaryforTalkPage,
 										tags: 'Adiutor',
 										format: 'json'
-									}).done(() => {});
+									}).done(() => {
+									});
 									dialog.close();
 									location.reload();
 								});
@@ -363,6 +423,7 @@ function callBack() {
 		console.error('API error:', error);
 	});
 }
+
 module.exports = {
 	callBack: callBack
 };

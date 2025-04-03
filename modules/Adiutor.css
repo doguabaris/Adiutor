@@ -1,8 +1,10 @@
-/* Adiutor: Enhancing Wikipedia Editing Through a Comprehensive Set of Versatile Tools and Modules.
- * Author: Vikipolimer
- * Learn more at: https://meta.wikimedia.org/wiki/Adiutor
- * License: Licensed under Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
-<nowiki> */
+/**
+ * @file Adiutor.css
+ * @description This is the CSS file for the Adiutor gadget.
+ * @license CC BY-SA 4.0
+ * @see https://meta.wikimedia.org/wiki/Adiutor
+ * @author Doğu Abaris <abaris@null.net>
+ */
 
 .adiutor-user-dashboard-container {
 	padding: 65px;
@@ -42,10 +44,6 @@
 	margin: 0 !important;
 	width: inherit;
 	border: none !important;;
-}
-
-.adiutor-user-dashboard-main-x {
-	height: -webkit-fill-available;
 }
 
 span.adiutor-user-dashboard-top-logo {
@@ -121,7 +119,6 @@ label.adiutor-user-dashboard-logo {
 	border-bottom: 1px solid #c8ccd0;
 	position: fixed;
 	width: 100%;
-	width: -webkit-fill-available;
 	text-align: right;
 }
 

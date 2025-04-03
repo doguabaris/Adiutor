@@ -9,8 +9,28 @@
  */
 
 function callBack() {
+	/**
+	 * A reference to MediaWiki’s core API.
+	 *
+	 * @type {mw.Api}
+	 */
 	const api = new mw.Api();
+
+	/**
+	 * @typedef {Object} PmrConfiguration
+	 * @property {string} noticeBoardTitle
+	 * @property {boolean} addNewSection
+	 * @property {boolean} appendText
+	 * @property {boolean} prependText
+	 * @property {string|undefined} sectionId
+	 * @property {string} contentPattern
+	 * @property {string} apiPostSummary
+	 * @property {string} sectionTitle
+	 */
+
+	/** @type {PmrConfiguration} */
 	const pmrConfiguration = require('./Adiutor-PMR.json');
+
 	if (!pmrConfiguration) {
 		mw.notify('MediaWiki:Gadget-Adiutor-PMR.json data is empty or undefined.', {
 			title: mw.msg('operation-failed'),
@@ -18,6 +38,7 @@ function callBack() {
 		});
 		return;
 	}
+
 	const noticeBoardTitle = pmrConfiguration.noticeBoardTitle;
 	const noticeBoardLink = noticeBoardTitle.replace(/ /g, '_');
 	const addNewSection = pmrConfiguration.addNewSection;
@@ -29,9 +50,22 @@ function callBack() {
 	const sectionTitle = pmrConfiguration.sectionTitle;
 	const pageTitle = mw.config.get('wgPageName').replace(/_/g, ' ');
 
+	/**
+	 * The main OOUI dialog for the page move request process.
+	 * Inherits from `OO.ui.ProcessDialog`.
+	 *
+	 * @constructor
+	 * @extends OO.ui.ProcessDialog
+	 * @param {Object} config - The configuration object for the dialog.
+	 * @param {string} config.size - The dialog size (e.g., “large”).
+	 * @param {string[]} config.classes - Additional CSS classes for the dialog.
+	 * @param {boolean} config.isDraggable - Whether the dialog is draggable.
+	 * @return {void}
+	 */
 	function PageMoveRequestDialog(config) {
 		PageMoveRequestDialog.super.call(this, config);
 	}
+
 	OO.inheritClass(PageMoveRequestDialog, OO.ui.ProcessDialog);
 	PageMoveRequestDialog.static.name = 'PageMoveRequestDialog';
 	PageMoveRequestDialog.static.title = new OO.ui.deferMsg('pmr-module-title');
@@ -43,7 +77,7 @@ function callBack() {
 		label: new OO.ui.deferMsg('cancel'),
 		flags: 'safe'
 	}];
-	PageMoveRequestDialog.prototype.initialize = function() {
+	PageMoveRequestDialog.prototype.initialize = function () {
 		PageMoveRequestDialog.super.prototype.initialize.apply(this, arguments);
 		const headerTitle = new OO.ui.MessageWidget({
 			type: 'notice',
@@ -58,19 +92,23 @@ function callBack() {
 			'margin-bottom': '20px'
 		});
 		const requestRationale = new OO.ui.FieldsetLayout({});
+
+		this.newPageName = new OO.ui.TextInputWidget({
+			value: '',
+			indicator: 'required'
+		});
+		this.rationaleInput = new OO.ui.MultilineTextInputWidget({
+			placeholder: new OO.ui.deferMsg('pmr-rationale-placeholder'),
+			value: '',
+			indicator: 'required'
+		});
+
 		requestRationale.addItems([
-			new OO.ui.FieldLayout(newPageName = new OO.ui.TextInputWidget({
-				value: '',
-				indicator: 'required'
-			}), {
+			new OO.ui.FieldLayout(this.newPageName, {
 				label: new OO.ui.deferMsg('new-name'),
 				help: new OO.ui.deferMsg('pmr-new-page-name-description')
 			}),
-			new OO.ui.FieldLayout(rationaleInput = new OO.ui.MultilineTextInputWidget({
-				placeholder: new OO.ui.deferMsg('pmr-rationale-placeholder'),
-				value: '',
-				indicator: 'required'
-			}), {
+			new OO.ui.FieldLayout(this.rationaleInput, {
 				label: new OO.ui.deferMsg('rationale'),
 				align: 'inline'
 			})
@@ -80,17 +118,22 @@ function callBack() {
 			padded: true,
 			expanded: false
 		});
-		this.content.$element.append(headerTitle.$element, headerTitleDescription.$element, requestRationale.$element, rationaleInput.$element);
+		this.content.$element.append(
+			headerTitle.$element,
+			headerTitleDescription.$element,
+			requestRationale.$element,
+			this.rationaleInput.$element
+		);
 		this.$body.append(this.content.$element);
 	};
-	PageMoveRequestDialog.prototype.getActionProcess = function(action) {
+	PageMoveRequestDialog.prototype.getActionProcess = function (action) {
 		const dialog = this;
 		if (action) {
 			return new OO.ui.Process(() => {
 				const placeholders = {
 					$1: pageTitle,
-					$2: newPageName.value,
-					$3: rationaleInput.value
+					$2: this.newPageName.value,
+					$3: this.rationaleInput.value
 				};
 				const preparedContent = replacePlaceholders(contentPattern, placeholders);
 				const apiParams = {
@@ -142,6 +185,7 @@ function callBack() {
 		}
 	}
 }
+
 module.exports = {
 	callBack: callBack
 };

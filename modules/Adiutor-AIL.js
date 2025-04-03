@@ -8,13 +8,85 @@
  * @author Doğu Abaris <abaris@null.net>
  */
 
+/**
+ * @typedef {Object} Revision
+ * @property {string} user
+ */
+
+/**
+ * @typedef {Object} PageData
+ * @property {Revision[]} revisions
+ */
+
+/**
+ * @typedef {Object} PageRevision
+ * @property {string} user
+ */
+
+/**
+ * @typedef {Object} PageData
+ * @property {PageRevision[]} revisions
+ */
+
+/**
+ * @typedef {Object} QueryResponse
+ * @property {Object.<string, PageData>} pages
+ */
+
+/**
+ * @typedef {Object} ApiResponse
+ * @property {QueryResponse} query
+ */
+
 function callBack() {
+
+	/**
+	 * A reference to MediaWiki’s core API.
+	 *
+	 * @type {mw.Api}
+	 */
 	const api = new mw.Api();
-	const mwConfig = mw.config.get(['skin', 'wgPageName', 'wgNamespaceNumber', 'wgUserName', 'wgUserGroups', 'wgCanonicalSpecialPageName']);
-	const wikiId = mw.config.get('wgWikiID');
-	const adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-' + wikiId));
+
+	/**
+	 * The wiki ID (e.g., "enwiki") as used for user preferences.
+	 *
+	 * @type {string}
+	 */
+	const wikiId = /** @type {string} */ (mw.config.get('wgWikiID'));
+
+	/**
+	 * Adiutor user options. These are read from the user’s preferences (global or local).
+	 *
+	 * @type {Object}
+	 */
+	const adiutorUserOptions = JSON.parse(
+		mw.user.options.get('userjs-adiutor-' + wikiId) || '{}'
+	);
+
+	/**
+	 * MediaWiki config variables.
+	 *
+	 * @typedef {Object} MwConfig
+	 * @property {string} skin
+	 * @property {string} wgPageName
+	 * @property {number} wgNamespaceNumber
+	 * @property {string|null} wgUserName
+	 * @property {Array<string>} wgUserGroups
+	 * @property {string|undefined} wgCanonicalSpecialPageName
+	 *
+	 * @type {MwConfig}
+	 */
+	const mwConfig = {
+		skin: /** @type {string} */ (mw.config.get('skin')),
+		wgPageName: /** @type {string} */ (mw.config.get('wgPageName')),
+		wgNamespaceNumber: /** @type {number} */ (mw.config.get('wgNamespaceNumber')),
+		wgUserName: /** @type {string|null} */ (mw.config.get('wgUserName')),
+		wgUserGroups: /** @type {Array<string>} */ (mw.config.get('wgUserGroups')),
+		wgCanonicalSpecialPageName: /** @type {string|undefined} */ (mw.config.get('wgCanonicalSpecialPageName'))
+	};
+
+	let blockButtonGroup, blockedAlready, blockThisUser;
 	const defaultMenuItems = [];
-	const loadedModules = [];
 	const miscellaneousConfigurations = {
 		csdCategory: 'Candidates_for_speedy_deletion_as_spam',
 		userBlockRequestNoticeBoard: 'Administrator_intervention_against_vandalism',
@@ -49,7 +121,7 @@ function callBack() {
 					format: 'json'
 				};
 				api.get(UserParams).then((data) => {
-					checkMentor(data.query.userinfo.id);
+					checkMentor(response.query.userinfo.id);
 				});
 			}
 			if (mwConfig.wgUserGroups.includes('sysop')) {
@@ -72,7 +144,7 @@ function callBack() {
 							}));
 						}
 						if (mwConfig.wgPageName.includes(miscellaneousConfigurations.userBlockRequestNoticeBoard)) {
-							$('.mw-editsection-like').each(function() {
+							$('.mw-editsection-like').each(function () {
 								blockButtonGroup = new OO.ui.ButtonGroupWidget({
 									items: [
 										blockedAlready = new OO.ui.ButtonWidget({
@@ -98,8 +170,7 @@ function callBack() {
 									const headlineText = headlineElement.text();
 									const dateRegex = /\d{2}-\d{2}-\d{4}/;
 									window.adiutorUserToBlock = headlineText.replace(dateRegex, '').trim();
-									const sectionId = new URL(sectionElement.find('.mw-editsection a').attr('href')).searchParams.get('section');
-									window.sectionId = sectionId;
+									window.sectionId = new URL(sectionElement.find('.mw-editsection a').attr('href')).searchParams.get('section');
 									window.headlineElement = headlineElement;
 									loadAdiutorModule('UBM');
 								});
@@ -136,7 +207,7 @@ function callBack() {
 				}
 			}
 			if (mwConfig.wgUserGroups.includes('sysop')) {
-				if (/(?:\?|&)(?:action|diff|oldid)=/.test(window.location.href)) {
+				if (/[?&](?:action|diff|oldid)=/.test(window.location.href)) {
 					defaultMenuItems.push(new OO.ui.MenuOptionWidget({
 						icon: 'cancel',
 						data: 'rdr',
@@ -211,7 +282,7 @@ function callBack() {
 					classes: ['adiutor-top-settings-menu']
 				}));
 			}
-			var adiutorMenu = new OO.ui.ButtonMenuSelectWidget({
+			const adiutorMenu = new OO.ui.ButtonMenuSelectWidget({
 				icon: 'ellipsis',
 				invisibleLabel: true,
 				framed: false,
@@ -225,7 +296,7 @@ function callBack() {
 				}
 			});
 			// Define a variable to track if the menu is open
-			var isMenuOpen = false;
+			let isMenuOpen = false;
 			// Listen for mouseover event on the Adiutor menu button
 			adiutorMenu.$element.on('mouseover', () => {
 				// Open the menu programmatically
@@ -443,6 +514,7 @@ function callBack() {
 		});
 	}
 }
+
 module.exports = {
 	callBack: callBack
 };

@@ -9,10 +9,65 @@
  */
 
 function callBack() {
+	/**
+	 * A reference to MediaWiki’s core API.
+	 *
+	 * @type {mw.Api}
+	 */
 	const api = new mw.Api();
-	const mwConfig = mw.config.get(['wgArticleId', 'wgPageName', 'wgUserGroups', 'wgUserName', 'wgWikiID']);
-	const adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-' + mwConfig.wgWikiID));
+
+	/**
+	 * The wiki ID (e.g., "enwiki") as used for user preferences.
+	 *
+	 * @type {string}
+	 */
+	const wikiId = /** @type {string} */ (mw.config.get('wgWikiID'));
+
+	/**
+	 * Adiutor user options. These are read from the user’s preferences (global or local).
+	 *
+	 * @type {Object}
+	 */
+	const adiutorUserOptions = JSON.parse(
+		mw.user.options.get('userjs-adiutor-' + wikiId) || '{}'
+	);
+
+	/**
+	 * MediaWiki config variables.
+	 *
+	 * @typedef {Object} MwConfig
+	 * @property {number} wgArticleId
+	 * @property {string} wgPageName
+	 * @property {Array<string>} wgUserGroups
+	 * @property {string|null} wgUserName
+	 * @property {string} wgWikiID
+	 *
+	 * @type {MwConfig}
+	 */
+	const mwConfig = {
+		wgArticleId: /** @type {number} */ (mw.config.get('wgArticleId')),
+		wgPageName: /** @type {string} */ (mw.config.get('wgPageName')),
+		wgUserGroups: /** @type {Array<string>} */ (mw.config.get('wgUserGroups')),
+		wgUserName: /** @type {string|null} */ (mw.config.get('wgUserName')),
+		wgWikiID: /** @type {string} */ (mw.config.get('wgWikiID'))
+	};
+
+	/**
+	 * @typedef {Object} PrdConfiguration
+	 * @property {string} standardProposeTemplate
+	 * @property {string} livingPersonProposeTemplate
+	 * @property {string} apiPostSummary
+	 * @property {string} apiPostSummaryforCreator
+	 * @property {string} apiPostSummaryforLog
+	 * @property {string[]} localMonthsNames
+	 * @property {string} userPagePrefix
+	 * @property {string} userTalkPagePrefix
+	 * @property {string} prodNotificationTemplate
+	 */
+
+	/** @type {PrdConfiguration} */
 	const prdConfiguration = require('./Adiutor-PRD.json');
+
 	if (!prdConfiguration) {
 		mw.notify('MediaWiki:Gadget-Adiutor-PRD.json data is empty or undefined.', {
 			title: mw.msg('operation-failed'),
@@ -20,6 +75,7 @@ function callBack() {
 		});
 		return;
 	}
+
 	let rationaleInput;
 	const standardProposeTemplate = prdConfiguration.standardProposeTemplate;
 	const livingPersonProposeTemplate = prdConfiguration.livingPersonProposeTemplate;
@@ -32,9 +88,22 @@ function callBack() {
 	const prodNotificationTemplate = prdConfiguration.prodNotificationTemplate;
 	const pageTitle = mw.config.get('wgPageName').replace(/_/g, ' ');
 
+	/**
+	 * The main OOUI dialog for the proposed deletion process.
+	 * Inherits from `OO.ui.ProcessDialog`.
+	 *
+	 * @constructor
+	 * @extends OO.ui.ProcessDialog
+	 * @param {Object} config - The configuration object for the dialog.
+	 * @param {string} config.size - The dialog size (e.g., “large”).
+	 * @param {string[]} config.classes - Additional CSS classes for the dialog.
+	 * @param {boolean} config.isDraggable - Whether the dialog is draggable.
+	 * @return {void}
+	 */
 	function ProposedDeletionDialog(config) {
 		ProposedDeletionDialog.super.call(this, config);
 	}
+
 	OO.inheritClass(ProposedDeletionDialog, OO.ui.ProcessDialog);
 	ProposedDeletionDialog.static.name = 'ProposedDeletionDialog';
 	ProposedDeletionDialog.static.title = new OO.ui.deferMsg('rpp-module-title');
@@ -46,7 +115,7 @@ function callBack() {
 		label: new OO.ui.deferMsg('cancel'),
 		flags: 'safe'
 	}];
-	ProposedDeletionDialog.prototype.initialize = function() {
+	ProposedDeletionDialog.prototype.initialize = function () {
 		ProposedDeletionDialog.super.prototype.initialize.apply(this, arguments);
 		const headerTitle = new OO.ui.MessageWidget({
 			type: 'notice',
@@ -107,7 +176,7 @@ function callBack() {
 		this.content.$element.append(headerTitle.$element, headerTitleDescription.$element, proposeOptions.$element);
 		this.$body.append(this.content.$element);
 	};
-	ProposedDeletionDialog.prototype.getActionProcess = function(action) {
+	ProposedDeletionDialog.prototype.getActionProcess = function (action) {
 		const dialog = this;
 		if (action) {
 			return new OO.ui.Process(() => {
@@ -139,8 +208,7 @@ function callBack() {
 							$5: date.getUTCFullYear(),
 							$6: mwConfig.wgUserName
 						};
-						const preparedContent = replacePlaceholders(standardProposeTemplate, placeholders);
-						PRDText = preparedContent;
+						PRDText = replacePlaceholders(standardProposeTemplate, placeholders);
 					}
 					if (Option.value === 'LivingPersonPropose') {
 						PRDText = livingPersonProposeTemplate;
@@ -186,7 +254,8 @@ function callBack() {
 				optionname: 'userjs-adiutor-' + mw.config.get('wgWikiID'),
 				optionvalue: JSON.stringify(adiutorUserOptions),
 				formatversion: 2
-			}, () => {});
+			}, () => {
+			});
 			location.reload();
 		});
 	}
@@ -201,7 +270,8 @@ function callBack() {
 				summary: replaceParameter(apiPostSummaryforLog, '1', pageTitle),
 				tags: 'Adiutor',
 				format: 'json'
-			}).done(() => {});
+			}).done(() => {
+			});
 		}
 	}
 
@@ -243,6 +313,7 @@ function callBack() {
 		}
 	}
 }
+
 module.exports = {
 	callBack: callBack
 };

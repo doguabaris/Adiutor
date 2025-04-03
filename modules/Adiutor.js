@@ -9,7 +9,6 @@
  */
 
 /**
- * @typedef {Object} MwConfig
  * @property {Function} get - mw.config.get()
  *
  * @typedef {Object} MwUser
@@ -25,7 +24,6 @@
  * @property {Function} fail - Promise rejection
  *
  * @typedef {Object} Mw
- * @property {MwConfig} config
  * @property {MwUser} user
  * @property {MwMessages} messages
  * @property {Function} Api - Constructor for the mw.Api class

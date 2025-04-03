@@ -9,11 +9,68 @@
  */
 
 function callBack() {
+	/**
+	 * A reference to MediaWiki’s core API.
+	 *
+	 * @type {mw.Api}
+	 */
 	const api = new mw.Api();
-	const wikiId = mw.config.get('wgWikiID');
-	const adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-' + wikiId));
-	const mwConfig = mw.config.get(['wgPageName' ]);
+
+	/**
+	 * The wiki ID (e.g., "enwiki") as used for user preferences.
+	 *
+	 * @type {string}
+	 */
+	const wikiId = /** @type {string} */ (mw.config.get('wgWikiID'));
+
+	/**
+	 * Adiutor user options. These are read from the user’s preferences (global or local).
+	 *
+	 * @type {Object}
+	 */
+	const adiutorUserOptions = JSON.parse(
+		mw.user.options.get('userjs-adiutor-' + wikiId) || '{}'
+	);
+
+	/**
+	 * MediaWiki config variables.
+	 *
+	 * @typedef {Object} MwConfig
+	 * @property {string} wgPageName
+	 *
+	 * @type {MwConfig}
+	 */
+	const mwConfig = {
+		wgPageName: /** @type {string} */ (mw.config.get('wgPageName'))
+	};
+
+	/**
+	 * @typedef {Object} AivConfiguration
+	 * @property {Array<{ label: string, data: string, related: string }>} reportRationales
+	 * @property {string} noticeBoardTitle
+	 * @property {boolean} addNewSection
+	 * @property {string} sectionTitle
+	 * @property {string} apiPostSummary
+	 * @property {string|undefined} sectionId
+	 * @property {boolean} appendText
+	 * @property {boolean} prependText
+	 * @property {string} spiNoticeBoard
+	 * @property {string} spiNoticeBoardCase
+	 * @property {string} spiApiPostSummary
+	 * @property {string} spiApiPostCaseSummary
+	 * @property {string} contentPattern
+	 * @property {string} userPagePrefix
+	 * @property {string} userTalkPagePrefix
+	 * @property {string} specialContibutions
+	 * @property {string} rationaleText
+	 * @property {string} sockpuppetTemplate
+	 * @property {string} sockpuppeteerContentPattern
+	 * @property {string} sockpuppetContentPattern
+	 */
+
+	/** @type {AivConfiguration} */
 	const aivConfiguration = require('./Adiutor-AIV.json');
+
 	if (!aivConfiguration) {
 		mw.notify('MediaWiki:Gadget-Adiutor-AIV.json data is empty or undefined.', {
 			title: mw.msg('operation-failed'),
@@ -21,6 +78,7 @@ function callBack() {
 		});
 		return;
 	}
+
 	let rationaleInput, reportType, sockPuppetsList, sockpuppetryType, revId;
 	let vandalizedPage = {};
 	vandalizedPage.value = null;
@@ -51,9 +109,22 @@ function callBack() {
 	const sockpuppetContentPattern = aivConfiguration.sockpuppetContentPattern;
 	const userReported = getFormattedPageName();
 
+	/**
+	 * The main OOUI dialog for the AIV process.
+	 * Inherits from `OO.ui.ProcessDialog`.
+	 *
+	 * @constructor
+	 * @extends OO.ui.ProcessDialog
+	 * @param {Object} config - The configuration object for the dialog.
+	 * @param {string} config.size - The dialog size (e.g., “large”).
+	 * @param {string[]} config.classes - Additional CSS classes for the dialog.
+	 * @param {boolean} config.isDraggable - Whether the dialog is draggable.
+	 * @return {void}
+	 */
 	function AivDialog(config) {
 		AivDialog.super.call(this, config);
 	}
+
 	OO.inheritClass(AivDialog, OO.ui.ProcessDialog);
 	AivDialog.static.name = 'AivDialog';
 	AivDialog.static.title = new OO.ui.deferMsg('aiv-module-title');
@@ -65,7 +136,7 @@ function callBack() {
 		label: new OO.ui.deferMsg('cancel'),
 		flags: 'safe'
 	}];
-	AivDialog.prototype.initialize = function() {
+	AivDialog.prototype.initialize = function () {
 		AivDialog.super.prototype.initialize.apply(this, arguments);
 		const headerTitle = new OO.ui.MessageWidget({
 			type: 'notice',
@@ -230,7 +301,7 @@ function callBack() {
 		this.content.$element.append(headerTitle.$element, headerTitleDescription.$element, rationaleSelector.$element, requestRationaleContainer.$element);
 		this.$body.append(this.content.$element);
 	};
-	AivDialog.prototype.getActionProcess = function(action) {
+	AivDialog.prototype.getActionProcess = function (action) {
 		if (action) {
 			switch (reportType) {
 				case 'sockpuppetry':
@@ -356,12 +427,14 @@ function callBack() {
 			window.location = '/wiki/' + noticeBoardLink;
 		});
 	}
+
 	var windowManager = new OO.ui.WindowManager();
 	$(document.body).append(windowManager.$element);
 	const dialog = new AivDialog();
 	windowManager.addWindows([dialog]);
 	windowManager.openWindow(dialog);
 }
+
 module.exports = {
 	callBack: callBack
 };

@@ -9,10 +9,30 @@
  */
 
 function callBack() {
+	/**
+	 * A reference to MediaWiki’s core API.
+	 *
+	 * @type {mw.Api}
+	 */
 	const api = new mw.Api();
-	let apiParams = {};
+
+	/**
+	 * @typedef {Object} RppConfiguration
+	 * @property {string} noticeBoardTitle
+	 * @property {Array<{label: string, data: string}>} protectionDurations
+	 * @property {Array<{label: string, data: string}>} protectionTypes
+	 * @property {boolean} addNewSection
+	 * @property {boolean} appendText
+	 * @property {boolean} prependText
+	 * @property {string|undefined} sectionId
+	 * @property {string} contentPattern
+	 * @property {string} apiPostSummary
+	 * @property {string} sectionTitle
+	 */
+
+	/** @type {RppConfiguration} */
 	const rppConfiguration = require('./Adiutor-RPP.json');
-	let protectionType, protectionDuration;
+
 	if (!rppConfiguration) {
 		mw.notify('MediaWiki:Gadget-Adiutor-RPP.json data is empty or undefined.', {
 			title: mw.msg('operation-failed'),
@@ -20,6 +40,8 @@ function callBack() {
 		});
 		return;
 	}
+
+	let apiParams = {};
 	const noticeBoardTitle = rppConfiguration.noticeBoardTitle;
 	const noticeBoardLink = noticeBoardTitle.replace(/ /g, '_');
 	const protectionDurations = rppConfiguration.protectionDurations;
@@ -33,9 +55,22 @@ function callBack() {
 	const sectionTitle = rppConfiguration.sectionTitle;
 	const pageTitle = mw.config.get('wgPageName').replace(/_/g, ' ');
 
+	/**
+	 * The main OOUI dialog for the page protection process.
+	 * Inherits from `OO.ui.ProcessDialog`.
+	 *
+	 * @constructor
+	 * @extends OO.ui.ProcessDialog
+	 * @param {Object} config - The configuration object for the dialog.
+	 * @param {string} config.size - The dialog size (e.g., “large”).
+	 * @param {string[]} config.classes - Additional CSS classes for the dialog.
+	 * @param {boolean} config.isDraggable - Whether the dialog is draggable.
+	 * @return {void}
+	 */
 	function PageProtectionDialog(config) {
 		PageProtectionDialog.super.call(this, config);
 	}
+
 	OO.inheritClass(PageProtectionDialog, OO.ui.ProcessDialog);
 	PageProtectionDialog.static.name = 'PageProtectionDialog';
 	PageProtectionDialog.static.title = new OO.ui.deferMsg('rpp-module-title');
@@ -47,7 +82,7 @@ function callBack() {
 		label: new OO.ui.deferMsg('cancel'),
 		flags: 'safe'
 	}];
-	PageProtectionDialog.prototype.initialize = function() {
+	PageProtectionDialog.prototype.initialize = function () {
 		PageProtectionDialog.super.prototype.initialize.apply(this, arguments);
 		const headerTitle = new OO.ui.MessageWidget({
 			type: 'notice',
@@ -69,18 +104,18 @@ function callBack() {
 			durationOfProtection = new OO.ui.DropdownWidget({
 				menu: {
 					items: protectionDurations.map((duration) => new OO.ui.MenuOptionWidget({
-							data: duration.data,
-							label: duration.label
-						}))
+						data: duration.data,
+						label: duration.label
+					}))
 				},
 				label: mw.message('choose-duration').text()
 			}),
 			typeOfProtection = new OO.ui.DropdownWidget({
 				menu: {
 					items: protectionTypes.map((type) => new OO.ui.MenuOptionWidget({
-							data: type.data,
-							label: type.label
-						}))
+						data: type.data,
+						label: type.label
+					}))
 				},
 				label: new OO.ui.deferMsg('select-protection-type'),
 				classes: ['adiutor-rpp-botton-select']
@@ -110,7 +145,7 @@ function callBack() {
 		this.content.$element.append(headerTitle.$element, headerTitleDescription.$element, typeOfAction.$element);
 		this.$body.append(this.content.$element);
 	};
-	PageProtectionDialog.prototype.getActionProcess = function(action) {
+	PageProtectionDialog.prototype.getActionProcess = function (action) {
 		const dialog = this;
 		if (action) {
 			return new OO.ui.Process(() => {
@@ -200,6 +235,7 @@ function callBack() {
 		}
 	}
 }
+
 module.exports = {
 	callBack: callBack
 };

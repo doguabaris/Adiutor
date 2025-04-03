@@ -9,8 +9,26 @@
  */
 
 function callBack() {
+	/**
+	 * A reference to MediaWiki’s core API.
+	 *
+	 * @type {mw.Api}
+	 */
 	const api = new mw.Api();
+
+	/**
+	 * @typedef {Object} CsdConfiguration
+	 * @property {Array<{
+	 *   name: string,
+	 *   reasons: Array<{ data: string, label: string }>
+	 * }>} speedyDeletionReasons
+	 * @property {string} csdCategoryForBatchDeletion
+	 * @property {string} apiPostSummaryforTalkPage
+	 */
+
+	/** @type {CsdConfiguration} */
 	const csdConfiguration = require('./Adiutor-CSD.json');
+
 	if (!csdConfiguration) {
 		mw.notify('MediaWiki:Gadget-Adiutor-CSD.json data is empty or undefined.', {
 			title: mw.msg('operation-failed'),
@@ -18,6 +36,7 @@ function callBack() {
 		});
 		return;
 	}
+
 	const batchDeletionList = [];
 	let selectedOptions;
 	let selectedReason;
@@ -79,15 +98,29 @@ function callBack() {
 				printSelectedOptions();
 			});
 		});
+
 		// Function to update the selectedOptions array and clear console
 		function printSelectedOptions() {
 			selectedOptions = batchDeletionList.filter((option) => option.isSelected()).map((option) => option.data);
 			console.clear();
 		}
-		// Define a class for the Batch Deletion Dialog
+
+		/**
+		 * The main OOUI dialog for the batch deletion process.
+		 * Inherits from `OO.ui.ProcessDialog`.
+		 *
+		 * @constructor
+		 * @extends OO.ui.ProcessDialog
+		 * @param {Object} config - The configuration object for the dialog.
+		 * @param {string} config.size - The dialog size (e.g., “large”).
+		 * @param {string[]} config.classes - Additional CSS classes for the dialog.
+		 * @param {boolean} config.isDraggable - Whether the dialog is draggable.
+		 * @return {void}
+		 */
 		function BatchDeletionDialog(config) {
 			BatchDeletionDialog.super.call(this, config);
 		}
+
 		// Inherit from the ProcessDialog class
 		OO.inheritClass(BatchDeletionDialog, OO.ui.ProcessDialog);
 		// Set the dialog's name and title
@@ -103,7 +136,7 @@ function callBack() {
 			flags: 'safe'
 		}];
 		// Initialize the dialog
-		BatchDeletionDialog.prototype.initialize = function() {
+		BatchDeletionDialog.prototype.initialize = function () {
 			BatchDeletionDialog.super.prototype.initialize.apply(this, arguments);
 			// Create a notice message for header
 			const headerTitle = new OO.ui.MessageWidget({
@@ -172,7 +205,7 @@ function callBack() {
 			this.$body.append(this.content.$element);
 		};
 		// Define the action process for the dialog
-		BatchDeletionDialog.prototype.getActionProcess = function(action) {
+		BatchDeletionDialog.prototype.getActionProcess = function (action) {
 			const dialog = this;
 			if (action) {
 				return new OO.ui.Process(() => {
@@ -202,7 +235,8 @@ function callBack() {
 								reason: apiPostSummaryforTalkPage,
 								tags: 'Adiutor',
 								format: 'json'
-							}).done(() => {});
+							}).done(() => {
+							});
 							// Close the dialog and display success notification
 							dialog.close({
 								action: action
@@ -226,6 +260,7 @@ function callBack() {
 		windowManager.openWindow(dialog);
 	});
 }
+
 module.exports = {
 	callBack: callBack
 };

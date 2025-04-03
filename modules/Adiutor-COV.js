@@ -10,11 +10,19 @@
  */
 
 function callBack() {
-	const api = new mw.Api();
-	const mwConfig = mw.config.get(['wgPageName']);
+	/**
+	 * MediaWiki config variables.
+	 *
+	 * @typedef {Object} MwConfig
+	 * @property {string} wgPageName
+	 *
+	 * @type {MwConfig}
+	 */
+	const mwConfig = {
+		wgPageName: /** @type {string} */ (mw.config.get('wgPageName'))
+	};
+
 	const wgContentLanguage = mw.config.get('wgContentLanguage');
-	const wikiId = mw.config.get('wgWikiID');
-	const adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-' + wikiId));
 	const messageDialog = new OO.ui.MessageDialog();
 	const windowManager = new OO.ui.WindowManager();
 	$('body').append(windowManager.$element);
@@ -39,13 +47,26 @@ function callBack() {
 	}, (data) => {
 		messageDialog.close();
 
+		/**
+		 * The main OOUI dialog for the copy violation process.
+		 * Inherits from `OO.ui.ProcessDialog`.
+		 *
+		 * @constructor
+		 * @extends OO.ui.ProcessDialog
+		 * @param {Object} config - The configuration object for the dialog.
+		 * @param {string} config.size - The dialog size (e.g., “large”).
+		 * @param {string[]} config.classes - Additional CSS classes for the dialog.
+		 * @param {boolean} config.isDraggable - Whether the dialog is draggable.
+		 * @return {void}
+		 */
 		function CopyVioDialog(config) {
 			CopyVioDialog.super.call(this, config);
 		}
+
 		OO.inheritClass(CopyVioDialog, OO.ui.ProcessDialog);
 		const copVioRatio = (data.best.confidence * 100).toFixed(2);
-		CopyVioDialog.static.title = mw.msg('copyvio-result', copVioRatio),
-			CopyVioDialog.static.name = 'CopyVioDialog';
+		CopyVioDialog.static.title = mw.msg('copyvio-result', copVioRatio);
+		CopyVioDialog.static.name = 'CopyVioDialog';
 		let headerTitle;
 		if (copVioRatio > 45) {
 			headerTitle = new OO.ui.MessageWidget({
@@ -111,7 +132,7 @@ function callBack() {
 				framed: false
 			}];
 		}
-		CopyVioDialog.prototype.initialize = function() {
+		CopyVioDialog.prototype.initialize = function () {
 			CopyVioDialog.super.prototype.initialize.apply(this, arguments);
 			const cvRelSource = data.sources.filter((source) => !source.excluded);
 			const CopyVioLinks = cvRelSource.map((source) => {
@@ -132,17 +153,17 @@ function callBack() {
 				expanded: false
 			});
 			this.panel1.$element.append(headerTitle.$element);
-			CopyVioLinks.forEach(function(link) {
+			CopyVioLinks.forEach(function (link) {
 				this.panel1.$element.append(link.$element);
 			}, this);
 			this.$body.append(this.panel1.$element);
 		};
-		CopyVioDialog.prototype.getSetupProcess = function(data) {
-			return CopyVioDialog.super.prototype.getSetupProcess.call(this, data).next(function() {
+		CopyVioDialog.prototype.getSetupProcess = function (data) {
+			return CopyVioDialog.super.prototype.getSetupProcess.call(this, data).next(function () {
 				this.actions.setMode('edit');
 			}, this);
 		};
-		CopyVioDialog.prototype.getActionProcess = function(action) {
+		CopyVioDialog.prototype.getActionProcess = function (action) {
 			const dialog = this;
 			if (action === 'continue') {
 				return new OO.ui.Process(() => {
@@ -168,6 +189,7 @@ function callBack() {
 		windowManager.openWindow(dialog);
 	});
 }
+
 module.exports = {
 	callBack: callBack
 };

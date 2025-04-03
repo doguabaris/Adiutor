@@ -9,12 +9,56 @@
  */
 
 function callBack() {
+	/**
+	 * A reference to MediaWiki’s core API.
+	 *
+	 * @type {mw.Api}
+	 */
 	const api = new mw.Api();
-	const mwConfig = mw.config.get(['wgPageName', 'wgNamespaceNumber']);
-	const wikiId = mw.config.get('wgWikiID');
-	const adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-' + wikiId));
+
+	/**
+	 * The wiki ID (e.g., "enwiki") as used for user preferences.
+	 *
+	 * @type {string}
+	 */
+	const wikiId = /** @type {string} */ (mw.config.get('wgWikiID'));
+
+	/**
+	 * Adiutor user options. These are read from the user’s preferences (global or local).
+	 *
+	 * @type {Object}
+	 */
+	const adiutorUserOptions = JSON.parse(
+		mw.user.options.get('userjs-adiutor-' + wikiId) || '{}'
+	);
+
+	/**
+	 * MediaWiki config variables.
+	 *
+	 * @typedef {Object} MwConfig
+	 * @property {string} wgPageName
+	 * @property {number} wgNamespaceNumber
+	 *
+	 * @type {MwConfig}
+	 */
+	const mwConfig = {
+		wgPageName: /** @type {string} */ (mw.config.get('wgPageName')),
+		wgNamespaceNumber: /** @type {number} */ (mw.config.get('wgNamespaceNumber'))
+	};
+
+	/**
+	 * @typedef {Object} WrnConfiguration
+	 * @property {{ title: string, label: string, body: string }[]} userWarnings
+	 * @property {string} apiPostSummary
+	 * @property {string} warningMessageTitle
+	 * @property {string} userPagePrefix
+	 * @property {string} userTalkPagePrefix
+	 * @property {string} specialContibutions
+	 */
+
+	/** @type {WrnConfiguration} */
 	const wrnConfiguration = require('./Adiutor-WRN.json');
-	let requestRationale, warningData;
+
 	if (!wrnConfiguration) {
 		mw.notify('MediaWiki:Gadget-Adiutor-WRN.json data is empty or undefined.', {
 			title: mw.msg('operation-failed'),
@@ -22,6 +66,8 @@ function callBack() {
 		});
 		return;
 	}
+
+	let warningData;
 	const userWarnings = wrnConfiguration.userWarnings;
 	const apiPostSummary = wrnConfiguration.apiPostSummary;
 	const warningMessageTitle = wrnConfiguration.warningMessageTitle;
@@ -30,9 +76,22 @@ function callBack() {
 	const specialContibutions = wrnConfiguration.specialContibutions;
 	const userWarned = userTalkPagePrefix + mwConfig.wgPageName.replace(/_/g, ' ').replace(userPagePrefix, '').replace(specialContibutions, '').replace(userTalkPagePrefix, '');
 
+	/**
+	 * The main OOUI dialog for the user warning process.
+	 * Inherits from `OO.ui.ProcessDialog`.
+	 *
+	 * @constructor
+	 * @extends OO.ui.ProcessDialog
+	 * @param {Object} config - The configuration object for the dialog.
+	 * @param {string} config.size - The dialog size (e.g., “large”).
+	 * @param {string[]} config.classes - Additional CSS classes for the dialog.
+	 * @param {boolean} config.isDraggable - Whether the dialog is draggable.
+	 * @return {void}
+	 */
 	function UserWarningDialog(config) {
 		UserWarningDialog.super.call(this, config);
 	}
+
 	OO.inheritClass(UserWarningDialog, OO.ui.ProcessDialog);
 	UserWarningDialog.static.name = 'UserWarningDialog';
 	UserWarningDialog.static.title = new OO.ui.deferMsg('wrn-module-title');
@@ -45,7 +104,7 @@ function callBack() {
 		label: new OO.ui.deferMsg('cancel'),
 		flags: 'safe'
 	}];
-	UserWarningDialog.prototype.initialize = function() {
+	UserWarningDialog.prototype.initialize = function () {
 		UserWarningDialog.super.prototype.initialize.apply(this, arguments);
 		const headerTitle = new OO.ui.MessageWidget({
 			type: 'notice',
@@ -56,9 +115,9 @@ function callBack() {
 		const rationaleSelector = new OO.ui.DropdownWidget({
 			menu: {
 				items: userWarnings.map((warning) => new OO.ui.MenuOptionWidget({
-						data: warning,
-						label: warning.label
-					}))
+					data: warning,
+					label: warning.label
+				}))
 			},
 			label: new OO.ui.deferMsg('warning-type')
 		});
@@ -88,7 +147,7 @@ function callBack() {
 			}, {
 				data: 3,
 				label: new OO.ui.deferMsg('wrn-user-sternly')
-			} ]
+			}]
 		});
 		relatedPageField.$element.css({
 			'margin-top': '20px',
@@ -97,7 +156,7 @@ function callBack() {
 		this.content.$element.append(headerTitle.$element, rationaleSelector.$element, relatedPageField.$element, warningLevel.$element);
 		this.$body.append(this.content.$element);
 	};
-	UserWarningDialog.prototype.getActionProcess = function(action) {
+	UserWarningDialog.prototype.getActionProcess = function (action) {
 		if (action === 'save') {
 			if (relatedPage.value === '' || !warningData) {
 				// If the related page is empty or warning data is missing, show an error notification.
@@ -150,7 +209,8 @@ function callBack() {
 				optionname: 'userjs-adiutor-' + mw.config.get('wgWikiID'),
 				optionvalue: JSON.stringify(adiutorUserOptions),
 				formatversion: 2
-			}, () => {});
+			}, () => {
+			});
 		});
 	}
 
@@ -163,6 +223,7 @@ function callBack() {
 		}
 	}
 }
+
 module.exports = {
 	callBack: callBack
 };

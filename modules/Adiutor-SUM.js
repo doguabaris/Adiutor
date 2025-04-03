@@ -9,10 +9,37 @@
  */
 
 function callBack() {
+	/**
+	 * A reference to MediaWiki’s core API.
+	 *
+	 * @type {mw.Api}
+	 */
 	const api = new mw.Api();
-	const wikiId = mw.config.get('wgWikiID');
-	const adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-' + wikiId));
+
+	/**
+	 * The wiki ID (e.g., "enwiki") as used for user preferences.
+	 *
+	 * @type {string}
+	 */
+	const wikiId = /** @type {string} */ (mw.config.get('wgWikiID'));
+
+	/**
+	 * Adiutor user options. These are read from the user’s preferences (global or local).
+	 *
+	 * @type {Object}
+	 */
+	const adiutorUserOptions = JSON.parse(
+		mw.user.options.get('userjs-adiutor-' + wikiId) || '{}'
+	);
+
+	/**
+	 * @typedef {Object} SumConfiguration
+	 * @property {{ article: string[], nonArticle: string[], general: string[], talkPage: string[] }} summaryCategories
+	 */
+
+	/** @type {SumConfiguration} */
 	const sumConfiguration = require('./Adiutor-SUM.json');
+
 	if (!sumConfiguration) {
 		mw.notify('MediaWiki:Gadget-Adiutor-SUM.json data is empty or undefined.', {
 			title: mw.msg('operation-failed'),
@@ -20,11 +47,13 @@ function callBack() {
 		});
 		return;
 	}
+
 	const summaryCategories = sumConfiguration.summaryCategories;
 	// Select the summary box and summary textarea
 	let $summaryBox, $summaryTextarea = $('#wpSummary');
 	// Assuming adiutorUserOptions.myCustomSummaries is an array of custom summaries
 	summaryCategories.general = summaryCategories.general.concat(adiutorUserOptions.myCustomSummaries);
+
 	// Function to add options to a dropdown menu
 	function addOptionsToDropdown(dropdown, optionTexts) {
 		optionTexts.forEach((optionText) => {
@@ -33,6 +62,7 @@ function callBack() {
 			})]);
 		});
 	}
+
 	// Function to handle selection of a summary option
 	function onSummarySelect(option) {
 		const originalSummary = $summaryTextarea.val();
@@ -48,6 +78,7 @@ function callBack() {
 		newSummary += cannedSummary;
 		$summaryTextarea.val(newSummary).trigger('change');
 	}
+
 	// Function to insert summary options into the editing interface
 	function insertSummaryOptions($insertBeforeElement) {
 		const namespace = mw.config.get('wgNamespaceNumber'),
@@ -78,6 +109,7 @@ function callBack() {
 		$optionsContainer.css('margin-bottom', '10px'); // Add bottom margin
 		$insertBeforeElement.before($optionsContainer);
 	}
+
 	// Hook into the save dialog state change event
 	mw.hook('ve.saveDialog.stateChanged').add(() => {
 		let $saveOptions;
@@ -103,6 +135,7 @@ function callBack() {
 		insertSummaryOptions($editCheckboxes, '50%');
 	});
 }
+
 module.exports = {
 	callBack: callBack
 };

@@ -12,9 +12,33 @@
  */
 
 function callBack() {
+	/**
+	 * A reference to MediaWiki’s core API.
+	 *
+	 * @type {mw.Api}
+	 */
 	const api = new mw.Api();
-	const mwConfig = mw.config.get(['wgNamespaceNumber', 'wgPageName', 'wgUserName', 'wgTitle', 'wgUserGroups']);
-	const wikiId = mw.config.get('wgWikiID');
+
+	/**
+	 * MediaWiki config variables.
+	 *
+	 * @typedef {Object} MwConfig
+	 * @property {number} wgNamespaceNumber
+	 * @property {string} wgPageName
+	 * @property {string|null} wgUserName
+	 * @property {string} wgTitle
+	 * @property {Array<string>} wgUserGroups
+	 *
+	 * @type {MwConfig}
+	 */
+	const mwConfig = {
+		wgNamespaceNumber: /** @type {number} */ (mw.config.get('wgNamespaceNumber')),
+		wgPageName: /** @type {string} */ (mw.config.get('wgPageName')),
+		wgUserName: /** @type {string|null} */ (mw.config.get('wgUserName')),
+		wgTitle: /** @type {string} */ (mw.config.get('wgTitle')),
+		wgUserGroups: /** @type {Array<string>} */ (mw.config.get('wgUserGroups'))
+	};
+
 	if ((mw.config.get('wgNamespaceNumber') === 2 || mw.config.get('wgNamespaceNumber') === 3) && !(/\//.test(mw.config.get('wgTitle')))) {
 		mw.loader.using(['mediawiki.util'], () => {
 			$(() => {
@@ -25,7 +49,7 @@ function callBack() {
 					}
 					const groupPages = {};
 					let user, invalidUser, missingUser, userGroups;
-						editCount, registrationDate, isBlocked, isPartialBlocked, gender, lastEditedDate;
+					editCount, registrationDate, isBlocked, isPartialBlocked, gender, lastEditedDate;
 					try {
 						user = queryResult.query.users[0];
 						invalidUser = typeof user.invalid !== 'undefined';
@@ -324,6 +348,7 @@ function callBack() {
 		exports.callBack();
 	}
 }
+
 module.exports = {
 	callBack: callBack
 };

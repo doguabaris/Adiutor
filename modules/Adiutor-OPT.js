@@ -9,20 +9,61 @@
  */
 
 function callBack() {
+	/**
+	 * A reference to MediaWiki’s core API.
+	 *
+	 * @type {mw.Api}
+	 */
 	const api = new mw.Api();
-	const wikiId = mw.config.get('wgWikiID');
-	const adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-' + wikiId));
+
+	/**
+	 * The wiki ID (e.g., "enwiki") as used for user preferences.
+	 *
+	 * @type {string}
+	 */
+	const wikiId = /** @type {string} */ (mw.config.get('wgWikiID'));
+
+	/**
+	 * Adiutor user options. These are read from the user’s preferences (global or local).
+	 *
+	 * @type {Object}
+	 */
+	const adiutorUserOptions = JSON.parse(
+		mw.user.options.get('userjs-adiutor-' + wikiId) || '{}'
+	);
+
 	const wikiOptions = 'userjs-adiutor-' + wikiId;
 	if (!adiutorUserOptions.hasOwnProperty('myCustomSummaries')) {
 		adiutorUserOptions.myCustomSummaries = [];
 	}
 
+	/**
+	 * The main OOUI dialog for the Adiutor options process.
+	 * Inherits from `OO.ui.ProcessDialog`.
+	 *
+	 * @constructor
+	 * @extends OO.ui.ProcessDialog
+	 * @param {Object} config - The configuration object for the dialog.
+	 * @param {string} config.size - The dialog size (e.g., “large”).
+	 * @param {string[]} config.classes - Additional CSS classes for the dialog.
+	 * @param {boolean} config.isDraggable - Whether the dialog is draggable.
+	 * @return {void}
+	 */
 	function AdiutorOptionsDialog(config) {
 		AdiutorOptionsDialog.super.call(this, config);
 	}
+
 	OO.inheritClass(AdiutorOptionsDialog, OO.ui.ProcessDialog);
 	AdiutorOptionsDialog.static.name = 'AdiutorOptionsDialog';
+	/**
+	 * Title of the dialog.
+	 *
+	 * @type {string}
+	 */
 	AdiutorOptionsDialog.static.title = new OO.ui.deferMsg('opt-module-title');
+	/**
+	 * Dialog actions (Save and Cancel).
+	 */
 	AdiutorOptionsDialog.static.actions = [{
 		action: 'save',
 		label: new OO.ui.deferMsg('update'),
@@ -31,124 +72,222 @@ function callBack() {
 		label: new OO.ui.deferMsg('cancel'),
 		flags: 'safe'
 	}];
-	AdiutorOptionsDialog.prototype.initialize = function() {
+	AdiutorOptionsDialog.prototype.initialize = function () {
 		AdiutorOptionsDialog.super.prototype.initialize.apply(this, arguments);
+
+		/**
+		 * The main panel layout for the dialog content.
+		 *
+		 * @type {OO.ui.PanelLayout}
+		 */
 		this.content = new OO.ui.PanelLayout({
 			padded: true,
 			expanded: false
 		});
-		AdiutorSettings = new OO.ui.FieldsetLayout({
+
+		/**
+		 * Fieldset layout grouping all the options.
+		 *
+		 * @type {OO.ui.FieldsetLayout}
+		 */
+		const AdiutorSettings = new OO.ui.FieldsetLayout({
 			label: new OO.ui.deferMsg('options')
 		});
-		AdiutorSettings.addItems([
-			csdSendMessageToCreator = new OO.ui.FieldLayout(new OO.ui.CheckboxInputWidget({
+
+		// Explicitly declare all settings variables:
+		const csdSendMessageToCreator = new OO.ui.FieldLayout(
+			new OO.ui.CheckboxInputWidget({
 				selected: adiutorUserOptions.speedyDeletion.csdSendMessageToCreator
-			}), {
+			}),
+			{
 				align: 'inline',
 				label: new OO.ui.deferMsg('csd-send-message-to-creator'),
 				help: new OO.ui.deferMsg('description')
-			}),
-			afdSendMessageToCreator = new OO.ui.FieldLayout(new OO.ui.CheckboxInputWidget({
+			}
+		);
+
+		const afdSendMessageToCreator = new OO.ui.FieldLayout(
+			new OO.ui.CheckboxInputWidget({
 				selected: adiutorUserOptions.articlesForDeletion.afdSendMessageToCreator
-			}), {
+			}),
+			{
 				align: 'inline',
 				label: new OO.ui.deferMsg('afd-send-message-to-creator'),
 				help: new OO.ui.deferMsg('description')
-			}),
-			prdSendMessageToCreator = new OO.ui.FieldLayout(new OO.ui.CheckboxInputWidget({
+			}
+		);
+
+		const prdSendMessageToCreator = new OO.ui.FieldLayout(
+			new OO.ui.CheckboxInputWidget({
 				selected: adiutorUserOptions.proposedDeletion.prdSendMessageToCreator
-			}), {
+			}),
+			{
 				align: 'inline',
 				label: new OO.ui.deferMsg('prd-send-message-to-creator'),
 				help: new OO.ui.deferMsg('description')
-			}),
-			csdLogNominatedPages = new OO.ui.FieldLayout(new OO.ui.CheckboxInputWidget({
+			}
+		);
+
+		const csdLogNominatedPages = new OO.ui.FieldLayout(
+			new OO.ui.CheckboxInputWidget({
 				selected: adiutorUserOptions.speedyDeletion.csdLogNominatedPages
-			}), {
+			}),
+			{
 				align: 'inline',
 				label: new OO.ui.deferMsg('csd-log-nominated-pages'),
 				help: new OO.ui.deferMsg('description')
-			}),
-			csdLogPageName = new OO.ui.FieldLayout(new OO.ui.TextInputWidget({
+			}
+		);
+
+		const csdLogPageName = new OO.ui.FieldLayout(
+			new OO.ui.TextInputWidget({
 				value: adiutorUserOptions.speedyDeletion.csdLogPageName
-			}), {
+			}),
+			{
 				label: new OO.ui.deferMsg('csd-log-page-name'),
 				help: new OO.ui.deferMsg('description')
-			}),
-			afdLogNominatedPages = new OO.ui.FieldLayout(new OO.ui.CheckboxInputWidget({
+			}
+		);
+
+		const afdLogNominatedPages = new OO.ui.FieldLayout(
+			new OO.ui.CheckboxInputWidget({
 				selected: adiutorUserOptions.articlesForDeletion.afdLogNominatedPages
-			}), {
+			}),
+			{
 				align: 'inline',
 				label: new OO.ui.deferMsg('afd-log-nominated-pages'),
 				help: new OO.ui.deferMsg('description')
-			}),
-			afdLogPageName = new OO.ui.FieldLayout(new OO.ui.TextInputWidget({
+			}
+		);
+
+		const afdLogPageName = new OO.ui.FieldLayout(
+			new OO.ui.TextInputWidget({
 				value: adiutorUserOptions.articlesForDeletion.afdLogPageName
-			}), {
+			}),
+			{
 				label: new OO.ui.deferMsg('afd-log-page-name'),
 				help: new OO.ui.deferMsg('description')
-			}),
-			prdLogNominatedPages = new OO.ui.FieldLayout(new OO.ui.CheckboxInputWidget({
+			}
+		);
+
+		const prdLogNominatedPages = new OO.ui.FieldLayout(
+			new OO.ui.CheckboxInputWidget({
 				selected: adiutorUserOptions.proposedDeletion.prdLogNominatedPages
-			}), {
+			}),
+			{
 				align: 'inline',
 				label: new OO.ui.deferMsg('prd-log-nominated-pages'),
 				help: new OO.ui.deferMsg('description')
-			}),
-			prdLogPageName = new OO.ui.FieldLayout(new OO.ui.TextInputWidget({
+			}
+		);
+
+		const prdLogPageName = new OO.ui.FieldLayout(
+			new OO.ui.TextInputWidget({
 				value: adiutorUserOptions.proposedDeletion.prdLogPageName
-			}), {
+			}),
+			{
 				label: new OO.ui.deferMsg('prd-log-page-name'),
 				help: new OO.ui.deferMsg('description')
-			}),
-			afdNominateOpinionsLog = new OO.ui.FieldLayout(new OO.ui.CheckboxInputWidget({
+			}
+		);
+
+		const afdNominateOpinionsLog = new OO.ui.FieldLayout(
+			new OO.ui.CheckboxInputWidget({
 				selected: adiutorUserOptions.articlesForDeletion.afdNominateOpinionsLog
-			}), {
+			}),
+			{
 				align: 'inline',
 				label: new OO.ui.deferMsg('afd-nominate-opinions-log'),
 				help: new OO.ui.deferMsg('description')
-			}),
-			afdOpinionLogPageName = new OO.ui.FieldLayout(new OO.ui.TextInputWidget({
+			}
+		);
+
+		const afdOpinionLogPageName = new OO.ui.FieldLayout(
+			new OO.ui.TextInputWidget({
 				value: adiutorUserOptions.articlesForDeletion.afdOpinionLogPageName
-			}), {
+			}),
+			{
 				label: new OO.ui.deferMsg('afd-opinion-log-page-name'),
 				help: new OO.ui.deferMsg('description')
-			}),
-			showMyStatus = new OO.ui.FieldLayout(new OO.ui.CheckboxInputWidget({
+			}
+		);
+
+		const showMyStatus = new OO.ui.FieldLayout(
+			new OO.ui.CheckboxInputWidget({
 				selected: adiutorUserOptions.status.showMyStatus
-			}), {
+			}),
+			{
 				align: 'inline',
 				label: new OO.ui.deferMsg('show-my-status'),
 				help: new OO.ui.deferMsg('show-status-description')
-			}),
-			inlinePageInfo = new OO.ui.FieldLayout(new OO.ui.CheckboxInputWidget({
+			}
+		);
+
+		const inlinePageInfo = new OO.ui.FieldLayout(
+			new OO.ui.CheckboxInputWidget({
 				selected: adiutorUserOptions.inlinePageInfo
-			}), {
+			}),
+			{
 				align: 'inline',
 				label: new OO.ui.deferMsg('show-inline-page-info'),
 				help: new OO.ui.deferMsg('show-inline-page-info-description')
-			}),
-			showEditSummaries = new OO.ui.FieldLayout(new OO.ui.CheckboxInputWidget({
+			}
+		);
+
+		const showEditSummaries = new OO.ui.FieldLayout(
+			new OO.ui.CheckboxInputWidget({
 				selected: adiutorUserOptions.showEditSummaries
-			}), {
+			}),
+			{
 				align: 'inline',
 				label: new OO.ui.deferMsg('use-pre-defined-edit-summaries'),
 				help: new OO.ui.deferMsg('use-pre-defined-edit-summaries-help')
-			}),
-			myCustomSummaries = new OO.ui.FieldLayout(new OO.ui.MultilineTextInputWidget({
+			}
+		);
+
+		const myCustomSummaries = new OO.ui.FieldLayout(
+			new OO.ui.MultilineTextInputWidget({
 				value: adiutorUserOptions.myCustomSummaries.join('\n'),
-				rows: 5, // Set the number of rows as needed
+				rows: 5,
 				placeholder: new OO.ui.deferMsg('frequently-used-edit-summaries-placeholder')
-			}), {
+			}),
+			{
 				align: 'inline',
 				label: new OO.ui.deferMsg('frequently-used-edit-summaries'),
 				help: new OO.ui.deferMsg('frequently-used-edit-summaries-help')
-			})
+			}
+		);
+
+		AdiutorSettings.addItems([
+			csdSendMessageToCreator,
+			afdSendMessageToCreator,
+			prdSendMessageToCreator,
+			csdLogNominatedPages,
+			csdLogPageName,
+			afdLogNominatedPages,
+			afdLogPageName,
+			prdLogNominatedPages,
+			prdLogPageName,
+			afdNominateOpinionsLog,
+			afdOpinionLogPageName,
+			showMyStatus,
+			inlinePageInfo,
+			showEditSummaries,
+			myCustomSummaries
 		]);
+
 		this.content.$element.append(AdiutorSettings.$element);
 		this.$body.append(this.content.$element);
 	};
-	AdiutorOptionsDialog.prototype.getActionProcess = function(action) {
+
+	/**
+	 * Handles the dialog’s action processes.
+	 * Saves settings when the Save action is triggered.
+	 *
+	 * @param {string} action The action being executed.
+	 * @return {OO.ui.Process} The process for the given action.
+	 */
+	AdiutorOptionsDialog.prototype.getActionProcess = function (action) {
 		const dialog = this;
 		if (action) {
 			return new OO.ui.Process(() => {
@@ -202,6 +341,7 @@ function callBack() {
 	const dialog = new AdiutorOptionsDialog();
 	windowManager.addWindows([dialog]);
 	windowManager.openWindow(dialog);
+
 	// Define functions below as needed
 	function updateOptions(updatedOptions) {
 		api.postWithEditToken({
@@ -218,6 +358,7 @@ function callBack() {
 		});
 	}
 }
+
 module.exports = {
 	callBack: callBack
 };

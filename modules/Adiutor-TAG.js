@@ -9,15 +9,76 @@
  */
 
 function callBack() {
+	/**
+	 * A reference to MediaWiki’s core API.
+	 *
+	 * @type {mw.Api}
+	 */
 	const api = new mw.Api();
-	const wikiId = mw.config.get('wgWikiID');
-	const adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-' + wikiId));
+
+	/**
+	 * The wiki ID (e.g., "enwiki") as used for user preferences.
+	 *
+	 * @type {string}
+	 */
+	const wikiId = /** @type {string} */ (mw.config.get('wgWikiID'));
+
+	/**
+	 * Adiutor user options. These are read from the user’s preferences (global or local).
+	 *
+	 * @type {Object}
+	 */
+	const adiutorUserOptions = JSON.parse(
+		mw.user.options.get('userjs-adiutor-' + wikiId) || '{}'
+	);
+
+	/**
+	 * @typedef {Object} SubItemItem
+	 * @property {'input'|'checkbox'} type
+	 * @property {string} label
+	 * @property {string} name
+	 * @property {string} [value]
+	 * @property {boolean} [required]
+	 * @property {string} [parameter]
+	 */
+
+	/**
+	 * @typedef {Object} TagItem
+	 * @property {'input'|'checkbox'} type
+	 * @property {string} label
+	 * @property {string} name
+	 * @property {string} [value]
+	 * @property {boolean} [required]
+	 * @property {string} [parameter]
+	 * @property {SubItemItem[]} [items]
+	 */
+
+	/**
+	 * @typedef {Object} Tag
+	 * @property {string} tag
+	 * @property {string} name
+	 * @property {string} description
+	 * @property {TagItem[]} [items]
+	 */
+
+	/**
+	 * @typedef {Object} TagGroup
+	 * @property {string} label
+	 * @property {Tag[]} tags
+	 */
+
+	/**
+	 * @typedef {Object} TagConfiguration
+	 * @property {TagGroup[]} tagList
+	 * @property {boolean} useMultipleIssuesTemplate
+	 * @property {string} multipleIssuesTemplate
+	 * @property {string} uncategorizedTemplate
+	 * @property {string} apiPostSummary
+	 */
+
+	/** @type {TagConfiguration} */
 	const tagConfiguration = require('./Adiutor-TAG.json');
-	const tagOptions = [];
-	let selectedTags = [];
-	const templateInfo = {};
-	const preparedTemplates = [];
-	let preparedTagsString;
+
 	if (!tagConfiguration) {
 		mw.notify('MediaWiki:Gadget-Adiutor-TAG.json data is empty or undefined.', {
 			title: mw.msg('operation-failed'),
@@ -25,15 +86,36 @@ function callBack() {
 		});
 		return;
 	}
+
+	const tagOptions = [];
+	/** @type {Tag[]} */
+	let selectedTags = [];
+	const templateInfo = {};
+	const preparedTemplates = [];
+	let preparedTagsString;
+	/** @type {TagGroup[]} */
 	const tagList = tagConfiguration.tagList;
 	const useMultipleIssuesTemplate = tagConfiguration.useMultipleIssuesTemplate;
 	const multipleIssuesTemplate = tagConfiguration.multipleIssuesTemplate;
 	const uncategorizedTemplate = tagConfiguration.uncategorizedTemplate;
 	const apiPostSummary = tagConfiguration.apiPostSummary;
 
+	/**
+	 * The main OOUI dialog for the page tagging process.
+	 * Inherits from `OO.ui.ProcessDialog`.
+	 *
+	 * @constructor
+	 * @extends OO.ui.ProcessDialog
+	 * @param {Object} config - The configuration object for the dialog.
+	 * @param {string} config.size - The dialog size (e.g., “large”).
+	 * @param {string[]} config.classes - Additional CSS classes for the dialog.
+	 * @param {boolean} config.isDraggable - Whether the dialog is draggable.
+	 * @return {void}
+	 */
 	function PageTaggingDialog(config) {
 		PageTaggingDialog.super.call(this, config);
 	}
+
 	OO.inheritClass(PageTaggingDialog, OO.ui.ProcessDialog);
 	PageTaggingDialog.static.name = 'PageTaggingDialog';
 	PageTaggingDialog.static.title = new OO.ui.deferMsg('tag-module-title');
@@ -45,7 +127,7 @@ function callBack() {
 		label: new OO.ui.deferMsg('cancel'),
 		flags: 'safe'
 	}];
-	PageTaggingDialog.prototype.initialize = function() {
+	PageTaggingDialog.prototype.initialize = function () {
 		PageTaggingDialog.super.prototype.initialize.apply(this, arguments);
 		const headerTitle = new OO.ui.MessageWidget({
 			type: 'notice',
@@ -67,7 +149,7 @@ function callBack() {
 		// Now you can safely add the searchInput to the content container
 		this.content.$element.append(headerTitle.$element, searchInput.$element);
 		// Iterate through the tagList
-		tagList.forEach(function(tagGroup) {
+		tagList.forEach(/** @param {TagGroup} tagGroup */ function (tagGroup) {
 			// Create a div element for the label
 			const labelElement = new OO.ui.LabelWidget({
 				label: tagGroup.label
@@ -79,10 +161,8 @@ function callBack() {
 			});
 			// Append the labelElement to the content container
 			this.content.$element.append(labelElement.$element);
-			// Create an array to hold tag options
-			const tagOptions = [];
 			// Iterate through the tags in the current tagGroup
-			tagGroup.tags.forEach(function(tag) {
+			tagGroup.tags.forEach(/** @param {Tag} tag */ function (tag) {
 				// Create a CheckboxMultioptionWidget for the tag
 				const tagOption = new OO.ui.CheckboxMultioptionWidget({
 					data: tag.tag,
@@ -99,7 +179,7 @@ function callBack() {
 					const subItemsLayout = new OO.ui.HorizontalLayout();
 					subItemsLayout.$element.css('display', 'none');
 					// Iterate through the sub-items
-					tag.items.forEach((subItem) => {
+					tag.items.forEach(/** @param {TagItem} subItem */(subItem) => {
 						// Create sub-item widgets based on the sub-item properties
 						if (subItem.type === 'input') {
 							const subItemInput = new OO.ui.TextInputWidget({
@@ -123,7 +203,7 @@ function callBack() {
 						// Check if there are items under the subItem
 						if (subItem.items) {
 							// Iterate through the subItem items
-							subItem.items.forEach((subItemItem) => {
+							subItem.items.forEach(/** @param {SubItemItem} subItemItem */(subItemItem) => {
 								// Create widgets for subItem items
 								if (subItemItem.type === 'input') {
 									const subItemItemInput = new OO.ui.TextInputWidget({
@@ -186,7 +266,7 @@ function callBack() {
 		});
 		this.$body.append(this.content.$element);
 	};
-	PageTaggingDialog.prototype.getActionProcess = function(action) {
+	PageTaggingDialog.prototype.getActionProcess = function (action) {
 		const dialog = this;
 		if (action) {
 			return new OO.ui.Process(() => {
@@ -293,11 +373,13 @@ function callBack() {
 				optionname: 'userjs-adiutor-' + mw.config.get('wgWikiID'),
 				optionvalue: JSON.stringify(adiutorUserOptions),
 				formatversion: 2
-			}, () => {});
+			}, () => {
+			});
 			location.reload();
 		});
 	}
 }
+
 module.exports = {
 	callBack: callBack
 };

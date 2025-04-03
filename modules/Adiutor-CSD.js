@@ -9,16 +9,94 @@
  */
 
 function callBack() {
+	/**
+	 * A reference to MediaWiki’s core API.
+	 *
+	 * @type {mw.Api}
+	 */
 	const api = new mw.Api();
-	const mwConfig = mw.config.get(['wgArticleId', 'wgPageName', 'wgNamespaceNumber', 'wgUserName']);
-	const wikiId = mw.config.get('wgWikiID');
-	const adiutorUserOptions = JSON.parse(mw.user.options.get('userjs-adiutor-' + wikiId));
-	let csdReason, csdSummary, notificationMessage, articleAuthor;
+
+	/**
+	 * The wiki ID (e.g., "enwiki") as used for user preferences.
+	 *
+	 * @type {string}
+	 */
+	const wikiId = /** @type {string} */ (mw.config.get('wgWikiID'));
+
+	/**
+	 * Adiutor user options. These are read from the user’s preferences (global or local).
+	 *
+	 * @type {Object}
+	 */
+	const adiutorUserOptions = JSON.parse(
+		mw.user.options.get('userjs-adiutor-' + wikiId) || '{}'
+	);
+
+	/**
+	 * MediaWiki config variables.
+	 *
+	 * @typedef {Object} MwConfig
+	 * @property {number} wgArticleId
+	 * @property {string} wgPageName
+	 * @property {number} wgNamespaceNumber
+	 * @property {string|null} wgUserName
+	 *
+	 * @type {MwConfig}
+	 */
+	const mwConfig = {
+		wgArticleId: /** @type {number} */ (mw.config.get('wgArticleId')),
+		wgPageName: /** @type {string} */ (mw.config.get('wgPageName')),
+		wgNamespaceNumber: /** @type {number} */ (mw.config.get('wgNamespaceNumber')),
+		wgUserName: /** @type {string|null} */ (mw.config.get('wgUserName'))
+	};
+
+	/**
+	 * @typedef {Object} CsdConfiguration
+	 * @property {Array<{
+	 *   name: string,
+	 *   namespace: string|number,
+	 *   reasons: Array<{
+	 *     value: string,
+	 *     data: string,
+	 *     label: string,
+	 *     help?: string
+	 *   }>
+	 * }>} speedyDeletionReasons
+	 * @property {string} csdTemplateStartSingleReason
+	 * @property {string} csdTemplateStartMultipleReason
+	 * @property {string} reasonAndSeperator
+	 * @property {string} speedyDeletionPolicyLink
+	 * @property {string} speedyDeletionPolicyPageShortcut
+	 * @property {string} apiPostSummaryforLog
+	 * @property {string} apiPostSummary
+	 * @property {string} csdNotificationTemplate
+	 * @property {string} userPagePrefix
+	 * @property {string} userTalkPagePrefix
+	 * @property {string} localLangCode
+	 * @property {string} singleReasonSummary
+	 * @property {string} multipleReasonSummary
+	 * @property {string} copyVioReasonValue
+	 * @property {boolean} csdTemplatePostfixReasonData
+	 * @property {boolean} csdTemplatePostfixReasonValue
+	 * @property {boolean} useVerticalVarForSeparatingMultipleReasons
+	 */
+
+	/** @type {CsdConfiguration} */
+	const jsonData = require('./Adiutor-CSD.json');
+
+	if (!jsonData) {
+		mw.notify('MediaWiki:Gadget-Adiutor-CSD.json data is empty or undefined.', {
+			title: mw.msg('operation-failed'),
+			type: 'error'
+		});
+		return;
+	}
+
+	let csdReason, csdSummary;
 	const csdOptions = [];
 	const csdReasons = [];
-	const saltCsdSummary = '';
+	let revDelCount, nameSpaceDeletionReasons, deletionOptions;
 	const pageTitle = mw.config.get('wgPageName').replace(/_/g, ' ');
-	const jsonData = require('./Adiutor-CSD.json');
 	console.log(jsonData);
 	api.get({
 		action: 'query',
@@ -51,9 +129,22 @@ function callBack() {
 		const csdTemplatePostfixReasonValue = jsonData.csdTemplatePostfixReasonValue;
 		const useVerticalVarForSeparatingMultipleReasons = jsonData.useVerticalVarForSeparatingMultipleReasons;
 
+		/**
+		 * The main OOUI dialog for the speedy deletion request process.
+		 * Inherits from `OO.ui.ProcessDialog`.
+		 *
+		 * @constructor
+		 * @extends OO.ui.ProcessDialog
+		 * @param {Object} config - The configuration object for the dialog.
+		 * @param {string} config.size - The dialog size (e.g., “large”).
+		 * @param {string[]} config.classes - Additional CSS classes for the dialog.
+		 * @param {boolean} config.isDraggable - Whether the dialog is draggable.
+		 * @return {void}
+		 */
 		function SpeedyDeletionRequestDialog(config) {
 			SpeedyDeletionRequestDialog.super.call(this, config);
 		}
+
 		OO.inheritClass(SpeedyDeletionRequestDialog, OO.ui.ProcessDialog);
 		// Specify a name for .addWindows()
 		SpeedyDeletionRequestDialog.static.name = 'myDialog';
@@ -82,7 +173,7 @@ function callBack() {
 		// Customize the initialize() method to add content and set up event handlers.
 		// This example uses a stack layout with two panels: one displayed for
 		// edit mode and one for help mode.
-		SpeedyDeletionRequestDialog.prototype.initialize = function() {
+		SpeedyDeletionRequestDialog.prototype.initialize = function () {
 			SpeedyDeletionRequestDialog.super.prototype.initialize.apply(this, arguments);
 			let i, reason, checkboxWidget, fieldLayout;
 			let selectedNamespace = null;
@@ -321,13 +412,13 @@ function callBack() {
 			this.$body.append(this.stackLayout.$element);
 		};
 		// Set up the initial mode of the window ('edit', in this example.)
-		SpeedyDeletionRequestDialog.prototype.getSetupProcess = function(data) {
-			return SpeedyDeletionRequestDialog.super.prototype.getSetupProcess.call(this, data).next(function() {
+		SpeedyDeletionRequestDialog.prototype.getSetupProcess = function (data) {
+			return SpeedyDeletionRequestDialog.super.prototype.getSetupProcess.call(this, data).next(function () {
 				this.actions.setMode('edit');
 			}, this);
 		};
 		// Use the getActionProcess() method to set the modes and displayed item.
-		SpeedyDeletionRequestDialog.prototype.getActionProcess = function(action) {
+		SpeedyDeletionRequestDialog.prototype.getActionProcess = function (action) {
 			if (action === 'policy') {
 				window.open(String('/wiki/' + speedyDeletionPolicyLink), '_blank');
 			} else if (action === 'back') {
@@ -468,6 +559,7 @@ function callBack() {
 		windowManager.addWindows([speedyDeletionRequestDialog]);
 		// Open the window.
 		windowManager.openWindow(speedyDeletionRequestDialog);
+
 		// Define functions below as needed
 		function putCSDTemplate(csdReason, csdSummary) {
 			api.postWithToken('csrf', {
@@ -485,7 +577,8 @@ function callBack() {
 					optionname: 'userjs-adiutor-' + mw.config.get('wgWikiID'),
 					optionvalue: JSON.stringify(adiutorUserOptions),
 					formatversion: 2
-				}, () => {});
+				}, () => {
+				});
 				location.reload();
 			});
 		}
@@ -542,7 +635,8 @@ ${sectionTitle}
 						text: "# '''[[:" + pageTitle + "]]''' " + csdSummary + ' ~~~~~',
 						summary: replaceParameter(apiPostSummaryforLog, '1', pageTitle),
 						format: 'json'
-					}).done(() => {});
+					}).done(() => {
+					});
 				});
 			}
 		}
@@ -566,7 +660,8 @@ ${sectionTitle}
 				summary: replaceParameter(apiPostSummary, '1', pageTitle),
 				tags: 'Adiutor',
 				format: 'json'
-			}).done(() => {});
+			}).done(() => {
+			});
 		}
 
 		function showProgress() {
@@ -598,6 +693,7 @@ ${sectionTitle}
 		}
 	});
 }
+
 module.exports = {
 	callBack: callBack
 };

@@ -9,9 +9,28 @@
  */
 
 function callBack() {
+	/**
+	 * A reference to MediaWiki’s core API.
+	 *
+	 * @type {mw.Api}
+	 */
 	const api = new mw.Api();
+
+	/**
+	 * @typedef {Object} RdrConfiguration
+	 * @property {string} noticeBoardTitle
+	 * @property {boolean} addNewSection
+	 * @property {boolean} appendText
+	 * @property {boolean} prependText
+	 * @property {string|undefined} sectionId
+	 * @property {string} contentPattern
+	 * @property {string} apiPostSummary
+	 * @property {string} sectionTitle
+	 */
+
+	/** @type {RdrConfiguration} */
 	const rdrConfiguration = require('./Adiutor-RDR.json');
-	let deletionRationale, requestRationale;
+
 	if (!rdrConfiguration) {
 		mw.notify('MediaWiki:Gadget-Adiutor-RDR.json data is empty or undefined.', {
 			title: mw.msg('operation-failed'),
@@ -19,6 +38,7 @@ function callBack() {
 		});
 		return;
 	}
+
 	const noticeBoardTitle = rdrConfiguration.noticeBoardTitle;
 	const noticeBoardLink = noticeBoardTitle.replace(/ /g, '_');
 	const addNewSection = rdrConfiguration.addNewSection;
@@ -30,9 +50,22 @@ function callBack() {
 	const sectionTitle = rdrConfiguration.sectionTitle;
 	const pageTitle = mw.config.get('wgPageName').replace(/_/g, ' ');
 
+	/**
+	 * The main OOUI dialog for the revision deletion request process.
+	 * Inherits from `OO.ui.ProcessDialog`.
+	 *
+	 * @constructor
+	 * @extends OO.ui.ProcessDialog
+	 * @param {Object} config - The configuration object for the dialog.
+	 * @param {string} config.size - The dialog size (e.g., “large”).
+	 * @param {string[]} config.classes - Additional CSS classes for the dialog.
+	 * @param {boolean} config.isDraggable - Whether the dialog is draggable.
+	 * @return {void}
+	 */
 	function RevisionDeletionRequest(config) {
 		RevisionDeletionRequest.super.call(this, config);
 	}
+
 	OO.inheritClass(RevisionDeletionRequest, OO.ui.ProcessDialog);
 	RevisionDeletionRequest.static.name = 'RevisionDeletionRequest';
 	RevisionDeletionRequest.static.title = new OO.ui.deferMsg('rdr-module-title');
@@ -44,7 +77,7 @@ function callBack() {
 		label: new OO.ui.deferMsg('cancel'),
 		flags: 'safe'
 	}];
-	RevisionDeletionRequest.prototype.initialize = function() {
+	RevisionDeletionRequest.prototype.initialize = function () {
 		RevisionDeletionRequest.super.prototype.initialize.apply(this, arguments);
 		const headerTitle = new OO.ui.MessageWidget({
 			type: 'notice',
@@ -105,11 +138,11 @@ function callBack() {
 			})
 		]);
 		revisionField = new OO.ui.FieldLayout(revisionNumber = new OO.ui.TextInputWidget({
-				value: mw.config.get('wgRevisionId')
-			}), {
-				label: mw.message('revision-id').text(),
-				help: mw.message('rdr-revision-id-help').text()
-			}),
+			value: mw.config.get('wgRevisionId')
+		}), {
+			label: mw.message('revision-id').text(),
+			help: mw.message('rdr-revision-id-help').text()
+		}),
 			this.content = new OO.ui.PanelLayout({
 				padded: true,
 				expanded: false
@@ -117,7 +150,7 @@ function callBack() {
 		this.content.$element.append(headerTitle.$element, headerTitleDescription.$element, requestRationale.$element, commentInput.$element, revisionField.$element);
 		this.$body.append(this.content.$element);
 	};
-	RevisionDeletionRequest.prototype.getActionProcess = function(action) {
+	RevisionDeletionRequest.prototype.getActionProcess = function (action) {
 		const dialog = this;
 		if (action) {
 			return new OO.ui.Process(() => {
@@ -181,6 +214,7 @@ function callBack() {
 		}
 	}
 }
+
 module.exports = {
 	callBack: callBack
 };
