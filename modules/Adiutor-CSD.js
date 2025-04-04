@@ -59,7 +59,9 @@ function callBack() {
 	 *     value: string,
 	 *     data: string,
 	 *     label: string,
-	 *     help?: string
+	 *     selected: boolean,
+	 *     namespace: string|number,
+	 *     help: string
 	 *   }>
 	 * }>} speedyDeletionReasons
 	 * @property {string} csdTemplateStartSingleReason
