@@ -35,14 +35,16 @@ function callBack() {
 	/**
 	 * @typedef {Object} CsdConfiguration
 	 * @property {Array<{
-	 *   name: string,
-	 *   namespace: string|number,
-	 *   reasons: Array<{
-	 *     value: string,
-	 *     data: string,
-	 *     label: string,
-	 *     help?: string
-	 *   }>
+	 *  name: string,
+	 *  namespace: string|number,
+	 *  reasons: Array<{
+	 *    value: string,
+	 *    data: string,
+	 *    label: string,
+	 *    selected: boolean,
+	 *    namespace: string|number,
+	 *    help: string
+	 *  }>
 	 * }>} speedyDeletionReasons
 	 * @property {string} talkPagePrefix
 	 * @property {string} apiPostSummaryforTalkPage
