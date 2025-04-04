@@ -2,7 +2,7 @@
 /* The following lines are used by Adiutor */
 
 /* General styles */
-.ADT-WT-H {
+.adiutor-warning-template-header {
     padding-top: 15px;
     padding-bottom: 15px;
 	padding-left: 20px;
@@ -10,32 +10,32 @@
 	background-size: 32px;
 }
 
-.ADT-WT-B {
+.adiutor-warning-template-body {
     padding: 18px;
 }
 
-.ADT-WT-F {
+.adiutor-warning-template-footer {
 	border-top: none;
 	margin-top: -10px;
 	padding: 20px 18px 10px;
 }
 
 /* Header styles */
-.ADT-H-L1 {
+.adiutor-warning-template-header-level-1 {
     border-top: 5px solid #3067cd;
     border-left: 1px solid #3067cd;
     border-right: 1px solid #3067cd;
     background-image: url(https://upload.wikimedia.org/wikipedia/commons/3/37/Eo_circle_blue_info.svg);
 }
 
-.ADT-H-L2 {
+.adiutor-warning-template-header-level-2 {
     border-top: 5px solid #ff5d01;
     border-left: 1px solid #ff5d01;
     border-right: 1px solid #ff5d01;
     background-image: url(https://upload.wikimedia.org/wikipedia/commons/4/4c/OOjs_UI_icon_notice-warning.svg);
 }
 
-.ADT-H-L3 {
+.adiutor-warning-template-header-level-3 {
     border-top: 5px solid #dd312f;
     border-left: 1px solid #dd312f;
     border-right: 1px solid #dd312f;
@@ -43,37 +43,37 @@
 }
 
 /* Header content styles */
-.ADT-B-L1 {
+.adiutor-warning-template-body-level-1 {
     border: 1px solid #3067cd;
     border-bottom: none;
 }
 
-.ADT-B-L2 {
+.adiutor-warning-template-body-level-2 {
     border: 1px solid #ff5d01;
     border-bottom: none;
 }
 
-.ADT-B-L3 {
+.adiutor-warning-template-body-level-3 {
     border: 1px solid #dd312f;
     border-bottom: none;
 }
 
 /* Footer styles */
-.ADT-WT-F {
+.adiutor-warning-template-footer {
 	padding: 10px 18px;
 	text-align: right;
 }
 
 /* Footer content styles */
-.ADT-F-L1 {
+.adiutor-warning-template-footer-level-1 {
     border: 1px solid #3067cd;
 }
 
-.ADT-F-L2 {
+.adiutor-warning-template-footer-level-2 {
     border: 1px solid #ff5d01;
 }
 
-.ADT-F-L3 {
+.adiutor-warning-template-footer-level-3 {
     border: 1px solid #dd312f;
 }
 
